@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="chenxiang">
+    
+    
+    
+    
+    
+    
+    <title>218. 天际线问题 | TheSakura&#39;s Blog</title>
+    <!-- inject:style -->
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
+
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: 'Loading';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/archives">归档</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-categories" aria-hidden="true"></i>
+            <a href="/categories">分类</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-tags" aria-hidden="true"></i>
+            <a href="/tags">标签</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-about" aria-hidden="true"></i>
+            <a href="/about-me">关于我</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">Open Lyrics</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">Top</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" http://cube-1252774894.cosgz.myqcloud.com/background.png " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">thesakuraの部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
+    
+</header>
+
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
+        
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">thesakuraの部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
+    
+    <div class="cube-content">
+        <div class="cube-left">
+            <div class="cube-article">
+    <h1 class="title">218. 天际线问题</h1>
+    
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2020-05-20
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">#线段树</a>
+    
+    <a href="/tags/%E6%89%AB%E6%8F%8F%E7%BA%BF%E7%AE%97%E6%B3%95/">#扫描线算法</a>
+    
+</div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h2 id="问题的求解方法一"><a href="#问题的求解方法一" class="headerlink" title="问题的求解方法一"></a>问题的求解方法一</h2><p>其实我们在题目标签看到了Line Sweep，[ 线扫描或扫描线 ] ，扫描线可以想象成一条向右扫过平面的竖直线，也是一个算法，一般是玩图形学的。</p>
+<p>接着上面的步骤，可以通过扫描线算法将两个关键点集合进行合并。</p>
+<p>如下图，扫描线从两个集合的起始点，同时向右移动，接触到第一个关键点，则判断这一个关键点是不是满足天际线的，如果是，则将这个关键点添加到“父”集合中；如果不是，则继续同时移动到下一个关键点。</p>
+<p>但如何判断是否是属于“父”集合中的关键点呢？可以创建两个集合（“子”）的目前高度，然后多方角度找到满足关键点的条件。</p>
+<p>扫描线移到[2 10]关键点时，10要大于rpre的，可以满足；</p>
+<p>扫描线移到[3 15]关键点时，lpre此时目前的高度为10，而15要大于10的，可以满足；</p>
+<p>扫描线移到[7 10]关键点时，rpre大于lpre可以满足，反之就不满足；</p>
+<p>接着有一个集合已经遍历完了，剩下的集合的关键点肯定是满足的，因为没有其它的集合可以阻挡到这个集合，所以直接就是满足。</p>
+<p>这个求解方法中的归并的写法比我以前写的要简洁一些，值得学习。<br>这个问题的求解方法的重点在于合并两个点，<br>合并过程中首先选择一个集合的小的，然后判断其与当前另外一个集合的当前值的关于，如果大于则一定可以加进去，因为这个值和自身高度同样也不同<br>如果小于等于并且自身当前高度要大于另外一个集合的当前值，则可以加，否则就被盖住实际是看不到的。</p>
+<p>在相等的情况下，我们应该考虑到相同X的位置的最高位置的不能和和此时的当前的最大位置相同，如果相同实际上是形成了一条直线，是看不到的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public List&lt;List&lt;Integer&gt;&gt; getSkyline(int[][] buildings) </span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res&#x3D;new ArrayList&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">        if(buildings.length&#x3D;&#x3D;0)</span><br><span class="line">            return res;</span><br><span class="line">        return divide(buildings,0,buildings.length-1);</span><br><span class="line">    &#125;</span><br><span class="line">    public List&lt;List&lt;Integer&gt;&gt; divide(int [][]buildings,int l,int r)</span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;Integer&gt; list&#x3D;new ArrayList&lt;Integer&gt;();</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res&#x3D;new ArrayList&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">        if(r&#x3D;&#x3D;l)</span><br><span class="line">        &#123;</span><br><span class="line">            res.add(Arrays.asList(buildings[l][0],buildings[l][2]));</span><br><span class="line">            res.add(Arrays.asList(buildings[l][1],0));</span><br><span class="line">            return res;</span><br><span class="line">        &#125;</span><br><span class="line">        int a&#x3D;l+(r-l)&#x2F;2;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res1&#x3D;divide(buildings,l,a);</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res2&#x3D;divide(buildings,a+1,r);</span><br><span class="line">        int l1&#x3D;0;</span><br><span class="line">        int r1&#x3D;0;</span><br><span class="line">        int lh&#x3D;0,rh&#x3D;0;</span><br><span class="line">        int leftX, leftY, rightX, rightY;</span><br><span class="line">        while(l1&lt;res1.size()||r1&lt;res2.size())</span><br><span class="line">        &#123;</span><br><span class="line">            if(l1&gt;&#x3D;res1.size())</span><br><span class="line">                res.add(res2.get(r1++));</span><br><span class="line">            else if(r1&gt;&#x3D;res2.size())</span><br><span class="line">                res.add(res1.get(l1++));</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                leftX &#x3D; res1.get(l1).get(0); &#x2F;&#x2F; 不会出现null，可以直接用int类型</span><br><span class="line">                leftY &#x3D; res1.get(l1).get(1);</span><br><span class="line">                rightX &#x3D; res2.get(r1).get(0);</span><br><span class="line">                rightY &#x3D; res2.get(r1).get(1);</span><br><span class="line">                if(leftX&gt;rightX)&#x2F;&#x2F;每次选择一个较小的</span><br><span class="line">                &#123;</span><br><span class="line">                    if(rightY&gt;lh)</span><br><span class="line">                        res.add(res2.get(r1));</span><br><span class="line">                    else if(rh&gt;lh)</span><br><span class="line">                    &#123;</span><br><span class="line">                        res.add(Arrays.asList(rightX,lh));</span><br><span class="line">                    &#125;</span><br><span class="line">                    rh&#x3D;rightY;</span><br><span class="line">                    r1++;</span><br><span class="line">                &#125;</span><br><span class="line">                else if(leftX&lt;rightX)</span><br><span class="line">                &#123;</span><br><span class="line">                    if(leftY&gt;rh)</span><br><span class="line">                        res.add(res1.get(l1));</span><br><span class="line">                    else if(lh&gt;rh)</span><br><span class="line">                        res.add(Arrays.asList(leftX,rh));</span><br><span class="line">                    lh&#x3D;leftY;</span><br><span class="line">                    l1++;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    int h&#x3D;Math.max(lh,rh);</span><br><span class="line">                    if(leftY&gt;&#x3D;rightY&amp;&amp;leftY!&#x3D;h)</span><br><span class="line">                    &#123;</span><br><span class="line">                        res.add(res1.get(l1));</span><br><span class="line">                    &#125;</span><br><span class="line">                    else if(leftY&lt;&#x3D;rightY&amp;&amp;rightY!&#x3D;h)&#x2F;&#x2F;只要不汇聚到最高点就没问题</span><br><span class="line">                    &#123;</span><br><span class="line">                        res.add(res2.get(r1));</span><br><span class="line">                    &#125;</span><br><span class="line">                    lh&#x3D;leftY;</span><br><span class="line">                    rh&#x3D;rightY;</span><br><span class="line">                    l1++;</span><br><span class="line">                    r1++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法是扫面线算法，方法较为巧妙，左上和右上节点分别设置为负数和正数，从左加入右先队列，从右边删除出，<br>然后每次和最大的节点进行比较，不同就加入节点。<br>这里的java的容器的比较器的写法是o2-o1，大于0就是顺序，否则逆序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public List&lt;List&lt;Integer&gt;&gt; getSkyline(int[][] buildings) </span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res&#x3D;new ArrayList&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">        Set&lt;Pair&lt;Integer,Integer&gt;&gt; pairs&#x3D;new TreeSet&lt;&gt;((o1,o2)-&gt;!o1.getKey().equals(o2.getKey())?o1.getKey()-o2.getKey():o1.getValue()-o2.getValue());</span><br><span class="line">        for(int[] bu:buildings)</span><br><span class="line">        &#123;</span><br><span class="line">            pairs.add(new Pair&lt;&gt;(bu[0],-bu[2]));</span><br><span class="line">            pairs.add(new Pair&lt;&gt;(bu[1],bu[2]));</span><br><span class="line">        &#125;</span><br><span class="line">        PriorityQueue&lt;Integer&gt; queue&#x3D;new PriorityQueue&lt;&gt;((o1,o2)-&gt;o2-o1);</span><br><span class="line">            int prev &#x3D; 0;</span><br><span class="line">    &#x2F;&#x2F; 遍历</span><br><span class="line">    for (Pair&lt;Integer, Integer&gt; pair : pairs) &#123;</span><br><span class="line">        if (pair.getValue() &lt; 0) </span><br><span class="line">            queue.offer(-pair.getValue()); &#x2F;&#x2F; 左端点 高度入堆</span><br><span class="line">        else </span><br><span class="line">            queue.remove(pair.getValue()); &#x2F;&#x2F; 右端点 高度出堆</span><br><span class="line">        Integer cur &#x3D; queue.peek() &#x3D;&#x3D; null ? 0 : queue.peek(); &#x2F;&#x2F; 获取最大堆的当前顶点，当null时置为0</span><br><span class="line">        if (prev !&#x3D; cur) </span><br><span class="line">        &#123;</span><br><span class="line">            res.add(new ArrayList&lt;Integer&gt;() </span><br><span class="line">            &#123;</span><br><span class="line">                &#123;</span><br><span class="line">                add(pair.getKey());</span><br><span class="line">                add(cur);</span><br><span class="line">            &#125;&#125;);</span><br><span class="line">            prev &#x3D; cur;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        <li class="prev">
+            <a href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/">
+                <i class="cube-icon cube-prev" aria-hidden="true"></i>
+                大端和小端
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/">
+                为啥那么C++pop不返回值
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="Search" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/content.json'
+        window.searchModule.rootUrl = '/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="Search" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>chenxiang</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>25</span>Article</a>
+        <a class="count tags"><span>41</span>Tags</a>
+        <a class="count categories"><span>4</span>Categories</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: 'Open Lyrics',
+            close: 'Close Lyrics'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>Recent Posts</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" title="ART算法实现与理解">ART算法实现与理解</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/" title="函数间隔和几何间隔">函数间隔和几何间隔</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/" title="大端和小端">大端和小端</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/" title="218. 天际线问题">218. 天际线问题</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/categories">Categories</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/">#技术</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">#博客</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/python/">#python</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/tags">Tagcloud</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">#图像处理</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/TV%E6%9C%80%E5%B0%8F%E5%8C%96/">#TV最小化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/cs231/">#cs231</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">#图像生成</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/github/">#github</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/hexo/">#hexo</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/conda/">#conda</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/pytorch/">#pytorch</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/matlab/">#matlab</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%B9%B6%E8%A1%8C/">#并行</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/makedown/">#makedown</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">#数学公式</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">#矩阵加法</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/">#矩阵求导</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/softmax/">#softmax</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/SVM%E6%8D%9F%E5%A4%B1/">#SVM损失</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%EF%BC%8Ck%E7%A9%BA%E9%97%B4/">#图像处理，k空间</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E6%95%B0%E5%AD%A6/">#数学</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E8%8C%83%E6%95%B0/">#范数</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8Cxavier/">#初始化，xavier</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%9C%E4%B8%9A/">#统计学习方法，作业</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Leetcode/">#Leetcode</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/java/">#java</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%A0%88/">#栈</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/">#表达式计算</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/linux/">#linux</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/ART/">#ART</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">#医学图像</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E9%98%9F%E5%88%97/">#队列</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/leetcode/">#leetcode</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%A0%91/">#树</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">#线段树</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%89%AB%E6%8F%8F%E7%BA%BF%E7%AE%97%E6%B3%95/">#扫描线算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/SVM/">#SVM</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">#函数间隔和几何间隔</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">#机器学习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/pop/">#pop</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/C/">#C++</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">#计算机网络</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">#计算机</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/GitHub.png">
+            
+            <a href="https://github.com/thesakura" target="_blank">GitHub</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/Coding.png">
+            
+            <a href="https://www.nowcoder.com/" target="_blank">牛客网</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/SF.png">
+            
+            <a href="https://leetcode-cn.com//" target="_blank">leetcode</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/开发者头条.png">
+            
+            <a href="https://feed.csdn.net/#" target="_blank">CSDN</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>Friend Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/micblo.png">
+            <a href="https://me.csdn.net/lmhlmh_" target="_blank">浩大佬</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/DIYgod.jpg">
+            <a href="https://github.com/chanchann" target="_blank">易神</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 chenxiang
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
+<script src="/js/script.js"></script>
+<!-- endinject -->
+<div class="cube-loading out"></div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
