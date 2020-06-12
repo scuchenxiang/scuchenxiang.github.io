@@ -10,7 +10,7 @@
     
     
     
-    <title>Tags: ART | TheSakura&#39;s Blog</title>
+    <title>166. 分数到小数 | TheSakura&#39;s Blog</title>
     <!-- inject:style -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
@@ -160,29 +160,57 @@
     
     <div class="cube-content">
         <div class="cube-left">
-            <style>
-    @media(max-width: 768px) {
-        body {
-            background-color: #fff!important;
-        }
-    }
-</style>
-<div class="cube-archives">
+            <div class="cube-article">
+    <h1 class="title">166. 分数到小数</h1>
     
-    <div class="cube-archive" style="margin-top: 0;">
-        <h1 class="title">ART</h1>
-        
-        <ul class="posts">
-            
-            <li class="post">
-                <a href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/">ART算法实现与理解</a>
-            </li>
-            
-        </ul>
-        
-    </div>
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2020-06-12
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/tags/leetcode/">#leetcode</a>
+    
+    <a href="/tags/%E6%95%B0%E5%AD%A6/">#数学</a>
+    
+    <a href="/tags/%E9%99%A4%E6%B3%95/">#除法</a>
     
 </div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h2 id="166-分数到小数"><a href="#166-分数到小数" class="headerlink" title="166. 分数到小数"></a>166. 分数到小数</h2><p>这道题我认为需要注意的有几个地方</p>
+<p>第一个地方在于除法如何计算，这里我选择的方法是当被除数相同的时候认为是循环小数。</p>
+<p>第二个地方在于结果可能有负数，负数的求模和正数有所不同，需要注意。负数求模是a-(a/b)*b的，有个时候因此会有正负的区分。</p>
+<p>第三个地方在于数字溢出的问题，a=-2147483648, b=-1,a*b是会溢出的，因为会先转成一个整形的数，因此需要转一下long.</p>
+<p>第四个地方是在判断两个数是否是同号的时候最好采用异或的方法，而不要采用相乘符号的方法，这样会导致溢出，还有一个我以前没注意的地方就是<br>异或等位运算的优先级是要低于等于符号的，因此最好加上括号。</p>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string fractionToDecimal(int numerator, int denominator) &#123;</span><br><span class="line">        long a1&#x3D;long(numerator)%denominator;</span><br><span class="line">        long a2&#x3D;long(numerator)&#x2F;denominator;</span><br><span class="line">        if(a1&#x3D;&#x3D;0)</span><br><span class="line">            return to_string(a2);</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            int i&#x3D;0;</span><br><span class="line">            int quo&#x3D;abs(a2);</span><br><span class="line">            string res&#x3D;&quot;&quot;;</span><br><span class="line">            if((numerator^denominator)&lt;0)</span><br><span class="line">                &#123;</span><br><span class="line">                    res&#x3D;res+&quot;-&quot;;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">            res&#x3D;res+to_string(quo)+&quot;.&quot;;</span><br><span class="line">            i+&#x3D;to_string(quo).size()-1;</span><br><span class="line">            unordered_map&lt;int,int&gt; map;</span><br><span class="line">            numerator&#x3D;abs(a1);</span><br><span class="line">            while(numerator!&#x3D;0)</span><br><span class="line">            &#123;</span><br><span class="line">                numerator&#x3D;abs(numerator);</span><br><span class="line">                if(map.find(numerator)&#x3D;&#x3D;map.end())</span><br><span class="line">                &#123;</span><br><span class="line">                    map[numerator]&#x3D;i;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    string tmp&#x3D;res.substr(map[numerator]+2);</span><br><span class="line">                    string tmp1&#x3D;res.substr(0,map[numerator]+2);</span><br><span class="line">                    res&#x3D;tmp1+&quot;(&quot;+tmp+&quot;)&quot;;</span><br><span class="line">                    return res;</span><br><span class="line">                &#125;</span><br><span class="line">                long  ttt&#x3D;numerator;</span><br><span class="line">                ttt*&#x3D;10;</span><br><span class="line">                long  a&#x3D;abs(ttt&#x2F;denominator);</span><br><span class="line">                long  b&#x3D;abs(ttt%denominator);</span><br><span class="line">                res&#x3D;res+to_string(a);</span><br><span class="line">                numerator&#x3D;b;</span><br><span class="line">            &#125;</span><br><span class="line">            return res;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        
+        <li class="next">
+            <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+                设计模式
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
         </div>
         <div class="cube-right">
             
@@ -330,12 +358,12 @@
     <div class="cube-boxs">
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/categories/%E6%8A%80%E6%9C%AF/">#技术</a>
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">#博客</a>
         </div>
         
@@ -371,17 +399,17 @@
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/%E6%A0%88/">#栈</a>
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/%E9%98%9F%E5%88%97/">#队列</a>
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/leetcode/">#leetcode</a>
         </div>
         
@@ -396,7 +424,7 @@
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/cs231/">#cs231</a>
         </div>
         
@@ -406,7 +434,7 @@
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/%E6%A0%91/">#树</a>
         </div>
         
@@ -416,7 +444,7 @@
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/java/">#java</a>
         </div>
         
@@ -446,7 +474,7 @@
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/matlab/">#matlab</a>
         </div>
         
@@ -481,17 +509,17 @@
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">#机器学习</a>
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">#矩阵加法</a>
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/makedown/">#makedown</a>
         </div>
         
@@ -526,7 +554,7 @@
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/SVM%E6%8D%9F%E5%A4%B1/">#SVM损失</a>
         </div>
         
@@ -536,7 +564,7 @@
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/%E6%95%B0%E5%AD%A6/">#数学</a>
         </div>
         
@@ -546,7 +574,7 @@
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
         </div>
         
@@ -561,7 +589,7 @@
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8Cxavier/">#初始化，xavier</a>
         </div>
         
