@@ -161,6 +161,113 @@
     <div class="cube-content">
         <div class="cube-left">
             
+<div class="cube-excerpt" id="cube-excerpt-300. 最长上升子序列">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">300. 最长上升子序列</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-07-12
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/leetcode/" class="cube-excerpt-tag-link">#leetcode</a>
+                
+                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="cube-excerpt-tag-link">#动态规划</a>
+                
+                <a href="/tags/%E7%BA%BF%E6%80%A7dp/" class="cube-excerpt-tag-link">#线性dp</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <p>最长上升序列<br>最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂度和N的空间复杂度。这种方法是最朴素直观的，一定要理解。它非常简单，因此很少有题目直接能够这么做。大部分相关题目需要进一步优化，也就是有名的单调队列优化，能够把复杂度优化到nlogn。</p>
+<p>说单调队列优化之前必须明白一个贪心策略。因为要求的是最长上升序列，那么很显然长度为k的上升序列的最大值（最后一个数）越小越好，这样后面的数才有更大的概率比它大。如果我们记录下来不同长度的上升序列的最后一个数能达到的最小值，那么对于后续每个数t，它要么能放到某个长度为y的序列之后，组成长度为y+1的上升序列，要么放到某个长度为x的序列后面，把长度为x+1的序列的最大值替换成t。同时我们可以发现，如果x&lt;y，那么长度为x序列的最后一个数一定比长度为y的序列最后一个数小。因此这个上升序列我们可以用一个数组来维护（所谓的单调队列），数组下标就代表序列长度。opt[i]=t表示长度为i的上升序列最后一个数最小是t。那么当我们在面对后续某个数x时，可以对单调队列opt进行二分，把它插到对应的位置。因此总体复杂度就是NlogN。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    &#x2F;&#x2F; int lengthOfLIS(vector&lt;int&gt;&amp; nums) </span><br><span class="line">    &#x2F;&#x2F; &#123;&#x2F;&#x2F;dp，不用单调队列,递推方程res[i]&#x3D;max(res[j])+1 (nums[j]&lt;nums[i])</span><br><span class="line">    &#x2F;&#x2F;     int len&#x3D;nums.size();</span><br><span class="line">    &#x2F;&#x2F;     if(len&#x3D;&#x3D;0)</span><br><span class="line">    &#x2F;&#x2F;         return 0;</span><br><span class="line">    &#x2F;&#x2F;     vector&lt;int&gt; res(len,0);</span><br><span class="line">    &#x2F;&#x2F;     res[0]&#x3D;1;</span><br><span class="line">    &#x2F;&#x2F;     int result&#x3D;1;</span><br><span class="line">    &#x2F;&#x2F;     for(int i&#x3D;1;i&lt;len;i++)</span><br><span class="line">    &#x2F;&#x2F;     &#123;</span><br><span class="line">    &#x2F;&#x2F;         int maxnum&#x3D;1;</span><br><span class="line">    &#x2F;&#x2F;         for(int j&#x3D;0;j&lt;i;j++)</span><br><span class="line">    &#x2F;&#x2F;         &#123;</span><br><span class="line">    &#x2F;&#x2F;             if(res[j]+1&gt;maxnum&amp;&amp;nums[j]&lt;nums[i])</span><br><span class="line">    &#x2F;&#x2F;                 maxnum&#x3D;res[j]+1;  </span><br><span class="line">    &#x2F;&#x2F;         &#125;</span><br><span class="line">    &#x2F;&#x2F;         res[i]&#x3D;maxnum;</span><br><span class="line">    &#x2F;&#x2F;         if(res[i]&gt;result)</span><br><span class="line">    &#x2F;&#x2F;             result&#x3D;res[i];</span><br><span class="line">    &#x2F;&#x2F;     &#125;</span><br><span class="line">    &#x2F;&#x2F;     return result;</span><br><span class="line">    &#x2F;&#x2F; &#125;</span><br><span class="line">        int lengthOfLIS(vector&lt;int&gt;&amp; nums) </span><br><span class="line">    &#123;&#x2F;&#x2F;dp，用单调队列,递推方程res[i]&#x3D;max(res[j])+1 (nums[j]&lt;nums[i])</span><br><span class="line">        int len&#x3D;nums.size();</span><br><span class="line">        if(len&#x3D;&#x3D;0)</span><br><span class="line">            return 0;</span><br><span class="line">        vector&lt;int&gt; res;</span><br><span class="line">        for(int i&#x3D;0;i&lt;len;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(res.size()&#x3D;&#x3D;0||res[res.size()-1]&lt;nums[i])</span><br><span class="line">                res.push_back(nums[i]);</span><br><span class="line">            else &#x2F;&#x2F;if(res[res.size()-1]&lt;nums[i])</span><br><span class="line">            &#123;</span><br><span class="line">                int p&#x3D;BinSearch(res,nums[i]);</span><br><span class="line">                res[p]&#x3D;nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res.size();</span><br><span class="line">    &#125;</span><br><span class="line">    int BinSearch(vector&lt;int&gt;&amp; a,int b)</span><br><span class="line">    &#123;</span><br><span class="line">        int len&#x3D;a.size();</span><br><span class="line">        int l&#x3D;0,r&#x3D;len-1;</span><br><span class="line">        int mid&#x3D;l+(r-l)&#x2F;2;</span><br><span class="line">        while(a[mid]!&#x3D;b)</span><br><span class="line">        &#123;</span><br><span class="line">            if(r&#x3D;&#x3D;l)</span><br><span class="line">                return r;</span><br><span class="line">            if(a[mid]&lt;b)</span><br><span class="line">            &#123;</span><br><span class="line">                l&#x3D;mid+1;</span><br><span class="line">            &#125;</span><br><span class="line">            else </span><br><span class="line">            &#123;</span><br><span class="line">                r&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            mid&#x3D;mid&#x3D;l+(r-l)&#x2F;2;</span><br><span class="line">        &#125;</span><br><span class="line">        return mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-验证集和测试集的区别">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/">验证集和测试集的区别</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-07-03
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="cube-excerpt-tag-link">#机器学习</a>
+                
+                <a href="/tags/%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9C%BA/" class="cube-excerpt-tag-link">#验证机和测试机</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="验证集和测试集"><a href="#验证集和测试集" class="headerlink" title="验证集和测试集"></a>验证集和测试集</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>验证集</th>
+<th>测试集</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是否被训练到</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>用于调整超参数</td>
+<td>用于验证泛化能力</td>
+</tr>
+<tr>
+<td>使用次数</td>
+<td>多次使用，以不断调参</td>
+<td>仅仅一次使用</td>
+</tr>
+<tr>
+<td>缺陷</td>
+<td>模型在一次次重新手动调参并继续训练后所逼近的验证集，可能只代表一部分非训练集，导致最终训练好的模型泛化性能不够</td>
+<td>测试集为了具有泛化代表性，往往数据量比较大，测试一轮要很久，所以往往只取测试集的其中一小部分作为训练过程中的验证集</td>
+</tr>
+<tr>
+<td>互相转化</td>
+<td>验证集具有足够泛化性（一般来说，如果验证集足够大到包括大部分非训练集时，也等于具有足够泛化性了）</td>
+<td>验证集具有足够泛化性时，测试集就没有存在的必要了</td>
+</tr>
+<tr>
+<td>类比</td>
+<td>校内答辩（如果校内答辩比多校联合答辩还有泛化性说服力，那么就没有必要再搞个多校联合答辩了）</td>
+<td>多校联合答辩</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="附言"><a href="#附言" class="headerlink" title="附言"></a>附言</h2><p>说到底：<br>验证集是一定需要的；<br>如果验证集具有足够泛化代表性，是不需要再整出什么测试集的；<br>整个测试集往往就是为了在验证集只是非训练集一个小子集的情况下，好奇一下那个靠训练集（训练）和验证集（调参）多次接力训练出来的模型是不是具有了泛化性能，因而加试一下图个确定。</p>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/">Read More</a>
+    </footer>
+</div>
+
 <div class="cube-excerpt" id="cube-excerpt-166. 分数到小数">
     <header class="cube-excerpt-header">
         <h1><a href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/">166. 分数到小数</a></h1>
@@ -172,11 +279,11 @@
             <div class="cube-excerpt-tags">
                 <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
                 
-                <a href="/tags/leetcode/" class="cube-excerpt-tag-link">#leetcode</a>
+                <a href="/tags/%E9%99%A4%E6%B3%95/" class="cube-excerpt-tag-link">#除法</a>
                 
                 <a href="/tags/%E6%95%B0%E5%AD%A6/" class="cube-excerpt-tag-link">#数学</a>
                 
-                <a href="/tags/%E9%99%A4%E6%B3%95/" class="cube-excerpt-tag-link">#除法</a>
+                <a href="/tags/leetcode/" class="cube-excerpt-tag-link">#leetcode</a>
                 
             </div>
         </div>
@@ -454,123 +561,6 @@
     </footer>
 </div>
 
-<div class="cube-excerpt" id="cube-excerpt-232. 用栈实现队列">
-    <header class="cube-excerpt-header">
-        <h1><a href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">232. 用栈实现队列</a></h1>
-        <div class="cube-excerpt-header-msg">
-            <div class="cube-excerpt-date">
-                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
-                2020-05-19
-            </div>
-            <div class="cube-excerpt-tags">
-                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
-                
-                <a href="/tags/%E6%A0%88/" class="cube-excerpt-tag-link">#栈</a>
-                
-                <a href="/tags/%E9%98%9F%E5%88%97/" class="cube-excerpt-tag-link">#队列</a>
-                
-                <a href="/tags/leetcode/" class="cube-excerpt-tag-link">#leetcode</a>
-                
-            </div>
-        </div>
-    </header>
-    <article class="cube-excerpt-entry cube-markdown">
-        
-        
-           <p>双栈实现队列，思路较为简单</p>
-<p>···<br>class MyQueue {<br>    private Stack<Integer> stack1;<br>    private Stack<Integer> stack2;<br>    /<em>* Initialize your data structure here. </em>/<br>    public MyQueue() {<br>        stack1=new Stack<Integer>();<br>        stack2=new Stack<Integer>();<br>    }</p>
-<pre><code>/** Push element x to the back of queue. */
-public void push(int x) {
-    stack1.push(x);
-}
-
-/** Removes the element from in front of queue and returns that element. */
-public int pop() {
-    if(stack2.isEmpty())
-    {
-        StackMove(stack1,stack2);
-
-    }
-    int res=stack2.peek();
-    stack2.pop();
-    return res;
-}
-
-/** Get the front element. */
-public int peek() {
-    if(stack2.isEmpty())
-    {
-        StackMove(stack1,stack2);
-
-    }
-    int res=stack2.peek();
-    return res;
-}
-
-/** Returns whether the queue is empty. */
-public boolean empty() {
-    return stack1.isEmpty()&amp;&amp;stack2.isEmpty();
-}
-public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
-{
-    if(stack2.isEmpty())
-    {
-         while(!stack1.isEmpty())
-        {
-            int a=stack1.peek();
-            stack2.push(a);
-            stack1.pop();
-        }
-    }
-}
-</code></pre><p>}</p>
-<p>/**</p>
-<ul>
-<li>Your MyQueue object will be instantiated and called as such:</li>
-<li>MyQueue obj = new MyQueue();</li>
-<li>obj.push(x);</li>
-<li>int param_2 = obj.pop();</li>
-<li>int param_3 = obj.peek();</li>
-<li>boolean param_4 = obj.empty();<br>*/<br>···</li>
-</ul>
-
-        
-    </article>
-    <footer class="cube-excerpt-footer">
-        <a class="cube-excerpt-more" href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">Read More</a>
-    </footer>
-</div>
-
-<div class="cube-excerpt" id="cube-excerpt-225. 用队列实现栈">
-    <header class="cube-excerpt-header">
-        <h1><a href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/">225. 用队列实现栈</a></h1>
-        <div class="cube-excerpt-header-msg">
-            <div class="cube-excerpt-date">
-                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
-                2020-05-19
-            </div>
-            <div class="cube-excerpt-tags">
-                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
-                
-                <a href="/tags/%E6%A0%88/" class="cube-excerpt-tag-link">#栈</a>
-                
-                <a href="/tags/%E9%98%9F%E5%88%97/" class="cube-excerpt-tag-link">#队列</a>
-                
-            </div>
-        </div>
-    </header>
-    <article class="cube-excerpt-entry cube-markdown">
-        
-        
-           <h3 id="队列实现栈"><a href="#队列实现栈" class="headerlink" title="队列实现栈"></a>队列实现栈</h3><p>主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">class MyStack &#123;</span><br><span class="line">    private Queue&lt;Integer&gt; quene&#x3D;new LinkedList&lt;Integer&gt;();</span><br><span class="line">    private    int mytop&#x3D;0;</span><br><span class="line">    &#x2F;** Initialize your data structure here. *&#x2F;</span><br><span class="line">    public MyStack() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#x2F;** Push element x onto stack. *&#x2F;</span><br><span class="line">    public void push(int x) &#123;</span><br><span class="line">        quene.offer(x);</span><br><span class="line">        mytop&#x3D;x;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#x2F;** Removes the element on top of the stack and returns that element. *&#x2F;</span><br><span class="line">    public int pop() &#123;</span><br><span class="line">        for(int i&#x3D;0;i&lt;quene.size()-1;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            int a&#x3D;quene.poll();</span><br><span class="line">            quene.offer(a);</span><br><span class="line">            if(i&#x3D;&#x3D;quene.size()-2)</span><br><span class="line">                mytop&#x3D;a;</span><br><span class="line">        &#125;</span><br><span class="line">        return quene.poll();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#x2F;** Get the top element. *&#x2F;</span><br><span class="line">    public int top() &#123;</span><br><span class="line">        if(!quene.isEmpty())</span><br><span class="line">        return mytop;</span><br><span class="line">        else</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#x2F;** Returns whether the stack is empty. *&#x2F;</span><br><span class="line">    public boolean empty() &#123;</span><br><span class="line">        if(quene.size()&#x3D;&#x3D;0)</span><br><span class="line">        return true;</span><br><span class="line">        else</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Your MyStack object will be instantiated and called as such:</span><br><span class="line"> * MyStack obj &#x3D; new MyStack();</span><br><span class="line"> * obj.push(x);</span><br><span class="line"> * int param_2 &#x3D; obj.pop();</span><br><span class="line"> * int param_3 &#x3D; obj.top();</span><br><span class="line"> * boolean param_4 &#x3D; obj.empty();</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure></p>
-
-        
-    </article>
-    <footer class="cube-excerpt-footer">
-        <a class="cube-excerpt-more" href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/">Read More</a>
-    </footer>
-</div>
-
 
 
 <ul class="cube-pagination cube-pagination-6">
@@ -646,8 +636,8 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
     
     
     <div class="count">
-        <a class="count articles"><span>26</span>Article</a>
-        <a class="count tags"><span>42</span>Tags</a>
+        <a class="count articles"><span>28</span>Article</a>
+        <a class="count tags"><span>45</span>Tags</a>
         <a class="count categories"><span>4</span>Categories</a>
     </div>
 </div>
@@ -685,7 +675,7 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
                     <span>1</span>
                 </p>
                 <p class="title">
-                    <a href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/" title="166. 分数到小数">166. 分数到小数</a>
+                    <a href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/" title="300. 最长上升子序列">300. 最长上升子序列</a>
                 </p>
             </div>
             
@@ -699,7 +689,7 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
                     <span>2</span>
                 </p>
                 <p class="title">
-                    <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a>
+                    <a href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/" title="验证集和测试集的区别">验证集和测试集的区别</a>
                 </p>
             </div>
         </li>
@@ -712,7 +702,7 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
                     <span>3</span>
                 </p>
                 <p class="title">
-                    <a href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" title="ART算法实现与理解">ART算法实现与理解</a>
+                    <a href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/" title="166. 分数到小数">166. 分数到小数</a>
                 </p>
             </div>
         </li>
@@ -725,7 +715,7 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
                     <span>4</span>
                 </p>
                 <p class="title">
-                    <a href="/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/" title="函数间隔和几何间隔">函数间隔和几何间隔</a>
+                    <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a>
                 </p>
             </div>
         </li>
@@ -738,7 +728,7 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
                     <span>5</span>
                 </p>
                 <p class="title">
-                    <a href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/" title="大端和小端">大端和小端</a>
+                    <a href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" title="ART算法实现与理解">ART算法实现与理解</a>
                 </p>
             </div>
         </li>
@@ -756,12 +746,12 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
     <div class="cube-boxs">
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/categories/%E6%8A%80%E6%9C%AF/">#技术</a>
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">#博客</a>
         </div>
         
@@ -787,6 +777,41 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
     <div class="cube-boxs">
         
         
+        <div class="cube-box-bg ">
+            <a href="/tags/Leetcode/">#Leetcode</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/java/">#java</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%A0%88/">#栈</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/">#表达式计算</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E9%99%A4%E6%B3%95/">#除法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%95%B0%E5%AD%A6/">#数学</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/leetcode/">#leetcode</a>
+        </div>
+        
+        
         <div class="cube-box ">
             <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">#线段树</a>
         </div>
@@ -798,7 +823,17 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         
         
         <div class="cube-box ">
-            <a href="/tags/%E6%A0%88/">#栈</a>
+            <a href="/tags/%E6%A0%91/">#树</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">#动态规划</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%BA%BF%E6%80%A7dp/">#线性dp</a>
         </div>
         
         
@@ -807,8 +842,13 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         </div>
         
         
+        <div class="cube-box ">
+            <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">#图像处理</a>
+        </div>
+        
+        
         <div class="cube-box-bg ">
-            <a href="/tags/leetcode/">#leetcode</a>
+            <a href="/tags/TV%E6%9C%80%E5%B0%8F%E5%8C%96/">#TV最小化</a>
         </div>
         
         
@@ -823,66 +863,6 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         
         
         <div class="cube-box ">
-            <a href="/tags/cs231/">#cs231</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">#图像生成</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/%E6%A0%91/">#树</a>
-        </div>
-        
-        
-        <div class="cube-box-bg ">
-            <a href="/tags/Leetcode/">#Leetcode</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/java/">#java</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/">#表达式计算</a>
-        </div>
-        
-        
-        <div class="cube-box-bg ">
-            <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">#图像处理</a>
-        </div>
-        
-        
-        <div class="cube-box-bg ">
-            <a href="/tags/TV%E6%9C%80%E5%B0%8F%E5%8C%96/">#TV最小化</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/github/">#github</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/hexo/">#hexo</a>
-        </div>
-        
-        
-        <div class="cube-box-bg ">
-            <a href="/tags/matlab/">#matlab</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/%E5%B9%B6%E8%A1%8C/">#并行</a>
-        </div>
-        
-        
-        <div class="cube-box ">
             <a href="/tags/conda/">#conda</a>
         </div>
         
@@ -893,22 +873,27 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         
         
         <div class="cube-box ">
+            <a href="/tags/cs231/">#cs231</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">#图像生成</a>
+        </div>
+        
+        
+        <div class="cube-box ">
             <a href="/tags/linux/">#linux</a>
         </div>
         
         
         <div class="cube-box ">
-            <a href="/tags/SVM/">#SVM</a>
-        </div>
-        
-        
-        <div class="cube-box-bg ">
-            <a href="/tags/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">#函数间隔和几何间隔</a>
+            <a href="/tags/github/">#github</a>
         </div>
         
         
         <div class="cube-box ">
-            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">#机器学习</a>
+            <a href="/tags/hexo/">#hexo</a>
         </div>
         
         
@@ -928,32 +913,12 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         
         
         <div class="cube-box ">
-            <a href="/tags/pop/">#pop</a>
+            <a href="/tags/matlab/">#matlab</a>
         </div>
         
         
         <div class="cube-box ">
-            <a href="/tags/C/">#C++</a>
-        </div>
-        
-        
-        <div class="cube-box-bg ">
-            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">#计算机网络</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/">#矩阵求导</a>
-        </div>
-        
-        
-        <div class="cube-box ">
-            <a href="/tags/softmax/">#softmax</a>
-        </div>
-        
-        
-        <div class="cube-box-bg ">
-            <a href="/tags/SVM%E6%8D%9F%E5%A4%B1/">#SVM损失</a>
+            <a href="/tags/%E5%B9%B6%E8%A1%8C/">#并行</a>
         </div>
         
         
@@ -963,7 +928,37 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         
         
         <div class="cube-box ">
-            <a href="/tags/%E6%95%B0%E5%AD%A6/">#数学</a>
+            <a href="/tags/softmax/">#softmax</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/SVM%E6%8D%9F%E5%A4%B1/">#SVM损失</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/pop/">#pop</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/SVM/">#SVM</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">#函数间隔和几何间隔</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">#机器学习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/">#矩阵求导</a>
         </div>
         
         
@@ -972,7 +967,7 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
         </div>
         
@@ -982,8 +977,13 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         </div>
         
         
+        <div class="cube-box-bg ">
+            <a href="/tags/C/">#C++</a>
+        </div>
+        
+        
         <div class="cube-box ">
-            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%9C%E4%B8%9A/">#统计学习方法，作业</a>
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">#计算机网络</a>
         </div>
         
         
@@ -992,8 +992,13 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
         </div>
         
         
-        <div class="cube-box-bg ">
-            <a href="/tags/%E9%99%A4%E6%B3%95/">#除法</a>
+        <div class="cube-box ">
+            <a href="/tags/%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9C%BA/">#验证机和测试机</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%9C%E4%B8%9A/">#统计学习方法，作业</a>
         </div>
         
     </div>
