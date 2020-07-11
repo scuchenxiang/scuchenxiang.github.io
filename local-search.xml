@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>300. 最长上升子序列</title>
+    <link href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/"/>
+    <url>/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    
+    <content type="html"><![CDATA[<p>最长上升序列<br>最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂度和N的空间复杂度。这种方法是最朴素直观的，一定要理解。它非常简单，因此很少有题目直接能够这么做。大部分相关题目需要进一步优化，也就是有名的单调队列优化，能够把复杂度优化到nlogn。</p><p>说单调队列优化之前必须明白一个贪心策略。因为要求的是最长上升序列，那么很显然长度为k的上升序列的最大值（最后一个数）越小越好，这样后面的数才有更大的概率比它大。如果我们记录下来不同长度的上升序列的最后一个数能达到的最小值，那么对于后续每个数t，它要么能放到某个长度为y的序列之后，组成长度为y+1的上升序列，要么放到某个长度为x的序列后面，把长度为x+1的序列的最大值替换成t。同时我们可以发现，如果x&lt;y，那么长度为x序列的最后一个数一定比长度为y的序列最后一个数小。因此这个上升序列我们可以用一个数组来维护（所谓的单调队列），数组下标就代表序列长度。opt[i]=t表示长度为i的上升序列最后一个数最小是t。那么当我们在面对后续某个数x时，可以对单调队列opt进行二分，把它插到对应的位置。因此总体复杂度就是NlogN。</p><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;<span class="hljs-keyword">public</span>:    <span class="hljs-comment">// int lengthOfLIS(vector&lt;int&gt;&amp; nums) </span>    <span class="hljs-comment">// &#123;//dp，不用单调队列,递推方程res[i]=max(res[j])+1 (nums[j]&lt;nums[i])</span>    <span class="hljs-comment">//     int len=nums.size();</span>    <span class="hljs-comment">//     if(len==0)</span>    <span class="hljs-comment">//         return 0;</span>    <span class="hljs-comment">//     vector&lt;int&gt; res(len,0);</span>    <span class="hljs-comment">//     res[0]=1;</span>    <span class="hljs-comment">//     int result=1;</span>    <span class="hljs-comment">//     for(int i=1;i&lt;len;i++)</span>    <span class="hljs-comment">//     &#123;</span>    <span class="hljs-comment">//         int maxnum=1;</span>    <span class="hljs-comment">//         for(int j=0;j&lt;i;j++)</span>    <span class="hljs-comment">//         &#123;</span>    <span class="hljs-comment">//             if(res[j]+1&gt;maxnum&amp;&amp;nums[j]&lt;nums[i])</span>    <span class="hljs-comment">//                 maxnum=res[j]+1;  </span>    <span class="hljs-comment">//         &#125;</span>    <span class="hljs-comment">//         res[i]=maxnum;</span>    <span class="hljs-comment">//         if(res[i]&gt;result)</span>    <span class="hljs-comment">//             result=res[i];</span>    <span class="hljs-comment">//     &#125;</span>    <span class="hljs-comment">//     return result;</span>    <span class="hljs-comment">// &#125;</span>        <span class="hljs-built_in">int</span> lengthOfLIS(vector&lt;<span class="hljs-built_in">int</span>&gt;&amp; nums)     &#123;<span class="hljs-comment">//dp，用单调队列,递推方程res[i]=max(res[j])+1 (nums[j]&lt;nums[i])</span>        <span class="hljs-built_in">int</span> len=nums.size();        <span class="hljs-keyword">if</span>(len==<span class="hljs-number">0</span>)            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;        vector&lt;<span class="hljs-built_in">int</span>&gt; res;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;len;i++)        &#123;            <span class="hljs-keyword">if</span>(res.size()==<span class="hljs-number">0</span>||res[res.size()<span class="hljs-number">-1</span>]&lt;nums[i])                res.push_back(nums[i]);            <span class="hljs-keyword">else</span> <span class="hljs-comment">//if(res[res.size()-1]&lt;nums[i])</span>            &#123;                <span class="hljs-built_in">int</span> p=BinSearch(res,nums[i]);                res[p]=nums[i];            &#125;        &#125;        <span class="hljs-keyword">return</span> res.size();    &#125;    <span class="hljs-built_in">int</span> BinSearch(vector&lt;<span class="hljs-built_in">int</span>&gt;&amp; a,<span class="hljs-built_in">int</span> b)    &#123;        <span class="hljs-built_in">int</span> len=a.size();        <span class="hljs-built_in">int</span> l=<span class="hljs-number">0</span>,r=len<span class="hljs-number">-1</span>;        <span class="hljs-built_in">int</span> mid=l+(r-l)/<span class="hljs-number">2</span>;        <span class="hljs-keyword">while</span>(a[mid]!=b)        &#123;            <span class="hljs-keyword">if</span>(r==l)                <span class="hljs-keyword">return</span> r;            <span class="hljs-keyword">if</span>(a[mid]&lt;b)            &#123;                l=mid+<span class="hljs-number">1</span>;            &#125;            <span class="hljs-keyword">else</span>             &#123;                r=mid;            &#125;            mid=mid=l+(r-l)/<span class="hljs-number">2</span>;        &#125;        <span class="hljs-keyword">return</span> mid;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>动态规划</tag>
+      
+      <tag>线性dp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>验证集和测试集的区别</title>
+    <link href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <url>/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<h2 id="验证集和测试集"><a href="#验证集和测试集" class="headerlink" title="验证集和测试集"></a>验证集和测试集</h2><div class="table-container"><table><thead><tr><th>类别</th><th>验证集</th><th>测试集</th></tr></thead><tbody><tr><td>是否被训练到</td><td>否</td><td>否</td></tr><tr><td>作用</td><td>用于调整超参数</td><td>用于验证泛化能力</td></tr><tr><td>使用次数</td><td>多次使用，以不断调参</td><td>仅仅一次使用</td></tr><tr><td>缺陷</td><td>模型在一次次重新手动调参并继续训练后所逼近的验证集，可能只代表一部分非训练集，导致最终训练好的模型泛化性能不够</td><td>测试集为了具有泛化代表性，往往数据量比较大，测试一轮要很久，所以往往只取测试集的其中一小部分作为训练过程中的验证集</td></tr><tr><td>互相转化</td><td>验证集具有足够泛化性（一般来说，如果验证集足够大到包括大部分非训练集时，也等于具有足够泛化性了）</td><td>验证集具有足够泛化性时，测试集就没有存在的必要了</td></tr><tr><td>类比</td><td>校内答辩（如果校内答辩比多校联合答辩还有泛化性说服力，那么就没有必要再搞个多校联合答辩了）</td><td>多校联合答辩</td></tr></tbody></table></div><h2 id="附言"><a href="#附言" class="headerlink" title="附言"></a>附言</h2><p>说到底：<br>验证集是一定需要的；<br>如果验证集具有足够泛化代表性，是不需要再整出什么测试集的；<br>整个测试集往往就是为了在验证集只是非训练集一个小子集的情况下，好奇一下那个靠训练集（训练）和验证集（调参）多次接力训练出来的模型是不是具有了泛化性能，因而加试一下图个确定。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>机器学习</tag>
+      
+      <tag>验证机和测试机</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>166. 分数到小数</title>
+    <link href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/"/>
+    <url>/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="166-分数到小数"><a href="#166-分数到小数" class="headerlink" title="166. 分数到小数"></a>166. 分数到小数</h2><p>这道题我认为需要注意的有几个地方</p><p>第一个地方在于除法如何计算，这里我选择的方法是当被除数相同的时候认为是循环小数。</p><p>第二个地方在于结果可能有负数，负数的求模和正数有所不同，需要注意。负数求模是a-(a/b)*b的，有个时候因此会有正负的区分。</p><p>第三个地方在于数字溢出的问题，a=-2147483648, b=-1,a*b是会溢出的，因为会先转成一个整形的数，因此需要转一下long.</p><p>第四个地方是在判断两个数是否是同号的时候最好采用异或的方法，而不要采用相乘符号的方法，这样会导致溢出，还有一个我以前没注意的地方就是<br>异或等位运算的优先级是要低于等于符号的，因此最好加上括号。</p><h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-keyword">public</span>:    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">fractionToDecimal</span><span class="hljs-params">(<span class="hljs-keyword">int</span> numerator, <span class="hljs-keyword">int</span> denominator)</span> </span>&#123;        <span class="hljs-keyword">long</span> a1=<span class="hljs-keyword">long</span>(numerator)%denominator;        <span class="hljs-keyword">long</span> a2=<span class="hljs-keyword">long</span>(numerator)/denominator;        <span class="hljs-keyword">if</span>(a1==<span class="hljs-number">0</span>)            <span class="hljs-keyword">return</span> to_string(a2);        <span class="hljs-keyword">else</span>        &#123;            <span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;            <span class="hljs-keyword">int</span> quo=<span class="hljs-built_in">abs</span>(a2);            <span class="hljs-built_in">string</span> res=<span class="hljs-string">""</span>;            <span class="hljs-keyword">if</span>((numerator^denominator)&lt;<span class="hljs-number">0</span>)                &#123;                    res=res+<span class="hljs-string">"-"</span>;                    i++;                &#125;            res=res+to_string(quo)+<span class="hljs-string">"."</span>;            i+=to_string(quo).<span class="hljs-built_in">size</span>()<span class="hljs-number">-1</span>;            <span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; <span class="hljs-built_in">map</span>;            numerator=<span class="hljs-built_in">abs</span>(a1);            <span class="hljs-keyword">while</span>(numerator!=<span class="hljs-number">0</span>)            &#123;                numerator=<span class="hljs-built_in">abs</span>(numerator);                <span class="hljs-keyword">if</span>(<span class="hljs-built_in">map</span>.<span class="hljs-built_in">find</span>(numerator)==<span class="hljs-built_in">map</span>.<span class="hljs-built_in">end</span>())                &#123;                    <span class="hljs-built_in">map</span>[numerator]=i;                    i++;                &#125;                <span class="hljs-keyword">else</span>                &#123;                    <span class="hljs-built_in">string</span> tmp=res.substr(<span class="hljs-built_in">map</span>[numerator]+<span class="hljs-number">2</span>);                    <span class="hljs-built_in">string</span> tmp1=res.substr(<span class="hljs-number">0</span>,<span class="hljs-built_in">map</span>[numerator]+<span class="hljs-number">2</span>);                    res=tmp1+<span class="hljs-string">"("</span>+tmp+<span class="hljs-string">")"</span>;                    <span class="hljs-keyword">return</span> res;                &#125;                <span class="hljs-keyword">long</span>  ttt=numerator;                ttt*=<span class="hljs-number">10</span>;                <span class="hljs-keyword">long</span>  a=<span class="hljs-built_in">abs</span>(ttt/denominator);                <span class="hljs-keyword">long</span>  b=<span class="hljs-built_in">abs</span>(ttt%denominator);                res=res+to_string(a);                numerator=b;            &#125;            <span class="hljs-keyword">return</span> res;        &#125;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>除法</tag>
+      
+      <tag>数学</tag>
+      
+      <tag>leetcode</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>设计模式</title>
+    <link href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <url>/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="设计模式学习"><a href="#设计模式学习" class="headerlink" title="设计模式学习"></a>设计模式学习</h1><p>[toc]</p><h3 id="设计模式和原则"><a href="#设计模式和原则" class="headerlink" title="设计模式和原则"></a>设计模式和原则</h3><h4 id="单一职责的原则"><a href="#单一职责的原则" class="headerlink" title="单一职责的原则"></a>单一职责的原则</h4><p>简单的说就是软件模块应该只有一个被修改的理由。例如Spring中，我们需要有dao 层和service层，而不是把它放在一起，这样后面数据库增加字段，或者业务逻辑<br>更改的时候就不需要修改很多东西，更容易维护。</p><h4 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h4><p>就是在一个模块完成的之后，就不要去改变它，最好是通过继承和多态来增加功能。所以开闭就是，对外的拓展开放，对外的修改闭合。</p><h4 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h4><p>简单的说就是尽量不要重写父类的方法，最好是只新增功能，子类可以拓展父类的功能，但是不能改变</p><p>如果通过重写父类的方法来完成新的功能，这样写起来虽然简单，但是整个继承体系的可复用性会比较差，特别是运用多态比较频繁时，程序运行出错的概率会非常大。</p><p>例如几维鸟虽然生物学上是鸟，但是不会飞，如果在计算飞行的一些行为的时候，设计成继承鸟类，最后会出现错误，因此最好仔细考虑他们的继承关系，去除继承关系。</p><h4 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h4><p>接口隔离原则（Interface Segregation Principle，ISP）要求程序员尽量将臃肿庞大的接口拆分成更小的和更具体的接口，让接口中只包含客户感兴趣的方法。</p><p>要为各个类建立它们需要的专用接口，而不要试图去建立一个很庞大的接口供所有依赖它的类去调用。</p><p>接口隔离原则和单一职责都是为了提高类的内聚性、降低它们之间的耦合性，体现了封装的思想，但两者是不同的：<br>单一职责原则注重的是职责，而接口隔离原则注重的是对接口依赖的隔离。<br>单一职责原则主要是约束类，它针对的是程序中的实现和细节；接口隔离原则主要约束接口，主要针对抽象和程序整体框架的构建。</p><h4 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h4><p>依赖倒置原则的原始定义为：高层模块不应该依赖低层模块，两者都应该依赖其抽象；抽象不应该依赖细节，细节应该依赖抽象。</p><p>由于在软件设计中，细节具有多变性，而抽象层则相对稳定，因此以抽象为基础搭建起来的架构要比以细节为基础搭建起来的架构要稳定得多。这里的抽象指的是接口或者抽象类，而细节是指具体的实现类。</p><p>使用接口或者抽象类的目的是制定好规范和契约，而不去涉及任何具体的操作，把展现细节的任务交给它们的实现类去完成。</p><p>在实际编程中只要遵循以下4点，就能在项目中满足这个规则。<br>每个类尽量提供接口或抽象类，或者两者都具备。<br>变量的声明类型尽量是接口或者是抽象类。<br>任何类都不应该从具体类派生。<br>使用继承时尽量遵循里氏替换原则。</p><h3 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h3>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>设计模式</tag>
+      
+      <tag>计算机</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>ART算法实现与理解</title>
+    <link href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/"/>
+    <url>/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p><img src="ART1.png" srcset="/img/loading.gif" alt="alt text" title="Title"><br><img src="ART2.png" srcset="/img/loading.gif" alt="alt text" title="Title"></p><p>这两个图显示了算法的原理，整体的几何意义也较为容易理解<br>···<br>import numpy as np<br>def ART<em>My( A, b, X0, e0):<br>    e=e0+1<br>    i=0<br>    while(e&gt;e0):<br>        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))<br>        X=X0-np.reshape(tmp,(-1,1))<br>        e=np.linalg.norm(X-X0)<br>        X0=X<br>        i=(i+1)%np.shape(A)[0]<br>    print(e)<br>    return X0<br>if <strong>name</strong>==”<em>_main</em></em>“:<br>    A=np.array([[3,1],[1,5]])<br>    b=np.array([[1],[1]])<br>    e0=0.000001<br>    X0=np.array([[0],[0]])<br>    X=ART_My(A,b,X0,e0)<br>    print((X))</p><p>···</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ART</tag>
+      
+      <tag>医学图像</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>函数间隔和几何间隔</title>
+    <link href="/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/"/>
+    <url>/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/</url>
+    
+    <content type="html"><![CDATA[<p>对同一个超平面，通过比例缩放w和b，函数间隔也会同比例变化。也就是说，对于一个成功划分正负实例的超平面（不一定最优），该平面固定，但是通过缩放w和b，可以使其function margin取任何正值。而我们的目标是找到具有最大margin的超平面。显然通过最大化函数间隔没有意义，因为任何成功划分训练实例的超平面都可以使函数间隔无限大。我们注意到，对一个超平面，函数间隔与∥w∥的比值保持不变，也就是说几何间隔与超平面关联。所以，我们目标是最大化几何间隔，而且我们可以令函数间隔为1，然后最小化∥w∥达到最大化几何间隔目的。</p><p>SVM是通过超平面将样本分为两类。在超平面wx+b确定的情况下，||wx+b||可以相对地表示点距离超平面的远近。对于两类分类问题，如果wx+b&gt;0，可视为在平面上方<br>，则的类别被判定为1；否则判定为-1。所以样本点与超平面之间的函数间隔定义为y(wx+b),但是该定义存在问题：即w和x同时缩小或放大M倍后，超平面并没有变化，但是函数间隔却变化了。w是法向量，所以，需要将w的大小固定,使得函数间隔固定。这时的间隔也就是几何间隔 。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>SVM</tag>
+      
+      <tag>函数间隔和几何间隔</tag>
+      
+      <tag>机器学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>大端和小端</title>
+    <link href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/"/>
+    <url>/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/</url>
+    
+    <content type="html"><![CDATA[<p>字节存储顺序主要分为大端序（Big-endian）和小端序（Little-endian），区别如下<br>Big-endian：高位字节存入低地址，低位字节存入高地址<br>Little-endian：低位字节存入低地址，高位字节存入高地址<br>一般来说，x86系列CPU都是Little-endian字节序，PowerPC通常是Big-endian字节序。</p><p>因为网络协议也都是采用Big-endian方式传输数据的，所以有时也把Big-endian方式称为网络字节序</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+      <tag>计算机网络</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>218. 天际线问题</title>
+    <link href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/"/>
+    <url>/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h2 id="问题的求解方法一"><a href="#问题的求解方法一" class="headerlink" title="问题的求解方法一"></a>问题的求解方法一</h2><p>其实我们在题目标签看到了Line Sweep，[ 线扫描或扫描线 ] ，扫描线可以想象成一条向右扫过平面的竖直线，也是一个算法，一般是玩图形学的。</p><p>接着上面的步骤，可以通过扫描线算法将两个关键点集合进行合并。</p><p>如下图，扫描线从两个集合的起始点，同时向右移动，接触到第一个关键点，则判断这一个关键点是不是满足天际线的，如果是，则将这个关键点添加到“父”集合中；如果不是，则继续同时移动到下一个关键点。</p><p>但如何判断是否是属于“父”集合中的关键点呢？可以创建两个集合（“子”）的目前高度，然后多方角度找到满足关键点的条件。</p><p>扫描线移到[2 10]关键点时，10要大于rpre的，可以满足；</p><p>扫描线移到[3 15]关键点时，lpre此时目前的高度为10，而15要大于10的，可以满足；</p><p>扫描线移到[7 10]关键点时，rpre大于lpre可以满足，反之就不满足；</p><p>接着有一个集合已经遍历完了，剩下的集合的关键点肯定是满足的，因为没有其它的集合可以阻挡到这个集合，所以直接就是满足。</p><p>这个求解方法中的归并的写法比我以前写的要简洁一些，值得学习。<br>这个问题的求解方法的重点在于合并两个点，<br>合并过程中首先选择一个集合的小的，然后判断其与当前另外一个集合的当前值的关于，如果大于则一定可以加进去，因为这个值和自身高度同样也不同<br>如果小于等于并且自身当前高度要大于另外一个集合的当前值，则可以加，否则就被盖住实际是看不到的。</p><p>在相等的情况下，我们应该考虑到相同X的位置的最高位置的不能和和此时的当前的最大位置相同，如果相同实际上是形成了一条直线，是看不到的。</p><pre><code class="hljs pgsql"><span class="hljs-keyword">class</span> Solution &#123;    <span class="hljs-built_in">public</span> List&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt; getSkyline(<span class="hljs-type">int</span>[][] buildings)     &#123;        List&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt; res=<span class="hljs-built_in">new</span> ArrayList&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt;();        <span class="hljs-keyword">if</span>(buildings.length==<span class="hljs-number">0</span>)            <span class="hljs-keyword">return</span> res;        <span class="hljs-keyword">return</span> divide(buildings,<span class="hljs-number">0</span>,buildings.length<span class="hljs-number">-1</span>);    &#125;    <span class="hljs-built_in">public</span> List&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt; divide(<span class="hljs-type">int</span> [][]buildings,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)    &#123;        List&lt;<span class="hljs-type">Integer</span>&gt; list=<span class="hljs-built_in">new</span> ArrayList&lt;<span class="hljs-type">Integer</span>&gt;();        List&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt; res=<span class="hljs-built_in">new</span> ArrayList&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt;();        <span class="hljs-keyword">if</span>(r==l)        &#123;            res.<span class="hljs-keyword">add</span>(Arrays.asList(buildings[l][<span class="hljs-number">0</span>],buildings[l][<span class="hljs-number">2</span>]));            res.<span class="hljs-keyword">add</span>(Arrays.asList(buildings[l][<span class="hljs-number">1</span>],<span class="hljs-number">0</span>));            <span class="hljs-keyword">return</span> res;        &#125;        <span class="hljs-type">int</span> a=l+(r-l)/<span class="hljs-number">2</span>;        List&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt; res1=divide(buildings,l,a);        List&lt;List&lt;<span class="hljs-type">Integer</span>&gt;&gt; res2=divide(buildings,a+<span class="hljs-number">1</span>,r);        <span class="hljs-type">int</span> l1=<span class="hljs-number">0</span>;        <span class="hljs-type">int</span> r1=<span class="hljs-number">0</span>;        <span class="hljs-type">int</span> lh=<span class="hljs-number">0</span>,rh=<span class="hljs-number">0</span>;        <span class="hljs-type">int</span> leftX, leftY, rightX, rightY;        <span class="hljs-keyword">while</span>(l1&lt;res1.size()||r1&lt;res2.size())        &#123;            <span class="hljs-keyword">if</span>(l1&gt;=res1.size())                res.<span class="hljs-keyword">add</span>(res2.<span class="hljs-keyword">get</span>(r1++));            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(r1&gt;=res2.size())                res.<span class="hljs-keyword">add</span>(res1.<span class="hljs-keyword">get</span>(l1++));            <span class="hljs-keyword">else</span>            &#123;                leftX = res1.<span class="hljs-keyword">get</span>(l1).<span class="hljs-keyword">get</span>(<span class="hljs-number">0</span>); // 不会出现<span class="hljs-keyword">null</span>，可以直接用<span class="hljs-type">int</span>类型                leftY = res1.<span class="hljs-keyword">get</span>(l1).<span class="hljs-keyword">get</span>(<span class="hljs-number">1</span>);                rightX = res2.<span class="hljs-keyword">get</span>(r1).<span class="hljs-keyword">get</span>(<span class="hljs-number">0</span>);                rightY = res2.<span class="hljs-keyword">get</span>(r1).<span class="hljs-keyword">get</span>(<span class="hljs-number">1</span>);                <span class="hljs-keyword">if</span>(leftX&gt;rightX)//每次选择一个较小的                &#123;                    <span class="hljs-keyword">if</span>(rightY&gt;lh)                        res.<span class="hljs-keyword">add</span>(res2.<span class="hljs-keyword">get</span>(r1));                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(rh&gt;lh)                    &#123;                        res.<span class="hljs-keyword">add</span>(Arrays.asList(rightX,lh));                    &#125;                    rh=rightY;                    r1++;                &#125;                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(leftX&lt;rightX)                &#123;                    <span class="hljs-keyword">if</span>(leftY&gt;rh)                        res.<span class="hljs-keyword">add</span>(res1.<span class="hljs-keyword">get</span>(l1));                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(lh&gt;rh)                        res.<span class="hljs-keyword">add</span>(Arrays.asList(leftX,rh));                    lh=leftY;                    l1++;                &#125;                <span class="hljs-keyword">else</span>                &#123;                    <span class="hljs-type">int</span> h=Math.max(lh,rh);                    <span class="hljs-keyword">if</span>(leftY&gt;=rightY&amp;&amp;leftY!=h)                    &#123;                        res.<span class="hljs-keyword">add</span>(res1.<span class="hljs-keyword">get</span>(l1));                    &#125;                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(leftY&lt;=rightY&amp;&amp;rightY!=h)//只要不汇聚到最高点就没问题                    &#123;                        res.<span class="hljs-keyword">add</span>(res2.<span class="hljs-keyword">get</span>(r1));                    &#125;                    lh=leftY;                    rh=rightY;                    l1++;                    r1++;                &#125;            &#125;        &#125;        <span class="hljs-keyword">return</span> res;    &#125;&#125;</code></pre><p>这个方法是扫面线算法，方法较为巧妙，左上和右上节点分别设置为负数和正数，从左加入右先队列，从右边删除出，<br>然后每次和最大的节点进行比较，不同就加入节点。<br>这里的java的容器的比较器的写法是o2-o1，大于0就是顺序，否则逆序。</p><pre><code class="hljs livescript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>    public List&lt;List&lt;Integer&gt;&gt; getSkyline(int[][] buildings)     &#123;        List&lt;List&lt;Integer&gt;&gt; res=<span class="hljs-keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;();        Set&lt;Pair&lt;Integer,Integer&gt;&gt; pairs=<span class="hljs-keyword">new</span> TreeSet&lt;&gt;<span class="hljs-function"><span class="hljs-params">((o1,o2)-&gt;!o1.getKey().equals(o2.getKey())?o1.getKey()-o2.getKey():o1.getValue()-o2.getValue())</span>;</span><span class="hljs-function">        <span class="hljs-title">for</span><span class="hljs-params">(int[] bu:buildings)</span></span><span class="hljs-function">        &#123;</span><span class="hljs-function">            <span class="hljs-title">pairs</span>.<span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">new</span> Pair&lt;&gt;(bu[<span class="hljs-number">0</span>],-bu[<span class="hljs-number">2</span>]))</span>;</span><span class="hljs-function">            <span class="hljs-title">pairs</span>.<span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">new</span> Pair&lt;&gt;(bu[<span class="hljs-number">1</span>],bu[<span class="hljs-number">2</span>]))</span>;</span><span class="hljs-function">        &#125;</span><span class="hljs-function">        <span class="hljs-title">PriorityQueue</span>&lt;<span class="hljs-title">Integer</span>&gt; <span class="hljs-title">queue</span>=<span class="hljs-title">new</span> <span class="hljs-title">PriorityQueue</span>&lt;&gt;<span class="hljs-params">((o1,o2)-&gt;o2-o1)</span>;</span><span class="hljs-function">            <span class="hljs-title">int</span> <span class="hljs-title">prev</span> = 0;</span><span class="hljs-function">    // 遍历</span><span class="hljs-function">    <span class="hljs-title">for</span> <span class="hljs-params">(Pair&lt;Integer, Integer&gt; pair : pairs)</span> &#123;</span><span class="hljs-function">        <span class="hljs-title">if</span> <span class="hljs-params">(pair.getValue() &lt; <span class="hljs-number">0</span>)</span> </span><span class="hljs-function">            <span class="hljs-title">queue</span>.<span class="hljs-title">offer</span><span class="hljs-params">(-pair.getValue())</span>; // 左端点 高度入堆</span><span class="hljs-function">        <span class="hljs-title">else</span> </span><span class="hljs-function">            <span class="hljs-title">queue</span>.<span class="hljs-title">remove</span><span class="hljs-params">(pair.getValue())</span>; // 右端点 高度出堆</span><span class="hljs-function">        <span class="hljs-title">Integer</span> <span class="hljs-title">cur</span> = <span class="hljs-title">queue</span>.<span class="hljs-title">peek</span><span class="hljs-params">()</span> == <span class="hljs-title">null</span> ? 0 : <span class="hljs-title">queue</span>.<span class="hljs-title">peek</span><span class="hljs-params">()</span>; // 获取最大堆的当前顶点，当<span class="hljs-title">null</span>时置为0</span><span class="hljs-function">        <span class="hljs-title">if</span> <span class="hljs-params">(prev != cur)</span> </span><span class="hljs-function">        &#123;</span><span class="hljs-function">            <span class="hljs-title">res</span>.<span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">new</span> ArrayList&lt;Integer&gt;() </span></span><span class="hljs-function"><span class="hljs-params">            &#123;</span></span><span class="hljs-function"><span class="hljs-params">                &#123;</span></span><span class="hljs-function"><span class="hljs-params">                add(pair.getKey());</span></span><span class="hljs-function"><span class="hljs-params">                add(cur);</span></span><span class="hljs-function"><span class="hljs-params">            &#125;&#125;)</span>;</span><span class="hljs-function">            <span class="hljs-title">prev</span> = <span class="hljs-title">cur</span>;</span><span class="hljs-function">        &#125;</span><span class="hljs-function">    &#125;</span><span class="hljs-function">    <span class="hljs-title">return</span> <span class="hljs-title">res</span>;</span><span class="hljs-function">    &#125;</span><span class="hljs-function">   </span><span class="hljs-function">&#125;</span></code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>线段树</tag>
+      
+      <tag>扫描线算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>为啥那么C++pop不返回值</title>
+    <link href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/"/>
+    <url>/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/</url>
+    
+    <content type="html"><![CDATA[<h3 id="书上的解释"><a href="#书上的解释" class="headerlink" title="书上的解释"></a>书上的解释</h3><p>也就是说，为什么先用top（），然后用pop（）来访问和删除站定的元素，而不是把它们合并一个返回类型T的成员函数。</p><p>这种设计有很好的理由。如果pop（）返回栈顶元素，则必须按值返回，而不是按引用返回。按引用返回是不可行的，因为元素</p><p>在栈中已经不存在，必须在按引用返回之前现将其存储到某个地方。如果选用动态内存，除非动态内存最终被删除，否则将导致内存泄露。</p><p>按照数值返回效率很差，因为它包含对类型T的复制构造函数的调用。让pop（）返回数值将会导致潜在的内存问题或效率很低下，</p><p>因此最好让它什么数值也不返回，而是通过使用top（）来得到栈顶的数值。</p><p>从异常上看<br>这么使用</p><p>Stack stack;</p><p>stack.push(object);</p><p>Object obj=stack.pop() ;</p><p>当我们执行Object obj=stack.pop() 时，Object的构造函数被调用，而这里是可以反生异常的，</p><p>假设这时候发生异常，丢生的栈顶元素就回不去了。</p><p>而在java中pop（）是有返回值的<br>源码是这么写的<br>    int i = size();<br>    Object object = peek();<br>    removeElementAt(i - 1);<br>    return (E)object;</p><pre><code>实质上java进行对象赋值的时候是进行引用的。但是C++是进行一个复制构造函数的调用，</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>栈</tag>
+      
+      <tag>pop</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>145. 二叉树的后序遍历</title>
+    <link href="/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
+    <url>/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/</url>
+    
+    <content type="html"><![CDATA[<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>后序遍历的麻烦之处在于不知道现在自己是父节点的左节点还是右节点，只有知道才能决定下一步是访问右节点还是根节点，不知道的情况下就不清楚下一步应该访问弹出的栈元素的本身还是它的右节点。<br>而前序遍历和中序遍历是总是只需要弹出栈中的元素，然后访问其右节点即可或者先访问自己再访问其右节点。</p><p>所以方法有三种：</p><h3 id="开始的话，也是不停的往左子树走，然后直到为-null-，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶"><a href="#开始的话，也是不停的往左子树走，然后直到为-null-，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶" class="headerlink" title="开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶"></a>开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶</h3><h3 id="元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。"><a href="#元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。" class="headerlink" title="元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。"></a>元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。</h3><pre><code class="hljs lasso">class Solution &#123;    <span class="hljs-keyword">public</span> <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; postorderTraversal(TreeNode root)     &#123;        <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; res=<span class="hljs-literal">new</span> ArrayList&lt;<span class="hljs-built_in">Integer</span>&gt;();        <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt; <span class="hljs-built_in">stack</span>=<span class="hljs-literal">new</span> <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt;();        <span class="hljs-built_in">Set</span>&lt;TreeNode&gt; <span class="hljs-built_in">set</span>=<span class="hljs-literal">new</span> HashSet&lt;TreeNode&gt;();        TreeNode treenode=root;        <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">stack</span>.isEmpty()||treenode!=<span class="hljs-built_in">null</span>)        &#123;            <span class="hljs-keyword">if</span>(treenode!=<span class="hljs-built_in">null</span>)            &#123;                <span class="hljs-built_in">stack</span>.push(treenode);                treenode=treenode.left;                   &#125;               <span class="hljs-keyword">else</span>            &#123;                TreeNode tmp=<span class="hljs-built_in">stack</span>.peek();                <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">set</span>.contains(tmp)&amp;&amp;tmp.right!=<span class="hljs-built_in">null</span>)                &#123;                    treenode=tmp.right;                    <span class="hljs-built_in">set</span>.add(tmp);                &#125;                <span class="hljs-keyword">else</span>                &#123;                    res.add(tmp.val);                    <span class="hljs-built_in">stack</span>.pop();                &#125;            &#125;        &#125;        <span class="hljs-keyword">return</span> res;    &#125;&#125;</code></pre><h3 id="如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了"><a href="#如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了" class="headerlink" title="如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了"></a>如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了</h3><pre><code class="hljs routeros">class Solution &#123;    public List&lt;Integer&gt; postorderTraversal(TreeNode root)     &#123;        List&lt;Integer&gt; <span class="hljs-attribute">res</span>=new ArrayList&lt;Integer&gt;();        Stack&lt;TreeNode&gt; <span class="hljs-attribute">stack</span>=new Stack&lt;TreeNode&gt;();        TreeNode <span class="hljs-attribute">treenode</span>=root;        TreeNode <span class="hljs-attribute">last</span>=<span class="hljs-literal">null</span>;        <span class="hljs-keyword">while</span>(!stack.isEmpty()||treenode!=<span class="hljs-literal">null</span>)        &#123;            <span class="hljs-keyword">if</span>(treenode!=<span class="hljs-literal">null</span>)            &#123;                stack.push(treenode);                <span class="hljs-attribute">treenode</span>=treenode.left;                   &#125;               <span class="hljs-keyword">else</span>            &#123;                TreeNode <span class="hljs-attribute">tmp</span>=stack.peek();                <span class="hljs-keyword">if</span>(tmp.right!=<span class="hljs-literal">null</span>&amp;&amp;tmp.right!=last)                &#123;                    <span class="hljs-attribute">treenode</span>=tmp.right;                &#125;                <span class="hljs-keyword">else</span>                &#123;                    res.<span class="hljs-builtin-name">add</span>(tmp.val);                    <span class="hljs-attribute">last</span>=tmp;                    stack.pop();                &#125;            &#125;        &#125;        return res;    &#125;&#125;</code></pre><h3 id="只需要把每个节点-push-两次，然后判断当前-pop-节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。"><a href="#只需要把每个节点-push-两次，然后判断当前-pop-节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。" class="headerlink" title="只需要把每个节点 push 两次，然后判断当前 pop 节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。"></a>只需要把每个节点 push 两次，然后判断当前 pop 节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。</h3><h3 id="不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到-list-中。这个方法比较巧妙"><a href="#不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到-list-中。这个方法比较巧妙" class="headerlink" title="不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到 list 中。这个方法比较巧妙"></a>不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到 list 中。这个方法比较巧妙</h3><pre><code class="hljs lasso">    <span class="hljs-keyword">public</span> <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; postorderTraversal(TreeNode root) &#123;    <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; <span class="hljs-built_in">list</span> = <span class="hljs-literal">new</span> ArrayList&lt;&gt;();    <span class="hljs-keyword">if</span> (root == <span class="hljs-built_in">null</span>) &#123;        <span class="hljs-keyword">return</span> <span class="hljs-built_in">list</span>;    &#125;    <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt; <span class="hljs-built_in">stack</span> = <span class="hljs-literal">new</span> <span class="hljs-built_in">Stack</span>&lt;&gt;();    <span class="hljs-built_in">stack</span>.push(root);    <span class="hljs-built_in">stack</span>.push(root);    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">stack</span>.isEmpty()) &#123;        TreeNode cur = <span class="hljs-built_in">stack</span>.pop();        <span class="hljs-keyword">if</span> (cur == <span class="hljs-built_in">null</span>) &#123;            continue;        &#125;        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">stack</span>.isEmpty() &amp;&amp; cur == <span class="hljs-built_in">stack</span>.peek()) &#123;            <span class="hljs-built_in">stack</span>.push(cur.right);            <span class="hljs-built_in">stack</span>.push(cur.right);            <span class="hljs-built_in">stack</span>.push(cur.left);            <span class="hljs-built_in">stack</span>.push(cur.left);        &#125; <span class="hljs-keyword">else</span> &#123;            <span class="hljs-built_in">list</span>.add(cur.val);        &#125;    &#125;    <span class="hljs-keyword">return</span> <span class="hljs-built_in">list</span>;&#125;</code></pre><h3 id="可以转换成一个逆的前序遍历来实现"><a href="#可以转换成一个逆的前序遍历来实现" class="headerlink" title="可以转换成一个逆的前序遍历来实现"></a>可以转换成一个逆的前序遍历来实现</h3><pre><code class="hljs lasso"><span class="hljs-keyword">public</span> <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; postorderTraversal(TreeNode root) &#123;    <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; res=<span class="hljs-literal">new</span> ArrayList&lt;<span class="hljs-built_in">Integer</span>&gt;();    <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt; <span class="hljs-built_in">stack</span>=<span class="hljs-literal">new</span> <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt;();    TreeNode treenode=root;    <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">stack</span>.isEmpty()||treenode!=<span class="hljs-built_in">null</span>)    &#123;        <span class="hljs-keyword">if</span>(treenode!=<span class="hljs-built_in">null</span>)        &#123;            res.add(treenode.val);            <span class="hljs-built_in">stack</span>.add(treenode);            treenode=treenode.right;         &#125;           <span class="hljs-keyword">else</span>        &#123;            treenode=<span class="hljs-built_in">stack</span>.pop().left;        &#125;    &#125;    Collections.reverse(res);    <span class="hljs-keyword">return</span> res;&#125;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>栈</tag>
+      
+      <tag>树</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>232. 用栈实现队列</title>
+    <link href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/"/>
+    <url>/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/</url>
+    
+    <content type="html"><![CDATA[<p>双栈实现队列，思路较为简单</p><p>···<br>class MyQueue {<br>    private Stack<Integer> stack1;<br>    private Stack<Integer> stack2;<br>    /<em>* Initialize your data structure here. </em>/<br>    public MyQueue() {<br>        stack1=new Stack<Integer>();<br>        stack2=new Stack<Integer>();<br>    }</p><pre><code>/** Push element x to the back of queue. */public void push(int x) {    stack1.push(x);}/** Removes the element from in front of queue and returns that element. */public int pop() {    if(stack2.isEmpty())    {        StackMove(stack1,stack2);    }    int res=stack2.peek();    stack2.pop();    return res;}/** Get the front element. */public int peek() {    if(stack2.isEmpty())    {        StackMove(stack1,stack2);    }    int res=stack2.peek();    return res;}/** Returns whether the queue is empty. */public boolean empty() {    return stack1.isEmpty()&amp;&amp;stack2.isEmpty();}public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2){    if(stack2.isEmpty())    {         while(!stack1.isEmpty())        {            int a=stack1.peek();            stack2.push(a);            stack1.pop();        }    }}</code></pre><p>}</p><p>/**</p><ul><li>Your MyQueue object will be instantiated and called as such:</li><li>MyQueue obj = new MyQueue();</li><li>obj.push(x);</li><li>int param_2 = obj.pop();</li><li>int param_3 = obj.peek();</li><li>boolean param_4 = obj.empty();<br>*/<br>···</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>栈</tag>
+      
+      <tag>队列</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>225. 用队列实现栈</title>
+    <link href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/"/>
+    <url>/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/</url>
+    
+    <content type="html"><![CDATA[<h3 id="队列实现栈"><a href="#队列实现栈" class="headerlink" title="队列实现栈"></a>队列实现栈</h3><p>主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。<br><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> &#123;</span>    <span class="hljs-keyword">private</span> Queue&lt;Integer&gt; quene=<span class="hljs-keyword">new</span> LinkedList&lt;Integer&gt;();    <span class="hljs-keyword">private</span>    <span class="hljs-keyword">int</span> mytop=<span class="hljs-number">0</span>;    <span class="hljs-comment">/** Initialize your data structure here. */</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>&#123;    &#125;        <span class="hljs-comment">/** Push element x onto stack. */</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;        quene.offer(x);        mytop=x;    &#125;        <span class="hljs-comment">/** Removes the element on top of the stack and returns that element. */</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;quene.<span class="hljs-built_in">size</span>()<span class="hljs-number">-1</span>;i++)        &#123;            <span class="hljs-keyword">int</span> a=quene.poll();            quene.offer(a);            <span class="hljs-keyword">if</span>(i==quene.<span class="hljs-built_in">size</span>()<span class="hljs-number">-2</span>)                mytop=a;        &#125;        <span class="hljs-keyword">return</span> quene.poll();    &#125;        <span class="hljs-comment">/** Get the top element. */</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;        <span class="hljs-keyword">if</span>(!quene.isEmpty())        <span class="hljs-keyword">return</span> mytop;        <span class="hljs-keyword">else</span>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;    &#125;        <span class="hljs-comment">/** Returns whether the stack is empty. */</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>&#123;        <span class="hljs-keyword">if</span>(quene.<span class="hljs-built_in">size</span>()==<span class="hljs-number">0</span>)        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;        <span class="hljs-keyword">else</span>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;    &#125;&#125;<span class="hljs-comment">/**</span><span class="hljs-comment"> * Your MyStack object will be instantiated and called as such:</span><span class="hljs-comment"> * MyStack obj = new MyStack();</span><span class="hljs-comment"> * obj.push(x);</span><span class="hljs-comment"> * int param_2 = obj.pop();</span><span class="hljs-comment"> * int param_3 = obj.top();</span><span class="hljs-comment"> * boolean param_4 = obj.empty();</span><span class="hljs-comment"> */</span></code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>栈</tag>
+      
+      <tag>队列</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>linux短横线的区别</title>
+    <link href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <url>/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<h2 id="linux短横线的区别"><a href="#linux短横线的区别" class="headerlink" title="linux短横线的区别"></a>linux短横线的区别</h2><pre><code class="hljs properties"><span class="hljs-attr">rm</span> <span class="hljs-string">-vf ***</span><span class="hljs-attr">tar</span> <span class="hljs-string">-xzvf  ***.tar.gz</span><span class="hljs-attr">gcc</span> <span class="hljs-string">--version</span><span class="hljs-attr">rm</span> <span class="hljs-string">--help</span></code></pre><p>　　从上面命令我们可以看出，绝大数命令有以下的规则：</p><p>　　①　参数前单杠的表明后面的参数是字符形式；</p><p>　　②　参数前双杠的则表明后面的参数是单词形式</p><pre><code class="hljs css"><span class="hljs-selector-tag">tar</span> <span class="hljs-selector-tag">xzvf</span>  ***<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span><span class="hljs-selector-tag">tar</span> <span class="hljs-selector-tag">-xzvf</span> ***<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span></code></pre><p>两种命令行都是行的通的，并且功能都是解压软件包，那它们到底有什么不同呢，实际上这就涉及两种Linux风格，System V和BSD。它们对应关系如下：</p><p>　　①　参数前有横的是System V风格。</p><p>　　②　参数前没有横的是BSD风格。</p><p>　　System V和BSD两种风格的区别主要是：</p><p>　　系统启动过程中 kernel 最后一步调用的是 init 程序，init 程序的执行有两种风格，即 System V 和 BSD。</p><p>　　System V 风格中 init 调用 /etc/inittab，BSD 风格调用 /etc/rc，它们的目的相同，都是根据 runlevel 执行一系列的程序。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>224. 基本计算器</title>
+    <link href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/"/>
+    <url>/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[<h2 id="方法1和方法二："><a href="#方法1和方法二：" class="headerlink" title="方法1和方法二："></a>方法1和方法二：</h2><p>只有加减的话，相当于去掉括号，去掉括号的过程就是，把数字和字符串弹出，然后计算的过程，这个方法比较麻烦，应该可以采用字符串反向便利的方式进行计算，这样计算表达式就要方便很多，从左到右算就可以，如果还有乘除之类的话，那么在过程中应该还要判断字符的优先级，然后进行计算,还有一个需要注意的就是，数字可能有很多位。<br><pre><code class="hljs pgsql">方法一：<span class="hljs-keyword">class</span> Solution &#123;    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> calculate(String s)     &#123;        Stack &lt;<span class="hljs-type">Integer</span>&gt; op1=<span class="hljs-built_in">new</span> Stack &lt;<span class="hljs-type">Integer</span>&gt;();//数字栈        Stack&lt;<span class="hljs-type">Character</span>&gt; op2=<span class="hljs-built_in">new</span> Stack&lt;<span class="hljs-type">Character</span>&gt;();//字符栈        <span class="hljs-type">int</span> t=<span class="hljs-number">0</span>;        <span class="hljs-type">int</span> flag=<span class="hljs-number">1</span>;//正在记录数字        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)        &#123;            <span class="hljs-type">Character</span> ch=s.charAt(i);            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!<span class="hljs-type">Character</span>.isDigit(ch))            &#123;                op1.push(t);                <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(t);                flag=<span class="hljs-number">1</span>;                t=<span class="hljs-number">0</span>;            &#125;            <span class="hljs-keyword">if</span>(<span class="hljs-type">Character</span>.isDigit(ch))            &#123;                flag=<span class="hljs-number">0</span>;                <span class="hljs-type">int</span> num=(<span class="hljs-type">int</span>)(ch-<span class="hljs-string">'0'</span>);                t=t*<span class="hljs-number">10</span>+num;            &#125;            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>)||ch.equals(<span class="hljs-string">'+'</span>)||ch.equals(<span class="hljs-string">'('</span>))            &#123;                op2.push(ch);            &#125;            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">')'</span>))            &#123;                op1.push(CalFormula(op1,op2));            &#125;        &#125;        <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>)        &#123;            op1.push(t);            <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(t);            flag=<span class="hljs-number">1</span>;            t=<span class="hljs-number">0</span>;        &#125;        <span class="hljs-keyword">return</span> CalFormula(op1,op2);    &#125;    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> CalFormula(Stack &lt;<span class="hljs-type">Integer</span>&gt; op1 , Stack&lt;<span class="hljs-type">Character</span>&gt; op2)    &#123;        Stack &lt;<span class="hljs-type">Integer</span>&gt; op3=<span class="hljs-built_in">new</span> Stack &lt;<span class="hljs-type">Integer</span>&gt;();//数字栈        Stack&lt;<span class="hljs-type">Character</span>&gt; op4=<span class="hljs-built_in">new</span> Stack&lt;<span class="hljs-type">Character</span>&gt;();//字符栈        <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!op2.peek().equals(<span class="hljs-string">'('</span>))        &#123;                                                op3.push(op1.peek());                        op1.pop();                        op4.push(op2.peek());                        op2.pop();                        // <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(op2.peek());        &#125;                    op3.push(op1.peek());                    op1.pop();                    <span class="hljs-keyword">if</span>(!op2.isEmpty()&amp;&amp;op2.peek().equals(<span class="hljs-string">'('</span>))                        op2.pop();                    <span class="hljs-keyword">while</span>(!op4.isEmpty())                    &#123;                        <span class="hljs-type">int</span> a=op3.peek();                        op3.pop();                        <span class="hljs-type">int</span> b=op3.peek();                        op3.pop();                        <span class="hljs-type">char</span> c=op4.peek();                        op4.pop();                        op3.push(cal(c,a,b));                    &#125;                    <span class="hljs-keyword">return</span> op3.peek();    &#125;    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> cal(<span class="hljs-type">Character</span> ch,<span class="hljs-type">Integer</span> num,<span class="hljs-type">Integer</span> num1)    &#123;        <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>))        <span class="hljs-keyword">return</span> num-num1;        <span class="hljs-keyword">else</span>         <span class="hljs-keyword">return</span> num+num1;    &#125;&#125;</code></pre></p><pre><code class="hljs reasonml">方法<span class="hljs-number">2</span>：<span class="hljs-keyword">class</span> Solution &#123;    public <span class="hljs-built_in">int</span> calculate(String s)     &#123;        Stack &lt;Integer&gt; op1=<span class="hljs-keyword">new</span> Stack &lt;Integer&gt;<span class="hljs-literal">()</span>;<span class="hljs-comment">//数字栈</span>        Stack&lt;Character&gt; op2=<span class="hljs-keyword">new</span> Stack&lt;Character&gt;<span class="hljs-literal">()</span>;<span class="hljs-comment">//字符栈</span>        Integer t=<span class="hljs-number">0</span>;        StringBuffer nu=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-string">""</span>)</span>;        <span class="hljs-built_in">int</span> flag=<span class="hljs-number">1</span>;<span class="hljs-comment">//正在记录数字</span>        StringBuffer a=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-params">s</span>)</span>;        String str=a.reverse<span class="hljs-literal">()</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">String()</span>;        for(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;str.length<span class="hljs-literal">()</span>;i++)        &#123;            Character ch=str.<span class="hljs-built_in">char</span><span class="hljs-constructor">At(<span class="hljs-params">i</span>)</span>;            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Character</span>.</span></span>is<span class="hljs-constructor">Digit(<span class="hljs-params">ch</span>)</span>)            &#123;                t=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Integer</span>.</span></span>parse<span class="hljs-constructor">Int(<span class="hljs-params">nu</span>.<span class="hljs-params">reverse</span>()</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">String()</span>);                op1.push(t);                flag=<span class="hljs-number">1</span>;                nu=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-string">""</span>)</span>;            &#125;            <span class="hljs-keyword">if</span>(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Character</span>.</span></span>is<span class="hljs-constructor">Digit(<span class="hljs-params">ch</span>)</span>)            &#123;                nu.append(ch);                flag=<span class="hljs-number">0</span>;            &#125;            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-character">'-'</span>)<span class="hljs-pattern-match"><span class="hljs-operator">||</span>ch.equals('+')<span class="hljs-operator">||</span>ch.equals(')'))</span><span class="hljs-pattern-match">            &#123;</span><span class="hljs-pattern-match">                op2.push(ch);</span><span class="hljs-pattern-match">            &#125;</span><span class="hljs-pattern-match">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals('('))</span><span class="hljs-pattern-match">            &#123;</span><span class="hljs-pattern-match">                <span class="hljs-constructor">CalFormula(<span class="hljs-params">op1</span>,<span class="hljs-params">op2</span>)</span>;</span><span class="hljs-pattern-match">            &#125;</span><span class="hljs-pattern-match"></span><span class="hljs-pattern-match">        &#125;</span><span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(flag<span class="hljs-operator">==</span>0)</span><span class="hljs-pattern-match">        &#123;</span><span class="hljs-pattern-match">                t=<span class="hljs-constructor">Integer</span>.parse<span class="hljs-constructor">Int(<span class="hljs-params">nu</span>.<span class="hljs-params">reverse</span>()</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">String()</span>);</span><span class="hljs-pattern-match">                op1.push(t);</span><span class="hljs-pattern-match">        &#125;</span><span class="hljs-pattern-match">        return <span class="hljs-constructor">CalFormula(<span class="hljs-params">op1</span>,<span class="hljs-params">op2</span>)</span>;</span><span class="hljs-pattern-match">    &#125;</span><span class="hljs-pattern-match">    public <span class="hljs-built_in">int</span> <span class="hljs-constructor">CalFormula(Stack &lt;Integer&gt; <span class="hljs-params">op1</span> , Stack&lt;Character&gt; <span class="hljs-params">op2</span>)</span></span><span class="hljs-pattern-match">    &#123;</span><span class="hljs-pattern-match">        <span class="hljs-constructor">Stack</span> &lt;<span class="hljs-constructor">Integer</span>&gt; op3=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Stack</span> &lt;<span class="hljs-constructor">Integer</span>&gt;();<span class="hljs-operator">/</span><span class="hljs-operator">/</span>数字栈</span><span class="hljs-pattern-match">        <span class="hljs-constructor">Stack</span>&lt;<span class="hljs-constructor">Character</span>&gt; op4=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Stack</span>&lt;<span class="hljs-constructor">Character</span>&gt;();<span class="hljs-operator">/</span><span class="hljs-operator">/</span>字符栈</span><span class="hljs-pattern-match">        <span class="hljs-keyword">while</span>(!op2.is<span class="hljs-constructor">Empty()</span><span class="hljs-operator">&amp;&amp;</span>!op2.peek().equals(')'))</span><span class="hljs-pattern-match">        &#123;</span><span class="hljs-pattern-match">            <span class="hljs-built_in">int</span> a=op1.peek();</span><span class="hljs-pattern-match">            op1.pop();</span><span class="hljs-pattern-match">            <span class="hljs-built_in">int</span> b=op1.peek();</span><span class="hljs-pattern-match">            op1.pop();</span><span class="hljs-pattern-match">            <span class="hljs-constructor">Character</span> c=op2.peek();</span><span class="hljs-pattern-match">            op2.pop();</span><span class="hljs-pattern-match">            op1.push(cal(c,a,b));</span><span class="hljs-pattern-match">        &#125;</span><span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(!op2.is<span class="hljs-constructor">Empty()</span><span class="hljs-operator">&amp;&amp;</span>op2.peek().equals(')'))</span><span class="hljs-pattern-match">            op2.pop();</span><span class="hljs-pattern-match">        return op1.peek();</span><span class="hljs-pattern-match">    &#125;</span><span class="hljs-pattern-match">    public <span class="hljs-built_in">int</span> cal(<span class="hljs-constructor">Character</span> ch,<span class="hljs-constructor">Integer</span> num,<span class="hljs-constructor">Integer</span> num1)</span><span class="hljs-pattern-match">    &#123;</span><span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(ch.equals('-'))</span><span class="hljs-pattern-match">        return num-num1;</span><span class="hljs-pattern-match">        <span class="hljs-keyword">else</span> </span><span class="hljs-pattern-match">        return num+num1;</span><span class="hljs-pattern-match">    &#125;</span><span class="hljs-pattern-match">&#125;</span></code></pre><h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><p>采用一种双栈的方法，<br>解法一经过了一个中间过程，先转为了后缀表达式然后进行求值。我们其实可以直接利用两个栈，边遍历边进行的，这个方法是我当时上课学的方法。从 这里 把过程贴到下边，和解法一其实有些类似的。</p><p>使用两个栈，stack0 用于存储操作数，stack1 用于存储操作符<br>从左往右扫描，遇到操作数入栈 stack0<br>遇到操作符时，如果当前优先级低于或等于栈顶操作符优先级，则从 stack0 弹出两个元素，从 stack1 弹出一个操作符，进行计算，将结果并压入stack0，继续与栈顶操作符的比较优先级。<br>如果遇到操作符高于栈顶操作符优先级，则直接入栈 stack1<br>遇到左括号，直接入栈 stack1。<br>遇到右括号，则从 stack0 弹出两个元素，从 stack1 弹出一个操作符进行计算，并将结果加入到 stack0 中，重复这步直到遇到左括号<br>和解法一一样，因为我们只有加法和减法，所以这个流程可以简化一下。</p><p>第 3 条改成「遇到操作符时，则从 stack0 弹出两个元素进行计算，并压入stack0，直到栈空或者遇到左括号，最后将当前操作符压入 stack1 」处。<br><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">calculate</span><span class="hljs-params">(<span class="hljs-keyword">String</span> s)</span> </span><span class="hljs-function">    </span>&#123;        Stack &lt;Integer&gt; op1=<span class="hljs-keyword">new</span> Stack &lt;Integer&gt;();<span class="hljs-comment">//数字栈</span>        Stack&lt;Character&gt; op2=<span class="hljs-keyword">new</span> Stack&lt;Character&gt;();<span class="hljs-comment">//字符栈</span>        HashMap&lt;Character,Integer&gt; <span class="hljs-built_in">map</span>=<span class="hljs-keyword">new</span> HashMap&lt;Character,Integer&gt;();        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">'+'</span>,<span class="hljs-number">1</span>);        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">'-'</span>,<span class="hljs-number">1</span>);        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">'('</span>,<span class="hljs-number">-1</span>);        Integer t=<span class="hljs-number">0</span>;        <span class="hljs-keyword">int</span> flag=<span class="hljs-number">1</span>;        Character ch;        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)        &#123;             ch=s.charAt(i);            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!Character.isDigit(ch))            &#123;                op1.push(t);                t=<span class="hljs-number">0</span>;                flag=<span class="hljs-number">1</span>;            &#125;            <span class="hljs-keyword">if</span>(Character.isDigit(ch))            &#123;                flag=<span class="hljs-number">0</span>;                t=t*<span class="hljs-number">10</span>+(<span class="hljs-keyword">int</span>)(ch-<span class="hljs-string">'0'</span>);            &#125;            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>)||ch.equals(<span class="hljs-string">'+'</span>))            &#123;                flag=<span class="hljs-number">1</span>;                <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!(<span class="hljs-built_in">map</span>.<span class="hljs-built_in">get</span>(op2.<span class="hljs-built_in">peek</span>())&lt;<span class="hljs-built_in">map</span>.<span class="hljs-built_in">get</span>(ch)))                &#123;                    <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();                    op1.pop();                    <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();                    op1.pop();                    Character c=op2.<span class="hljs-built_in">peek</span>();                    op2.pop();                    op1.push(cal(c,b,a));                &#125;                op2.push(ch);            &#125;            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'('</span>))            &#123;                flag=<span class="hljs-number">1</span>;                op2.push(ch);            &#125;            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">')'</span>))            &#123;                flag=<span class="hljs-number">1</span>;                <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!op2.<span class="hljs-built_in">peek</span>().equals(<span class="hljs-string">'('</span>))                &#123;                    <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();                    op1.pop();                    <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();                    op1.pop();                    Character c=op2.<span class="hljs-built_in">peek</span>();                    op2.pop();                    op1.push(cal(c,b,a));                &#125;                op2.pop();            &#125;        &#125;        <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>)        &#123;            op1.push(t);        &#125;         <span class="hljs-keyword">while</span>(!op2.isEmpty())        &#123;            <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();            op1.pop();            <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();            op1.pop();            Character c=op2.<span class="hljs-built_in">peek</span>();            op2.pop();            op1.push(cal(c,b,a));        &#125;        <span class="hljs-keyword">return</span> op1.<span class="hljs-built_in">peek</span>();    &#125;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">cal</span><span class="hljs-params">(Character ch,Integer num,Integer num1)</span></span><span class="hljs-function">    </span>&#123;        <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>))        <span class="hljs-keyword">return</span> num-num1;        <span class="hljs-keyword">else</span>         <span class="hljs-keyword">return</span> num+num1;    &#125;&#125;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>栈</tag>
+      
+      <tag>Leetcode</tag>
+      
+      <tag>java</tag>
+      
+      <tag>表达式计算</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>统计学习方法课后作业</title>
+    <link href="/2020/05/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/"/>
+    <url>/2020/05/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/</url>
+    
+    <content type="html"><![CDATA[<h2 id="第九章EM算法及其推广"><a href="#第九章EM算法及其推广" class="headerlink" title="第九章EM算法及其推广"></a>第九章EM算法及其推广</h2><pre><code class="hljs routeros">9.1import numpy as npy=[1,1,0,1,0,0,1,0,1,1]<span class="hljs-attribute">pai</span>=0.46<span class="hljs-attribute">p</span>=0.55<span class="hljs-attribute">q</span>=0.67<span class="hljs-attribute">theta</span>=2<span class="hljs-keyword">while</span>(theta&gt;0.0001):    u_next=[]    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span>  range(len(y)):        <span class="hljs-attribute">a</span>=pai*(p**y[i])*((1-p)**(1-y[i]))        b=(1-pai)*(q**y[i])*((1-q)**(1-y[i]))        u_next.append(a/(a+b))    <span class="hljs-attribute">pai_next</span>=0    <span class="hljs-attribute">p_next</span>=0    <span class="hljs-attribute">q_next</span>=0    <span class="hljs-attribute">tmp</span>=0    <span class="hljs-attribute">pai_next</span>=np.mean(u_next)    p_next = sum(np.multiply(u_next,y))/sum(u_next)    tmp=[1-u_next[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(y))]    q_next = sum(np.multiply(tmp,y))/sum(tmp)        <span class="hljs-builtin-name">print</span>(pai_next)    <span class="hljs-builtin-name">print</span>(p_next)    <span class="hljs-builtin-name">print</span>(q_next)    <span class="hljs-builtin-name">print</span>(<span class="hljs-string">"\n"</span>)    <span class="hljs-attribute">theta</span>=abs(pai_next-pai)+abs(p_next-p)+abs(q_next-q)    <span class="hljs-attribute">pai</span>=pai_next    <span class="hljs-attribute">p</span>=p_next    <span class="hljs-attribute">q</span>=q_next</code></pre><p>求得<br><pre><code class="hljs angelscript"><span class="hljs-number">0.461862835113919</span><span class="hljs-number">0.5345950037850112</span><span class="hljs-number">0.6561346417857326</span><span class="hljs-number">0.46186283511391907</span><span class="hljs-number">0.5345950037850112</span><span class="hljs-number">0.6561346417857326</span></code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>统计学习方法，作业</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>神经网络初始化与xavier初始化</title>
+    <link href="/2020/05/18/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8Exavier%E5%88%9D%E5%A7%8B%E5%8C%96/"/>
+    <url>/2020/05/18/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8Exavier%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://zhuanlan.zhihu.com/p/27919794" target="_blank" rel="noopener">xavier初始化</a> </p><p><a href="https://blog.csdn.net/manong_wxd/article/details/78734725" target="_blank" rel="noopener">深度学习初始化总结</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>初始化，xavier</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>矩阵的范数</title>
+    <link href="/2020/05/18/%E7%9F%A9%E9%98%B5%E7%9A%84%E8%8C%83%E6%95%B0/"/>
+    <url>/2020/05/18/%E7%9F%A9%E9%98%B5%E7%9A%84%E8%8C%83%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<p>关于矩阵的范数的一些总结</p><p>一范数，二范数，闵可夫斯基范数这些都比较常见，一般不用多说</p><h2 id="核范数"><a href="#核范数" class="headerlink" title="核范数"></a>核范数</h2><p>代表矩阵的奇异值之和，是用来约束低秩的一种范数，代表rank(w)的凸近似。</p><script type="math/tex; mode=display">||X||_*=\sum_{i}^{}\sigma_i(x)</script><h2 id="F范数"><a href="#F范数" class="headerlink" title="F范数"></a>F范数</h2><p>即为就是对应元素的平方和再开方。<br>f范数实际上就是衡量这个矩阵和对应的零矩阵的距离，</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>深度学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>数学</tag>
+      
+      <tag>范数</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>矩阵求导</title>
+    <link href="/2020/05/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/"/>
+    <url>/2020/05/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.cnblogs.com/pinard/p/10825264.html" target="_blank" rel="noopener">参考文章</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>矩阵求导</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>在hexo博客中写数学公式</title>
+    <link href="/2020/05/18/%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E5%86%99%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"/>
+    <url>/2020/05/18/%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E5%86%99%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<h2 id="这个网站值得借鉴"><a href="#这个网站值得借鉴" class="headerlink" title="这个网站值得借鉴"></a><a href="https://blog.csdn.net/Aoman_Hao/article/details/81381507" target="_blank" rel="noopener">这个网站值得借鉴</a></h2>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>图像的k空间</title>
+    <link href="/2020/05/18/%E5%9B%BE%E5%83%8F%E7%9A%84k%E7%A9%BA%E9%97%B4/"/>
+    <url>/2020/05/18/%E5%9B%BE%E5%83%8F%E7%9A%84k%E7%A9%BA%E9%97%B4/</url>
+    
+    <content type="html"><![CDATA[<p>关于图像的k空间到底是什么意思呢，总的来说就算傅里叶域变换后的一种图，不能让人感性的感受到图，但是经过傅里叶反变换，总是能够变回原来的图像<br>具体可见下面两篇博客<br><a href="https://wenku.baidu.com/view/9664b875a300a6c30c229f73.html" target="_blank" rel="noopener">k空间</a><br><a href="https://chunshan.github.io/MRI-QA/k-space/what-is-k-space.html" target="_blank" rel="noopener">k空间</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>图像处理，k空间</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>矩阵的TV最小化</title>
+    <link href="/2020/05/18/TV%E6%9C%80%E5%B0%8F%E5%8C%96/"/>
+    <url>/2020/05/18/TV%E6%9C%80%E5%B0%8F%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<h2 id="在一个图像处理问题中如何有效的去除图像的噪声"><a href="#在一个图像处理问题中如何有效的去除图像的噪声" class="headerlink" title="在一个图像处理问题中如何有效的去除图像的噪声"></a>在一个图像处理问题中如何有效的去除图像的噪声</h2><p>可以求解这样一个问题<br>最小化图像的TV,TV即为梯度图像的一范数，当然需要加上正则化项，如果不加的化，全黑图才是最优的一个解，加上正则化之后可以获得图像的分块光滑图像，事实证明，效果很好。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>图像处理</tag>
+      
+      <tag>TV最小化</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>softmax和SVM损失函数</title>
+    <link href="/2020/05/18/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/"/>
+    <url>/2020/05/18/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="softmax可以参考"><a href="#softmax可以参考" class="headerlink" title="softmax可以参考"></a>softmax可以参考</h2><p><a href="https://blog.csdn.net/Hai0bin1Wang2/article/details/100901006" target="_blank" rel="noopener">softmax可以参考</a></p><p><a href="https://blog.csdn.net/weixin_38278334/article/details/83002748" target="_blank" rel="noopener">softmax可以参考</a><br><pre><code class="hljs stan">主要要理解熵的原理，以及交叉熵。以及<span class="hljs-built_in">softmax</span>的正则化的内容</code></pre></p><h2 id="SVM损失函数可以参考"><a href="#SVM损失函数可以参考" class="headerlink" title="SVM损失函数可以参考"></a>SVM损失函数可以参考</h2><p><a href="https://www.cnblogs.com/hoey-ge/p/5587383.html" target="_blank" rel="noopener">SVM损失函数可以参考</a><br><pre><code class="hljs plain">主要是要比正确分类的类别多出一个边界出来</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>softmax</tag>
+      
+      <tag>SVM损失</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Numpy中矩阵与向量的加法</title>
+    <link href="/2020/05/18/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/"/>
+    <url>/2020/05/18/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<p>在Numpy中，矩阵与向量相加时，矩阵的每一行与向量相加，即要求矩阵的列数与向量的维数相等。<br><pre><code class="hljs angelscript"><span class="hljs-keyword">import</span> numpy as npx = np.<span class="hljs-built_in">array</span>([[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]])# <span class="hljs-built_in">array</span>([[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>],#       [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]])y = np.<span class="hljs-built_in">array</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>])# <span class="hljs-built_in">array</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>])z = np.<span class="hljs-built_in">array</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])# <span class="hljs-built_in">array</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])# x + y 会报错x + z# <span class="hljs-built_in">array</span>([[<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>],#       [<span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>]])</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>矩阵加法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>matlab并行</title>
+    <link href="/2020/05/18/matlab%E5%B9%B6%E8%A1%8C/"/>
+    <url>/2020/05/18/matlab%E5%B9%B6%E8%A1%8C/</url>
+    
+    <content type="html"><![CDATA[<h2 id="parfor-matlab用法"><a href="#parfor-matlab用法" class="headerlink" title="parfor matlab用法"></a>parfor matlab用法</h2><pre><code class="hljs angelscript">matlab会弄出几个虚拟的小pc，一个算i=<span class="hljs-number">1</span>:<span class="hljs-number">30</span>部分循环,一个算i=<span class="hljs-number">50</span>:<span class="hljs-number">80</span>部分循环,再来一个算i=<span class="hljs-number">90</span>:<span class="hljs-number">120</span>部分循环，当然数字是我瞎编的，我是想说matlab将一个大循环分成小块，然后这些小块并行计算，最后再合在一起。这样，有一个问题，因为普通的循环是从i=<span class="hljs-number">1</span>算到i=<span class="hljs-number">100</span>，一个接一个算，如果下一次循环要依赖上一次循环怎么办？如果出现这种情况，那就不能用matlab的parfor了。用parfor的前提条件就是，循环的每次迭代独立，不相互依赖。举个简单的例子，计算<span class="hljs-number">1</span>+<span class="hljs-number">2</span>+<span class="hljs-number">3.</span>..+<span class="hljs-number">100</span>就可以用parfor，但是如果计算斐波那契数列的前<span class="hljs-number">100</span>个数字，那就不能用parfor了。</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>matlab</tag>
+      
+      <tag>并行</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>makedown数学公式写法</title>
+    <link href="/2020/05/18/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/"/>
+    <url>/2020/05/18/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<h2 id="此网站可以查看公式写法"><a href="#此网站可以查看公式写法" class="headerlink" title="此网站可以查看公式写法"></a><a href="https://www.zybuluo.com/codeep/note/163962#10%E5%A6%82%E4%BD%95%E8%BE%93%E5%85%A5%E7%B4%AF%E5%8A%A0%E7%B4%AF%E4%B9%98%E8%BF%90%E7%AE%97" target="_blank" rel="noopener">此网站可以查看公式写法</a></h2>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>makedown</tag>
+      
+      <tag>数学公式</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>conda 安装 pytorch</title>
+    <link href="/2020/05/18/hello-world/"/>
+    <url>/2020/05/18/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>关于conda安装pytorch的一些问题的总结</p><h2 id="使用conda安装pytorch较为简单"><a href="#使用conda安装pytorch较为简单" class="headerlink" title="使用conda安装pytorch较为简单"></a>使用conda安装pytorch较为简单</h2><h3 id="在pytorch官网选择自己需要的版本，以及是否带gpu的，我的由于是没有gpu的，所以是"><a href="#在pytorch官网选择自己需要的版本，以及是否带gpu的，我的由于是没有gpu的，所以是" class="headerlink" title="在pytorch官网选择自己需要的版本，以及是否带gpu的，我的由于是没有gpu的，所以是"></a>在<a href="https://pytorch.org/" target="_blank" rel="noopener">pytorch官网</a>选择自己需要的版本，以及是否带gpu的，我的由于是没有gpu的，所以是</h3><pre><code class="hljs cmake">conda <span class="hljs-keyword">install</span> pytorch torchvision cpuonly -c pytorch</code></pre><h1 id="但是下载的速度会很慢，而且会出现httperror-这时可以考虑更换源，选择国内的镜像源，例如清华的镜像"><a href="#但是下载的速度会很慢，而且会出现httperror-这时可以考虑更换源，选择国内的镜像源，例如清华的镜像" class="headerlink" title="但是下载的速度会很慢，而且会出现httperror,这时可以考虑更换源，选择国内的镜像源，例如清华的镜像"></a>但是下载的速度会很慢，而且会出现httperror,这时可以考虑更换源，选择国内的镜像源，例如清华的镜像</h1><h3 id="更换镜像"><a href="#更换镜像" class="headerlink" title="更换镜像"></a>更换镜像</h3><pre><code class="hljs bash">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/conda config --<span class="hljs-built_in">set</span> show_channel_urls yesconda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/</code></pre><h3 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h3><pre><code class="hljs bash">import torch</code></pre><p>成功后代表安装成功</p><p>更多信息: <a href="https://thesakura.github.io" target="_blank" rel="noopener">我的博客</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>python</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>conda</tag>
+      
+      <tag>pytorch</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>使用github+hexo部署博客</title>
+    <link href="/2020/05/18/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    <url>/2020/05/18/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.jianshu.com/p/189fd945f38f" target="_blank" rel="noopener">可见这篇博客</a></p><p>更多信息: <a href="https://thesakura.github.io" target="_blank" rel="noopener">我的博客</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>博客</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>github</tag>
+      
+      <tag>hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>图像生成</title>
+    <link href="/2020/05/18/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/"/>
+    <url>/2020/05/18/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/</url>
+    
+    <content type="html"><![CDATA[<p>可以参考这个博客<br><a href="https://blog.csdn.net/poulang5786/article/details/80766498" target="_blank" rel="noopener">图像生成cs231</a></p><p>同时这个人还总结了cs231的很多内容，可以都参考一下</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>cs231</tag>
+      
+      <tag>图像生成</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
