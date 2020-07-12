@@ -204,7 +204,7 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>最长上升序列<br>最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂度和N的空间复杂度。这种方法是最朴素直观的，一定要理解。它非常简单，因此很少有题目直接能够这么做。大部分相关题目需要进一步优化，也就是有名的单调队列优化，能够把复杂度优化到nlogn。</p>
+              <h2 id="最长上升序列"><a href="#最长上升序列" class="headerlink" title="最长上升序列"></a>最长上升序列</h2><p>最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂度和N的空间复杂度。这种方法是最朴素直观的，一定要理解。它非常简单，因此很少有题目直接能够这么做。大部分相关题目需要进一步优化，也就是有名的单调队列优化，能够把复杂度优化到nlogn。</p>
 <p>说单调队列优化之前必须明白一个贪心策略。因为要求的是最长上升序列，那么很显然长度为k的上升序列的最大值（最后一个数）越小越好，这样后面的数才有更大的概率比它大。如果我们记录下来不同长度的上升序列的最后一个数能达到的最小值，那么对于后续每个数t，它要么能放到某个长度为y的序列之后，组成长度为y+1的上升序列，要么放到某个长度为x的序列后面，把长度为x+1的序列的最大值替换成t。同时我们可以发现，如果x&lt;y，那么长度为x序列的最后一个数一定比长度为y的序列最后一个数小。因此这个上升序列我们可以用一个数组来维护（所谓的单调队列），数组下标就代表序列长度。opt[i]=t表示长度为i的上升序列最后一个数最小是t。那么当我们在面对后续某个数x时，可以对单调队列opt进行二分，把它插到对应的位置。因此总体复杂度就是NlogN。</p>
 <pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;
 <span class="hljs-keyword">public</span>:
@@ -280,11 +280,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/leetcode/">leetcode</a>
+                      <a class="hover-with-bg" href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
                     
                       <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+                      <a class="hover-with-bg" href="/tags/leetcode/">leetcode</a>
                     
                   </div>
                 
@@ -296,6 +296,12 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
+                    
+                      <a href="/2020/07/12/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">1143. 最长公共子序列</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-6">
@@ -568,20 +574,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
