@@ -211,7 +211,7 @@
 <p>我需要最少哪些数据，然后经过一些比较就能得出最终结果？<br>这些数据的求解是否可以用同样的方法分而治之？<br>过程中的运算结果如何保存复用？<br>当然以上内容看起来比较抽象，虽然它深刻地揭露了动态规划的本质，但是如果临场要去想明白这些问题，还是有些难度。如果只是针对比赛和面试，就像前面说的，DP题型是有限的。只要刷的题目足够多，总结出几个经典模型，剩下的都是些变种+优化而已。</p>
 <p>一般来说，动态规划可以分成4个大类:</p>
 <p>线性DP<br>数位dp<br>概率dp等<br>区间DP<br>树型DP<br>背包<br>线性DP就是阶段非常线性直观的模型，比如：最长（上升|下降）序列，最长公共子序列(LCS)等，也有一些简单的递推，甚至都算不上是经典模型。</p>
-<h2 id="线性dp"><a href="#线性dp" class="headerlink" title="线性dp"></a>线性dp</h2><h3 id="最长上升序列"><a href="#最长上升序列" class="headerlink" title="最长上升序列"></a>最长上升序列</h3><p>最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂度和N的空间复杂度。这种方法是最朴素直观的，一定要理解。它非常简单，因此很少有题目直接能够这么做。大部分相关题目需要进一步优化，也就是有名的单调队列优化，能够把复杂度优化到nlogn。<br>相关题目比如：</p>
+<h1 id="线性dp"><a href="#线性dp" class="headerlink" title="线性dp"></a>线性dp</h1><h2 id="最长上升序列"><a href="#最长上升序列" class="headerlink" title="最长上升序列"></a>最长上升序列</h2><p>最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂度和N的空间复杂度。这种方法是最朴素直观的，一定要理解。它非常简单，因此很少有题目直接能够这么做。大部分相关题目需要进一步优化，也就是有名的单调队列优化，能够把复杂度优化到nlogn。<br>相关题目比如：</p>
 <p><a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">300. 最长上升子序列</a>，裸题，但是要击败100%的话，需要单调队列优化。</p>
 <p><a href="https://leetcode-cn.com/problems/russian-doll-envelopes/" target="_blank" rel="noopener">354. 俄罗斯套娃信封问题</a>，这道题还是hard。之前的最长上升序列是一维的，这道题是二维的上升序列，满足Ax&lt;Bx且Ay&lt;By，才可以构成上升序列。那么我们可以根据x进行排序，然后对y求解最长上升子序列。但是这里有个地方需要注意，因为x必须要严格升序，排序之后可能存在(1,1) (1,2) (1,3) (2,4)这样的序列，如果对y进行求解上升序列，会得到4，但是实际应该只是2。为了避免这个问题，在排序时，如果x相等，则y按照降序排列，就可以规避这个问题。</p>
 <p><a href="https://www.luogu.com.cn/problem/P1091" target="_blank" rel="noopener">合唱队形</a>，这道题是要求一个形如1 3 4 7 9 8 6 5 2这样的子序列。先上升再下降，最后求最长的长度。其实解决办法也很简单，先从左到右求出所有的最长上升序列asc[i]，再从右到左求出所有的最长上升序列reverseAcc[i]，最大值就是max(asc[i]+reverseAcc[i])。对算法要能够灵活运用。</p>
@@ -231,7 +231,7 @@
 <p>可以买卖k次股票<br>三个状态，已经买卖k次，持有 不持有股票，第k天为结束天</p>
 <p>卖出股票之后有冷冻期<br>选择三个状态，持有股票，不持有股票，处于冷冻期</p>
 <p>卖出股票之后有手续费<br>选择两个状态，持有股票，不持有股票</p>
-<h2 id="打家劫舍"><a href="#打家劫舍" class="headerlink" title="打家劫舍"></a>打家劫舍</h2>
+<h2 id="打家劫舍"><a href="#打家劫舍" class="headerlink" title="打家劫舍"></a><a href="打家劫舍">打家劫舍</a></h2><h2 id="粉刷房子"><a href="#粉刷房子" class="headerlink" title="粉刷房子"></a><a href="粉刷房子">粉刷房子</a></h2><h2 id="背包九讲"><a href="#背包九讲" class="headerlink" title="背包九讲"></a><a href="背包九讲">背包九讲</a></h2>
             </article>
             <hr>
             <div>
@@ -531,5 +531,20 @@
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
