@@ -168,6 +168,106 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">300. 最长上升子序列</a>
+
+      <a href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最长上升序列最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/">验证集和测试集的区别</a>
+
+      <a href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>验证集和测试集
+
+
+
+类别
+验证集
+测试集
+
+
+
+
+是否被训练到
+否
+否
+
+
+作用
+用于调整超参数
+用于验证泛化能力
+
+
+使用次数
+多次使用，以不断调参
+仅仅一次使用
+
+
+缺陷
+模型在一次次重新手动调参并继续训练后所逼近的验证集，可能只代表一部分非训练集，导致最终训练好的模型泛化性能不够
+测试集为了具有泛化代表性，往往数据量比较大，测试一轮要很久，所以往往只取测试集的其中一小部分作为训练过程中的验</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+              <a href="/tags/%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9C%BA/">验证机和测试机</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/">166. 分数到小数</a>
 
       <a href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/" class="index-excerpt">
@@ -458,82 +558,6 @@
               <a href="/tags/%E6%A0%88/">栈</a>
             
               <a href="/tags/%E6%A0%91/">树</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">232. 用栈实现队列</a>
-
-      <a href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/" class="index-excerpt">
-        
-        
-          
-        
-        <div>双栈实现队列，思路较为简单
-···class MyQueue {    private Stack stack1;    private Stack stack2;    /* Initialize your data structure here. /    public MyQueue() {        stack1=new Stack();        stack2=new Stack</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/">225. 用队列实现栈</a>
-
-      <a href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/" class="index-excerpt">
-        
-        
-          
-        
-        <div>队列实现栈主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。class MyStack &#123;
-    private Queue&lt;Integer&gt; quene=new LinkedList&lt;Integer&gt;();
-    private    int mytop=0;
-    /** Initialize your data str</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
             
           </div>
         
