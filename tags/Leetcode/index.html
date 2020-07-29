@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="chenxiang">
   <meta name="keywords" content="Blog">
-  <title>标签 - Leetcode - TheSakura&#39;s Blog</title>
+  <title>标签 - leetcode - TheSakura&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -160,19 +160,85 @@
                 
 
 <div class="list-group">
-  <p class="h4">共计 1 篇文章</p>
+  <p class="h4">共计 14 篇文章</p>
   <hr>
   
     
       
       <p class="h5">2020</p>
     
-    <a href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">224. 基本计算器</span>
-      <span style="float: right;">05-18</span>
+    <a href="/2020/07/29/%E7%8A%B6%E5%8E%8Bdp/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">状压dp</span>
+      <span style="float: right;">07-29</span>
+    </a>
+  
+    
+    <a href="/2020/07/28/%E6%A0%91%E5%BD%A2dp/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">树形dp</span>
+      <span style="float: right;">07-28</span>
+    </a>
+  
+    
+    <a href="/2020/07/27/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">区间dp</span>
+      <span style="float: right;">07-27</span>
+    </a>
+  
+    
+    <a href="/2020/07/27/%E5%8C%BA%E9%97%B4dp/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">区间dp</span>
+      <span style="float: right;">07-27</span>
+    </a>
+  
+    
+    <a href="/2020/07/22/%E7%9F%A9%E9%98%B5%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">矩阵动态规划</span>
+      <span style="float: right;">07-22</span>
+    </a>
+  
+    
+    <a href="/2020/07/21/%E6%A1%B6%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">桶排序基数排序相关题目</span>
+      <span style="float: right;">07-21</span>
+    </a>
+  
+    
+    <a href="/2020/07/13/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">打家劫舍</span>
+      <span style="float: right;">07-13</span>
+    </a>
+  
+    
+    <a href="/2020/07/13/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">打家劫舍</span>
+      <span style="float: right;">07-13</span>
+    </a>
+  
+    
+    <a href="/2020/07/12/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">股票买卖问题</span>
+      <span style="float: right;">07-12</span>
+    </a>
+  
+    
+    <a href="/2020/07/12/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">1143. 最长公共子序列</span>
+      <span style="float: right;">07-12</span>
     </a>
   
 </div>
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/tags/leetcode/page/2/">2</a><a class="extend next" rel="next" href="/tags/leetcode/page/2/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
 
 
 
@@ -265,7 +331,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签 - Leetcode&nbsp;",
+        "标签 - leetcode&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -310,77 +376,6 @@
         $("body").click(function (e) {
           //需要显示的词语
           var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
-          //设置词语给span标签
-          var $i = $("<span/>").text(a[a_idx]);
-          //下标等于原来下标+1  余 词语总数
-          a_idx = (a_idx + 1) % a.length;
-          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
-          //获取x和y的指针坐标
-          var x = e.pageX, y = e.pageY;
-          //在鼠标的指针的位置给$i定义的span标签添加css样式
-          $i.css({
-            "z-index": 999,
-            "top": y - 20,
-            "left": x,
-            "position": "absolute",
-            "font-weight": "bold",
-            "color": rand_color()
-          });
-          // 随机颜色
-          function rand_color() {
-            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
-          }
-          //在body添加这个标签
-          $("body").append($i);
-          //animate() 方法执行 CSS 属性集的自定义动画。
-          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
-          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
-          $i.animate({
-            //将原来的位置向上移动180
-            "top": y - 180,
-            "opacity": 0
-            //1500动画的速度
-          }, 1500, function () {
-            //时间到了自动删除
-            $i.remove();
-          });
-        });
-      })
-      ;
-    </script>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
-</html>
-��国", "敬业", "诚信", "友善");
           //设置词语给span标签
           var $i = $("<span/>").text(a[a_idx]);
           //下标等于原来下标+1  余 词语总数
