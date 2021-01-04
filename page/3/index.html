@@ -168,20 +168,21 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">300. 最长上升子序列</a>
+      <a class="index-header" href="/2020/07/29/memset%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98/">memset赋值问题</a>
 
-      <a href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/" class="index-excerpt">
+      <a href="/2020/07/29/memset%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98/" class="index-excerpt">
         
         
           
         
-        <div>最长上升序列最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂</div>
+        <div>在memset的赋值问题中，是按字节赋值的，如果是menset(array,1,n*sizeof(int));结果不是每个int变成1，而是变成很大的数，它是将int的每一个字节赋值为1，因此最好只在赋值为0的时候使用。
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
           </div>
         
         
@@ -189,7 +190,203 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+              <a href="/tags/C/">C++</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/29/%E7%8A%B6%E5%8E%8Bdp/">状压dp</a>
+
+      <a href="/2020/07/29/%E7%8A%B6%E5%8E%8Bdp/" class="index-excerpt">
+        
+        
+          
+        
+        <div>状压dp状态压缩动态规划，就是我们俗称的状压DP，是利用计算机二进制的性质来描述状态的一种DP方式。
+很多棋盘问题都运用到了状压，同时，状压也很经常和BFS及DP连用。
+状压dp其实就是将状态压缩成2进制来保存 其特征就是看起来有点像搜索，每个格子的状态只有1或0 ，是另一类非常典型的动态规划
+举个例子：有一个大小为n*n的农田，我们可以在任意处种田，现在来描述一下某一行的某种状态：
+设n = 9</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E7%8A%B6%E5%8E%8Bdp/">状压dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/28/%E6%A0%91%E5%BD%A2dp/">树形dp</a>
+
+      <a href="/2020/07/28/%E6%A0%91%E5%BD%A2dp/" class="index-excerpt">
+        
+        
+          
+        
+        <div>树形dp543. 二叉树的直径这里就是对于每棵树判断两种情况，是选择自己作为深度，祖宗节点作为根节点穿过最长，还是就是自己作为根节点穿过最长呢。于是只需要求子节点的最长的节点长度，然后最后把节点长度减一就可以了。
+class Solution &#123;
+public:
+    int res=0;
+    int dfs(TreeNode* root)
+    &#123;
+        i</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-28
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E6%A0%91%E5%BD%A2dp/">树形dp</a>
+            
+              <a href="/tags/%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5/">邻接矩阵</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/27/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/">区间dp</a>
+
+      <a href="/2020/07/27/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" class="index-excerpt">
+        
+        
+          
+        
+        <div>图像转CT值CT值的单位是Hounsfield，简称为Hu，范围是-1024-3071。用于衡量人体组织对X射线的吸收率，设定水的吸收率为0Hu。
+　在DICOM图像读取的过程中，我们会发现图像的像素值有可能不是这个范围，通常是0-4096，这是我们常见到的像素值或者灰度值，这就需要我们在图像像素值（灰度值）转换为CT值。
+首先，需要读取两个DICOM Tag信息，（0028|1052）：resc</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/27/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+
+      <a href="/2020/07/27/%E5%8C%BA%E9%97%B4dp/" class="index-excerpt">
+        
+        
+          
+        
+        <div>区间dp是线性动态规划的扩展，它在分阶段地划分问题时，与阶段中元素出现的顺序和由前一阶段的哪些元素合并而来由很大的关系。令状态f(i,j)表示将下标位置 i 到 j 的所有元素合并能获得的价值的最大值，那么 f(i,j) = max{f(i,k) + f(k+1, j) + cost}, cost 为将这两组元素合并起来的代价。
+区间 DP 的特点：
+合并：即将两个或多个部分进行整合，当然也可以反</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/22/%E7%9F%A9%E9%98%B5%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">矩阵动态规划</a>
+
+      <a href="/2020/07/22/%E7%9F%A9%E9%98%B5%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="index-excerpt">
+        
+        
+          
+        
+        <div>矩阵动态规划的思路方法方法都是用  dp(i, j)dp(i,j) 表示以 (i, j)(i,j) 为右下角，且只包含 11 的正方形的边长最大值。如果我们能计算出所有 dp(i, j)dp(i,j) 的值，那么其中的最大值即为矩阵中只包含 11 的正方形的边长最大值，其平方即为最大正方形的面积。
+那么如何计算 dpdp 中的每个元素值呢？对于每个位置 (i, j)(i,j)，检查在矩阵中该位置的</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-22
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
             
@@ -205,48 +402,20 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/">验证集和测试集的区别</a>
+      <a class="index-header" href="/2020/07/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%A8%B3%E5%AE%9A%E6%80%A7/">排序算法稳定性</a>
 
-      <a href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+      <a href="/2020/07/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%A8%B3%E5%AE%9A%E6%80%A7/" class="index-excerpt">
         
         
           
         
-        <div>验证集和测试集
-
-
-
-类别
-验证集
-测试集
-
-
-
-
-是否被训练到
-否
-否
-
-
-作用
-用于调整超参数
-用于验证泛化能力
-
-
-使用次数
-多次使用，以不断调参
-仅仅一次使用
-
-
-缺陷
-模型在一次次重新手动调参并继续训练后所逼近的验证集，可能只代表一部分非训练集，导致最终训练好的模型泛化性能不够
-测试集为了具有泛化代表性，往往数据量比较大，测试一轮要很久，所以往往只取测试集的其中一小部分作为训练过程中的验</div>
+        <div>堆排序、快速排序、希尔排序、直接选择排序是不稳定的排序算法，而基数排序、冒泡排序、直接插入排序、折半插入排序、归并排序是稳定的排序算法。首先，排序算法的稳定性大家应该都知道，通俗地讲就是能保证排序前2个相等的数其在序列的前后位置顺序和排序后它们两个的前后位置顺序相同。在简单形式化一下，如果Ai = Aj, Ai原来在位置前，排序后Ai还是要在Aj位置前。其次，说一下稳定性的好处。排序算法如果是稳定</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-21
           </div>
         
         
@@ -254,9 +423,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
             
-              <a href="/tags/%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9C%BA/">验证机和测试机</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
             
           </div>
         
@@ -268,23 +437,21 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/">166. 分数到小数</a>
+      <a class="index-header" href="/2020/07/21/%E6%A1%B6%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE/">桶排序基数排序相关题目</a>
 
-      <a href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/" class="index-excerpt">
+      <a href="/2020/07/21/%E6%A1%B6%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE/" class="index-excerpt">
         
         
           
         
-        <div>166. 分数到小数这道题我认为需要注意的有几个地方
-第一个地方在于除法如何计算，这里我选择的方法是当被除数相同的时候认为是循环小数。
-第二个地方在于结果可能有负数，负数的求模和正数有所不同，需要注意。负数求模是a-(a/b)*b的，有个时候因此会有正负的区分。
-第三个地方在于数字溢出的问题，a=-2147483648, b=-1,a*b是会溢出的，因为会先转成一个整形的数，因此需要转一下long</div>
+        <div>164. 最大间距桶排序第一种方法采用的是桶排序，方法很巧妙。我们可以知道比较排序最好都是nlogn的，所以不能使用，使用桶排序让我们忽略桶中的顺序，只比较桶之间的大小就可以获得On的复杂度。
+那么怎么得到呢，可以得到max,min 然后如果有n个，取一个比平均距离小的内容，为（max-min）/（n）+1,其实也可以加三加四都可以，只需要保证桶内的距离比平均距离小，插值一定在桶间取到就可以，如果</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-12
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-21
           </div>
         
         
@@ -294,47 +461,9 @@
             
               <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E9%99%A4%E6%B3%95/">除法</a>
+              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
             
-              <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-
-      <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
-        
-        
-          
-        
-        <div>设计模式学习[toc]
-设计模式和原则单一职责的原则简单的说就是软件模块应该只有一个被修改的理由。例如Spring中，我们需要有dao 层和service层，而不是把它放在一起，这样后面数据库增加字段，或者业务逻辑更改的时候就不需要修改很多东西，更容易维护。
-开闭原则就是在一个模块完成的之后，就不要去改变它，最好是通过继承和多态来增加功能。所以开闭就是，对外的拓展开放，对外的修改闭合。
-里氏替换原</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+              <a href="/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/">桶排序</a>
             
           </div>
         
@@ -346,94 +475,21 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/">ART算法实现与理解</a>
+      <a class="index-header" href="/2020/07/17/C++%E4%B8%AD%E5%8F%96INF/">C++中取INF</a>
 
-      <a href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" class="index-excerpt">
+      <a href="/2020/07/17/C++%E4%B8%AD%E5%8F%96INF/" class="index-excerpt">
         
         
           
         
-        <div>Code
-这两个图显示了算法的原理，整体的几何意义也较为容易理解···import numpy as npdef ARTMy( A, b, X0, e0):    e=e0+1    i=0    while(e&gt;e0):        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))     </div>
+        <div>int型是4个字bai节 一个字节8个位 0x7f7f7f7f 是十六进制du也就是4个0x7f ,一个0x7f 转化为二进制就zhi是 01111111因为是int型 第一个位是符号位dao ，因而在int 型中 0x7f7f7f7f也就是无穷大的意思通过 #define 将 “INF” 转化为符号常量 代表 0x7f7f7f7f
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ART/">ART</a>
-            
-              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
-
-      <a href="/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/" class="index-excerpt">
-        
-        
-          
-        
-        <div>对同一个超平面，通过比例缩放w和b，函数间隔也会同比例变化。也就是说，对于一个成功划分正负实例的超平面（不一定最优），该平面固定，但是通过缩放w和b，可以使其function margin取任何正值。而我们的目标是找到具有最大margin的超平面。显然通过最大化函数间隔没有意义，因为任何成功划分训练实例的超平面都可以使函数间隔无限大。我们注意到，对一个超平面，函数间隔与∥w∥的比值保持不变，也就是</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-21
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/SVM/">SVM</a>
-            
-              <a href="/tags/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
-            
-              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/">大端和小端</a>
-
-      <a href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/" class="index-excerpt">
-        
-        
-          
-        
-        <div>字节存储顺序主要分为大端序（Big-endian）和小端序（Little-endian），区别如下Big-endian：高位字节存入低地址，低位字节存入高地址Little-endian：低位字节存入低地址，高位字节存入高地址一般来说，x86系列CPU都是Little-endian字节序，PowerPC通常是Big-endian字节序。
-因为网络协议也都是采用Big-endian方式传输数据的，所以</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-17
           </div>
         
         
@@ -443,8 +499,6 @@
             
               <a href="/tags/C/">C++</a>
             
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
           </div>
         
       </div>
@@ -455,22 +509,23 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/">218. 天际线问题</a>
+      <a class="index-header" href="/2020/07/13/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F/">计数排序基数排序和桶排序</a>
 
-      <a href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/" class="index-excerpt">
+      <a href="/2020/07/13/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F/" class="index-excerpt">
         
         
           
         
-        <div>问题的求解方法一其实我们在题目标签看到了Line Sweep，[ 线扫描或扫描线 ] ，扫描线可以想象成一条向右扫过平面的竖直线，也是一个算法，一般是玩图形学的。
-接着上面的步骤，可以通过扫描线算法将两个关键点集合进行合并。
-如下图，扫描线从两个集合的起始点，同时向右移动，接触到第一个关键点，则判断这一个关键点是不是满足天际线的，如果是，则将这个关键点添加到“父”集合中；如果不是，则继续同时移动到</div>
+        <div>计数排序基数排序和桶排序
+这三种方法我经常容易忘记，不太熟悉。总结一下。
+计数排序原理很容易懂就是排序元素的范围我们知道，那么就可以将其放到一个这么大的数组中，然后直接每次从数组中取数丢进排序数组中，这个不是一个比较排序的方法。最坏时间复杂度为O(n+k),空间复杂度也为O(n+k)
+空间复杂度容易理解，但是时间复杂度我一开始以为的是O(n),实际上这是不对的，因为需要考虑到n很小而k很大 n很大</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
           </div>
         
         
@@ -478,86 +533,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
-            
-              <a href="/tags/%E6%89%AB%E6%8F%8F%E7%BA%BF%E7%AE%97%E6%B3%95/">扫描线算法</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/">为啥那么C++pop不返回值</a>
-
-      <a href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/" class="index-excerpt">
-        
-        
-          
-        
-        <div>书上的解释也就是说，为什么先用top（），然后用pop（）来访问和删除站定的元素，而不是把它们合并一个返回类型T的成员函数。
-这种设计有很好的理由。如果pop（）返回栈顶元素，则必须按值返回，而不是按引用返回。按引用返回是不可行的，因为元素
-在栈中已经不存在，必须在按引用返回之前现将其存储到某个地方。如果选用动态内存，除非动态内存最终被删除，否则将导致内存泄露。
-按照数值返回效率很差，因为它包含对</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/pop/">pop</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">145. 二叉树的后序遍历</a>
-
-      <a href="/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" class="index-excerpt">
-        
-        
-          
-        
-        <div>方法后序遍历的麻烦之处在于不知道现在自己是父节点的左节点还是右节点，只有知道才能决定下一步是访问右节点还是根节点，不知道的情况下就不清楚下一步应该访问弹出的栈元素的本身还是它的右节点。而前序遍历和中序遍历是总是只需要弹出栈中的元素，然后访问其右节点即可或者先访问自己再访问其右节点。
-所以方法有三种：
-开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/%E6%A0%91/">树</a>
+              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
             
           </div>
         
@@ -569,7 +545,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

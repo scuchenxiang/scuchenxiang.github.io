@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      120 字
+      124 字
     </span>
   
 
@@ -204,9 +204,27 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p><img src="ART1.png" srcset="/img/loading.gif" alt="alt text" title="Title"><br><img src="ART2.png" srcset="/img/loading.gif" alt="alt text" title="Title"></p>
-<p>这两个图显示了算法的原理，整体的几何意义也较为容易理解<br>···<br>import numpy as np<br>def ART<em>My( A, b, X0, e0):<br>    e=e0+1<br>    i=0<br>    while(e&gt;e0):<br>        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))<br>        X=X0-np.reshape(tmp,(-1,1))<br>        e=np.linalg.norm(X-X0)<br>        X0=X<br>        i=(i+1)%np.shape(A)[0]<br>    print(e)<br>    return X0<br>if <strong>name</strong>==”<em>_main</em></em>“:<br>    A=np.array([[3,1],[1,5]])<br>    b=np.array([[1],[1]])<br>    e0=0.000001<br>    X0=np.array([[0],[0]])<br>    X=ART_My(A,b,X0,e0)<br>    print((X))</p>
-<p>···</p>
+              <h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这两个图显示了算法的原理，整体的几何意义也较为容易理解</p>
+<p><img src="/images/ART1.png" srcset="/img/loading.gif" alt><br><img src="/images/ART2.png" srcset="/img/loading.gif" alt><br><pre><code class="hljs apache"><span class="hljs-attribute">import</span> numpy as np
+<span class="hljs-attribute">def</span> ART_My( A, b, X<span class="hljs-number">0</span>, e<span class="hljs-number">0</span>):
+    <span class="hljs-attribute">e</span>=e<span class="hljs-number">0</span>+<span class="hljs-number">1</span>
+    <span class="hljs-attribute">i</span>=<span class="hljs-number">0</span>
+    <span class="hljs-attribute">while</span>(e&gt;e<span class="hljs-number">0</span>):
+        <span class="hljs-attribute">tmp</span>=((A[i]@X<span class="hljs-number">0</span>-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))
+        <span class="hljs-attribute">X</span>=X<span class="hljs-number">0</span>-np.reshape(tmp,(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))
+        <span class="hljs-attribute">e</span>=np.linalg.norm(X-X<span class="hljs-number">0</span>)
+        <span class="hljs-attribute">X0</span>=X
+        <span class="hljs-attribute">i</span>=(i+<span class="hljs-number">1</span>)%np.shape(A)[<span class="hljs-number">0</span>]
+    <span class="hljs-attribute">print</span>(e)
+    <span class="hljs-attribute">return</span> X<span class="hljs-number">0</span>
+<span class="hljs-attribute">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-attribute">A</span>=np.array([[<span class="hljs-number">3</span>,<span class="hljs-number">1</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">5</span>]])
+    <span class="hljs-attribute">b</span>=np.array([[<span class="hljs-number">1</span>],[<span class="hljs-number">1</span>]])
+    <span class="hljs-attribute">e0</span>=<span class="hljs-number">0</span>.<span class="hljs-number">000001</span>
+    <span class="hljs-attribute">X0</span>=np.array([[<span class="hljs-number">0</span>],[<span class="hljs-number">0</span>]])
+    <span class="hljs-attribute">X</span>=ART_My(A,b,X<span class="hljs-number">0</span>,e<span class="hljs-number">0</span>)
+    <span class="hljs-attribute">print</span>((X))
+    </code></pre></p>
 
             </article>
             <hr>

@@ -168,21 +168,360 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">232. 用栈实现队列</a>
+      <a class="index-header" href="/2020/07/13/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/">背包九讲</a>
 
-      <a href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/" class="index-excerpt">
+      <a href="/2020/07/13/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/" class="index-excerpt">
         
         
           
         
-        <div>双栈实现队列，思路较为简单
-···class MyQueue {    private Stack stack1;    private Stack stack2;    /* Initialize your data structure here. /    public MyQueue() {        stack1=new Stack();        stack2=new Stack</div>
+        <div>背包九讲01背包问题有 N 件物品和一个容量为 V 的背包。放入第 i 件物品耗费的费用是 Ci1，得到的价值是 Wi。求解将哪些物品装入背包可使价值总和最大。递推方程应该是res[i][V]=max(res[i-1][V-ci]+wi,res[i-1][V]);
+可以用滚动数组优化成O(V)空间
+这个空间优化的过程，应该逆序得到，顺序不可以。
+res[V]=max(res[V-ci],res[V</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/">背包九讲</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/13/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/">打家劫舍</a>
+
+      <a href="/2020/07/13/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/" class="index-excerpt">
+        
+        
+          
+        
+        <div>粉刷房子1这个题目leetcode需要会员，题干如下。假如有一排房子，共 n 个，每个房子可以被粉刷成红色、蓝色或者绿色这三种颜色中的一种，你需要粉刷所有的房子并且使其相邻的两个房子颜色不能相同。
+当然，因为市场上不同颜色油漆的价格不同，所以房子粉刷成不同颜色的花费成本也是不同的。每个房子粉刷成不同颜色的花费是以一个 n x 3 的矩阵来表示的。
+例如，costs[0][0] 表示第 0 号房子粉</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/13/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">打家劫舍</a>
+
+      <a href="/2020/07/13/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" class="index-excerpt">
+        
+        
+          
+        
+        <div>打家劫舍1递推公式为d0[i]=d1[i-1]+price,d1[i]=max(d1[i-1],d0[i-1]);可以进行空间优化class Solution &#123;
+public:
+    int rob(vector&lt;int&gt;&amp; nums) 
+    &#123;
+        if(nums.size()==0)
+            return 0;
+   </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/12/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/">股票买卖问题</a>
+
+      <a href="/2020/07/12/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/" class="index-excerpt">
+        
+        
+          
+        
+        <div>股票买卖问题1当前的最大收益只依赖于之前的最小买入价格。只需要记住到目前为止的最小值，然后可以得到每个位置的收益。O(n)class Solution &#123;
+public:
+    int maxProfit(vector&lt;int&gt;&amp; prices) 
+    &#123;
+        int max=0;
+        int len=prices.size()</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划题型总结</a>
+
+      <a href="/2020/07/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="index-excerpt">
+        
+        
+          
+        
+        <div>因为动态规划毕竟要满足：
+阶段性无后效性子问题重叠性因此，能够利用DP来解决的问题实际上是有限的，大部分题目都是针对现有的模型的一些变种，改改题目描述，或者加点限制条件。所以要想攻克DP题目，最根本的就是要充分理解几个常见的DP模型。而要充分理解常见经典DP模型，就需要通过大量的做题和总结，而且二者不可偏废。通过做题进行思考和量的积累，通过总结加深理解和融会贯通进而完成质的提升。
+动态规划是求解一</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/12/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/">1143. 最长公共子序列</a>
+
+      <a href="/2020/07/12/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最长公共子序列最长公共子序列也是线性DP中的一种比较常见的模型。说它是一种“模型”其实有点拔高了，其实它就是一类比较常见的题目。很多题目都是在LCS的基础上进行简单的扩展，或者仅仅就是换一个说法而已。求两个数组的最长公共子序列，最直观地做法就是：设f[i][j]表示S[..i]和T[..j]的最长公共子序列，则有:
+f[i][j] = f[i-1][j-1] + 1 …… S[i]==T[j]f[</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">300. 最长上升子序列</a>
+
+      <a href="/2020/07/12/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最长上升序列最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/">验证集和测试集的区别</a>
+
+      <a href="/2020/07/03/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>验证集和测试集
+
+
+
+类别
+验证集
+测试集
+
+
+
+
+是否被训练到
+否
+否
+
+
+作用
+用于调整超参数
+用于验证泛化能力
+
+
+使用次数
+多次使用，以不断调参
+仅仅一次使用
+
+
+缺陷
+模型在一次次重新手动调参并继续训练后所逼近的验证集，可能只代表一部分非训练集，导致最终训练好的模型泛化性能不够
+测试集为了具有泛化代表性，往往数据量比较大，测试一轮要很久，所以往往只取测试集的其中一小部分作为训练过程中的验</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+              <a href="/tags/%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9C%BA/">验证机和测试机</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/">166. 分数到小数</a>
+
+      <a href="/2020/06/12/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>166. 分数到小数这道题我认为需要注意的有几个地方
+第一个地方在于除法如何计算，这里我选择的方法是当被除数相同的时候认为是循环小数。
+第二个地方在于结果可能有负数，负数的求模和正数有所不同，需要注意。负数求模是a-(a/b)*b的，有个时候因此会有正负的区分。
+第三个地方在于数字溢出的问题，a=-2147483648, b=-1,a*b是会溢出的，因为会先转成一个整形的数，因此需要转一下long</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-12
           </div>
         
         
@@ -192,263 +531,10 @@
             
               <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/">225. 用队列实现栈</a>
-
-      <a href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/" class="index-excerpt">
-        
-        
-          
-        
-        <div>队列实现栈主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。class MyStack &#123;
-    private Queue&lt;Integer&gt; quene=new LinkedList&lt;Integer&gt;();
-    private    int mytop=0;
-    /** Initialize your data str</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/">linux短横线的区别</a>
-
-      <a href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>linux短横线的区别rm -vf ***
-
-tar -xzvf  ***.tar.gz
-
-gcc --version
-
-rm --help
-　　从上面命令我们可以看出，绝大数命令有以下的规则：
-　　①　参数前单杠的表明后面的参数是字符形式；
-　　②　参数前双杠的则表明后面的参数是单词形式
-tar xzvf  ***.tar.gz
-
-tar -xzvf ***.tar.gz
-两种命令行都是行的通的</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">linux</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/">224. 基本计算器</a>
-
-      <a href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/" class="index-excerpt">
-        
-        
-          
-        
-        <div>方法1和方法二：只有加减的话，相当于去掉括号，去掉括号的过程就是，把数字和字符串弹出，然后计算的过程，这个方法比较麻烦，应该可以采用字符串反向便利的方式进行计算，这样计算表达式就要方便很多，从左到右算就可以，如果还有乘除之类的话，那么在过程中应该还要判断字符的优先级，然后进行计算,还有一个需要注意的就是，数字可能有很多位。方法一：
-class Solution &#123;
-    public </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/Leetcode/">Leetcode</a>
-            
-              <a href="/tags/java/">java</a>
-            
-              <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/">表达式计算</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/">统计学习方法课后作业</a>
-
-      <a href="/2020/05/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/" class="index-excerpt">
-        
-        
-          
-        
-        <div>第九章EM算法及其推广9.1
-import numpy as np
-
-y=[1,1,0,1,0,0,1,0,1,1]
-pai=0.46
-p=0.55
-q=0.67
-theta=2
-while(theta&gt;0.0001):
-    u_next=[]
-    for i in  range(len(y)):
-        a=pai*(p**y[i])*((1-p)**(1-y[i]))
- </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%9C%E4%B8%9A/">统计学习方法，作业</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8Exavier%E5%88%9D%E5%A7%8B%E5%8C%96/">神经网络初始化与xavier初始化</a>
-
-      <a href="/2020/05/18/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8Exavier%E5%88%9D%E5%A7%8B%E5%8C%96/" class="index-excerpt">
-        
-        
-          
-        
-        <div>xavier初始化 
-深度学习初始化总结
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8Cxavier/">初始化，xavier</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E7%9F%A9%E9%98%B5%E7%9A%84%E8%8C%83%E6%95%B0/">矩阵的范数</a>
-
-      <a href="/2020/05/18/%E7%9F%A9%E9%98%B5%E7%9A%84%E8%8C%83%E6%95%B0/" class="index-excerpt">
-        
-        
-          
-        
-        <div>关于矩阵的范数的一些总结
-一范数，二范数，闵可夫斯基范数这些都比较常见，一般不用多说
-核范数代表矩阵的奇异值之和，是用来约束低秩的一种范数，代表rank(w)的凸近似。
-||X||_*=\sum_{i}^{}\sigma_i(x)F范数即为就是对应元素的平方和再开方。f范数实际上就是衡量这个矩阵和对应的零矩阵的距离，
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
+              <a href="/tags/%E9%99%A4%E6%B3%95/">除法</a>
             
               <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
             
-              <a href="/tags/%E8%8C%83%E6%95%B0/">范数</a>
-            
           </div>
         
       </div>
@@ -459,21 +545,23 @@ while(theta&gt;0.0001):
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/">矩阵求导</a>
+      <a class="index-header" href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
 
-      <a href="/2020/05/18/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/" class="index-excerpt">
+      <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
         
         
           
         
-        <div>参考文章
-</div>
+        <div>设计模式学习[toc]
+设计模式和原则单一职责的原则简单的说就是软件模块应该只有一个被修改的理由。例如Spring中，我们需要有dao 层和service层，而不是把它放在一起，这样后面数据库增加字段，或者业务逻辑更改的时候就不需要修改很多东西，更容易维护。
+开闭原则就是在一个模块完成的之后，就不要去改变它，最好是通过继承和多态来增加功能。所以开闭就是，对外的拓展开放，对外的修改闭合。
+里氏替换原</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
           </div>
         
         
@@ -481,74 +569,9 @@ while(theta&gt;0.0001):
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%9F%A9%E9%98%B5%E6%B1%82%E5%AF%BC/">矩阵求导</a>
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
             
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E5%86%99%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">在hexo博客中写数学公式</a>
-
-      <a href="/2020/05/18/%E5%9C%A8hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E5%86%99%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="index-excerpt">
-        
-        
-          
-        
-        <div>这个网站值得借鉴</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/hexo/">hexo</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E5%9B%BE%E5%83%8F%E7%9A%84k%E7%A9%BA%E9%97%B4/">图像的k空间</a>
-
-      <a href="/2020/05/18/%E5%9B%BE%E5%83%8F%E7%9A%84k%E7%A9%BA%E9%97%B4/" class="index-excerpt">
-        
-        
-          
-        
-        <div>关于图像的k空间到底是什么意思呢，总的来说就算傅里叶域变换后的一种图，不能让人感性的感受到图，但是经过傅里叶反变换，总是能够变回原来的图像具体可见下面两篇博客k空间k空间
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%EF%BC%8Ck%E7%A9%BA%E9%97%B4/">图像处理，k空间</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
             
           </div>
         
@@ -560,7 +583,7 @@ while(theta&gt;0.0001):
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

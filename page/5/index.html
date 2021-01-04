@@ -168,21 +168,27 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/TV%E6%9C%80%E5%B0%8F%E5%8C%96/">矩阵的TV最小化</a>
+      <a class="index-header" href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/">ART算法实现与理解</a>
 
-      <a href="/2020/05/18/TV%E6%9C%80%E5%B0%8F%E5%8C%96/" class="index-excerpt">
+      <a href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" class="index-excerpt">
         
         
           
         
-        <div>在一个图像处理问题中如何有效的去除图像的噪声可以求解这样一个问题最小化图像的TV,TV即为梯度图像的一范数，当然需要加上正则化项，如果不加的化，全黑图才是最优的一个解，加上正则化之后可以获得图像的分块光滑图像，事实证明，效果很好。
-</div>
+        <div>Code这两个图显示了算法的原理，整体的几何意义也较为容易理解
+import numpy as np
+def ART_My( A, b, X0, e0):
+    e=e0+1
+    i=0
+    while(e&gt;e0):
+        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))
+ </div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
           </div>
         
         
@@ -190,9 +196,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
-            
-              <a href="/tags/TV%E6%9C%80%E5%B0%8F%E5%8C%96/">TV最小化</a>
+              <a href="/tags/ART/">ART</a>
             
               <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
             
@@ -206,23 +210,20 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/">softmax和SVM损失函数</a>
+      <a class="index-header" href="/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
 
-      <a href="/2020/05/18/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" class="index-excerpt">
+      <a href="/2020/05/21/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/" class="index-excerpt">
         
         
           
         
-        <div>softmax可以参考softmax可以参考
-softmax可以参考主要要理解熵的原理，以及交叉熵。以及softmax的正则化的内容
-SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分类的类别多出一个边界出来
-</div>
+        <div>对同一个超平面，通过比例缩放w和b，函数间隔也会同比例变化。也就是说，对于一个成功划分正负实例的超平面（不一定最优），该平面固定，但是通过缩放w和b，可以使其function margin取任何正值。而我们的目标是找到具有最大margin的超平面。显然通过最大化函数间隔没有意义，因为任何成功划分训练实例的超平面都可以使函数间隔无限大。我们注意到，对一个超平面，函数间隔与∥w∥的比值保持不变，也就是</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-21
           </div>
         
         
@@ -230,9 +231,11 @@ SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/softmax/">softmax</a>
+              <a href="/tags/SVM/">SVM</a>
             
-              <a href="/tags/SVM%E6%8D%9F%E5%A4%B1/">SVM损失</a>
+              <a href="/tags/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
             
           </div>
         
@@ -244,27 +247,21 @@ SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">Numpy中矩阵与向量的加法</a>
+      <a class="index-header" href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/">大端和小端</a>
 
-      <a href="/2020/05/18/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/" class="index-excerpt">
+      <a href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/" class="index-excerpt">
         
         
           
         
-        <div>在Numpy中，矩阵与向量相加时，矩阵的每一行与向量相加，即要求矩阵的列数与向量的维数相等。import numpy as np
-
-x = np.array([[1, 2, 3], [4, 5, 6]])
-# array([[1, 2, 3],
-#       [4, 5, 6]])
-y = np.array([1, 2])
-# array([1, 2])
-z = np.array([1, 2, </div>
+        <div>字节存储顺序主要分为大端序（Big-endian）和小端序（Little-endian），区别如下Big-endian：高位字节存入低地址，低位字节存入高地址Little-endian：低位字节存入低地址，高位字节存入高地址一般来说，x86系列CPU都是Little-endian字节序，PowerPC通常是Big-endian字节序。
+因为网络协议也都是采用Big-endian方式传输数据的，所以</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
           </div>
         
         
@@ -272,7 +269,9 @@ z = np.array([1, 2, </div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">矩阵加法</a>
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -284,20 +283,22 @@ z = np.array([1, 2, </div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/matlab%E5%B9%B6%E8%A1%8C/">matlab并行</a>
+      <a class="index-header" href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/">218. 天际线问题</a>
 
-      <a href="/2020/05/18/matlab%E5%B9%B6%E8%A1%8C/" class="index-excerpt">
+      <a href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/" class="index-excerpt">
         
         
           
         
-        <div>parfor matlab用法matlab会弄出几个虚拟的小pc，一个算i=1:30部分循环,一个算i=50:80部分循环,再来一个算i=90:120部分循环，当然数字是我瞎编的，我是想说matlab将一个大循环分成小块，然后这些小块并行计算，最后再合在一起。这样，有一个问题，因为普通的循环是从i=1算到i=100，一个接一个算，如果下一次循环要依赖上一次循环怎么办？如果出现这种情况，那就不能用m</div>
+        <div>问题的求解方法一其实我们在题目标签看到了Line Sweep，[ 线扫描或扫描线 ] ，扫描线可以想象成一条向右扫过平面的竖直线，也是一个算法，一般是玩图形学的。
+接着上面的步骤，可以通过扫描线算法将两个关键点集合进行合并。
+如下图，扫描线从两个集合的起始点，同时向右移动，接触到第一个关键点，则判断这一个关键点是不是满足天际线的，如果是，则将这个关键点添加到“父”集合中；如果不是，则继续同时移动到</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
           </div>
         
         
@@ -305,9 +306,9 @@ z = np.array([1, 2, </div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/matlab/">matlab</a>
+              <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
             
-              <a href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
+              <a href="/tags/%E6%89%AB%E6%8F%8F%E7%BA%BF%E7%AE%97%E6%B3%95/">扫描线算法</a>
             
           </div>
         
@@ -319,20 +320,23 @@ z = np.array([1, 2, </div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/">makedown数学公式写法</a>
+      <a class="index-header" href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/">为啥那么C++pop不返回值</a>
 
-      <a href="/2020/05/18/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/" class="index-excerpt">
+      <a href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/" class="index-excerpt">
         
         
           
         
-        <div>此网站可以查看公式写法</div>
+        <div>书上的解释也就是说，为什么先用top（），然后用pop（）来访问和删除站定的元素，而不是把它们合并一个返回类型T的成员函数。
+这种设计有很好的理由。如果pop（）返回栈顶元素，则必须按值返回，而不是按引用返回。按引用返回是不可行的，因为元素
+在栈中已经不存在，必须在按引用返回之前现将其存储到某个地方。如果选用动态内存，除非动态内存最终被删除，否则将导致内存泄露。
+按照数值返回效率很差，因为它包含对</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
           </div>
         
         
@@ -340,9 +344,9 @@ z = np.array([1, 2, </div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/makedown/">makedown</a>
+              <a href="/tags/%E6%A0%88/">栈</a>
             
-              <a href="/tags/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">数学公式</a>
+              <a href="/tags/pop/">pop</a>
             
           </div>
         
@@ -354,41 +358,34 @@ z = np.array([1, 2, </div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/hello-world/">conda 安装 pytorch</a>
+      <a class="index-header" href="/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">145. 二叉树的后序遍历</a>
 
-      <a href="/2020/05/18/hello-world/" class="index-excerpt">
+      <a href="/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" class="index-excerpt">
         
         
           
         
-        <div>关于conda安装pytorch的一些问题的总结
-使用conda安装pytorch较为简单在pytorch官网选择自己需要的版本，以及是否带gpu的，我的由于是没有gpu的，所以是conda install pytorch torchvision cpuonly -c pytorch
-但是下载的速度会很慢，而且会出现httperror,这时可以考虑更换源，选择国内的镜像源，例如清华的镜像更换镜像c</div>
+        <div>方法后序遍历的麻烦之处在于不知道现在自己是父节点的左节点还是右节点，只有知道才能决定下一步是访问右节点还是根节点，不知道的情况下就不清楚下一步应该访问弹出的栈元素的本身还是它的右节点。而前序遍历和中序遍历是总是只需要弹出栈中的元素，然后访问其右节点即可或者先访问自己再访问其右节点。
+所以方法有三种：
+开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
           </div>
         
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/python/">python</a>
-            
-          </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/conda/">conda</a>
+              <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/pytorch/">pytorch</a>
+              <a href="/tags/%E6%A0%88/">栈</a>
+            
+              <a href="/tags/%E6%A0%91/">树</a>
             
           </div>
         
@@ -400,41 +397,33 @@ z = np.array([1, 2, </div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">使用github+hexo部署博客</a>
+      <a class="index-header" href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">232. 用栈实现队列</a>
 
-      <a href="/2020/05/18/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="index-excerpt">
+      <a href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/" class="index-excerpt">
         
         
           
         
-        <div>可见这篇博客
-更多信息: 我的博客
-</div>
+        <div>双栈实现队列，思路较为简单
+···class MyQueue {    private Stack stack1;    private Stack stack2;    /* Initialize your data structure here. /    public MyQueue() {        stack1=new Stack();        stack2=new Stack</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
           </div>
         
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
-            
-          </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/github/">github</a>
+              <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/hexo/">hexo</a>
+              <a href="/tags/%E6%A0%88/">栈</a>
+            
+              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
             
           </div>
         
@@ -446,16 +435,65 @@ z = np.array([1, 2, </div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">图像生成</a>
+      <a class="index-header" href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/">225. 用队列实现栈</a>
 
-      <a href="/2020/05/18/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/" class="index-excerpt">
+      <a href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/" class="index-excerpt">
         
         
           
         
-        <div>可以参考这个博客图像生成cs231
-同时这个人还总结了cs231的很多内容，可以都参考一下
-</div>
+        <div>队列实现栈主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。class MyStack &#123;
+    private Queue&lt;Integer&gt; quene=new LinkedList&lt;Integer&gt;();
+    private    int mytop=0;
+    /** Initialize your data str</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%A0%88/">栈</a>
+            
+              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/">linux短横线的区别</a>
+
+      <a href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>linux短横线的区别rm -vf ***
+
+tar -xzvf  ***.tar.gz
+
+gcc --version
+
+rm --help
+　　从上面命令我们可以看出，绝大数命令有以下的规则：
+　　①　参数前单杠的表明后面的参数是字符形式；
+　　②　参数前双杠的则表明后面的参数是单词形式
+tar xzvf  ***.tar.gz
+
+tar -xzvf ***.tar.gz
+两种命令行都是行的通的</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -469,9 +507,48 @@ z = np.array([1, 2, </div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/cs231/">cs231</a>
+              <a href="/tags/linux/">linux</a>
             
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">图像生成</a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/">224. 基本计算器</a>
+
+      <a href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/" class="index-excerpt">
+        
+        
+          
+        
+        <div>方法1和方法二：只有加减的话，相当于去掉括号，去掉括号的过程就是，把数字和字符串弹出，然后计算的过程，这个方法比较麻烦，应该可以采用字符串反向便利的方式进行计算，这样计算表达式就要方便很多，从左到右算就可以，如果还有乘除之类的话，那么在过程中应该还要判断字符的优先级，然后进行计算,还有一个需要注意的就是，数字可能有很多位。方法一：
+class Solution &#123;
+    public </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%A0%88/">栈</a>
+            
+              <a href="/tags/Leetcode/">Leetcode</a>
+            
+              <a href="/tags/java/">java</a>
+            
+              <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/">表达式计算</a>
             
           </div>
         
@@ -483,7 +560,7 @@ z = np.array([1, 2, </div>
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/4/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+      <a class="extend prev" rel="prev" href="/page/4/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

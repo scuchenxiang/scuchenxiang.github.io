@@ -168,20 +168,22 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%A8%B3%E5%AE%9A%E6%80%A7/">排序算法稳定性</a>
+      <a class="index-header" href="/2020/11/02/1125.%20%E6%9C%80%E5%B0%8F%E7%9A%84%E5%BF%85%E8%A6%81%E5%9B%A2%E9%98%9F/">1125. 最小的必要团队</a>
 
-      <a href="/2020/07/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%A8%B3%E5%AE%9A%E6%80%A7/" class="index-excerpt">
+      <a href="/2020/11/02/1125.%20%E6%9C%80%E5%B0%8F%E7%9A%84%E5%BF%85%E8%A6%81%E5%9B%A2%E9%98%9F/" class="index-excerpt">
         
         
           
         
-        <div>堆排序、快速排序、希尔排序、直接选择排序是不稳定的排序算法，而基数排序、冒泡排序、直接插入排序、折半插入排序、归并排序是稳定的排序算法。首先，排序算法的稳定性大家应该都知道，通俗地讲就是能保证排序前2个相等的数其在序列的前后位置顺序和排序后它们两个的前后位置顺序相同。在简单形式化一下，如果Ai = Aj, Ai原来在位置前，排序后Ai还是要在Aj位置前。其次，说一下稳定性的好处。排序算法如果是稳定</div>
+        <div>这个题一开始不会做，做出来一直超时，看的别人的思路先把某些技能树是别人子集的人去掉，然后做dp。class Solution &#123;
+public:
+    vector&lt;int&gt; smallestSufficientTeam(vector&lt;string&gt;&amp; req_skills, vector&lt;vector&lt;string&gt;&gt;&amp;</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-21
+            <i class="iconfont icon-date"></i>&nbsp;2020-11-02
           </div>
         
         
@@ -189,47 +191,11 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/21/%E6%A1%B6%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE/">桶排序基数排序相关题目</a>
-
-      <a href="/2020/07/21/%E6%A1%B6%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE/" class="index-excerpt">
-        
-        
-          
-        
-        <div>164. 最大间距桶排序第一种方法采用的是桶排序，方法很巧妙。我们可以知道比较排序最好都是nlogn的，所以不能使用，使用桶排序让我们忽略桶中的顺序，只比较桶之间的大小就可以获得On的复杂度。
-那么怎么得到呢，可以得到max,min 然后如果有n个，取一个比平均距离小的内容，为（max-min）/（n）+1,其实也可以加三加四都可以，只需要保证桶内的距离比平均距离小，插值一定在桶间取到就可以，如果</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-21
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
             
               <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
-            
-              <a href="/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/">桶排序</a>
+              <a href="/tags/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9dp/">状态压缩dp</a>
             
           </div>
         
@@ -241,21 +207,206 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/17/C++%E4%B8%AD%E5%8F%96INF/">C++中取INF</a>
+      <a class="index-header" href="/2020/10/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%A4%96%E6%A8%A1%E5%BC%8F%E3%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%86%85%E6%A8%A1%E5%BC%8F/">数据库的三级模式：外模式、模式和内模式</a>
 
-      <a href="/2020/07/17/C++%E4%B8%AD%E5%8F%96INF/" class="index-excerpt">
+      <a href="/2020/10/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%A4%96%E6%A8%A1%E5%BC%8F%E3%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%86%85%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
         
         
           
         
-        <div>int型是4个字bai节 一个字节8个位 0x7f7f7f7f 是十六进制du也就是4个0x7f ,一个0x7f 转化为二进制就zhi是 01111111因为是int型 第一个位是符号位dao ，因而在int 型中 0x7f7f7f7f也就是无穷大的意思通过 #define 将 “INF” 转化为符号常量 代表 0x7f7f7f7f
+        <div>一、模式（Schema）
+定义：也称逻辑模式，是数据库中全体数据的逻辑结构和特征的描述，是所有用户的公共数据视图。
+理解： ① 一个数据库只有一个模式； ② 是数据库数据在逻辑级上的视图； ③ 数据库模式以某一种数据模型为基础； ④ 定义模式时不仅要定义数据的逻辑结构（如数据记录由哪些数据项构成，数据项的名字、类型、取值范围等），而且要定义与数据有关的安全性、完整性要求，定义这些数据之间的联系。
 </div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-17
+            <i class="iconfont icon-date"></i>&nbsp;2020-10-13
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/mysql/">mysql</a>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/10/13/MySQL%20-%20ON%20&%20WHERE%20%E6%9D%A1%E4%BB%B6%E5%8C%BA%E5%88%AB%E5%92%8C%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F/">MySQL - ON &amp; WHERE 条件区别和执行顺序</a>
+
+      <a href="/2020/10/13/MySQL%20-%20ON%20&%20WHERE%20%E6%9D%A1%E4%BB%B6%E5%8C%BA%E5%88%AB%E5%92%8C%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F/" class="index-excerpt">
+        
+        
+          
+        
+        <div>MySQL - ON &amp; WHERE 条件区别和执行顺序on是在生成临时表的时候使用的条件，不管on的条件是否起到作用，都会返回左表 (table_name1) 的行。where则是在生成临时表之后使用的条件，此时已经不管是否使用了left join了，只要条件不为真的行，全部过滤掉。
+内连接，外连接，笛卡尔积连接自然连接和等值连接1、自然连接(Naturaljoin)是一种特殊的等值连接</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-10-13
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/mysql/">mysql</a>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/10/07/486.%20%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/">486. 预测赢家</a>
+
+      <a href="/2020/10/07/486.%20%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>我考虑的是在i，j区间中获胜的人的分数，题解考虑的是分数差值，更好一点。bool PredictTheWinner(vector&lt;int&gt;&amp; nums) 
+&#123;
+    int len=nums.size();
+    vector&lt;vector&lt;int&gt; &gt; sum(len,vector&lt;int&gt;(len,0));
+    vect</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-10-07
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/%E5%8D%9A%E5%BC%88dp/">博弈dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/10/06/837.%20%E6%96%B021%E7%82%B9/">837. 新21点</a>
+
+      <a href="/2020/10/06/837.%20%E6%96%B021%E7%82%B9/" class="index-excerpt">
+        
+        
+          
+        
+        <div>我们以 N = 21，K = 17，W = 10 来思考。因为我们的结果是求手上点数为 0 时，赢得游戏的概率。
+所以我们需要从后往前逆向求，比如在这里，我们就需要知道在手上点数为 16 时赢得游戏的概率，从而在往前求手上点数为 15 时的概率，最后求出手上点数为 0 时的赢得游戏的概率。
+那我们怎么求点数为 16 时赢得游戏的概率呢？
+这里我们知道手上点数为 17 时赢得游戏的概率为 100%，</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-10-06
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/%E6%A6%82%E7%8E%87dp/">概率dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/10/06/808.%20%E5%88%86%E6%B1%A4/">808. 分汤</a>
+
+      <a href="/2020/10/06/808.%20%E5%88%86%E6%B1%A4/" class="index-excerpt">
+        
+        
+          
+        
+        <div>即使将 N 除以 25 之后，仍然没法在短时间内得到答案，因此我们需要尝试一些别的思路。可以发现，分配操作有 (4, 0)，(3, 1)，(2, 2) 和 (1, 3) 四种，那么在一次分配中，汤 A 平均会少 (4 + 3 + 2 + 1) / 4 = 2.5 份，汤 B 平均会少 (0 + 1 + 2 + 3) / 4 = 1.5 份。因此在 N 非常大的时候，A 会有很大的概率比 B 先分配</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-10-06
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/%E6%A6%82%E7%8E%87dp/">概率dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/08/13/auto%E5%92%8Cdecltype%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/">auto和decltype之间的区别</a>
+
+      <a href="/2020/08/13/auto%E5%92%8Cdecltype%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>auto与decltype区别：1 auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。2 编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。3 d</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-13
           </div>
         
         
@@ -275,23 +426,20 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/13/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F/">计数排序基数排序和桶排序</a>
+      <a class="index-header" href="/2020/08/04/test/">拉东变换</a>
 
-      <a href="/2020/07/13/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F/" class="index-excerpt">
+      <a href="/2020/08/04/test/" class="index-excerpt">
         
         
           
         
-        <div>计数排序基数排序和桶排序
-这三种方法我经常容易忘记，不太熟悉。总结一下。
-计数排序原理很容易懂就是排序元素的范围我们知道，那么就可以将其放到一个这么大的数组中，然后直接每次从数组中取数丢进排序数组中，这个不是一个比较排序的方法。最坏时间复杂度为O(n+k),空间复杂度也为O(n+k)
-空间复杂度容易理解，但是时间复杂度我一开始以为的是O(n),实际上这是不对的，因为需要考虑到n很小而k很大 n很大</div>
+        <div></div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-04
           </div>
         
         
@@ -299,7 +447,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
+            
+              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
             
           </div>
         
@@ -311,23 +461,27 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/13/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/">背包九讲</a>
+      <a class="index-header" href="/2020/08/03/%E6%8B%89%E4%B8%9C%E5%8F%98%E6%8D%A2/">拉东变换</a>
 
-      <a href="/2020/07/13/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/" class="index-excerpt">
+      <a href="/2020/08/03/%E6%8B%89%E4%B8%9C%E5%8F%98%E6%8D%A2/" class="index-excerpt">
         
         
           
         
-        <div>背包九讲01背包问题有 N 件物品和一个容量为 V 的背包。放入第 i 件物品耗费的费用是 Ci1，得到的价值是 Wi。求解将哪些物品装入背包可使价值总和最大。递推方程应该是res[i][V]=max(res[i-1][V-ci]+wi,res[i-1][V]);
-可以用滚动数组优化成O(V)空间
-这个空间优化的过程，应该逆序得到，顺序不可以。
-res[V]=max(res[V-ci],res[V</div>
+        <div>x射线在穿过人体传播的时候，它的衰减是这样的
+$I=I_0 e^{-ux}$
+
+
+
+
+
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-03
           </div>
         
         
@@ -335,11 +489,9 @@ res[V]=max(res[V-ci],res[V</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
             
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/">背包九讲</a>
+              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
             
           </div>
         
@@ -351,22 +503,22 @@ res[V]=max(res[V-ci],res[V</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/13/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/">打家劫舍</a>
+      <a class="index-header" href="/2020/07/29/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/">医学图像相关内容</a>
 
-      <a href="/2020/07/13/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/" class="index-excerpt">
+      <a href="/2020/07/29/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" class="index-excerpt">
         
         
           
         
-        <div>粉刷房子1这个题目leetcode需要会员，题干如下。假如有一排房子，共 n 个，每个房子可以被粉刷成红色、蓝色或者绿色这三种颜色中的一种，你需要粉刷所有的房子并且使其相邻的两个房子颜色不能相同。
-当然，因为市场上不同颜色油漆的价格不同，所以房子粉刷成不同颜色的花费成本也是不同的。每个房子粉刷成不同颜色的花费是以一个 n x 3 的矩阵来表示的。
-例如，costs[0][0] 表示第 0 号房子粉</div>
+        <div>ASTRA Toolbox一个python的库，包含很多的医学图像的算法，比如fbp，sart，生成投影数据等问题。
+还可以进行gpu加速，可以学习学习。
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
           </div>
         
         
@@ -374,169 +526,9 @@ res[V]=max(res[V-ci],res[V</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
             
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/13/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">打家劫舍</a>
-
-      <a href="/2020/07/13/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" class="index-excerpt">
-        
-        
-          
-        
-        <div>打家劫舍1递推公式为d0[i]=d1[i-1]+price,d1[i]=max(d1[i-1],d0[i-1]);可以进行空间优化class Solution &#123;
-public:
-    int rob(vector&lt;int&gt;&amp; nums) 
-    &#123;
-        if(nums.size()==0)
-            return 0;
-   </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/12/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/">股票买卖问题</a>
-
-      <a href="/2020/07/12/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/" class="index-excerpt">
-        
-        
-          
-        
-        <div>股票买卖问题1当前的最大收益只依赖于之前的最小买入价格。只需要记住到目前为止的最小值，然后可以得到每个位置的收益。O(n)class Solution &#123;
-public:
-    int maxProfit(vector&lt;int&gt;&amp; prices) 
-    &#123;
-        int max=0;
-        int len=prices.size()</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划题型总结</a>
-
-      <a href="/2020/07/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="index-excerpt">
-        
-        
-          
-        
-        <div>因为动态规划毕竟要满足：
-阶段性无后效性子问题重叠性因此，能够利用DP来解决的问题实际上是有限的，大部分题目都是针对现有的模型的一些变种，改改题目描述，或者加点限制条件。所以要想攻克DP题目，最根本的就是要充分理解几个常见的DP模型。而要充分理解常见经典DP模型，就需要通过大量的做题和总结，而且二者不可偏废。通过做题进行思考和量的积累，通过总结加深理解和融会贯通进而完成质的提升。
-动态规划是求解一</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/12/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/">1143. 最长公共子序列</a>
-
-      <a href="/2020/07/12/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/" class="index-excerpt">
-        
-        
-          
-        
-        <div>最长公共子序列最长公共子序列也是线性DP中的一种比较常见的模型。说它是一种“模型”其实有点拔高了，其实它就是一类比较常见的题目。很多题目都是在LCS的基础上进行简单的扩展，或者仅仅就是换一个说法而已。求两个数组的最长公共子序列，最直观地做法就是：设f[i][j]表示S[..i]和T[..j]的最长公共子序列，则有:
-f[i][j] = f[i-1][j-1] + 1 …… S[i]==T[j]f[</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/leetcode/">leetcode</a>
+              <a href="/tags/python/">python</a>
             
           </div>
         
@@ -548,7 +540,7 @@ f[i][j] = f[i-1][j-1] + 1 …… S[i]==T[j]f[</div>
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

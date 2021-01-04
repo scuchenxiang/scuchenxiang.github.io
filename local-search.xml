@@ -4,13 +4,373 @@
   
   
   <entry>
-    <title>post_name</title>
-    <link href="/2020/08/04/post-name/"/>
-    <url>/2020/08/04/post-name/</url>
+    <title>177. 第N高的薪水</title>
+    <link href="/2021/01/04/mysql177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/"/>
+    <url>/2021/01/04/mysql177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>编写一个 SQL 查询，获取 Employee 表中第 n 高的薪水（Salary）。</p><p>+——+————+<br>| Id | Salary |<br>+——+————+<br>| 1  | 100    |<br>| 2  | 200    |<br>| 3  | 300    |<br>+——+————+<br>例如上述 Employee 表，n = 2 时，应返回第二高的薪水 200。如果不存在第 n 高的薪水，那么查询应返回 null。</p><p>+————————————+<br>| getNthHighestSalary(2) |<br>+————————————+<br>| 200                    |<br>+————————————+</p><pre><code class="hljs routeros">SELECT     e1.salary<span class="hljs-keyword">FROM</span>     employee e1 JOIN employee e2 ON e1.salary &lt;= e2.salaryGROUP BY     e1.salaryHAVING     count(DISTINCT e2.salary) = N</code></pre>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>mysql</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>601. 体育馆的人流量</title>
+    <link href="/2021/01/04/mysql601.%20%E4%BD%93%E8%82%B2%E9%A6%86%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F/"/>
+    <url>/2021/01/04/mysql601.%20%E4%BD%93%E8%82%B2%E9%A6%86%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F/</url>
+    
+    <content type="html"><![CDATA[<p>表：Stadium<br>+———————-+————-+<br>| Column Name   | Type    |<br>+———————-+————-+<br>| id            | int     |<br>| visit_date    | date    |<br>| people        | int     |<br>+———————-+————-+<br>visit_date 是表的主键<br>每日人流量信息被记录在这三列信息中：序号 (id)、日期 (visit_date)、 人流量 (people)<br>每天只有一行记录，日期随着 id 的增加而增加</p><p>编写一个 SQL 查询以找出每行的人数大于或等于 100 且 id 连续的三行或更多行记录。</p><p>返回按 visit_date 升序排列的结果表。</p><p>查询结果格式如下所示。</p><p>Stadium table:<br>+———+——————+—————-+<br>| id   | visit_date | people    |<br>+———+——————+—————-+<br>| 1    | 2017-01-01 | 10        |<br>| 2    | 2017-01-02 | 109       |<br>| 3    | 2017-01-03 | 150       |<br>| 4    | 2017-01-04 | 99        |<br>| 5    | 2017-01-05 | 145       |<br>| 6    | 2017-01-06 | 1455      |<br>| 7    | 2017-01-07 | 199       |<br>| 8    | 2017-01-09 | 188       |<br>+———+——————+—————-+</p><p>Result table:<br>+———+——————+—————-+<br>| id   | visit_date | people    |<br>+———+——————+—————-+<br>| 5    | 2017-01-05 | 145       |<br>| 6    | 2017-01-06 | 1455      |<br>| 7    | 2017-01-07 | 199       |<br>| 8    | 2017-01-09 | 188       |<br>+———+——————+—————-+<br>id 为 5、6、7、8 的四行 id 连续，并且每行都有 &gt;= 100 的人数记录。<br>请注意，即使第 7 行和第 8 行的 visit_date 不是连续的，输出也应当包含第 8 行，因为我们只需要考虑 id 连续的记录。<br>不输出 id 为 2 和 3 的行，因为至少需要三条 id 连续的记录。</p><pre><code class="hljs mipsasm">select <span class="hljs-keyword">distinct </span><span class="hljs-built_in">t1</span>.* from Stadium <span class="hljs-built_in">t1</span>,Stadium <span class="hljs-built_in">t2</span>, Stadium <span class="hljs-built_in">t3</span> where <span class="hljs-built_in">t1</span>.people&gt;=<span class="hljs-number">100</span> <span class="hljs-keyword">and </span><span class="hljs-built_in">t2</span>.people&gt;=<span class="hljs-number">100</span> <span class="hljs-keyword">and </span><span class="hljs-built_in">t3</span>.people&gt;=<span class="hljs-number">100</span> <span class="hljs-keyword">and </span>( (<span class="hljs-built_in">t1</span>.id=<span class="hljs-built_in">t2</span>.id<span class="hljs-number">-1</span> <span class="hljs-keyword">and </span><span class="hljs-built_in">t2</span>.id=<span class="hljs-built_in">t3</span>.id<span class="hljs-number">-1</span>)<span class="hljs-keyword">or </span>(<span class="hljs-built_in">t1</span>.id=<span class="hljs-built_in">t2</span>.id+<span class="hljs-number">1</span> <span class="hljs-keyword">and </span><span class="hljs-built_in">t2</span>.id=<span class="hljs-built_in">t3</span>.id<span class="hljs-number">-2</span>)<span class="hljs-keyword">or </span>(<span class="hljs-built_in">t1</span>.id=<span class="hljs-built_in">t2</span>.id+<span class="hljs-number">1</span> <span class="hljs-keyword">and </span><span class="hljs-built_in">t2</span>.id=<span class="hljs-built_in">t3</span>.id+<span class="hljs-number">1</span>))<span class="hljs-keyword">order </span><span class="hljs-keyword">by </span>id;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>mysql</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>626. 换座位</title>
+    <link href="/2021/01/04/mysql626.%20%E6%8D%A2%E5%BA%A7%E4%BD%8D/"/>
+    <url>/2021/01/04/mysql626.%20%E6%8D%A2%E5%BA%A7%E4%BD%8D/</url>
+    
+    <content type="html"><![CDATA[<p>小美是一所中学的信息科技老师，她有一张 seat 座位表，平时用来储存学生名字和与他们相对应的座位 id。</p><p>其中纵列的 id 是连续递增的</p><p>小美想改变相邻俩学生的座位。</p><p>你能不能帮她写一个 SQL query 来输出小美想要的结果呢？</p><p>示例：</p><p>+————-+————-+<br>|    id   | student |<br>+————-+————-+<br>|    1    | Abbot   |<br>|    2    | Doris   |<br>|    3    | Emerson |<br>|    4    | Green   |<br>|    5    | Jeames  |<br>+————-+————-+<br>假如数据输入的是上表，则输出结果如下：</p><p>+————-+————-+<br>|    id   | student |<br>+————-+————-+<br>|    1    | Doris   |<br>|    2    | Abbot   |<br>|    3    | Green   |<br>|    4    | Emerson |<br>|    5    | Jeames  |<br>+————-+————-+<br>注意：</p><p>如果学生人数是奇数，则不需要改变最后一个同学的座位。</p><p>我第一次发现mysql还能这样写判断，学习一个。<br><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">id</span>%<span class="hljs-number">2</span>=<span class="hljs-number">0</span>,            <span class="hljs-keyword">id</span><span class="hljs-number">-1</span>,            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">id</span>=(<span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">from</span> seat),            <span class="hljs-keyword">id</span>,            <span class="hljs-keyword">id</span>+<span class="hljs-number">1</span>            ))<span class="hljs-keyword">as</span> <span class="hljs-keyword">id</span>,student         <span class="hljs-keyword">from</span> seat         <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-keyword">id</span>;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>mysql</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>886. 可能的二分法</title>
+    <link href="/2020/12/24/886.%20%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BA%8C%E5%88%86%E6%B3%95/"/>
+    <url>/2020/12/24/886.%20%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BA%8C%E5%88%86%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<p>染色，一个染色成-1，一个染色成1.，出现冲突就false,否则为true。</p><p>我之前只记录单向边，然后dfs中间也没判断，然后就有样例一直过不了，很奇怪。<br><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;    <span class="hljs-built_in">bool</span> ans = <span class="hljs-literal">true</span>;<span class="hljs-keyword">public</span>:    <span class="hljs-built_in">bool</span> possibleBipartition(<span class="hljs-built_in">int</span> N, vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt;&amp; dislikes) &#123;        <span class="hljs-keyword">if</span>(dislikes.size() &lt;= <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;        vector&lt;<span class="hljs-built_in">int</span>&gt; color(N+<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);        vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt; link(N+<span class="hljs-number">1</span>);        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">auto</span>&amp; d : dislikes)<span class="hljs-comment">//建图</span>        &#123;            link[d[<span class="hljs-number">0</span>]].push_back(d[<span class="hljs-number">1</span>]);            link[d[<span class="hljs-number">1</span>]].push_back(d[<span class="hljs-number">0</span>]);<span class="hljs-comment">//这里反向的也要选择不然容易出错</span>        &#125;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i = <span class="hljs-number">1</span>; i &lt;= N; i++)        &#123;            <span class="hljs-keyword">if</span>(color[i] == <span class="hljs-number">0</span>&amp;&amp;link[i].size()!=<span class="hljs-number">0</span>)<span class="hljs-comment">//未着色的</span>            &#123;                color[i] = <span class="hljs-number">1</span>;<span class="hljs-comment">//着色为1</span>                dfs(link,i, <span class="hljs-number">1</span>, color);                <span class="hljs-keyword">if</span>(!ans)                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;            &#125;        &#125;        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    &#125;    <span class="hljs-built_in">void</span> dfs(vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt;&amp; link,<span class="hljs-built_in">int</span> id, <span class="hljs-built_in">int</span> col, vector&lt;<span class="hljs-built_in">int</span>&gt; &amp;color)    &#123;        <span class="hljs-keyword">if</span>(!ans) <span class="hljs-keyword">return</span>;        <span class="hljs-built_in">int</span> nextcol = -col;<span class="hljs-comment">//跟我相连的(不喜欢的人)颜色相反</span>        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;link[id].size();i++)        &#123;            <span class="hljs-keyword">if</span>(color[link[id][i]] == col)<span class="hljs-comment">//颜色相同，出错</span>                ans = <span class="hljs-literal">false</span>;            <span class="hljs-keyword">if</span>(color[link[id][i]] == <span class="hljs-number">0</span>)<span class="hljs-comment">//没有访问过的，继续着色</span>            &#123;                color[link[id][i]] = nextcol;                dfs(link,link[id][i], nextcol, color);            &#125;        &#125;    &#125;&#125;;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>图</tag>
+      
+      <tag>dfs</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>127. 单词接龙</title>
+    <link href="/2020/12/24/127.%20%E5%8D%95%E8%AF%8D%E6%8E%A5%E9%BE%99/"/>
+    <url>/2020/12/24/127.%20%E5%8D%95%E8%AF%8D%E6%8E%A5%E9%BE%99/</url>
+    
+    <content type="html"><![CDATA[<p>我一开始用的dfs，然后超时了，剪支了还是超时，写普通的广度优先搜索还是超时，<br>这个是双向的bfs.</p><p>具体地，可以创建虚拟节点。对于单词 hit，我们创建三个虚拟节点 <em>it、h</em>t、hi*，并让 hit 向这三个虚拟节点分别连一条边即可。如果一个单词能够转化为 hit，那么该单词必然会连接到这三个虚拟节点之一。对于每一个单词，我们枚举它连接到的虚拟节点，把该单词对应的 id 与这些虚拟节点对应的 id 相连即可。</p><p>最后我们将起点加入队列开始广度优先搜索，当搜索到终点时，我们就找到了最短路径的长度。注意因为添加了虚拟节点，所以我们得到的距离为实际最短路径长度的两倍。同时我们并未计算起点对答案的贡献，所以我们应当返回距离的一半再加一的结果。</p><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-keyword">public</span>:    <span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt; wordId;    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; link;    <span class="hljs-keyword">int</span> nodeNum = <span class="hljs-number">0</span>;    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addword</span><span class="hljs-params">(<span class="hljs-built_in">string</span> &amp; s)</span></span><span class="hljs-function">    </span>&#123;        <span class="hljs-keyword">if</span>(!wordId.count(s))        &#123;            wordId[s]=nodeNum++;            link.emplace_back();        &#125;    &#125;    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">geneword</span><span class="hljs-params">(<span class="hljs-built_in">string</span> &amp; s)</span></span><span class="hljs-function">    </span>&#123;        addword(s);        <span class="hljs-keyword">int</span> n1=wordId[s];        <span class="hljs-keyword">int</span> len=s.<span class="hljs-built_in">size</span>();        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; it : s)        &#123;            <span class="hljs-keyword">char</span> a=it;            it=<span class="hljs-string">&#x27;*&#x27;</span>;            addword(s);            <span class="hljs-keyword">int</span> n2=wordId[s];            it=a;            <span class="hljs-comment">// cout&lt;&lt;1;</span>            link[n1].push_back(n2);            link[n2].push_back(n1);            <span class="hljs-comment">// cout&lt;&lt;2;</span>        &#125;    &#125;    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">ladderLength</span><span class="hljs-params">(<span class="hljs-built_in">string</span> beginWord, <span class="hljs-built_in">string</span> endWord, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;&amp; wordList)</span> </span><span class="hljs-function">    </span>&#123;        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp; <span class="hljs-keyword">word</span> : wordList)        &#123;            geneword(<span class="hljs-keyword">word</span>);        &#125;        geneword(beginWord);        <span class="hljs-keyword">if</span>(!wordId.count(endWord))            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;        <span class="hljs-keyword">int</span> endnum=wordId[endWord];        <span class="hljs-keyword">int</span> beginnum=wordId[beginWord];        <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; qbegin;        <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; qend;        qbegin.push(beginnum);        qend.push(endnum);        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">disbegin</span><span class="hljs-params">(nodeNum+<span class="hljs-number">2</span>,INT_MAX)</span></span>;        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">disend</span><span class="hljs-params">(nodeNum+<span class="hljs-number">2</span>,INT_MAX)</span></span>;        disbegin[beginnum]=<span class="hljs-number">0</span>;        disend[endnum]=<span class="hljs-number">0</span>;        <span class="hljs-keyword">while</span>(!qbegin.empty()&amp;&amp;!qend.empty())        &#123;            <span class="hljs-keyword">int</span> beginlen=qbegin.<span class="hljs-built_in">size</span>();            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;beginlen;i++)            &#123;                <span class="hljs-keyword">int</span> w=qbegin.front();                qbegin.pop();                <span class="hljs-keyword">if</span>(disend[w]!=INT_MAX)                    <span class="hljs-keyword">return</span> (disend[w]+disend[w])/<span class="hljs-number">2</span>+<span class="hljs-number">1</span>;                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;link[w].<span class="hljs-built_in">size</span>();j++)                &#123;                    <span class="hljs-keyword">if</span>(disbegin[link[w][j]]==INT_MAX)                    &#123;                        qbegin.push(link[w][j]);                        disbegin[link[w][j]]=disbegin[w]+<span class="hljs-number">1</span>;                    &#125;                &#125;            &#125;            <span class="hljs-keyword">int</span> endlen=qend.<span class="hljs-built_in">size</span>();            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;endlen;i++)            &#123;                <span class="hljs-keyword">int</span> w=qend.front();                qend.pop();                <span class="hljs-keyword">if</span>(disbegin[w]!=INT_MAX)                &#123;                    <span class="hljs-keyword">return</span> (disend[w]+disend[w])/<span class="hljs-number">2</span>+<span class="hljs-number">1</span>;                &#125;                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;link[w].<span class="hljs-built_in">size</span>();j++)                &#123;                    <span class="hljs-keyword">if</span>(disend[link[w][j]]==INT_MAX)                    &#123;                        qend.push(link[w][j]);                        disend[link[w][j]]=disend[w]+<span class="hljs-number">1</span>;                    &#125;                &#125;            &#125;        &#125;        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>leetcode</tag>
+      
+      <tag>图</tag>
+      
+      <tag>bfs</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>1293. 网格中的最短路径</title>
+    <link href="/2020/11/02/1293.%20%E7%BD%91%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/"/>
+    <url>/2020/11/02/1293.%20%E7%BD%91%E6%A0%BC%E4%B8%AD%E7%9A%84%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/</url>
+    
+    <content type="html"><![CDATA[<p>状态空间搜索解题模板<br><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;<span class="hljs-keyword">public</span>:    struct State    &#123;        <span class="hljs-built_in">int</span> x,y;        <span class="hljs-built_in">int</span> r;        State(<span class="hljs-built_in">int</span> x1,<span class="hljs-built_in">int</span> y1,<span class="hljs-built_in">int</span> r1)        &#123;            x=x1;            y=y1;            r=r1;        &#125;    &#125;;    <span class="hljs-built_in">int</span> dx[<span class="hljs-number">4</span>]=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>&#125;;    <span class="hljs-built_in">int</span> dy[<span class="hljs-number">4</span>]=&#123;<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>&#125;;    <span class="hljs-built_in">int</span> shortestPath(vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt;&amp; g, <span class="hljs-built_in">int</span> k)     &#123;        <span class="hljs-built_in">int</span> m=g.size();        <span class="hljs-built_in">int</span> n=g[<span class="hljs-number">0</span>].size();        <span class="hljs-keyword">if</span>(k&gt;=m+n<span class="hljs-number">-3</span>)            <span class="hljs-keyword">return</span> m+n<span class="hljs-number">-2</span>;        vector&lt;vector&lt;vector&lt;<span class="hljs-built_in">bool</span>&gt;&gt;&gt; visited(m, vector&lt;vector&lt;<span class="hljs-built_in">bool</span>&gt;&gt;(n, vector&lt;<span class="hljs-built_in">bool</span>&gt;(k + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)));        queue&lt;State&gt; Q;        Q.emplace(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, k);        <span class="hljs-built_in">int</span> step = <span class="hljs-number">0</span>;        <span class="hljs-keyword">while</span>(!Q.empty()) &#123;            <span class="hljs-built_in">int</span> s = Q.size();            <span class="hljs-keyword">while</span>(s--) &#123;                <span class="hljs-built_in">auto</span> p = Q.front();                Q.pop();                <span class="hljs-built_in">int</span> x = p.x, y = p.y;                <span class="hljs-built_in">int</span> r = p.r;                <span class="hljs-keyword">if</span>(x == m - <span class="hljs-number">1</span> &amp;&amp; y == n - <span class="hljs-number">1</span> &amp;&amp; r &gt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> step;                <span class="hljs-keyword">if</span>(visited[x][y][r] == <span class="hljs-number">1</span>) <span class="hljs-keyword">continue</span>;                visited[x][y][r] = <span class="hljs-number">1</span>;                <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> k = <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">4</span>; k++)                 &#123;                    <span class="hljs-keyword">if</span>(x + dx[k] &gt;= <span class="hljs-number">0</span> &amp;&amp; x + dx[k] &lt; m &amp;&amp; y + dy[k] &gt;= <span class="hljs-number">0</span> &amp;&amp; y + dy[k] &lt; n)                     &#123;                        <span class="hljs-keyword">if</span>(g[x + dx[k]][y + dy[k]] == <span class="hljs-number">1</span> &amp;&amp; r &gt;= <span class="hljs-number">1</span>)                             Q.emplace(x + dx[k], y + dy[k], r - <span class="hljs-number">1</span>);                        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(g[x + dx[k]][y + dy[k]] == <span class="hljs-number">0</span>)                            Q.emplace(x + dx[k], y + dy[k], r);                    &#125;                &#125;            &#125;            step++;        &#125;        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;    &#125;&#125;;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>leetcode</tag>
+      
+      <tag>记忆化搜索</tag>
+      
+      <tag>解题模板</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>901. 股票价格跨度</title>
+    <link href="/2020/11/02/901.%20%E8%82%A1%E7%A5%A8%E4%BB%B7%E6%A0%BC%E8%B7%A8%E5%BA%A6/"/>
+    <url>/2020/11/02/901.%20%E8%82%A1%E7%A5%A8%E4%BB%B7%E6%A0%BC%E8%B7%A8%E5%BA%A6/</url>
+    
+    <content type="html"><![CDATA[<p>答案的题解用的是单调栈<br>我用的不是，但是总体来说也是dp的方法，速度好像还快一点的，击败了99.8%。</p><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">StockSpanner</span> &#123;<span class="hljs-keyword">public</span>:        vector&lt;<span class="hljs-built_in">int</span>&gt; num;        vector&lt;<span class="hljs-built_in">int</span>&gt; res;    StockSpanner()     &#123;        num.clear();        res.clear();        num.push_back(<span class="hljs-number">-1</span>);        res.push_back(<span class="hljs-number">0</span>);    &#125;    <span class="hljs-built_in">int</span> next(<span class="hljs-built_in">int</span> price)     &#123;         <span class="hljs-built_in">int</span> len=num.size();        <span class="hljs-built_in">int</span> top=num[len<span class="hljs-number">-1</span>];        <span class="hljs-keyword">if</span>(top&lt;=price)        &#123;            <span class="hljs-built_in">int</span> tmp=<span class="hljs-number">0</span>;<span class="hljs-comment">//最后的结果</span>            <span class="hljs-built_in">int</span> p=len<span class="hljs-number">-1</span>;<span class="hljs-comment">//最后的位置</span>            <span class="hljs-keyword">while</span>(top&lt;=price&amp;&amp;p!=<span class="hljs-number">0</span>)            &#123;                tmp+=res[p];                p=p-res[p];                top=num[p];            &#125;            num.push_back(price);            res.push_back(tmp+<span class="hljs-number">1</span>);            <span class="hljs-keyword">return</span> tmp+<span class="hljs-number">1</span>;        &#125;        <span class="hljs-keyword">else</span>        &#123;            num.push_back(price);            res.push_back(<span class="hljs-number">1</span>);            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;        &#125;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>leetcode</tag>
+      
+      <tag>记忆化搜索</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>576. 出界的路径数</title>
+    <link href="/2020/11/02/576.%20%E5%87%BA%E7%95%8C%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0/"/>
+    <url>/2020/11/02/576.%20%E5%87%BA%E7%95%8C%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<pre><code class="hljs maxima">class Solution &#123;public:    long res[<span class="hljs-number">55</span>][<span class="hljs-number">55</span>][<span class="hljs-number">55</span>];    int findPaths(int m, int n, int N, int i, int j)     &#123;        res[<span class="hljs-number">0</span>][i][j]=<span class="hljs-number">1</span>;        int <span class="hljs-built_in">mod</span> = <span class="hljs-number">1000000007</span>;        <span class="hljs-keyword">for</span>(int <span class="hljs-built_in">num</span>=<span class="hljs-number">1</span>;<span class="hljs-built_in">num</span>&lt;N;<span class="hljs-built_in">num</span>++)        &#123;            <span class="hljs-keyword">for</span>(int <span class="hljs-built_in">row</span>=<span class="hljs-number">0</span>;<span class="hljs-built_in">row</span>&lt;m;<span class="hljs-built_in">row</span>++)            &#123;                <span class="hljs-keyword">for</span>(int <span class="hljs-built_in">col</span>=<span class="hljs-number">0</span>;<span class="hljs-built_in">col</span>&lt;n;<span class="hljs-built_in">col</span>++)                &#123;                    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">row</span>-<span class="hljs-number">1</span>&gt;=<span class="hljs-number">0</span>)                        res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>]=(res[<span class="hljs-built_in">num</span>-<span class="hljs-number">1</span>][<span class="hljs-built_in">row</span>-<span class="hljs-number">1</span>][<span class="hljs-built_in">col</span>]+res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>])<span class="hljs-symbol">%</span>(<span class="hljs-built_in">mod</span>);                    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">row</span>+<span class="hljs-number">1</span>&lt;m)                        res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>]=(res[<span class="hljs-built_in">num</span>-<span class="hljs-number">1</span>][<span class="hljs-built_in">row</span>+<span class="hljs-number">1</span>][<span class="hljs-built_in">col</span>]+res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>])<span class="hljs-symbol">%</span>(<span class="hljs-built_in">mod</span>);                    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">col</span>-<span class="hljs-number">1</span>&gt;=<span class="hljs-number">0</span>)                        res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>]=(res[<span class="hljs-built_in">num</span>-<span class="hljs-number">1</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>-<span class="hljs-number">1</span>]+res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>])<span class="hljs-symbol">%</span>(<span class="hljs-built_in">mod</span>);                    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">col</span>+<span class="hljs-number">1</span>&lt;n)                        res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>]=(res[<span class="hljs-built_in">num</span>-<span class="hljs-number">1</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>+<span class="hljs-number">1</span>]+res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-built_in">col</span>])<span class="hljs-symbol">%</span>(<span class="hljs-built_in">mod</span>);                &#125;            &#125;        &#125;        long result=<span class="hljs-number">0</span>;        <span class="hljs-keyword">for</span>(int <span class="hljs-built_in">num</span>=<span class="hljs-number">0</span>;<span class="hljs-built_in">num</span>&lt;N;<span class="hljs-built_in">num</span>++)        &#123;            <span class="hljs-keyword">for</span>(int <span class="hljs-built_in">row</span>=<span class="hljs-number">0</span>;<span class="hljs-built_in">row</span>&lt;m;<span class="hljs-built_in">row</span>++)            &#123;                result+=res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][<span class="hljs-number">0</span>];                result%=<span class="hljs-built_in">mod</span>;                result+=res[<span class="hljs-built_in">num</span>][<span class="hljs-built_in">row</span>][n-<span class="hljs-number">1</span>];                result%=<span class="hljs-built_in">mod</span>;            &#125;            <span class="hljs-keyword">for</span>(int <span class="hljs-built_in">col</span>=<span class="hljs-number">0</span>;<span class="hljs-built_in">col</span>&lt;n;<span class="hljs-built_in">col</span>++)            &#123;                result+=res[<span class="hljs-built_in">num</span>][<span class="hljs-number">0</span>][<span class="hljs-built_in">col</span>];                result%=<span class="hljs-built_in">mod</span>;                result+=res[<span class="hljs-built_in">num</span>][m-<span class="hljs-number">1</span>][<span class="hljs-built_in">col</span>];                result%=<span class="hljs-built_in">mod</span>;            &#125;            // cout&lt;&lt;result&lt;&lt;endl;        &#125;        <span class="hljs-built_in">return</span> int(result);    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>leetcode</tag>
+      
+      <tag>记忆化搜索</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>LeetCode 794. Valid Tic-Tac-Toe State (medium)</title>
+    <link href="/2020/11/02/LeetCode%20794.%20%E6%9C%89%E6%95%88%E7%9A%84%E4%BA%95%E5%AD%97%E6%B8%B8%E6%88%8F/"/>
+    <url>/2020/11/02/LeetCode%20794.%20%E6%9C%89%E6%95%88%E7%9A%84%E4%BA%95%E5%AD%97%E6%B8%B8%E6%88%8F/</url>
+    
+    <content type="html"><![CDATA[<p>因为X先下，所以如果X和O的数目关系要么相等，要么X比O多1，只有这两种关系，其次再判断如果X已经赢了，O没法下，此时O的数目只能比X小1，或者O赢了，X的数目只能和O一样。<br><pre><code class="hljs angelscript"><span class="hljs-built_in">bool</span> check(vector&lt;<span class="hljs-built_in">string</span>&gt;&amp; board,char key)&#123;    <span class="hljs-keyword">if</span>(board[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]==board[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]&amp;&amp;board[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]==board[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>]&amp;&amp;board[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>]==key)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    <span class="hljs-keyword">if</span>(board[<span class="hljs-number">2</span>][<span class="hljs-number">0</span>]==board[<span class="hljs-number">2</span>][<span class="hljs-number">1</span>]&amp;&amp;board[<span class="hljs-number">2</span>][<span class="hljs-number">1</span>]==board[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>]&amp;&amp;board[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>]==key)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    <span class="hljs-keyword">if</span>(board[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]==board[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]&amp;&amp;board[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]==board[<span class="hljs-number">2</span>][<span class="hljs-number">0</span>]&amp;&amp;board[<span class="hljs-number">2</span>][<span class="hljs-number">0</span>]==key)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    <span class="hljs-keyword">if</span>(board[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>]==board[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>]&amp;&amp;board[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>]==board[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>]&amp;&amp;board[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>]==key)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    <span class="hljs-keyword">if</span>(board[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]==board[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]&amp;&amp;board[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]==board[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>]&amp;&amp;board[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>]==key)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    <span class="hljs-keyword">if</span>(board[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>]==board[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]&amp;&amp;board[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]==board[<span class="hljs-number">2</span>][<span class="hljs-number">0</span>]&amp;&amp;board[<span class="hljs-number">2</span>][<span class="hljs-number">0</span>]==key)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;&#125;<span class="hljs-built_in">bool</span> validTicTacToe(vector&lt;<span class="hljs-built_in">string</span>&gt;&amp; board) &#123;    <span class="hljs-built_in">int</span> ansX=<span class="hljs-number">0</span>,ansO=<span class="hljs-number">0</span>;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">3</span>;i++)    &#123;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">3</span>;j++)        &#123;            <span class="hljs-keyword">if</span>(board[i][j]==<span class="hljs-string">&#x27;X&#x27;</span>)            ansX++;            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(board[i][j]==<span class="hljs-string">&#x27;O&#x27;</span>)            ansO++;        &#125;    &#125;    <span class="hljs-keyword">if</span>(ansX&lt;ansO)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;    <span class="hljs-keyword">if</span>(ansX-ansO&gt;<span class="hljs-number">1</span>)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;    <span class="hljs-keyword">if</span>(check(board,<span class="hljs-string">&#x27;X&#x27;</span>)&amp;&amp;ansX==ansO)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;    <span class="hljs-keyword">if</span>(check(board,<span class="hljs-string">&#x27;O&#x27;</span>)&amp;&amp;ansX!=ansO)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;&#125;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>leetcode</tag>
+      
+      <tag>博弈dp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>1349. 参加考试的最大学生数</title>
+    <link href="/2020/11/02/1349.%20%E5%8F%82%E5%8A%A0%E8%80%83%E8%AF%95%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%95%B0/"/>
+    <url>/2020/11/02/1349.%20%E5%8F%82%E5%8A%A0%E8%80%83%E8%AF%95%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<p>方法就是每次求前n排的人数和前n-1排的人数的关系，重点在于相邻两排斜着的人是否都有，一排是否有相邻的，是否坐在坏的座位上。<br>一一排除。遍历，所有的状态，一排最多2^8个状态。</p><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;<span class="hljs-keyword">public</span>:    <span class="hljs-built_in">int</span> maxStudents(vector&lt;vector&lt;char&gt;&gt;&amp; seats)     &#123;        <span class="hljs-built_in">int</span> m=seats.size();        <span class="hljs-built_in">int</span> n=seats[<span class="hljs-number">0</span>].size();        vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt; dp(m+<span class="hljs-number">1</span>,vector&lt;<span class="hljs-built_in">int</span>&gt;(<span class="hljs-number">1</span>&lt;&lt;n));         <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)        &#123;            <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">0</span>;j&lt;(<span class="hljs-number">1</span>&lt;&lt;n);j++)            &#123;                bitset&lt;<span class="hljs-number">8</span>&gt; bs(j);                <span class="hljs-built_in">bool</span> state=<span class="hljs-literal">true</span>;                <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> k=<span class="hljs-number">0</span>;k&lt;n;k++)                &#123;                    <span class="hljs-keyword">if</span>((seats[i<span class="hljs-number">-1</span>][k]==<span class="hljs-string">&#x27;#&#x27;</span>&amp;&amp;bs[k])||(k&lt;n<span class="hljs-number">-1</span>&amp;&amp;bs[k]&amp;&amp;bs[k+<span class="hljs-number">1</span>]))                    &#123;                        state=<span class="hljs-literal">false</span>;                        <span class="hljs-keyword">break</span>;                    &#125;                &#125;                <span class="hljs-keyword">if</span>(state==<span class="hljs-literal">false</span>)                &#123;                    dp[i][j]=<span class="hljs-number">-1</span>;                    <span class="hljs-keyword">continue</span>;                &#125;                <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> k=<span class="hljs-number">0</span>;k&lt;(<span class="hljs-number">1</span>&lt;&lt;n);k++)                &#123;                    <span class="hljs-keyword">if</span>(dp[i<span class="hljs-number">-1</span>][k]==<span class="hljs-number">-1</span>)                    &#123;                        <span class="hljs-keyword">continue</span>;                    &#125;                    bitset&lt;<span class="hljs-number">8</span>&gt; lastbs(k);                    <span class="hljs-built_in">bool</span> state1=<span class="hljs-literal">true</span>;                    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> r=<span class="hljs-number">0</span>;r&lt;n;r++)                    &#123;                        <span class="hljs-keyword">if</span>(lastbs[r]&amp;&amp;(r&gt;<span class="hljs-number">0</span>&amp;&amp;bs[r<span class="hljs-number">-1</span>]||r&lt;n<span class="hljs-number">-1</span>&amp;&amp;bs[r+<span class="hljs-number">1</span>]))                        &#123;                            state1=<span class="hljs-literal">false</span>;                            <span class="hljs-keyword">break</span>;                        &#125;                    &#125;                    <span class="hljs-keyword">if</span>(state1==<span class="hljs-literal">true</span>)                    &#123;                        dp[i][j]=max(dp[i][j],dp[i<span class="hljs-number">-1</span>][k]+<span class="hljs-built_in">int</span>(bs.count()));                    &#125;                &#125;            &#125;        &#125;        <span class="hljs-built_in">int</span> result=<span class="hljs-number">0</span>;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;(<span class="hljs-number">1</span>&lt;&lt;n);i++)        &#123;            result=max(result,dp[m][i]);        &#125;        <span class="hljs-keyword">return</span> result;    &#125;&#125;;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>leetcode</tag>
+      
+      <tag>状态压缩dp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>1125. 最小的必要团队</title>
+    <link href="/2020/11/02/1125.%20%E6%9C%80%E5%B0%8F%E7%9A%84%E5%BF%85%E8%A6%81%E5%9B%A2%E9%98%9F/"/>
+    <url>/2020/11/02/1125.%20%E6%9C%80%E5%B0%8F%E7%9A%84%E5%BF%85%E8%A6%81%E5%9B%A2%E9%98%9F/</url>
+    
+    <content type="html"><![CDATA[<p>这个题一开始不会做，做出来一直超时，看的别人的思路<br>先把某些技能树是别人子集的人去掉，<br>然后做dp。<br><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;<span class="hljs-keyword">public</span>:    vector&lt;<span class="hljs-built_in">int</span>&gt; smallestSufficientTeam(vector&lt;<span class="hljs-built_in">string</span>&gt;&amp; req_skills, vector&lt;vector&lt;<span class="hljs-built_in">string</span>&gt;&gt;&amp; people) &#123;        <span class="hljs-built_in">int</span> bitmap=<span class="hljs-number">0</span>;<span class="hljs-comment">//代表技能，比如111这种</span>        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;req_skills.size();i++)        &#123;            bitmap=bitmap|(<span class="hljs-number">1</span>&lt;&lt;i);        &#125;        vector&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;&gt; peo2map;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;people.size();i++)        &#123;            <span class="hljs-built_in">int</span> tmp=<span class="hljs-number">0</span>;            <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">0</span>;j&lt;people[i].size();j++)            &#123;                <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> k=<span class="hljs-number">0</span>;k&lt;req_skills.size();k++)                &#123;                    <span class="hljs-keyword">if</span>(people[i][j]==req_skills[k])                    &#123;                        tmp=tmp|(<span class="hljs-number">1</span>&lt;&lt;k);                        <span class="hljs-keyword">break</span>;                    &#125;                &#125;            &#125;            peo2map.push_back(&#123;i,tmp&#125;);        &#125;        vector&lt;<span class="hljs-built_in">bool</span>&gt; issame(peo2map.size(),<span class="hljs-number">0</span>);        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;issame.size();i++)        &#123;            <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=i+<span class="hljs-number">1</span>;j&lt;issame.size();j++)            &#123;                <span class="hljs-keyword">if</span>((peo2map[i].second|peo2map[j].second)==peo2map[i].second)                &#123;                    issame[j]=<span class="hljs-number">1</span>;                &#125;                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>((peo2map[i].second|peo2map[j].second)==peo2map[j].second)                &#123;                    issame[i]=<span class="hljs-number">1</span>;                &#125;            &#125;        &#125;        decltype(peo2map) peo2map1;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;peo2map.size();i++)        &#123;            <span class="hljs-keyword">if</span>(issame[i]==<span class="hljs-number">0</span>)            &#123;                peo2map1.push_back(peo2map[i]);            &#125;        &#125;        vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt;res(bitmap+<span class="hljs-number">1</span>);<span class="hljs-comment">//每一个数组代表一组技能</span>        vector&lt;<span class="hljs-built_in">int</span>&gt;skill(bitmap+<span class="hljs-number">1</span>,<span class="hljs-number">-1</span>);<span class="hljs-comment">//记录每种技能组合对应的人数，最低位表示没有技能</span>        skill[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;<span class="hljs-comment">//位图为00000..的技能被获得，某个技能树需要的人数</span>        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;peo2map1.size();i++)        &#123;            <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">0</span>;j&lt;=bitmap;j++)            &#123;                <span class="hljs-keyword">if</span>(skill[j]==<span class="hljs-number">-1</span>)                    <span class="hljs-keyword">continue</span>;                <span class="hljs-built_in">int</span> newskill=(peo2map1[i].second)|j;                <span class="hljs-keyword">if</span>(skill[newskill]==<span class="hljs-number">-1</span>||skill[newskill]&gt;skill[j]+<span class="hljs-number">1</span>)                &#123;                    skill[newskill]=skill[j]+<span class="hljs-number">1</span>;<span class="hljs-comment">//从j那边技能树走人数会更少</span>                    res[newskill]=res[j];                    res[newskill].push_back(peo2map1[i].first);                &#125;            &#125;        &#125;        <span class="hljs-keyword">return</span> res[bitmap];    &#125;&#125;;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>leetcode</tag>
+      
+      <tag>状态压缩dp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>数据库的三级模式：外模式、模式和内模式</title>
+    <link href="/2020/10/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%A4%96%E6%A8%A1%E5%BC%8F%E3%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%86%85%E6%A8%A1%E5%BC%8F/"/>
+    <url>/2020/10/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%A4%96%E6%A8%A1%E5%BC%8F%E3%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%86%85%E6%A8%A1%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<p>一、模式（Schema）</p><p>定义：也称逻辑模式，是数据库中全体数据的逻辑结构和特征的描述，是所有用户的公共数据视图。</p><p>理解： ① 一个数据库只有一个模式； ② 是数据库数据在逻辑级上的视图； ③ 数据库模式以某一种数据模型为基础； ④ 定义模式时不仅要定义数据的逻辑结构（如数据记录由哪些数据项构成，数据项的名字、类型、取值范围等），而且要定义与数据有关的安全性、完整性要求，定义这些数据之间的联系。</p><p>二、外模式（External Schema）</p><p>定义：也称子模式（Subschema）或用户模式，是数据库用户（包括应用程序员和最终用户）能够看见和使用的局部数据的逻辑结构和特征的描述，是数据库用户的数据视图，是与某一应用有关的数据的逻辑表示。</p><p>理解： ① 一个数据库可以有多个外模式； ② 外模式就是用户视图； ③ 外模式是保证数据安全性的一个有力措施。</p><p>三、内模式（Internal Schema）</p><p>定义：也称存储模式（Storage Schema），它是数据物理结构和存储方式的描述，是数据在数据库内部的表示方式（例如，记录的存储方式是顺序存储、按照B树结构存储还是按hash方法存储；索引按照什么方式组织；数据是否压缩存储，是否加密；数据的存储记录结构有何规定）。</p><p>理解： ① 一个数据库只有一个内模式； ② 一个表可能由多个文件组成，如：数据文件、索引文件。 它是数据库管理系统(DBMS)对数据库中数据进行有效组织和管理的方法 其目的有： ① 为了减少数据冗余，实现数据共享； ② 为了提高存取效率，改善性能。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>mysql</tag>
+      
+      <tag>数据库</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>MySQL - ON &amp; WHERE 条件区别和执行顺序</title>
+    <link href="/2020/10/13/MySQL%20-%20ON%20&amp;%20WHERE%20%E6%9D%A1%E4%BB%B6%E5%8C%BA%E5%88%AB%E5%92%8C%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F/"/>
+    <url>/2020/10/13/MySQL%20-%20ON%20&amp;%20WHERE%20%E6%9D%A1%E4%BB%B6%E5%8C%BA%E5%88%AB%E5%92%8C%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F/</url>
+    
+    <content type="html"><![CDATA[<h2 id="MySQL-ON-amp-WHERE-条件区别和执行顺序"><a href="#MySQL-ON-amp-WHERE-条件区别和执行顺序" class="headerlink" title="MySQL - ON &amp; WHERE 条件区别和执行顺序"></a><a href="https://blog.csdn.net/Dream_Weave/article/details/83542138?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase">MySQL - ON &amp; WHERE 条件区别和执行顺序</a></h2><p>on是在生成临时表的时候使用的条件，不管on的条件是否起到作用，都会返回左表 (table_name1) 的行。<br>where则是在生成临时表之后使用的条件，此时已经不管是否使用了left join了，只要条件不为真的行，全部过滤掉。</p><h2 id="内连接，外连接，笛卡尔积连接"><a href="#内连接，外连接，笛卡尔积连接" class="headerlink" title="内连接，外连接，笛卡尔积连接"></a><a href="https://blog.csdn.net/qq_32763643/article/details/79187931">内连接，外连接，笛卡尔积连接</a></h2><h2 id="自然连接和等值连接"><a href="#自然连接和等值连接" class="headerlink" title="自然连接和等值连接"></a>自然连接和等值连接</h2><p>1、自然连接(Naturaljoin)是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是相同的属性组，并且在结果中把重复的属性列去掉。而等值连接并不去掉重复的属性列。</p><p>2、自然连接：在连接条件中使用等于(=)运算符比较被连接列的列值，但它使用选择列表指出查询结果集合中所包括的列，并删除连接表中的重复列。</p><p>3、自然连接与等值连接</p><p>在连接运算当中，一种最常用的连接是自然连接。</p><p>所谓自然连接就是在等值连接的情况下，当连接属性X与Y具有相同属性组时，把在连接结果中重复的属性列去掉。</p><p>自然连接是在广义笛卡尔积R×S中选出同名属性上符合相等条件元组，再进行投影，去掉重复的同名属性，组成新的关系。</p><p>4、等值连接与自然连接的区别：</p><p>1）等值连接中不要求相等属性值的属性名相同，而自然连接要求相等属性值的属性名必须相同，即两关系只有在同名属性才能进行自然连接。</p><p>2）等值连接不将重复属性去掉，而自然连接去掉重复属性，也可以说，自然连接是去掉重复列的等值连接。</p><p>5、事实上，我们一般使用的都是自然连接。</p><p>select FirstName, LastName, City, State from Person left join Address on Person.PersonId  =Address.PersonId;</p><p>很纠结的一点是为啥这个on不能是where，然后才发现其实因为是因为在address没有的情况下Address.PersonId;这个本身就是不对的，on因为是就算为空也会生成，所以是对的。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>mysql</tag>
+      
+      <tag>数据库</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>486. 预测赢家</title>
+    <link href="/2020/10/07/486.%20%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/"/>
+    <url>/2020/10/07/486.%20%E9%A2%84%E6%B5%8B%E8%B5%A2%E5%AE%B6/</url>
+    
+    <content type="html"><![CDATA[<p>我考虑的是在i，j区间中获胜的人的分数，题解考虑的是分数差值，更好一点。<br><pre><code class="hljs angelscript"><span class="hljs-built_in">bool</span> PredictTheWinner(vector&lt;<span class="hljs-built_in">int</span>&gt;&amp; nums) &#123;    <span class="hljs-built_in">int</span> len=nums.size();    vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt; &gt; sum(len,vector&lt;<span class="hljs-built_in">int</span>&gt;(len,<span class="hljs-number">0</span>));    vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt; &gt; res(len,vector&lt;<span class="hljs-built_in">int</span>&gt;(len,<span class="hljs-number">0</span>));    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;len;i++)    &#123;        sum[i][i]=nums[i];        res[i][i]=nums[i];    &#125;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">2</span>;i&lt;=len;i++)<span class="hljs-comment">//长度</span>    &#123;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">0</span>;i+j<span class="hljs-number">-1</span>&lt;len;j++)<span class="hljs-comment">//左边起始位置</span>        &#123;            sum[j][i+j<span class="hljs-number">-1</span>]=sum[j+<span class="hljs-number">1</span>][i+j<span class="hljs-number">-1</span>]+nums[j];        &#125;    &#125;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">2</span>;i&lt;=len;i++)<span class="hljs-comment">//长度</span>    &#123;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">0</span>;i+j<span class="hljs-number">-1</span>&lt;len;j++)<span class="hljs-comment">//左边起始位置</span>        &#123;            res[j][i+j<span class="hljs-number">-1</span>]=max(sum[j+<span class="hljs-number">1</span>][i+j<span class="hljs-number">-1</span>]-res[j+<span class="hljs-number">1</span>][i+j<span class="hljs-number">-1</span>]+nums[j],sum[j][i+j<span class="hljs-number">-2</span>]-res[j][i+j<span class="hljs-number">-2</span>]+nums[i+j<span class="hljs-number">-1</span>]);        &#125;    &#125;    <span class="hljs-keyword">if</span>(res[<span class="hljs-number">0</span>][len<span class="hljs-number">-1</span>]&gt;=(sum[<span class="hljs-number">0</span>][len<span class="hljs-number">-1</span>]/<span class="hljs-number">2.0</span>))        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;    <span class="hljs-keyword">else</span>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;&#125;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>博弈dp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>837. 新21点</title>
+    <link href="/2020/10/06/837.%20%E6%96%B021%E7%82%B9/"/>
+    <url>/2020/10/06/837.%20%E6%96%B021%E7%82%B9/</url>
+    
+    <content type="html"><![CDATA[<p>我们以 N = 21，K = 17，W = 10 来思考。<br>因为我们的结果是求手上点数为 0 时，赢得游戏的概率。</p><p>所以我们需要从后往前逆向求，比如在这里，我们就需要知道在手上点数为 16 时赢得游戏的概率，从而在往前求手上点数为 15 时的概率，最后求出手上点数为 0 时的赢得游戏的概率。</p><p>那我们怎么求点数为 16 时赢得游戏的概率呢？</p><p>这里我们知道手上点数为 17 时赢得游戏的概率为 100%，所以 K ~ N 区间的赢得游戏的概率为 100%，超过 N 时赢得游戏概率为 0，那么手上点数为 16 时，赢得游戏的概率就是 手上点数为 17 ~ 17 + 10 - 1 的赢得游戏的概率和除以 W，即用一个表达式为 win[16] = sum(win[17] ~ win[26]) / W。</p><p>这里我们可以以 O(1) 的时间复杂度计算 sum(win[i + 1] ~ win[i + W - 1])。<br>我们用一个sumProb = sum(win[17] ~ win[26])<br>然后每次计算<br>win[i] = sumProb / W<br>sumProb = sumProb + win[i] - win[i + W]</p><p>这个题目如果用简单的dp会超时，需要从后向前dp，进行优化，考虑差分。<br><pre><code class="hljs angelscript"><span class="hljs-built_in">double</span> new21Game(<span class="hljs-built_in">int</span> N, <span class="hljs-built_in">int</span> K, <span class="hljs-built_in">int</span> W) &#123;    vector&lt;<span class="hljs-built_in">double</span>&gt; res(K+W+<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);    res[<span class="hljs-number">0</span>]=<span class="hljs-number">1</span>;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=K;i&lt;=N;i++)    &#123;        res[i]=<span class="hljs-number">1</span>;    &#125;    <span class="hljs-built_in">double</span> tmp=N-K+<span class="hljs-number">1</span>;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=K<span class="hljs-number">-1</span>;i&gt;=<span class="hljs-number">0</span>;i--)    &#123;        res[i]=tmp/W;        tmp=tmp-res[i + W] + res[i];    &#125;    <span class="hljs-keyword">return</span> res[<span class="hljs-number">0</span>];&#125;</code></pre></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>概率dp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>808. 分汤</title>
+    <link href="/2020/10/06/808.%20%E5%88%86%E6%B1%A4/"/>
+    <url>/2020/10/06/808.%20%E5%88%86%E6%B1%A4/</url>
+    
+    <content type="html"><![CDATA[<p>即使将 N 除以 25 之后，仍然没法在短时间内得到答案，因此我们需要尝试一些别的思路。可以发现，分配操作有 (4, 0)，(3, 1)，(2, 2) 和 (1, 3) 四种，那么在一次分配中，汤 A 平均会少 (4 + 3 + 2 + 1) / 4 = 2.5 份，汤 B 平均会少 (0 + 1 + 2 + 3) / 4 = 1.5 份。因此在 N 非常大的时候，A 会有很大的概率比 B 先分配完，所有概率应该非常接近 1。事实上，当 N &gt;= 500 <em> 25 时，所求概率已经大于 0.999999 了（可以通过上面的动态规划方法求出），它和 1 的误差（无论是绝对误差还是相对误差）都小于 10^-6。因此在 N &gt;= 500 </em> 25 时，我们只需要输出 1 作为答案即可。在其它的情况下，我们使用动态规划计算出答案。</p><pre><code class="hljs angelscript"><span class="hljs-built_in">double</span> soupServings(<span class="hljs-built_in">int</span> N) &#123;    N=N/<span class="hljs-number">25</span>+(N%<span class="hljs-number">25</span>&gt;<span class="hljs-number">0</span>?<span class="hljs-number">1</span>:<span class="hljs-number">0</span>);    <span class="hljs-keyword">if</span>(N&gt;=<span class="hljs-number">500</span>*<span class="hljs-number">25</span>)        <span class="hljs-keyword">return</span> <span class="hljs-built_in">double</span>(<span class="hljs-number">1</span>);    vector&lt;vector&lt;<span class="hljs-built_in">double</span>&gt; &gt; res(N+<span class="hljs-number">1</span>,vector&lt;<span class="hljs-built_in">double</span>&gt;(N+<span class="hljs-number">1</span>,<span class="hljs-number">0</span>));    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;=N;i++)    &#123;        res[<span class="hljs-number">0</span>][i]=<span class="hljs-number">1.0</span>;    &#125;    res[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]=<span class="hljs-number">0.5</span>;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;=N;i++)    &#123;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>;j&lt;=N;j++)        &#123;            <span class="hljs-built_in">double</span> tmp=res[(i<span class="hljs-number">-4</span>)&lt;<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:(i<span class="hljs-number">-4</span>)][j]+res[(i<span class="hljs-number">-3</span>)&lt;<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:(i<span class="hljs-number">-3</span>)][(j<span class="hljs-number">-1</span>)&lt;<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:(j<span class="hljs-number">-1</span>)];            <span class="hljs-built_in">double</span> tmp1=res[(i<span class="hljs-number">-2</span>)&lt;<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:(i<span class="hljs-number">-2</span>)][(j<span class="hljs-number">-2</span>)&lt;<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:(j<span class="hljs-number">-2</span>)]+res[(i<span class="hljs-number">-1</span>)&lt;<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:(i<span class="hljs-number">-1</span>)][(j<span class="hljs-number">-3</span>)&lt;<span class="hljs-number">0</span>?<span class="hljs-number">0</span>:(j<span class="hljs-number">-3</span>)];            res[i][j]=<span class="hljs-number">0.25</span>*(tmp+tmp1);        &#125;    &#125;    <span class="hljs-keyword">return</span> res[N][N];&#125;</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>概率dp</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>auto和decltype之间的区别</title>
+    <link href="/2020/08/13/auto%E5%92%8Cdecltype%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <url>/2020/08/13/auto%E5%92%8Cdecltype%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<h1 id="auto与decltype区别："><a href="#auto与decltype区别：" class="headerlink" title="auto与decltype区别："></a>auto与decltype区别：</h1><h3 id="1-auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。"><a href="#1-auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。" class="headerlink" title="1 auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。"></a>1 auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。</h3><h3 id="2-编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。"><a href="#2-编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。" class="headerlink" title="2 编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。"></a>2 编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。</h3><h3 id="3-decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。"><a href="#3-decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。" class="headerlink" title="3 decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。"></a>3 decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。</h3><p><a href="https://blog.csdn.net/qq_14982047/article/details/50615422">关于详细的顶层const和底层const可以参考</a></p><p><a href="https://blog.csdn.net/qq_14982047/article/details/50628075">详细的例子参考</a></p><p><a href="https://my.oschina.net/u/3863980/blog/1843956">关于decltype和函数指针迷惑,函数指针参考</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+    </tags>
     
   </entry>
   
@@ -151,7 +511,7 @@
     <link href="/2020/07/27/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/"/>
     <url>/2020/07/27/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/</url>
     
-    <content type="html"><![CDATA[<h1 id="图像转CT值"><a href="#图像转CT值" class="headerlink" title="图像转CT值"></a>图像转CT值</h1><p>CT值的单位是Hounsfield，简称为Hu，范围是-1024-3071。用于衡量人体组织对X射线的吸收率，设定水的吸收率为0Hu。</p><p>　在DICOM图像读取的过程中，我们会发现图像的像素值有可能不是这个范围，通常是0-4096，这是我们常见到的像素值或者灰度值，这就需要我们在图像像素值（灰度值）转换为CT值。</p><p>首先，需要读取两个DICOM Tag信息，（0028|1052）：rescale intercept和（0028|1053）：rescale slope.</p><p>　　然后通过公式：</p><p>　　　　Hu = pixel * slope + intercept</p><p>　　计算得到CT值。</p><h1 id="衰减系数相关"><a href="#衰减系数相关" class="headerlink" title="衰减系数相关"></a>衰减系数相关</h1><p>此外，临床上常用的X射线能量范围在80-140KeV左右，也比较固定。因此，三个因素中的2个固定了，剩下的一个就是物质密度。由此可见，医学CT通常是通过物质密度来对物质进行区分的。现在来看看典型值：在临床X射线能量范围内，水的线性衰减系数为0.2cm-1，肌肉为0.2~0.21cm-1，脂肪为0.18cm-1左右，空气在0左右，骨头在0.3~0.4cm-1左右。记这些值比较麻烦，远不如记100,200这种整数来得容易。观察这些值可以发现，这些值都在水附近，所以临床上通常使用某物质与水之间的相对值来衡量物质的衰减能力，即（物质衰减能力-水衰减能力）/（水衰减能力-空气衰减能力）*1000，其中水衰减能力在0.2左右，空气为0左右。为了纪念第一个发明CT机的科学家Housfield，我们将这个相对值的单位记为HU。而这个相对值即为CT值。这样一来，可以得出：空气的CT值为-1000HU左右，水是0HU，脂肪是-100HU左右，肌肉是50HU左右，骨头则是500~1000HU左右。这些值就好记多了。所以，结论是：1：在医学上，由于X射线能量比较固定，有效原子序数也比较固定，CT值就基本上刻画的是不同组织的密度差异性。2：如何测量？这是CT图像重建的范畴了。X射线扫描得到投影图像，根据投影图像反演出人体每点的线性衰减系数，带入上述公式，计算得到每一个点的CT值。（注意，上述所有的值都是一些粗略的近似，实际情况则需要实际考察。例如不同部位所使用的X射线能量不同等等。为了易于理解，上述表述也不尽严谨，欢迎讨论~）</p><h1 id="转Hu值"><a href="#转Hu值" class="headerlink" title="转Hu值"></a>转Hu值</h1><p>B. Window-leveling 算法: W/L 是专门为 CT 设计的。原理很简单：CT 图像里不同组织的密度 (用 Hounsfield 单位) 是在固定的值域， 与具体设备和成像软件没有关系。因此，要看头颅时， 我们只需将头颅的值域转换到 0-255 就行了。</p><p>CT W/L 不讲头颅值域的 min 和 max, 而说 max - min (即 window_width) 和 (max+min)/2 (即 window_center)。</p><p>我们还可以用原来的公式，只是 min 和 max 的算法不一样。</p><p>// 先算图像的最大和最小值<br>min = (2<em>window_center - window_width)/2.0 + 0.5;<br>max = (2</em>window_center + window_width)/2.0 + 0.5;<br>for (i = 0; i &lt; nNumPixels; i++)<br>   disp_pixel_val = (pixel_val - min)*255.0/(double)(max - min);</p><p>请注意，CT 图像必须先转换成 Hounsfield 值再做 window-level。 这个转换包括将多余高位 bits 变成 0 (clipping), 和用 recale slope 和 rescale intercept 来做单位转换。</p><p>HU = pixel_val*rescale_slope + rescale_intercept</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="图像转CT值"><a href="#图像转CT值" class="headerlink" title="图像转CT值"></a>图像转CT值</h1><p>CT值的单位是Hounsfield，简称为Hu，范围是-1024-3071。用于衡量人体组织对X射线的吸收率，设定水的吸收率为0Hu。</p><p>　在DICOM图像读取的过程中，我们会发现图像的像素值有可能不是这个范围，通常是0-4096，这是我们常见到的像素值或者灰度值，这就需要我们在图像像素值（灰度值）转换为CT值。</p><p>首先，需要读取两个DICOM Tag信息，（0028|1052）：rescale intercept和（0028|1053）：rescale slope.</p><p>　　然后通过公式：</p><p>　　　　Hu = pixel * slope + intercept</p><p>　　计算得到CT值。</p><h1 id="衰减系数相关"><a href="#衰减系数相关" class="headerlink" title="衰减系数相关"></a>衰减系数相关</h1><p>此外，临床上常用的X射线能量范围在80-140KeV左右，也比较固定。因此，三个因素中的2个固定了，剩下的一个就是物质密度。由此可见，医学CT通常是通过物质密度来对物质进行区分的。现在来看看典型值：在临床X射线能量范围内，水的线性衰减系数为0.2cm-1，肌肉为0.2~0.21cm-1，脂肪为0.18cm-1左右，空气在0左右，骨头在0.3~0.4cm-1左右。记这些值比较麻烦，远不如记100,200这种整数来得容易。观察这些值可以发现，这些值都在水附近，所以临床上通常使用某物质与水之间的相对值来衡量物质的衰减能力，即</p><p>（物质衰减能力-水衰减能力）/（水衰减能力-空气衰减能力）*1000，</p><p>其中水衰减能力在0.2左右，空气为0左右。为了纪念第一个发明CT机的科学家Housfield，我们将这个相对值的单位记为HU。而这个相对值即为CT值。这样一来，可以得出：空气的CT值为-1000HU左右，水是0HU，脂肪是-100HU左右，肌肉是50HU左右，骨头则是500~1000HU左右。这些值就好记多了。所以，结论是：1：在医学上，由于X射线能量比较固定，有效原子序数也比较固定，CT值就基本上刻画的是不同组织的密度差异性。2：如何测量？这是CT图像重建的范畴了。X射线扫描得到投影图像，根据投影图像反演出人体每点的线性衰减系数，带入上述公式，计算得到每一个点的CT值。（注意，上述所有的值都是一些粗略的近似，实际情况则需要实际考察。例如不同部位所使用的X射线能量不同等等。为了易于理解，上述表述也不尽严谨，欢迎讨论~）</p><h1 id="转Hu值"><a href="#转Hu值" class="headerlink" title="转Hu值"></a>转Hu值</h1><p>B. Window-leveling 算法: W/L 是专门为 CT 设计的。原理很简单：CT 图像里不同组织的密度 (用 Hounsfield 单位) 是在固定的值域， 与具体设备和成像软件没有关系。因此，要看头颅时， 我们只需将头颅的值域转换到 0-255 就行了。</p><p>CT W/L 不讲头颅值域的 min 和 max, 而说 max - min (即 window_width) 和 (max+min)/2 (即 window_center)。</p><p>我们还可以用原来的公式，只是 min 和 max 的算法不一样。</p><p>// 先算图像的最大和最小值<br>min = (2<em>window_center - window_width)/2.0 + 0.5;<br>max = (2</em>window_center + window_width)/2.0 + 0.5;<br>for (i = 0; i &lt; nNumPixels; i++)<br>   disp_pixel_val = (pixel_val - min)*255.0/(double)(max - min);</p><p>请注意，CT 图像必须先转换成 Hounsfield 值再做 window-level。 这个转换包括将多余高位 bits 变成 0 (clipping), 和用 recale slope 和 rescale intercept 来做单位转换。</p><p>HU = pixel_val*rescale_slope + rescale_intercept</p>]]></content>
     
     
     
@@ -522,7 +882,7 @@
     <link href="/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/"/>
     <url>/2020/06/03/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/</url>
     
-    <content type="html"><![CDATA[<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p><img src="ART1.png" srcset="/img/loading.gif" alt="alt text" title="Title"><br><img src="ART2.png" srcset="/img/loading.gif" alt="alt text" title="Title"></p><p>这两个图显示了算法的原理，整体的几何意义也较为容易理解<br>···<br>import numpy as np<br>def ART<em>My( A, b, X0, e0):<br>    e=e0+1<br>    i=0<br>    while(e&gt;e0):<br>        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))<br>        X=X0-np.reshape(tmp,(-1,1))<br>        e=np.linalg.norm(X-X0)<br>        X0=X<br>        i=(i+1)%np.shape(A)[0]<br>    print(e)<br>    return X0<br>if <strong>name</strong>==”<em>_main</em></em>“:<br>    A=np.array([[3,1],[1,5]])<br>    b=np.array([[1],[1]])<br>    e0=0.000001<br>    X0=np.array([[0],[0]])<br>    X=ART_My(A,b,X0,e0)<br>    print((X))</p><p>···</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p>这两个图显示了算法的原理，整体的几何意义也较为容易理解</p><p><img src="/images/ART1.png" alt><br><img src="/images/ART2.png" alt><br><pre><code class="hljs apache"><span class="hljs-attribute">import</span> numpy as np<span class="hljs-attribute">def</span> ART_My( A, b, X<span class="hljs-number">0</span>, e<span class="hljs-number">0</span>):    <span class="hljs-attribute">e</span>=e<span class="hljs-number">0</span>+<span class="hljs-number">1</span>    <span class="hljs-attribute">i</span>=<span class="hljs-number">0</span>    <span class="hljs-attribute">while</span>(e&gt;e<span class="hljs-number">0</span>):        <span class="hljs-attribute">tmp</span>=((A[i]@X<span class="hljs-number">0</span>-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))        <span class="hljs-attribute">X</span>=X<span class="hljs-number">0</span>-np.reshape(tmp,(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))        <span class="hljs-attribute">e</span>=np.linalg.norm(X-X<span class="hljs-number">0</span>)        <span class="hljs-attribute">X0</span>=X        <span class="hljs-attribute">i</span>=(i+<span class="hljs-number">1</span>)%np.shape(A)[<span class="hljs-number">0</span>]    <span class="hljs-attribute">print</span>(e)    <span class="hljs-attribute">return</span> X<span class="hljs-number">0</span><span class="hljs-attribute">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:    <span class="hljs-attribute">A</span>=np.array([[<span class="hljs-number">3</span>,<span class="hljs-number">1</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">5</span>]])    <span class="hljs-attribute">b</span>=np.array([[<span class="hljs-number">1</span>],[<span class="hljs-number">1</span>]])    <span class="hljs-attribute">e0</span>=<span class="hljs-number">0</span>.<span class="hljs-number">000001</span>    <span class="hljs-attribute">X0</span>=np.array([[<span class="hljs-number">0</span>],[<span class="hljs-number">0</span>]])    <span class="hljs-attribute">X</span>=ART_My(A,b,X<span class="hljs-number">0</span>,e<span class="hljs-number">0</span>)    <span class="hljs-attribute">print</span>((X))    </code></pre></p>]]></content>
     
     
     
