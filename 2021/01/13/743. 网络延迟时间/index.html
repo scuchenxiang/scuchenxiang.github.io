@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>743. 网络延迟时间 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-01-13 14:59">
+      2021年1月13日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>有 N 个网络节点，标记为 1 到 N。</p>
+<p>给定一个列表 times，表示信号经过有向边的传递时间。 times[i] = (u, v, w)，其中 u 是源节点，v 是目标节点， w 是一个信号从源节点传递到目标节点的时间。</p>
+<p>现在，我们从某个节点 K 发出一个信号。需要多久才能使所有节点都收到信号？如果不能使所有节点收到信号，返回 -1。</p>
+<p>输入：times = [[2,1,1],[2,3,1],[3,4,1]], N = 4, K = 2<br>输出：2</p>
+<p>主要就是迪杰斯特拉的代码<br>这个是没有优化的结果，每次选的是距离初始点最小距离的点。<br>集合S：当前已经确定最短距离的点</p>
+<p>dist[1] = 0, dist[i] = 正无穷<br>for v: 1 ~ n<br>t &lt;- 不在s中的距离最近的点<br>s &lt;- t<br>用t更新其他点的距离<br>朴素的Dijkstra算法往往是稠密图，用邻接矩阵来存储<br><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">int</span> networkDelayTime(vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt;&amp; times, <span class="hljs-built_in">int</span> N, <span class="hljs-built_in">int</span> K) 
+    &#123;
+        vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt; mat(N+<span class="hljs-number">1</span>,vector&lt;<span class="hljs-built_in">int</span>&gt;(N+<span class="hljs-number">1</span>,<span class="hljs-number">0x3f3f3f3f</span>));
+        vector&lt;<span class="hljs-built_in">int</span>&gt; res(N+<span class="hljs-number">1</span>,<span class="hljs-number">0x3f3f3f3f</span>);
+        vector&lt;<span class="hljs-built_in">int</span>&gt; sta(N+<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);<span class="hljs-comment">//值为1点被被选，为0没被选</span>
+        <span class="hljs-built_in">int</span> result=<span class="hljs-number">-1</span>;
+        sta[K]=<span class="hljs-number">1</span>;
+        res[K]=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;times.size();i++)
+        &#123;
+            mat[times[i][<span class="hljs-number">0</span>]][times[i][<span class="hljs-number">1</span>]]=times[i][<span class="hljs-number">2</span>];
+            <span class="hljs-keyword">if</span>(times[i][<span class="hljs-number">0</span>]==K)
+            &#123;
+                res[times[i][<span class="hljs-number">1</span>]]=times[i][<span class="hljs-number">2</span>];
+            &#125;
+        &#125;
+        <span class="hljs-comment">// cout&lt;&lt;&quot;1&quot;&lt;&lt;endl;</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;N<span class="hljs-number">-1</span>;i++)
+        &#123;
+            <span class="hljs-built_in">int</span> t=<span class="hljs-number">-1</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>;j&lt;=N;j++)
+            &#123;
+                <span class="hljs-keyword">if</span>(sta[j]==<span class="hljs-number">0</span>&amp;&amp;(t==<span class="hljs-number">-1</span>||res[j]&lt;res[t]))
+                &#123;
+                    t=j;
+                &#125;
+            &#125;
+            sta[t]=<span class="hljs-number">1</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>;j&lt;=N;j++)
+            &#123;
+                <span class="hljs-keyword">if</span>(res[t]+mat[t][j]&lt;res[j])
+                &#123;
+                    res[j]=res[t]+mat[t][j];
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;=N;i++)
+        &#123;
+            <span class="hljs-keyword">if</span>(res[i]==<span class="hljs-number">0x3f3f3f3f</span>)
+                <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+            <span class="hljs-keyword">if</span>(i==K)
+                <span class="hljs-keyword">continue</span>;
+            result=max(result,res[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+&#125;;</code></pre></p>
+<p>集合S：当前已经确定最短距离的点</p>
+<p>dist[1] = 0, dist[i] = 正无穷<br>for v: 1 ~ n<br>t &lt;- 不在s中的 与起始点距离最近的点 ；小顶堆维护 O(logN)<br>s &lt;- t; O(1)<br>用t更新其他点的距离 ; O(mlogN)<br>稀疏图用堆优化版的Dijkstra算法<br>这个是优化之后的，主要是用稀疏图替换邻接矩阵，同时用优先队列替换遍历搜寻最小的边。</p>
+<pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> networkDelayTime(vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt;&amp; times, <span class="hljs-built_in">int</span> N, <span class="hljs-built_in">int</span> K) 
+&#123;
+    <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> INF=<span class="hljs-number">0x3f3f3f3f</span>;
+    vector&lt;<span class="hljs-built_in">int</span>&gt; stat(N+<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+    vector&lt;<span class="hljs-built_in">int</span>&gt; res(N+<span class="hljs-number">1</span>,INF);
+    vector&lt;vector&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;&gt;&gt; m(N+<span class="hljs-number">1</span>);
+    priority_queue&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;,vector&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;&gt;,greater&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;&gt;&gt; queue;
+    queue.push(&#123;<span class="hljs-number">0</span>,K&#125;);
+    res[K]=<span class="hljs-number">0</span>;
+    <span class="hljs-built_in">int</span> result=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;times.size();i++)
+    &#123;
+        m[times[i][<span class="hljs-number">0</span>]].push_back(&#123;times[i][<span class="hljs-number">2</span>],times[i][<span class="hljs-number">1</span>]&#125;);
+    &#125;
+    <span class="hljs-keyword">while</span>(!queue.empty())
+    &#123;
+        <span class="hljs-built_in">auto</span> tmp=queue.top();
+        queue.pop();
+        <span class="hljs-keyword">if</span>(stat[tmp.second]==<span class="hljs-number">1</span>)
+            <span class="hljs-keyword">continue</span>;
+        stat[tmp.second]=<span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">auto</span> &amp;p: m[tmp.second])
+        &#123;
+            <span class="hljs-keyword">if</span>(p.first+tmp.first&lt;res[p.second])<span class="hljs-comment">//tmp代表我们找到的下一个加入的点，然后找这个点的所有的边来更新</span>
+            &#123;
+                res[p.second]=p.first+tmp.first;
+                queue.push(&#123;p.first+tmp.first,p.second&#125;);
+            &#125;
+
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;=N;i++)
+    &#123;
+        <span class="hljs-keyword">if</span>(res[i]==INF)
+            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">if</span>(i==K)
+            <span class="hljs-keyword">continue</span>;
+        result=max(result,res[i]);
+    &#125;
+    <span class="hljs-keyword">return</span> result;
+&#125;</code></pre>
+<p>SPFA算法</p>
+<p>首先相比Dijkstra算法，SPFA可以处理带有负权变的图。<br>（个人认为原因是SPFA在进行松弛操作时就是那个更新距离的地方可以对某一条边重复进行松弛，因为可能某一个点会被多次加入队列，这个可以这么理解，如果在没有负边的情况下松弛一次就是说一条最短路径最多只能经过松弛的这个点一次，这个在没有负边的情况下是显而易见的，当有负边的情况下，经过这个点多次就可能获得更小的最短路径。当我们松弛了某个点超过N次，就可以认为出现了负环，为什么是超过N次呢，极端情况下如果没有负环那么每次加入一次点我们都可以认为这个点与其他点连成的一条边加入最短路径中，如果加了N-1条边还不是最短路径，到第n次那肯定就是有负环了。（大家都写的大于N次），我个人交代码试了以下，好像到n就可以了，但是保险还是大于N更好）</p>
+<p>实现方法：</p>
+<p>　　建立一个队列，初始时队列里只有起始点，再建立一个表格记录起始点到所有点的最短路径（该表格的初始值要赋为极大值，该点到他本身的路径赋为0）。然后执行松弛操作，用队列里有的点作为起始点去刷新到所有点的最短路，如果刷新成功且被刷新点不在队列中则把该点加入到队列最后。重复执行直到队列为空。</p>
+<p>判断有无负环：<br>　　如果某个点进入队列的次数超过N次则存在负环（SPFA无法处理带负环的图，但是可以判断是否出现负权环）,这一点和ford算法是一样的，超过N次松弛就代表出现的最短路径长度是大于等于N的，这样的简单路径是不存在的。</p>
+<p>我们可以看出代码上其实是和迪杰斯特拉算法很像的。<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs angelscript">    <span class="hljs-built_in">int</span> networkDelayTime(vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt;&gt;&amp; times, <span class="hljs-built_in">int</span> N, <span class="hljs-built_in">int</span> K)<br>    &#123;<br>        <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> INF=<span class="hljs-number">0x3f3f3f3f</span>;<br>        vector&lt;<span class="hljs-built_in">int</span>&gt; stat(N+<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);<br>        vector&lt;<span class="hljs-built_in">int</span>&gt; res(N+<span class="hljs-number">1</span>,INF);<br>        vector&lt;vector&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;&gt;&gt; m(N+<span class="hljs-number">1</span>);<span class="hljs-comment">//距离队列</span><br>        priority_queue&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;,vector&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;&gt;,greater&lt;pair&lt;<span class="hljs-built_in">int</span>,<span class="hljs-built_in">int</span>&gt;&gt;&gt; queue;<span class="hljs-comment">//刷新队列</span><br>        queue.push(&#123;<span class="hljs-number">0</span>,K&#125;);<br>        res[K]=<span class="hljs-number">0</span>;<br>        stat[K]=<span class="hljs-number">1</span>;<br>        <span class="hljs-built_in">int</span> result=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;times.size();i++)<br>        &#123;<br>            m[times[i][<span class="hljs-number">0</span>]].push_back(&#123;times[i][<span class="hljs-number">2</span>],times[i][<span class="hljs-number">1</span>]&#125;);<br>        &#125;<br>        <span class="hljs-keyword">while</span>(!queue.empty())<br>        &#123;<br>            <span class="hljs-built_in">auto</span> tmp=queue.top();<br>            queue.pop();<br>            stat[K]=<span class="hljs-number">0</span>;<br>            <span class="hljs-comment">// if(stat[tmp.second]==1)</span><br>            <span class="hljs-comment">//     continue;</span><br>            <span class="hljs-comment">// stat[tmp.second]=1;</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-built_in">auto</span> &amp;p: m[tmp.second])<br>            &#123;<br>                <span class="hljs-keyword">if</span>(p.first+tmp.first&lt;res[p.second])<span class="hljs-comment">//first 距离，second 目的点</span><br>                &#123;<br>                    res[p.second]=p.first+tmp.first;<br>                    <span class="hljs-keyword">if</span>(stat[K]==<span class="hljs-number">0</span>)<br>                    &#123;<br>                        queue.push(&#123;p.first+tmp.first,p.second&#125;);<br>                        stat[p.second]=<span class="hljs-number">1</span>;<br>                    &#125;</code></pre></p>
+<pre><code>            &amp;#125;
+
+        &amp;#125;
+    &amp;#125;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt;(&lt;span class=&quot;hljs-built_in&quot;&gt;int&lt;/span&gt; i=&lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;;i&amp;lt;=N;i++)
+    &amp;#123;
+        &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(res[i]==INF)
+            &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-number&quot;&gt;-1&lt;/span&gt;;
+        &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(i==K)
+            &lt;span class=&quot;hljs-keyword&quot;&gt;continue&lt;/span&gt;;
+        result=max(result,res[i]);
+    &amp;#125;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; result;
+&amp;#125;
+</code></pre><p>&#125;;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<p>floyd算法</p>
+<p>这个也是求最短路径的算法，是求任意两点之间的最短路径，可以有负边，时间复杂度为O(N^3),空间复杂度为O(N^2),<br>算法主要是考虑的是从i到j经过的点的号不超过k的路径<br>dist[k][i][j]=min(dist[k-1][i][j],dist[k-1][i][k]+dist[k-1][k][j]);</p>
+<p>这个可以通过动态规划进行空间优化。<br><pre><code class="hljs processing"><span class="hljs-comment">//主要的代码如下</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> k = <span class="hljs-number">0</span>; k &lt; n; k++) 
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) 
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) 
+            &#123;
+                <span class="hljs-built_in">dist</span>[i][j] = <span class="hljs-built_in">min</span>(<span class="hljs-built_in">dist</span>[i][j], <span class="hljs-built_in">dist</span>[i][k] + <span class="hljs-built_in">dist</span>[k][j]);
+            &#125;
+        &#125;
+    &#125;</code></pre></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/leetcode/">leetcode</a>
+                    
+                      <a class="hover-with-bg" href="/tags/c/">c++</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">最短路径</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89/">迪杰斯特拉</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SPFA/">SPFA</a>
+                    
+                      <a class="hover-with-bg" href="/tags/floyd/">floyd</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/13/787.%20K%20%E7%AB%99%E4%B8%AD%E8%BD%AC%E5%86%85%E6%9C%80%E4%BE%BF%E5%AE%9C%E7%9A%84%E8%88%AA%E7%8F%AD/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">787. K 站中转内最便宜的航班</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/04/mysql177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">
+                        <span class="hidden-mobile">177. 第N高的薪水</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "743. 网络延迟时间&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
