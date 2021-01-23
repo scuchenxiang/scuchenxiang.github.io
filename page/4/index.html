@@ -168,6 +168,84 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/27/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/">区间dp</a>
+
+      <a href="/2020/07/27/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" class="index-excerpt">
+        
+        
+          
+        
+        <div>图像转CT值CT值的单位是Hounsfield，简称为Hu，范围是-1024-3071。用于衡量人体组织对X射线的吸收率，设定水的吸收率为0Hu。
+　在DICOM图像读取的过程中，我们会发现图像的像素值有可能不是这个范围，通常是0-4096，这是我们常见到的像素值或者灰度值，这就需要我们在图像像素值（灰度值）转换为CT值。
+首先，需要读取两个DICOM Tag信息，（0028|1052）：resc</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/27/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+
+      <a href="/2020/07/27/%E5%8C%BA%E9%97%B4dp/" class="index-excerpt">
+        
+        
+          
+        
+        <div>区间dp是线性动态规划的扩展，它在分阶段地划分问题时，与阶段中元素出现的顺序和由前一阶段的哪些元素合并而来由很大的关系。令状态f(i,j)表示将下标位置 i 到 j 的所有元素合并能获得的价值的最大值，那么 f(i,j) = max{f(i,k) + f(k+1, j) + cost}, cost 为将这两组元素合并起来的代价。
+区间 DP 的特点：
+合并：即将两个或多个部分进行整合，当然也可以反</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/07/22/%E7%9F%A9%E9%98%B5%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">矩阵动态规划</a>
 
       <a href="/2020/07/22/%E7%9F%A9%E9%98%B5%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="index-excerpt">
@@ -465,88 +543,11 @@ public:
     </div>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/12/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/">股票买卖问题</a>
-
-      <a href="/2020/07/12/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/" class="index-excerpt">
-        
-        
-          
-        
-        <div>股票买卖问题1当前的最大收益只依赖于之前的最小买入价格。只需要记住到目前为止的最小值，然后可以得到每个位置的收益。O(n)class Solution &#123;
-public:
-    int maxProfit(vector&lt;int&gt;&amp; prices) 
-    &#123;
-        int max=0;
-        int len=prices.size()</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划题型总结</a>
-
-      <a href="/2020/07/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="index-excerpt">
-        
-        
-          
-        
-        <div>因为动态规划毕竟要满足：
-阶段性无后效性子问题重叠性因此，能够利用DP来解决的问题实际上是有限的，大部分题目都是针对现有的模型的一些变种，改改题目描述，或者加点限制条件。所以要想攻克DP题目，最根本的就是要充分理解几个常见的DP模型。而要充分理解常见经典DP模型，就需要通过大量的做题和总结，而且二者不可偏废。通过做题进行思考和量的积累，通过总结加深理解和融会贯通进而完成质的提升。
-动态规划是求解一</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
