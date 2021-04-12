@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="chenxiang">
   <meta name="keywords" content="Blog">
-  <title>327. 区间和的个数 - TheSakura&#39;s Blog</title>
+  <title>马拉车算法 - TheSakura&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,8 +152,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2021-01-23 20:23">
-      2021年1月23日 晚上
+    <time datetime="2021-04-12 20:45">
+      2021年4月12日 晚上
     </time>
   </div>
 
@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      519 字
+      377 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7
+      5
        分钟
     </span>
   
@@ -204,82 +204,52 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>依然考虑前缀和数组 \textit{preSum}preSum。</p>
-<p>对于每个下标 jj，以 jj 为右端点的下标对的数量，就等于数组 \textit{preSum}[0..j-1]preSum[0..j−1] 中的所有整数，出现在区间 [\textit{preSum}[j]-\textit{upper}, \textit{preSum}[j]-\textit{lower}][preSum[j]−upper,preSum[j]−lower] 的次数。</p>
-<p>区间和的问题比较适合用线段树和树状数组</p>
-<p>很多人都把constexpr和const相比较。</p>
-<p>其实，const并不能代表“常量”，它仅仅是对变量的一个修饰，告诉编译器这个变量只能被初始化，且不能被直接修改（实际上可以通过堆栈溢出等方式修改）。而这个变量的值，可以在运行时也可以在编译时指定。</p>
-<p>constexpr可以用来修饰变量、函数、构造函数。一旦以上任何元素被constexpr修饰，那么等于说是告诉编译器 “请大胆地将我看成编译时就能得出常量值的表达式去优化我”。</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xenny/p/9739600.html">树状数组可以参考</a><br><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BIT</span></span>
-<span class="hljs-class">    &#123;</span>
-        <span class="hljs-keyword">private</span>:
-            <span class="hljs-keyword">int</span> n;
-            <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; arr;
-        <span class="hljs-keyword">public</span>:
-            <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lowerbit</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span>
-<span class="hljs-function">            </span>&#123;
-                <span class="hljs-keyword">return</span> i&amp;(-i);
+              <p>关键之处在于要利用镜像的信息，对于镜像已经知道的及时跳过。</p>
+<p>然后还有一点就是扩充字符串#，然后两端加@！，这个时候我们如果得到最长回文串，那么怎么获得原始的最长回文串呢，是最右边的-中心得到最左边的位置，然后最左边的位置除2就是原始的起始值，这个很容易理解，因为是刚好扩充了两倍的，用#隔开的。</p>
+<p>还有一点关键是更新的是每个点已经以他为中心扩充的字符串，dp数组记录的是长度</p>
+<pre><code class="hljs reasonml">
+<span class="hljs-keyword">class</span> Solution &#123;
+    public String longest<span class="hljs-constructor">Palindrome(String <span class="hljs-params">s</span>)</span> 
+    &#123;
+        StringBuilder sb=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuilder(<span class="hljs-string">&quot;!#&quot;</span>)</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length<span class="hljs-literal">()</span>;i++)
+        &#123;
+            sb.append(s.<span class="hljs-built_in">char</span><span class="hljs-constructor">At(<span class="hljs-params">i</span>)</span>);
+            sb.append(<span class="hljs-string">&quot;#&quot;</span>);
+        &#125;
+        sb.append(<span class="hljs-string">&quot;@&quot;</span>);
+        <span class="hljs-built_in">int</span> dp<span class="hljs-literal">[]</span>=<span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span><span class="hljs-literal">[<span class="hljs-identifier">sb</span>.<span class="hljs-identifier">length</span>()]</span>;
+        <span class="hljs-built_in">int</span> C=<span class="hljs-number">0</span>,R=<span class="hljs-number">0</span>;
+        <span class="hljs-built_in">int</span> maxlen=<span class="hljs-number">0</span>,center=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;sb.length<span class="hljs-literal">()</span>;i++)
+        &#123;
+            <span class="hljs-built_in">int</span> slen=<span class="hljs-number">1</span>;<span class="hljs-comment">//子串长度</span>
+            <span class="hljs-keyword">if</span>(i&lt;R)<span class="hljs-comment">//如果包含在内</span>
+            &#123;
+                <span class="hljs-built_in">int</span> mirror=<span class="hljs-number">2</span>*C-i;<span class="hljs-comment">//如果镜像没超过边界，那么直接赋值，否则还要验证</span>
+                dp<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Math</span>.</span></span>min(dp<span class="hljs-literal">[<span class="hljs-identifier">mirror</span>]</span>,R-i);<span class="hljs-comment">//直接取镜像的dp值和到边界距离的最小值</span>
+                slen=dp<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>;
             &#125;
-            <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span><span class="hljs-comment">//求A[1 - i]的和</span></span>
-<span class="hljs-function">            </span>&#123;
-                <span class="hljs-keyword">int</span> res=<span class="hljs-number">0</span>;
-                <span class="hljs-keyword">while</span>(i)
-                &#123;
-                    res+=arr[i];
-                    i-=lowerbit(i);
-                &#125;
-                <span class="hljs-keyword">return</span> res;
+            <span class="hljs-keyword">while</span>((i-slen)&gt;=<span class="hljs-number">0</span>&amp;&amp;(i+slen)&lt;sb.length<span class="hljs-literal">()</span>&amp;&amp;(sb.<span class="hljs-built_in">char</span><span class="hljs-constructor">At(<span class="hljs-params">i</span>-<span class="hljs-params">slen</span>)</span>==sb.<span class="hljs-built_in">char</span><span class="hljs-constructor">At(<span class="hljs-params">i</span>+<span class="hljs-params">slen</span>)</span>))
+            &#123;
+                slen++;
             &#125;
-            <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i,<span class="hljs-keyword">int</span> x)</span><span class="hljs-comment">//在i位置加上k</span></span>
-<span class="hljs-function">            </span>&#123;
-                <span class="hljs-keyword">while</span>(i&lt;=n)<span class="hljs-comment">//树状数组是从1开始的，所以需要有等号</span>
-                &#123;
-                    arr[i]+=x;
-                    i+=lowerbit(i);
-                &#125;
+            <span class="hljs-keyword">if</span>(i+slen-<span class="hljs-number">1</span>&gt;R)
+            &#123;
+                R=i+slen-<span class="hljs-number">1</span>;
+                C=i;
             &#125;
-            BIT(<span class="hljs-keyword">int</span> _n): n(_n),arr(_n+<span class="hljs-number">1</span>)&#123;&#125;
-    &#125;;
-    <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">countRangeSum</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> lower, <span class="hljs-keyword">int</span> upper)</span> </span>
-<span class="hljs-function">    </span>&#123;
-        <span class="hljs-keyword">int</span> len=nums.<span class="hljs-built_in">size</span>();
-        <span class="hljs-built_in">vector</span>&lt;ll&gt; presum=&#123;<span class="hljs-number">0</span>&#125;;
-        ll sum=<span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;len;i++)
-        &#123;
-            sum+=nums[i];
-            presum.push_back(sum);
+            dp<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>=slen-<span class="hljs-number">1</span>;
+            <span class="hljs-keyword">if</span>(dp<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>&gt;maxlen)
+            &#123;
+                maxlen=dp<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span>;
+                center=i;
+            &#125;
         &#125;
-        <span class="hljs-built_in">set</span>&lt;ll&gt; se;
-        <span class="hljs-keyword">for</span>(ll p: presum)
-        &#123;
-            se.insert(p);
-            se.insert(p-upper);
-            se.insert(p-lower);
-        &#125;
-        <span class="hljs-built_in">unordered_map</span>&lt;ll,<span class="hljs-keyword">int</span>&gt; m;
-        <span class="hljs-keyword">int</span> index=<span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(ll p: se)
-        &#123;
-            m[p]=index;
-            index++;
-        &#125;
-        <span class="hljs-keyword">int</span> result=<span class="hljs-number">0</span>;
-        <span class="hljs-function">BIT <span class="hljs-title">tree</span><span class="hljs-params">(m.<span class="hljs-built_in">size</span>())</span></span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;presum.<span class="hljs-built_in">size</span>();i++)
-        &#123;
-            <span class="hljs-keyword">int</span> left=m[presum[i]-upper];
-            <span class="hljs-keyword">int</span> right=m[presum[i]-lower];
-            result+=tree.query(right+<span class="hljs-number">1</span>)-tree.query(left);<span class="hljs-comment">//这里有点迷惑，不懂为什么这样弄</span>
-            tree.add(m[presum[i]]+<span class="hljs-number">1</span>,<span class="hljs-number">1</span>);
-        &#125;
-        <span class="hljs-keyword">return</span> result;
+        <span class="hljs-comment">// System.out.println(maxlen);</span>
+        return s.substring((center-maxlen)/<span class="hljs-number">2</span>,(center-maxlen)/<span class="hljs-number">2</span>+maxlen);
     &#125;
-&#125;;</code></pre></p>
-
+&#125;</code></pre>
             </article>
             <hr>
             <div>
@@ -291,13 +261,7 @@
                     
                       <a class="hover-with-bg" href="/tags/leetcode/">leetcode</a>
                     
-                      <a class="hover-with-bg" href="/tags/c/">c++</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%A6%BB%E6%95%A3%E5%8C%96/">离散化</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/">前缀和</a>
+                      <a class="hover-with-bg" href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
                     
                   </div>
                 
@@ -310,18 +274,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/29/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">146. LRU 缓存机制</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2021/01/22/1584.%20%E8%BF%9E%E6%8E%A5%E6%89%80%E6%9C%89%E7%82%B9%E7%9A%84%E6%9C%80%E5%B0%8F%E8%B4%B9%E7%94%A8/">
-                        <span class="hidden-mobile">1584. 连接所有点的最小费用</span>
+                      <a href="/2021/03/29/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
+                        <span class="hidden-mobile">146. LRU 缓存机制</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -460,7 +418,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "327. 区间和的个数&nbsp;",
+        "马拉车算法&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

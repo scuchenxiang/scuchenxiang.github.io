@@ -168,6 +168,82 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/04/12/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+
+      <a href="/2021/04/12/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/" class="index-excerpt">
+        
+        
+          
+        
+        <div>关键之处在于要利用镜像的信息，对于镜像已经知道的及时跳过。
+然后还有一点就是扩充字符串#，然后两端加@！，这个时候我们如果得到最长回文串，那么怎么获得原始的最长回文串呢，是最右边的-中心得到最左边的位置，然后最左边的位置除2就是原始的起始值，这个很容易理解，因为是刚好扩充了两倍的，用#隔开的。
+还有一点关键是更新的是每个点已经以他为中心扩充的字符串，dp数组记录的是长度
+
+class Soluti</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-04-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/03/29/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">146. LRU 缓存机制</a>
+
+      <a href="/2021/03/29/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>HashMap 大家都清楚，底层是 数组 + 红黑树 + 链表 （不清楚也没有关系），同时其是无序的，而 LinkedHashMap 刚好就比 HashMap 多这一个功能，就是其提供 有序，并且，LinkedHashMap的有序可以按两种顺序排列，一种是按照插入的顺序，一种是按照读取的顺序（这个题目的示例就是告诉我们要按照读取的顺序进行排序），而其内部是靠 建立一个双向链表 来维护这个顺序的，在</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-03-29
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/java/">java</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">源码解析</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2021/01/23/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/">327. 区间和的个数</a>
 
       <a href="/2021/01/23/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/" class="index-excerpt">
@@ -478,81 +554,6 @@ Bellman-Ford算法可以求出是否有负环第n循环后，还有更新，说�
         <div>编写一个 SQL 查询，获取 Employee 表中第 n 高的薪水（Salary）。
 +——+————+| Id | Salary |+——+————+| 1  | 100    || 2  | 200    || 3  | 300    |+——+————+例如上述 Employee 表，n = 2 时，应返回第二高的薪水 200。如果不存在第 n 高的薪水，那么查询应返回 null。
 +——</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-04
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/mysql/">mysql</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/04/mysql601.%20%E4%BD%93%E8%82%B2%E9%A6%86%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F/">601. 体育馆的人流量</a>
-
-      <a href="/2021/01/04/mysql601.%20%E4%BD%93%E8%82%B2%E9%A6%86%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F/" class="index-excerpt">
-        
-        
-          
-        
-        <div>表：Stadium+———————-+————-+| Column Name   | Type    |+———————-+————-+| id            | int     || visit_date    | date    || people        | int     |+———————-+————-+visit_date 是表的主键每日人流量信息被记录在这三列信息中：序</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-04
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/mysql/">mysql</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/04/mysql626.%20%E6%8D%A2%E5%BA%A7%E4%BD%8D/">626. 换座位</a>
-
-      <a href="/2021/01/04/mysql626.%20%E6%8D%A2%E5%BA%A7%E4%BD%8D/" class="index-excerpt">
-        
-        
-          
-        
-        <div>小美是一所中学的信息科技老师，她有一张 seat 座位表，平时用来储存学生名字和与他们相对应的座位 id。
-其中纵列的 id 是连续递增的
-小美想改变相邻俩学生的座位。
-你能不能帮她写一个 SQL query 来输出小美想要的结果呢？
-示例：
-+————-+————-+|    id   | student |+————-+————-+|    1    | Abbot   ||    2    </div>
       </a>
 
       <div class="index-btm post-metas">
