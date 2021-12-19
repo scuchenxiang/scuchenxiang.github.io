@@ -168,6 +168,126 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/11/02/LeetCode%20794.%20%E6%9C%89%E6%95%88%E7%9A%84%E4%BA%95%E5%AD%97%E6%B8%B8%E6%88%8F/">LeetCode 794. Valid Tic-Tac-Toe State (medium)</a>
+
+      <a href="/2020/11/02/LeetCode%20794.%20%E6%9C%89%E6%95%88%E7%9A%84%E4%BA%95%E5%AD%97%E6%B8%B8%E6%88%8F/" class="index-excerpt">
+        
+        
+          
+        
+        <div>因为X先下，所以如果X和O的数目关系要么相等，要么X比O多1，只有这两种关系，其次再判断如果X已经赢了，O没法下，此时O的数目只能比X小1，或者O赢了，X的数目只能和O一样。bool check(vector&lt;string&gt;&amp; board,char key)
+&#123;
+    if(board[0][0]==board[0][1]&amp;&amp;board[0][1]=</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-11-02
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E5%8D%9A%E5%BC%88dp/">博弈dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/11/02/1349.%20%E5%8F%82%E5%8A%A0%E8%80%83%E8%AF%95%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%95%B0/">1349. 参加考试的最大学生数</a>
+
+      <a href="/2020/11/02/1349.%20%E5%8F%82%E5%8A%A0%E8%80%83%E8%AF%95%E7%9A%84%E6%9C%80%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%95%B0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>方法就是每次求前n排的人数和前n-1排的人数的关系，重点在于相邻两排斜着的人是否都有，一排是否有相邻的，是否坐在坏的座位上。一一排除。遍历，所有的状态，一排最多2^8个状态。
+class Solution &#123;
+public:
+    int maxStudents(vector&lt;vector&lt;char&gt;&gt;&amp; seats) 
+    &#123;
+     </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-11-02
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9dp/">状态压缩dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/11/02/1125.%20%E6%9C%80%E5%B0%8F%E7%9A%84%E5%BF%85%E8%A6%81%E5%9B%A2%E9%98%9F/">1125. 最小的必要团队</a>
+
+      <a href="/2020/11/02/1125.%20%E6%9C%80%E5%B0%8F%E7%9A%84%E5%BF%85%E8%A6%81%E5%9B%A2%E9%98%9F/" class="index-excerpt">
+        
+        
+          
+        
+        <div>这个题一开始不会做，做出来一直超时，看的别人的思路先把某些技能树是别人子集的人去掉，然后做dp。class Solution &#123;
+public:
+    vector&lt;int&gt; smallestSufficientTeam(vector&lt;string&gt;&amp; req_skills, vector&lt;vector&lt;string&gt;&gt;&amp;</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-11-02
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9dp/">状态压缩dp</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/10/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%A4%96%E6%A8%A1%E5%BC%8F%E3%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%86%85%E6%A8%A1%E5%BC%8F/">数据库的三级模式：外模式、模式和内模式</a>
 
       <a href="/2020/10/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%A4%96%E6%A8%A1%E5%BC%8F%E3%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%86%85%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
@@ -411,119 +531,6 @@
               <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
             
               <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/08/03/%E6%8B%89%E4%B8%9C%E5%8F%98%E6%8D%A2/">拉东变换</a>
-
-      <a href="/2020/08/03/%E6%8B%89%E4%B8%9C%E5%8F%98%E6%8D%A2/" class="index-excerpt">
-        
-        
-          
-        
-        <div>x射线在穿过人体传播的时候，它的衰减是这样的
-$I=I_0 e^{-ux}$
-
-
-
-
-
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-08-03
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a>
-            
-              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/29/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/">医学图像相关内容</a>
-
-      <a href="/2020/07/29/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" class="index-excerpt">
-        
-        
-          
-        
-        <div>ASTRA Toolbox一个python的库，包含很多的医学图像的算法，比如fbp，sart，生成投影数据等问题。
-还可以进行gpu加速，可以学习学习。
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
-            
-              <a href="/tags/python/">python</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/29/memset%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98/">memset赋值问题</a>
-
-      <a href="/2020/07/29/memset%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98/" class="index-excerpt">
-        
-        
-          
-        
-        <div>在memset的赋值问题中，是按字节赋值的，如果是menset(array,1,n*sizeof(int));结果不是每个int变成1，而是变成很大的数，它是将int的每一个字节赋值为1，因此最好只在赋值为0的时候使用。
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
             
           </div>
         
