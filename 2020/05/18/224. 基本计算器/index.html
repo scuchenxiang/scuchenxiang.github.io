@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      2k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21
+      35
        分钟
     </span>
   
@@ -204,88 +204,56 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="方法1和方法二："><a href="#方法1和方法二：" class="headerlink" title="方法1和方法二："></a>方法1和方法二：</h2><p>只有加减的话，相当于去掉括号，去掉括号的过程就是，把数字和字符串弹出，然后计算的过程，这个方法比较麻烦，应该可以采用字符串反向便利的方式进行计算，这样计算表达式就要方便很多，从左到右算就可以，如果还有乘除之类的话，那么在过程中应该还要判断字符的优先级，然后进行计算,还有一个需要注意的就是，数字可能有很多位。<br><pre><code class="hljs pgsql">方法一：
-<span class="hljs-keyword">class</span> Solution &#123;
-    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> calculate(String s) 
-    &#123;
-        Stack &lt;<span class="hljs-type">Integer</span>&gt; op1=<span class="hljs-built_in">new</span> Stack &lt;<span class="hljs-type">Integer</span>&gt;();//数字栈
-        Stack&lt;<span class="hljs-type">Character</span>&gt; op2=<span class="hljs-built_in">new</span> Stack&lt;<span class="hljs-type">Character</span>&gt;();//字符栈
-        <span class="hljs-type">int</span> t=<span class="hljs-number">0</span>;
-        <span class="hljs-type">int</span> flag=<span class="hljs-number">1</span>;//正在记录数字
-        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)
-        &#123;
-            <span class="hljs-type">Character</span> ch=s.charAt(i);
-            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!<span class="hljs-type">Character</span>.isDigit(ch))
-            &#123;
-                op1.push(t);
-                <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(t);
-                flag=<span class="hljs-number">1</span>;
-                t=<span class="hljs-number">0</span>;
-            &#125;
-            <span class="hljs-keyword">if</span>(<span class="hljs-type">Character</span>.isDigit(ch))
-            &#123;
-                flag=<span class="hljs-number">0</span>;
-                <span class="hljs-type">int</span> num=(<span class="hljs-type">int</span>)(ch-<span class="hljs-string">'0'</span>);
-                t=t*<span class="hljs-number">10</span>+num;
-            &#125;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>)||ch.equals(<span class="hljs-string">'+'</span>)||ch.equals(<span class="hljs-string">'('</span>))
-            &#123;
-                op2.push(ch);
-            &#125;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">')'</span>))
-            &#123;
-                op1.push(CalFormula(op1,op2));
-            &#125;
+              <h2 id="方法1和方法二："><a href="#方法1和方法二：" class="headerlink" title="方法1和方法二："></a>方法1和方法二：</h2><p>只有加减的话，相当于去掉括号，去掉括号的过程就是，把数字和字符串弹出，然后计算的过程，这个方法比较麻烦，应该可以采用字符串反向便利的方式进行计算，这样计算表达式就要方便很多，从左到右算就可以，如果还有乘除之类的话，那么在过程中应该还要判断字符的优先级，然后进行计算,还有一个需要注意的就是，数字可能有很多位。<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs pgsql">方法一：<br><span class="hljs-keyword">class</span> Solution &#123;<br>    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> calculate(String s)<br>    &#123;<br>        Stack &lt;<span class="hljs-type">Integer</span>&gt; op1=<span class="hljs-built_in">new</span> Stack &lt;<span class="hljs-type">Integer</span>&gt;();//数字栈<br>        Stack&lt;<span class="hljs-type">Character</span>&gt; op2=<span class="hljs-built_in">new</span> Stack&lt;<span class="hljs-type">Character</span>&gt;();//字符栈<br>        <span class="hljs-type">int</span> t=<span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> flag=<span class="hljs-number">1</span>;//正在记录数字<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)<br>        &#123;<br>            <span class="hljs-type">Character</span> ch=s.charAt(i);<br>            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!<span class="hljs-type">Character</span>.isDigit(ch))<br>            &#123;<br>                op1.push(t);<br>                <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(t);<br>                flag=<span class="hljs-number">1</span>;<br>                t=<span class="hljs-number">0</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span>(<span class="hljs-type">Character</span>.isDigit(ch))<br>            &#123;<br>                flag=<span class="hljs-number">0</span>;<br>                <span class="hljs-type">int</span> num=(<span class="hljs-type">int</span>)(ch-<span class="hljs-string">&#x27;0&#x27;</span>);<br>                t=t*<span class="hljs-number">10</span>+num;<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">&#x27;-&#x27;</span>)||ch.equals(<span class="hljs-string">&#x27;+&#x27;</span>)||ch.equals(<span class="hljs-string">&#x27;(&#x27;</span>))<br>            &#123;<br>                op2.push(ch);<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">&#x27;)&#x27;</span>))<br>            &#123;<br>                op1.push(CalFormula(op1,op2));<br>            &#125;</code></pre></p>
+<pre><code>    &amp;#125;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(flag==&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;)
+    &amp;#123;
+        op1.push(t);
+        &lt;span class=&quot;hljs-keyword&quot;&gt;System&lt;/span&gt;.&lt;span class=&quot;hljs-keyword&quot;&gt;out&lt;/span&gt;.println(t);
+        flag=&lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;;
+        t=&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;;
+    &amp;#125;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; CalFormula(op1,op2);
+&amp;#125;
+&lt;span class=&quot;hljs-built_in&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;int&lt;/span&gt; CalFormula(Stack &amp;lt;&lt;span class=&quot;hljs-type&quot;&gt;Integer&lt;/span&gt;&amp;gt; op1 , Stack&amp;lt;&lt;span class=&quot;hljs-type&quot;&gt;Character&lt;/span&gt;&amp;gt; op2)
+&amp;#123;
+    Stack &amp;lt;&lt;span class=&quot;hljs-type&quot;&gt;Integer&lt;/span&gt;&amp;gt; op3=&lt;span class=&quot;hljs-built_in&quot;&gt;new&lt;/span&gt; Stack &amp;lt;&lt;span class=&quot;hljs-type&quot;&gt;Integer&lt;/span&gt;&amp;gt;();//数字栈
+    Stack&amp;lt;&lt;span class=&quot;hljs-type&quot;&gt;Character&lt;/span&gt;&amp;gt; op4=&lt;span class=&quot;hljs-built_in&quot;&gt;new&lt;/span&gt; Stack&amp;lt;&lt;span class=&quot;hljs-type&quot;&gt;Character&lt;/span&gt;&amp;gt;();//字符栈
+    &lt;span class=&quot;hljs-keyword&quot;&gt;while&lt;/span&gt;(!op2.isEmpty()&amp;amp;&amp;amp;!op2.peek().equals(&lt;span class=&quot;hljs-string&quot;&gt;&amp;#x27;(&amp;#x27;&lt;/span&gt;))
+    &amp;#123;
 
-        &#125;
-        <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>)
-        &#123;
-            op1.push(t);
-            <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(t);
-            flag=<span class="hljs-number">1</span>;
-            t=<span class="hljs-number">0</span>;
-        &#125;
-        <span class="hljs-keyword">return</span> CalFormula(op1,op2);
-    &#125;
-    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> CalFormula(Stack &lt;<span class="hljs-type">Integer</span>&gt; op1 , Stack&lt;<span class="hljs-type">Character</span>&gt; op2)
-    &#123;
-        Stack &lt;<span class="hljs-type">Integer</span>&gt; op3=<span class="hljs-built_in">new</span> Stack &lt;<span class="hljs-type">Integer</span>&gt;();//数字栈
-        Stack&lt;<span class="hljs-type">Character</span>&gt; op4=<span class="hljs-built_in">new</span> Stack&lt;<span class="hljs-type">Character</span>&gt;();//字符栈
-        <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!op2.peek().equals(<span class="hljs-string">'('</span>))
-        &#123;
-                        
-                        op3.push(op1.peek());
-                        op1.pop();
-                        op4.push(op2.peek());
-                        op2.pop();
-                        // <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(op2.peek());
-        &#125;
                     op3.push(op1.peek());
                     op1.pop();
-                    <span class="hljs-keyword">if</span>(!op2.isEmpty()&amp;&amp;op2.peek().equals(<span class="hljs-string">'('</span>))
-                        op2.pop();
-                    <span class="hljs-keyword">while</span>(!op4.isEmpty())
-                    &#123;
-                        <span class="hljs-type">int</span> a=op3.peek();
-                        op3.pop();
-                        <span class="hljs-type">int</span> b=op3.peek();
-                        op3.pop();
-                        <span class="hljs-type">char</span> c=op4.peek();
-                        op4.pop();
-                        op3.push(cal(c,a,b));
-                    &#125;
-                    <span class="hljs-keyword">return</span> op3.peek();
+                    op4.push(op2.peek());
+                    op2.pop();
+                    // &lt;span class=&quot;hljs-keyword&quot;&gt;System&lt;/span&gt;.&lt;span class=&quot;hljs-keyword&quot;&gt;out&lt;/span&gt;.println(op2.peek());
+    &amp;#125;
+                op3.push(op1.peek());
+                op1.pop();
+                &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(!op2.isEmpty()&amp;amp;&amp;amp;op2.peek().equals(&lt;span class=&quot;hljs-string&quot;&gt;&amp;#x27;(&amp;#x27;&lt;/span&gt;))
+                    op2.pop();
+                &lt;span class=&quot;hljs-keyword&quot;&gt;while&lt;/span&gt;(!op4.isEmpty())
+                &amp;#123;
+                    &lt;span class=&quot;hljs-type&quot;&gt;int&lt;/span&gt; a=op3.peek();
+                    op3.pop();
+                    &lt;span class=&quot;hljs-type&quot;&gt;int&lt;/span&gt; b=op3.peek();
+                    op3.pop();
+                    &lt;span class=&quot;hljs-type&quot;&gt;char&lt;/span&gt; c=op4.peek();
+                    op4.pop();
+                    op3.push(cal(c,a,b));
+                &amp;#125;
+                &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; op3.peek();
 
 
-    &#125;
-    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> cal(<span class="hljs-type">Character</span> ch,<span class="hljs-type">Integer</span> num,<span class="hljs-type">Integer</span> num1)
-    &#123;
-        <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>))
-        <span class="hljs-keyword">return</span> num-num1;
-        <span class="hljs-keyword">else</span> 
-        <span class="hljs-keyword">return</span> num+num1;
-    &#125;
-&#125;</code></pre></p>
+&amp;#125;
+&lt;span class=&quot;hljs-built_in&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;int&lt;/span&gt; cal(&lt;span class=&quot;hljs-type&quot;&gt;Character&lt;/span&gt; ch,&lt;span class=&quot;hljs-type&quot;&gt;Integer&lt;/span&gt; num,&lt;span class=&quot;hljs-type&quot;&gt;Integer&lt;/span&gt; num1)
+&amp;#123;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(ch.equals(&lt;span class=&quot;hljs-string&quot;&gt;&amp;#x27;-&amp;#x27;&lt;/span&gt;))
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; num-num1;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; 
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; num+num1;
+&amp;#125;
+</code></pre><p>&#125;<br>&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
 <pre><code class="hljs reasonml">方法<span class="hljs-number">2</span>：
 <span class="hljs-keyword">class</span> Solution &#123;
     public <span class="hljs-built_in">int</span> calculate(String s) 
@@ -293,11 +261,11 @@
         Stack &lt;Integer&gt; op1=<span class="hljs-keyword">new</span> Stack &lt;Integer&gt;<span class="hljs-literal">()</span>;<span class="hljs-comment">//数字栈</span>
         Stack&lt;Character&gt; op2=<span class="hljs-keyword">new</span> Stack&lt;Character&gt;<span class="hljs-literal">()</span>;<span class="hljs-comment">//字符栈</span>
         Integer t=<span class="hljs-number">0</span>;
-        StringBuffer nu=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-string">""</span>)</span>;
+        StringBuffer nu=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-string">&quot;&quot;</span>)</span>;
         <span class="hljs-built_in">int</span> flag=<span class="hljs-number">1</span>;<span class="hljs-comment">//正在记录数字</span>
         StringBuffer a=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-params">s</span>)</span>;
         String str=a.reverse<span class="hljs-literal">()</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">String()</span>;
-        for(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;str.length<span class="hljs-literal">()</span>;i++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;str.length<span class="hljs-literal">()</span>;i++)
         &#123;
             Character ch=str.<span class="hljs-built_in">char</span><span class="hljs-constructor">At(<span class="hljs-params">i</span>)</span>;
             <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Character</span>.</span></span>is<span class="hljs-constructor">Digit(<span class="hljs-params">ch</span>)</span>)
@@ -305,18 +273,18 @@
                 t=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Integer</span>.</span></span>parse<span class="hljs-constructor">Int(<span class="hljs-params">nu</span>.<span class="hljs-params">reverse</span>()</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">String()</span>);
                 op1.push(t);
                 flag=<span class="hljs-number">1</span>;
-                nu=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-string">""</span>)</span>;
+                nu=<span class="hljs-keyword">new</span> <span class="hljs-constructor">StringBuffer(<span class="hljs-string">&quot;&quot;</span>)</span>;
             &#125;
             <span class="hljs-keyword">if</span>(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Character</span>.</span></span>is<span class="hljs-constructor">Digit(<span class="hljs-params">ch</span>)</span>)
             &#123;
                 nu.append(ch);
                 flag=<span class="hljs-number">0</span>;
             &#125;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-character">'-'</span>)<span class="hljs-pattern-match"><span class="hljs-operator">||</span>ch.equals('+')<span class="hljs-operator">||</span>ch.equals(')'))</span>
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-character">&#x27;-&#x27;</span>)<span class="hljs-pattern-match"><span class="hljs-operator">||</span>ch.equals(&#x27;+&#x27;)<span class="hljs-operator">||</span>ch.equals(&#x27;)&#x27;))</span>
 <span class="hljs-pattern-match">            &#123;</span>
 <span class="hljs-pattern-match">                op2.push(ch);</span>
 <span class="hljs-pattern-match">            &#125;</span>
-<span class="hljs-pattern-match">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals('('))</span>
+<span class="hljs-pattern-match">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(&#x27;(&#x27;))</span>
 <span class="hljs-pattern-match">            &#123;</span>
 <span class="hljs-pattern-match">                <span class="hljs-constructor">CalFormula(<span class="hljs-params">op1</span>,<span class="hljs-params">op2</span>)</span>;</span>
 <span class="hljs-pattern-match">            &#125;</span>
@@ -333,7 +301,7 @@
 <span class="hljs-pattern-match">    &#123;</span>
 <span class="hljs-pattern-match">        <span class="hljs-constructor">Stack</span> &lt;<span class="hljs-constructor">Integer</span>&gt; op3=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Stack</span> &lt;<span class="hljs-constructor">Integer</span>&gt;();<span class="hljs-operator">/</span><span class="hljs-operator">/</span>数字栈</span>
 <span class="hljs-pattern-match">        <span class="hljs-constructor">Stack</span>&lt;<span class="hljs-constructor">Character</span>&gt; op4=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Stack</span>&lt;<span class="hljs-constructor">Character</span>&gt;();<span class="hljs-operator">/</span><span class="hljs-operator">/</span>字符栈</span>
-<span class="hljs-pattern-match">        <span class="hljs-keyword">while</span>(!op2.is<span class="hljs-constructor">Empty()</span><span class="hljs-operator">&amp;&amp;</span>!op2.peek().equals(')'))</span>
+<span class="hljs-pattern-match">        <span class="hljs-keyword">while</span>(!op2.is<span class="hljs-constructor">Empty()</span><span class="hljs-operator">&amp;&amp;</span>!op2.peek().equals(&#x27;)&#x27;))</span>
 <span class="hljs-pattern-match">        &#123;</span>
 <span class="hljs-pattern-match">            <span class="hljs-built_in">int</span> a=op1.peek();</span>
 <span class="hljs-pattern-match">            op1.pop();</span>
@@ -343,13 +311,13 @@
 <span class="hljs-pattern-match">            op2.pop();</span>
 <span class="hljs-pattern-match">            op1.push(cal(c,a,b));</span>
 <span class="hljs-pattern-match">        &#125;</span>
-<span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(!op2.is<span class="hljs-constructor">Empty()</span><span class="hljs-operator">&amp;&amp;</span>op2.peek().equals(')'))</span>
+<span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(!op2.is<span class="hljs-constructor">Empty()</span><span class="hljs-operator">&amp;&amp;</span>op2.peek().equals(&#x27;)&#x27;))</span>
 <span class="hljs-pattern-match">            op2.pop();</span>
 <span class="hljs-pattern-match">        return op1.peek();</span>
 <span class="hljs-pattern-match">    &#125;</span>
 <span class="hljs-pattern-match">    public <span class="hljs-built_in">int</span> cal(<span class="hljs-constructor">Character</span> ch,<span class="hljs-constructor">Integer</span> num,<span class="hljs-constructor">Integer</span> num1)</span>
 <span class="hljs-pattern-match">    &#123;</span>
-<span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(ch.equals('-'))</span>
+<span class="hljs-pattern-match">        <span class="hljs-keyword">if</span>(ch.equals(&#x27;-&#x27;))</span>
 <span class="hljs-pattern-match">        return num-num1;</span>
 <span class="hljs-pattern-match">        <span class="hljs-keyword">else</span> </span>
 <span class="hljs-pattern-match">        return num+num1;</span>
@@ -357,98 +325,42 @@
 <span class="hljs-pattern-match">&#125;</span></code></pre>
 <h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><p>采用一种双栈的方法，<br>解法一经过了一个中间过程，先转为了后缀表达式然后进行求值。我们其实可以直接利用两个栈，边遍历边进行的，这个方法是我当时上课学的方法。从 这里 把过程贴到下边，和解法一其实有些类似的。</p>
 <p>使用两个栈，stack0 用于存储操作数，stack1 用于存储操作符<br>从左往右扫描，遇到操作数入栈 stack0<br>遇到操作符时，如果当前优先级低于或等于栈顶操作符优先级，则从 stack0 弹出两个元素，从 stack1 弹出一个操作符，进行计算，将结果并压入stack0，继续与栈顶操作符的比较优先级。<br>如果遇到操作符高于栈顶操作符优先级，则直接入栈 stack1<br>遇到左括号，直接入栈 stack1。<br>遇到右括号，则从 stack0 弹出两个元素，从 stack1 弹出一个操作符进行计算，并将结果加入到 stack0 中，重复这步直到遇到左括号<br>和解法一一样，因为我们只有加法和减法，所以这个流程可以简化一下。</p>
-<p>第 3 条改成「遇到操作符时，则从 stack0 弹出两个元素进行计算，并压入stack0，直到栈空或者遇到左括号，最后将当前操作符压入 stack1 」处。<br><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">calculate</span><span class="hljs-params">(<span class="hljs-keyword">String</span> s)</span> </span>
-<span class="hljs-function">    </span>&#123;
-        Stack &lt;Integer&gt; op1=<span class="hljs-keyword">new</span> Stack &lt;Integer&gt;();<span class="hljs-comment">//数字栈</span>
-        Stack&lt;Character&gt; op2=<span class="hljs-keyword">new</span> Stack&lt;Character&gt;();<span class="hljs-comment">//字符栈</span>
-        HashMap&lt;Character,Integer&gt; <span class="hljs-built_in">map</span>=<span class="hljs-keyword">new</span> HashMap&lt;Character,Integer&gt;();
-        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">'+'</span>,<span class="hljs-number">1</span>);
-        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">'-'</span>,<span class="hljs-number">1</span>);
-        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">'('</span>,<span class="hljs-number">-1</span>);
-        Integer t=<span class="hljs-number">0</span>;
-        <span class="hljs-keyword">int</span> flag=<span class="hljs-number">1</span>;
-        Character ch;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)
-        &#123;
-             ch=s.charAt(i);
-            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!Character.isDigit(ch))
-            &#123;
-                op1.push(t);
-                t=<span class="hljs-number">0</span>;
-                flag=<span class="hljs-number">1</span>;
-            &#125;
-            <span class="hljs-keyword">if</span>(Character.isDigit(ch))
-            &#123;
-                flag=<span class="hljs-number">0</span>;
-                t=t*<span class="hljs-number">10</span>+(<span class="hljs-keyword">int</span>)(ch-<span class="hljs-string">'0'</span>);
-            &#125;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>)||ch.equals(<span class="hljs-string">'+'</span>))
-            &#123;
-                flag=<span class="hljs-number">1</span>;
-                <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!(<span class="hljs-built_in">map</span>.<span class="hljs-built_in">get</span>(op2.<span class="hljs-built_in">peek</span>())&lt;<span class="hljs-built_in">map</span>.<span class="hljs-built_in">get</span>(ch)))
-                &#123;
-                    <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();
-                    op1.pop();
-                    <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();
-                    op1.pop();
-                    Character c=op2.<span class="hljs-built_in">peek</span>();
-                    op2.pop();
-                    op1.push(cal(c,b,a));
-                &#125;
-                op2.push(ch);
-            &#125;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'('</span>))
-            &#123;
-                flag=<span class="hljs-number">1</span>;
-                op2.push(ch);
-            &#125;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">')'</span>))
-            &#123;
-                flag=<span class="hljs-number">1</span>;
-                <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!op2.<span class="hljs-built_in">peek</span>().equals(<span class="hljs-string">'('</span>))
-                &#123;
-                    <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();
-                    op1.pop();
-                    <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();
-                    op1.pop();
-                    Character c=op2.<span class="hljs-built_in">peek</span>();
-                    op2.pop();
-                    op1.push(cal(c,b,a));
-                &#125;
-                op2.pop();
-            &#125;
-
-        &#125;
-        <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>)
-        &#123;
-            op1.push(t);
-        &#125;
-         <span class="hljs-keyword">while</span>(!op2.isEmpty())
-        &#123;
-            <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();
-            op1.pop();
-            <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();
-            op1.pop();
-            Character c=op2.<span class="hljs-built_in">peek</span>();
-            op2.pop();
-            op1.push(cal(c,b,a));
-        &#125;
-        <span class="hljs-keyword">return</span> op1.<span class="hljs-built_in">peek</span>();
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">cal</span><span class="hljs-params">(Character ch,Integer num,Integer num1)</span></span>
-<span class="hljs-function">    </span>&#123;
-        <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">'-'</span>))
-        <span class="hljs-keyword">return</span> num-num1;
-        <span class="hljs-keyword">else</span> 
-        <span class="hljs-keyword">return</span> num+num1;
-    &#125;
-&#125;</code></pre></p>
+<p>第 3 条改成「遇到操作符时，则从 stack0 弹出两个元素进行计算，并压入stack0，直到栈空或者遇到左括号，最后将当前操作符压入 stack1 」处。<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;&lt;/span&gt;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">calculate</span><span class="hljs-params">(<span class="hljs-keyword">String</span> s)&lt;/span&gt; &lt;/span&gt;<br><span class="hljs-function">    </span>&#123;<br>        Stack &lt;Integer&gt; op1=<span class="hljs-keyword">new</span> Stack &lt;Integer&gt;();<span class="hljs-comment">//数字栈</span><br>        Stack&lt;Character&gt; op2=<span class="hljs-keyword">new</span> Stack&lt;Character&gt;();<span class="hljs-comment">//字符栈</span><br>        HashMap&lt;Character,Integer&gt; <span class="hljs-built_in">map</span>=<span class="hljs-keyword">new</span> HashMap&lt;Character,Integer&gt;();<br>        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">&#x27;-&#x27;</span>,<span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">map</span>.<span class="hljs-built_in">put</span>(<span class="hljs-string">&#x27;(&#x27;</span>,<span class="hljs-number">-1</span>);<br>        Integer t=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">int</span> flag=<span class="hljs-number">1</span>;<br>        Character ch;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)<br>        &#123;<br>             ch=s.charAt(i);<br>            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">0</span>&amp;&amp;!Character.isDigit(ch))<br>            &#123;<br>                op1.push(t);<br>                t=<span class="hljs-number">0</span>;<br>                flag=<span class="hljs-number">1</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span>(Character.isDigit(ch))<br>            &#123;<br>                flag=<span class="hljs-number">0</span>;<br>                t=t*<span class="hljs-number">10</span>+(<span class="hljs-keyword">int</span>)(ch-<span class="hljs-string">&#x27;0&#x27;</span>);<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">&#x27;-&#x27;</span>)||ch.equals(<span class="hljs-string">&#x27;+&#x27;</span>))<br>            &#123;<br>                flag=<span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!(<span class="hljs-built_in">map</span>.<span class="hljs-built_in">get</span>(op2.<span class="hljs-built_in">peek</span>())&lt;<span class="hljs-built_in">map</span>.<span class="hljs-built_in">get</span>(ch)))<br>                &#123;<br>                    <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();<br>                    op1.pop();<br>                    <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();<br>                    op1.pop();<br>                    Character c=op2.<span class="hljs-built_in">peek</span>();<br>                    op2.pop();<br>                    op1.push(cal(c,b,a));<br>                &#125;<br>                op2.push(ch);<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">&#x27;(&#x27;</span>))<br>            &#123;<br>                flag=<span class="hljs-number">1</span>;<br>                op2.push(ch);<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">&#x27;)&#x27;</span>))<br>            &#123;<br>                flag=<span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">while</span>(!op2.isEmpty()&amp;&amp;!op2.<span class="hljs-built_in">peek</span>().equals(<span class="hljs-string">&#x27;(&#x27;</span>))<br>                &#123;<br>                    <span class="hljs-keyword">int</span> a=op1.<span class="hljs-built_in">peek</span>();<br>                    op1.pop();<br>                    <span class="hljs-keyword">int</span> b=op1.<span class="hljs-built_in">peek</span>();<br>                    op1.pop();<br>                    Character c=op2.<span class="hljs-built_in">peek</span>();<br>                    op2.pop();<br>                    op1.push(cal(c,b,a));<br>                &#125;<br>                op2.pop();<br>            &#125;</span></span></span></code></pre></p>
+<pre><code>    &amp;#125;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(flag==&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;)
+    &amp;#123;
+        op1.push(t);
+    &amp;#125;
+     &lt;span class=&quot;hljs-keyword&quot;&gt;while&lt;/span&gt;(!op2.isEmpty())
+    &amp;#123;
+        &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; a=op1.&lt;span class=&quot;hljs-built_in&quot;&gt;peek&lt;/span&gt;();
+        op1.pop();
+        &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; b=op1.&lt;span class=&quot;hljs-built_in&quot;&gt;peek&lt;/span&gt;();
+        op1.pop();
+        Character c=op2.&lt;span class=&quot;hljs-built_in&quot;&gt;peek&lt;/span&gt;();
+        op2.pop();
+        op1.push(cal(c,b,a));
+    &amp;#125;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; op1.&lt;span class=&quot;hljs-built_in&quot;&gt;peek&lt;/span&gt;();
+&amp;#125;
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;cal&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(Character ch,Integer num,Integer num1)&lt;/span&gt;&lt;/span&gt;
+</code></pre><p><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">&#x27;-&#x27;</span>))<br>        <span class="hljs-keyword">return</span> num-num1;<br>        <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> num+num1;<br>    &#125;<br>&#125;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
 
             </article>
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E8%AE%A1%E7%AE%97%E5%99%A8/">计算器</a>
+                    
+                  </div>
                 
                 
                   <div class="post-meta">
@@ -475,7 +387,7 @@
                     
                       <a href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">linux短横线的区别</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -484,7 +396,7 @@
                     
                     
                       <a href="/2020/05/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/">
-                        <span class="hidden-mobile">统计学习方法课后作业</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

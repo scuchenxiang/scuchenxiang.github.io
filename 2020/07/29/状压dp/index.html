@@ -239,7 +239,7 @@
                     p[state]=<span class="hljs-number">1</span>;
                     <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
                 &#125;
-                
+
             &#125;
         &#125;
         p[state]=<span class="hljs-number">0</span>;
@@ -319,7 +319,7 @@
         <span class="hljs-keyword">return</span> tmp1%C;
     &#125;
 &#125;;</code></pre></p>
-<h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;
+<h1 id><a href="#" class="headerlink" title=" "></a> </h1><pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;
 <span class="hljs-keyword">public</span>:
     <span class="hljs-built_in">int</span> a[<span class="hljs-number">8</span>][<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">8</span>];
     <span class="hljs-built_in">int</span> maxStudents(vector&lt;vector&lt;char&gt;&gt;&amp; seats) 
@@ -331,7 +331,7 @@
         <span class="hljs-built_in">int</span> len1=seats[<span class="hljs-number">0</span>].size();
         vector&lt;<span class="hljs-built_in">int</span>&gt; t(len1,<span class="hljs-number">-1</span>);
         vector&lt;vector&lt;<span class="hljs-built_in">int</span>&gt; &gt; tt(len,t);<span class="hljs-comment">//这一行，以及上一行的状态</span>
-        
+
         dfs(<span class="hljs-number">0</span>,dp,<span class="hljs-number">0</span>，<span class="hljs-number">0</span>)<span class="hljs-comment">//第几行，这一行的状态，由于只会往上和左右扩散，所以可以从一个方向走。</span>
         <span class="hljs-keyword">return</span> res; 
     &#125;
@@ -370,6 +370,19 @@
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%8A%B6%E5%8E%8Bdp/">状压dp</a>
+                    
+                  </div>
                 
                 
                   <div class="post-meta">

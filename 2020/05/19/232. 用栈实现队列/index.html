@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      170 字
+      188 字
     </span>
   
 
@@ -205,51 +205,51 @@
             
             <article class="markdown-body">
               <p>双栈实现队列，思路较为简单</p>
-<p>···<br>class MyQueue {<br>    private Stack<Integer> stack1;<br>    private Stack<Integer> stack2;<br>    /<em>* Initialize your data structure here. </em>/<br>    public MyQueue() {<br>        stack1=new Stack<Integer>();<br>        stack2=new Stack<Integer>();<br>    }</p>
+<p>···<br>class MyQueue {<br>    private Stack<Integer> stack1;<br>    private Stack<Integer> stack2;<br>    /<em>* Initialize your data structure here. </em>/<br>    public MyQueue() {<br>        stack1=new Stack<Integer>();<br>        stack2=new Stack<Integer>();<br>    }</Integer></Integer></Integer></Integer></p>
 <pre><code>/** Push element x to the back of queue. */
-public void push(int x) {
+public void push(int x) &#123;
     stack1.push(x);
-}
+&#125;
 
 /** Removes the element from in front of queue and returns that element. */
-public int pop() {
+public int pop() &#123;
     if(stack2.isEmpty())
-    {
+    &#123;
         StackMove(stack1,stack2);
 
-    }
+    &#125;
     int res=stack2.peek();
     stack2.pop();
     return res;
-}
+&#125;
 
 /** Get the front element. */
-public int peek() {
+public int peek() &#123;
     if(stack2.isEmpty())
-    {
+    &#123;
         StackMove(stack1,stack2);
 
-    }
+    &#125;
     int res=stack2.peek();
     return res;
-}
+&#125;
 
 /** Returns whether the queue is empty. */
-public boolean empty() {
+public boolean empty() &#123;
     return stack1.isEmpty()&amp;&amp;stack2.isEmpty();
-}
+&#125;
 public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
-{
+&#123;
     if(stack2.isEmpty())
-    {
+    &#123;
          while(!stack1.isEmpty())
-        {
+        &#123;
             int a=stack1.peek();
             stack2.push(a);
             stack1.pop();
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 </code></pre><p>}</p>
 <p>/**</p>
 <ul>
@@ -265,6 +265,17 @@ public void StackMove(Stack&lt;Integer&gt; stack1,Stack&lt;Integer&gt; stack2)
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%88/">栈</a>
+                    
+                  </div>
                 
                 
                   <div class="post-meta">

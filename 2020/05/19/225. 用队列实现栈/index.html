@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      197 字
+      752 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      14
        分钟
     </span>
   
@@ -204,61 +204,58 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h3 id="队列实现栈"><a href="#队列实现栈" class="headerlink" title="队列实现栈"></a>队列实现栈</h3><p>主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。<br><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> &#123;</span>
-    <span class="hljs-keyword">private</span> Queue&lt;Integer&gt; quene=<span class="hljs-keyword">new</span> LinkedList&lt;Integer&gt;();
-    <span class="hljs-keyword">private</span>    <span class="hljs-keyword">int</span> mytop=<span class="hljs-number">0</span>;
-    <span class="hljs-comment">/** Initialize your data structure here. */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>&#123;
-    &#125;
-    
-    <span class="hljs-comment">/** Push element x onto stack. */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
-        quene.offer(x);
-        mytop=x;
-    &#125;
-    
-    <span class="hljs-comment">/** Removes the element on top of the stack and returns that element. */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;quene.<span class="hljs-built_in">size</span>()<span class="hljs-number">-1</span>;i++)
-        &#123;
-            <span class="hljs-keyword">int</span> a=quene.poll();
-            quene.offer(a);
-            <span class="hljs-keyword">if</span>(i==quene.<span class="hljs-built_in">size</span>()<span class="hljs-number">-2</span>)
-                mytop=a;
-        &#125;
-        <span class="hljs-keyword">return</span> quene.poll();
-    &#125;
-    
-    <span class="hljs-comment">/** Get the top element. */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">if</span>(!quene.isEmpty())
-        <span class="hljs-keyword">return</span> mytop;
-        <span class="hljs-keyword">else</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-    &#125;
-    
-    <span class="hljs-comment">/** Returns whether the stack is empty. */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">if</span>(quene.<span class="hljs-built_in">size</span>()==<span class="hljs-number">0</span>)
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-        <span class="hljs-keyword">else</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-    &#125;
-&#125;
+              <h3 id="队列实现栈"><a href="#队列实现栈" class="headerlink" title="队列实现栈"></a>队列实现栈</h3><p>主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> &#123;&lt;/span&gt;<br>    <span class="hljs-keyword">private</span> Queue&lt;Integer&gt; quene=<span class="hljs-keyword">new</span> LinkedList&lt;Integer&gt;();<br>    <span class="hljs-keyword">private</span>    <span class="hljs-keyword">int</span> mytop=<span class="hljs-number">0</span>;<br>    <span class="hljs-comment">/<em>* Initialize your data structure here. </em>/</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> &lt;/span&gt;&#123;<br>    &#125;</span></span></code></pre></p>
+<pre><code>&lt;span class=&quot;hljs-comment&quot;&gt;/** Push element x onto stack. */&lt;/span&gt;
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt; &lt;/span&gt;&amp;#123;
+    quene.offer(x);
+    mytop=x;
+&amp;#125;
 
-<span class="hljs-comment">/**</span>
-<span class="hljs-comment"> * Your MyStack object will be instantiated and called as such:</span>
-<span class="hljs-comment"> * MyStack obj = new MyStack();</span>
-<span class="hljs-comment"> * obj.push(x);</span>
-<span class="hljs-comment"> * int param_2 = obj.pop();</span>
-<span class="hljs-comment"> * int param_3 = obj.top();</span>
-<span class="hljs-comment"> * boolean param_4 = obj.empty();</span>
-<span class="hljs-comment"> */</span></code></pre></p>
+&lt;span class=&quot;hljs-comment&quot;&gt;/** Removes the element on top of the stack and returns that element. */&lt;/span&gt;
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;pop&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt;(&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; i=&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;;i&amp;lt;quene.&lt;span class=&quot;hljs-built_in&quot;&gt;size&lt;/span&gt;()&lt;span class=&quot;hljs-number&quot;&gt;-1&lt;/span&gt;;i++)
+    &amp;#123;
+        &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; a=quene.poll();
+        quene.offer(a);
+        &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(i==quene.&lt;span class=&quot;hljs-built_in&quot;&gt;size&lt;/span&gt;()&lt;span class=&quot;hljs-number&quot;&gt;-2&lt;/span&gt;)
+            mytop=a;
+    &amp;#125;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; quene.poll();
+&amp;#125;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;/** Get the top element. */&lt;/span&gt;
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(!quene.isEmpty())
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; mytop;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;;
+&amp;#125;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;/** Returns whether the stack is empty. */&lt;/span&gt;
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;empty&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(quene.&lt;span class=&quot;hljs-built_in&quot;&gt;size&lt;/span&gt;()==&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;)
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot;&gt;true&lt;/span&gt;;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot;&gt;false&lt;/span&gt;;
+&amp;#125;
+</code></pre><p>&#125;</p>
+<p><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Your MyStack object will be instantiated and called as such:</span><br><span class="hljs-comment"> * MyStack obj = new MyStack();</span><br><span class="hljs-comment"> * obj.push(x);</span><br><span class="hljs-comment"> * int param_2 = obj.pop();</span><br><span class="hljs-comment"> * int param_3 = obj.top();</span><br><span class="hljs-comment"> * boolean param_4 = obj.empty();</span><br><span class="hljs-comment"> */</span>&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
 
             </article>
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E9%98%9F%E5%88%97/">队列</a>
+                    
+                  </div>
                 
                 
                   <div class="post-meta">
@@ -290,7 +287,7 @@
                     
                     
                       <a href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/">
-                        <span class="hidden-mobile">linux短横线的区别</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -297,7 +297,7 @@
     public List&lt;List&lt;Integer&gt;&gt; getSkyline(int[][] buildings) 
     &#123;
         List&lt;List&lt;Integer&gt;&gt; res=<span class="hljs-keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;();
-        Set&lt;Pair&lt;Integer,Integer&gt;&gt; pairs=<span class="hljs-keyword">new</span> TreeSet&lt;&gt;<span class="hljs-function"><span class="hljs-params">((o1,o2)-&gt;!o1.getKey().equals(o2.getKey())?o1.getKey()-o2.getKey():o1.getValue()-o2.getValue())</span>;</span>
+        <span class="hljs-built_in">Set</span>&lt;Pair&lt;Integer,Integer&gt;&gt; pairs=<span class="hljs-keyword">new</span> TreeSet&lt;&gt;<span class="hljs-function"><span class="hljs-params">((o1,o2)-&gt;!o1.getKey().equals(o2.getKey())?o1.getKey()-o2.getKey():o1.getValue()-o2.getValue())</span>;</span>
 <span class="hljs-function">        <span class="hljs-title">for</span><span class="hljs-params">(int[] bu:buildings)</span></span>
 <span class="hljs-function">        &#123;</span>
 <span class="hljs-function">            <span class="hljs-title">pairs</span>.<span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">new</span> Pair&lt;&gt;(bu[<span class="hljs-number">0</span>],-bu[<span class="hljs-number">2</span>]))</span>;</span>
@@ -331,6 +331,19 @@
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/%E6%89%AB%E6%8F%8F%E7%BA%BF%E7%AE%97%E6%B3%95/">扫描线算法</a>
+                    
+                  </div>
                 
                 
                   <div class="post-meta">

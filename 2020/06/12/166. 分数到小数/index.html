@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      387 字
+      397 字
     </span>
   
 
@@ -220,13 +220,13 @@
         &#123;
             <span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;
             <span class="hljs-keyword">int</span> quo=<span class="hljs-built_in">abs</span>(a2);
-            <span class="hljs-built_in">string</span> res=<span class="hljs-string">""</span>;
+            <span class="hljs-built_in">string</span> res=<span class="hljs-string">&quot;&quot;</span>;
             <span class="hljs-keyword">if</span>((numerator^denominator)&lt;<span class="hljs-number">0</span>)
                 &#123;
-                    res=res+<span class="hljs-string">"-"</span>;
+                    res=res+<span class="hljs-string">&quot;-&quot;</span>;
                     i++;
                 &#125;
-            res=res+to_string(quo)+<span class="hljs-string">"."</span>;
+            res=res+to_string(quo)+<span class="hljs-string">&quot;.&quot;</span>;
             i+=to_string(quo).<span class="hljs-built_in">size</span>()<span class="hljs-number">-1</span>;
             <span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; <span class="hljs-built_in">map</span>;
             numerator=<span class="hljs-built_in">abs</span>(a1);
@@ -242,7 +242,7 @@
                 &#123;
                     <span class="hljs-built_in">string</span> tmp=res.substr(<span class="hljs-built_in">map</span>[numerator]+<span class="hljs-number">2</span>);
                     <span class="hljs-built_in">string</span> tmp1=res.substr(<span class="hljs-number">0</span>,<span class="hljs-built_in">map</span>[numerator]+<span class="hljs-number">2</span>);
-                    res=tmp1+<span class="hljs-string">"("</span>+tmp+<span class="hljs-string">")"</span>;
+                    res=tmp1+<span class="hljs-string">&quot;(&quot;</span>+tmp+<span class="hljs-string">&quot;)&quot;</span>;
                     <span class="hljs-keyword">return</span> res;
                 &#125;
                 <span class="hljs-keyword">long</span>  ttt=numerator;
@@ -260,6 +260,17 @@
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E5%AD%A6/">数学</a>
+                    
+                  </div>
                 
                 
                   <div class="post-meta">
