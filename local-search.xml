@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>C语言宏定义和一些小用法</title>
+    <link href="/2021/12/21/c%E8%AF%AD%E8%A8%80%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%92%8C%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%94%A8%E6%B3%95/"/>
+    <url>/2021/12/21/c%E8%AF%AD%E8%A8%80%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%92%8C%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%94%A8%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<p>UL后缀代表无符号长整型后缀<br><pre><code class="hljs angelscript">#define SEC_YEAR  (<span class="hljs-number">365</span>*<span class="hljs-number">24</span>*<span class="hljs-number">60</span>*<span class="hljs-number">60</span>)UL</code></pre></p><p>下面的宏定义代表最小值，但是会有副作用<br><pre><code class="hljs lisp">#define MIN(<span class="hljs-name">a</span>,b)  ((<span class="hljs-name">a</span>)&lt;=(<span class="hljs-name">b</span>)?(<span class="hljs-name">a</span>):(<span class="hljs-name">b</span>))</code></pre><br>例如使用MIN(a++,b),此时可以使用下面的代替<br><pre><code class="hljs sqf"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> min_i(x,y)    ((x)&lt;=(y)?(x):(y))      <span class="hljs-comment">//（1）</span></span><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> min_t(type,x,y) (&#123;type _x = x;\       <span class="hljs-comment">//（2）</span></span>                        <span class="hljs-built_in">type</span> <span class="hljs-variable">_y</span> = y;\                        <span class="hljs-variable">_x</span>&lt;<span class="hljs-variable">_y</span>?<span class="hljs-variable">_x</span>:<span class="hljs-variable">_y</span>;\                        &#125;)<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> min(x,y)    &#123;const typeof(x)  _x = (x);\  <span class="hljs-comment">//（3）</span></span>                    const <span class="hljs-built_in">typeof</span>(y) <span class="hljs-variable">_y</span> = (y);\                    (void)(&amp;<span class="hljs-variable">_x</span>=&amp;<span class="hljs-variable">_y</span>);\      <span class="hljs-comment">//（4）</span>                    <span class="hljs-variable">_x</span>&lt;<span class="hljs-variable">_y</span>?<span class="hljs-variable">_x</span>:<span class="hljs-variable">_y</span>;\                    &#125;)</code></pre><br>这个定义计算x和y分别两次（x和y中的小者被计算两次)，当参数由副作用时，将产生不正确的结果<br>使用语句表达式只计算参数一次，避免了可能的错误，语句表达式通常用于宏定义<br>typeof(x)表示x的值类型<br>检查参数x和y的类型是否相同(如果x和y的类型不同编译器将会发出warning，并不影响后面语句的运行</p><p>e)int <em>a[10]指针数组，</em>修饰后面的每个元素，数组的每个元素都是指针</p><p>f)int (<em>a)[10]，指向数组的指针，</em>修饰a，</p><p>g)int (*a)(int a)，函数指针a，这个函数返回值为int，参数为int</p><p>h)int (*a[10])(int)，用指针数组指向函数，该函数有一个整型参数并返回一个整型数</p><p>访问一绝对地址把一个整型数强制转换（typecast）为一指针是合法的。</p><pre><code class="hljs apache"><span class="hljs-attribute">ptr</span> = (int *)<span class="hljs-number">0</span>x<span class="hljs-number">67</span>a<span class="hljs-number">9</span>;</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>宏定义</tag>
+      
+      <tag>指针</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>WSL的图形界面设置</title>
+    <link href="/2021/12/21/WSL%E7%9A%84%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/"/>
+    <url>/2021/12/21/WSL%E7%9A%84%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/</url>
+    
+    <content type="html"><![CDATA[<h2 id="安装xserver"><a href="#安装xserver" class="headerlink" title="安装xserver"></a>安装xserver</h2><p>首先是Windows上Xserver的安装，<br>作者这里选择的是VcXsrv X Server，下载之后按照所有默认设置进行安装即可。安装完毕之后打开防火墙配置，允许所有的Xserver连接。</p><p>然后安装apt-get install xfce4和xfce4-terminal</p><p>打开XLaunch，在Display settings里面将Display number改为0，在Extra settings里面勾选Disable access control，启动Xserver。</p><p>然后是WSL2里面的配置，作者是用Ubuntu，其他发行版也类似。首先<br><pre><code class="hljs jboss-cli">sudo vim ~<span class="hljs-string">/.zshrc</span><span class="hljs-comment"># sudo vim ~/.bashrc</span></code></pre></p><pre><code class="hljs reasonml"># export DISPLAY=:<span class="hljs-number">0</span> # <span class="hljs-keyword">in</span> WSL <span class="hljs-number">1</span>export DISPLAY=<span class="hljs-constructor">$(<span class="hljs-params">awk</span> &#x27;<span class="hljs-operator">/</span><span class="hljs-params">nameserver</span> <span class="hljs-operator">/</span> &#123;<span class="hljs-params">print</span> $2; <span class="hljs-params">exit</span>&#125;&#x27; <span class="hljs-operator">/</span><span class="hljs-params">etc</span><span class="hljs-operator">/</span><span class="hljs-params">resolv</span>.<span class="hljs-params">conf</span> 2&gt;<span class="hljs-operator">/</span><span class="hljs-params">dev</span><span class="hljs-operator">/</span><span class="hljs-params">null</span>)</span>:<span class="hljs-number">0</span> # <span class="hljs-keyword">in</span> WSL <span class="hljs-number">2</span></code></pre><p>然后source  ~/.zshrc就可以了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>博客</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>WSL</tag>
+      
+      <tag>博客</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>哈夫曼树压缩和解压缩</title>
     <link href="/2021/12/21/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/"/>
     <url>/2021/12/21/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/</url>
