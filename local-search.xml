@@ -87,6 +87,188 @@
   
   
   <entry>
+    <title>signal和sigaction的用法</title>
+    <link href="/2021/12/26/signal%E5%92%8Csigaction/"/>
+    <url>/2021/12/26/signal%E5%92%8Csigaction/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.cnblogs.com/52php/p/5813867.html">参考博客</a></p><h1 id="Linux进程间通信（一）：-信号-signal-、sigaction"><a href="#Linux进程间通信（一）：-信号-signal-、sigaction" class="headerlink" title="Linux进程间通信（一）： 信号 signal()、sigaction()"></a>Linux进程间通信（一）： 信号 signal()、sigaction()</h1><h2 id="一、什么是信号"><a href="#一、什么是信号" class="headerlink" title="一、什么是信号"></a>一、什么是信号</h2><p>用过Windows的我们都知道，当我们无法正常结束一个程序时，可以用任务管理器强制结束这个进程，但这其实是怎么实现的呢？同样的功能在Linux上是通过生成信号和捕获信号来实现的，运行中的进程捕获到这个信号然后作出一定的操作并最终被终止。</p><p>信号是UNIX和Linux系统响应某些条件而产生的一个事件，<br>接收到该信号的进程会相应地采取一些行动。通常信号是由一个错误产生的。但它们还可以作为进程间通信或修改行为的一种方式，<br>明确地由一个进程发送给另一个进程。一个信号的产生叫生成，接收到一个信号叫捕获。</p><h2 id="二、信号的种类"><a href="#二、信号的种类" class="headerlink" title="二、信号的种类"></a>二、信号的种类</h2><p>信号的名称是在头文件signal.h中定义的，信号都以SIG开头，常用的信号并不多，<br>常用的信号如下：<br>SIGINT一般是由终端敲击的ctrl+C组合键以及预先设置的中断字符</p><p>SIGUSR1,SIGUSR2,进程间使用这个信号通信，如报告状态信息</p><p>SIGPIPE，如果向管道写数据但是没有读进程就会产生这个信号。</p><h2 id="三、信号的处理-——-signal-函数"><a href="#三、信号的处理-——-signal-函数" class="headerlink" title="三、信号的处理 —— signal()函数"></a>三、信号的处理 —— signal()函数</h2><p>程序可用使用signal()函数来处理指定的信号，主要通过忽略和恢复其默认行为来工作。</p><p>void (<em>signal(int sig, void (</em>func)(int)))(int);<br>这是一个相当复杂的声明，耐心点看可以知道signal是一个带有sig和func两个参数的函数，func是一个类型为void (*)(int)的函数指针。该函数返回一个与func相同类型的指针，指向先前指定信号处理函数的函数指针。准备捕获的信号的参数由sig给出，接收到的指定信号后要调用的函数由参数func给出。<br>其实这个函数的使用是相当简单的，通过下面的例子就可以知道。注意信号处理函数的原型必须<br>为void func（int），或者是下面的特殊值：</p><p>SIG_IGN : 忽略信号</p><p>SIG_DFL : 恢复信号的默认行为</p><h2 id="四、信号处理-——-sigaction-函数"><a href="#四、信号处理-——-sigaction-函数" class="headerlink" title="四、信号处理 —— sigaction()函数"></a>四、信号处理 —— sigaction()函数</h2><p>前面我们看到了signal()函数对信号的处理，但是一般情况下我们可以使用一个更加健壮的信号接口 —— sigaction()函数。它的原型为：</p><p>int sigaction(int sig, const struct sigaction <em>act, struct sigaction </em>oact);</p><p>该函数与signal()函数一样，用于设置与信号sig关联的动作，而oact如果不是空指针的话，就用它来保存原先对该信号的动作的位置，<br>act则用于设置指定信号的动作。</p><p>sigaction结构体定义在signal.h中，但是它至少包括以下成员：</p><p>void (*) (int) sa_handler：处理函数指针，相当于signal函数的func参数。</p><p>sigset_t sa_mask： 指定一个。信号集，在调用sa_handler所指向的信号处理函数之前，该信号集将被加入到进程的信号屏蔽字中。信号屏蔽字是指当前被阻塞的一组信号，它们不能被当前进程接收到</p><p>int sa_flags：信号处理修改器;</p><p>sa_mask 的值通常是通过使用信号集函数来设置的，关于信号集函数，我将会在我的下一篇文章 —— Linux进程间通信——信号集函数，详细讲述。</p><p>sa_flags，通常可以取以下的值：例如SA_NODEFER,捕捉到信号时不添加到信号屏蔽字中。</p><p>此外，现在有一个这样的问题，我们使用signal()或sigaction()函数来指定处理信号的函数，但是如果这个信号处理函数建立之前就接收到要处理的信号的话，进程会有怎样的反应呢？它就不会像我们想像的那样用我们设定的处理函数来处理了。sa_mask就可以解决这样的问题，sa_mask指定了一个信号集，在调用sa_handler所指向的信号处理函数之前，该信号集将被<br>加入到进程的信号屏蔽字中，设置信号屏蔽字可以防止信号在它的处理函数还未运行结束时就被接收到的情况，即使用sa_mask字段可以消除这一竞态条件。</p><h2 id="五、发送信号"><a href="#五、发送信号" class="headerlink" title="五、发送信号"></a>五、发送信号</h2><p>上面说到的函数都是一些进程接收到一个信号之后怎么对这个信号作出反应，即信号的处理的问题，有没有什么函数可以向一个进程主动地发出一个信号呢？我们可以通过两个函数kill()和alarm()来发送一个信号。</p><p>1、kill()函数</p><p>先来看看kill()函数，进程可以通过kill()函数向包括它本身在内的其他进程发送一个信号，如果程序没有发送这个信号的权限，对kill()函数的调用就将失败，而失败的常见原因是目标进程由另一个用户所拥有。想一想也是容易明白的，你总不能控制别人的程序吧，当然超级用户root，这种上帝般的存在就除外了。</p><p>kill()函数的原型为：</p><h1 id="include"><a href="#include" class="headerlink" title="include "></a>include <sys types.h></sys></h1><h1 id="include-1"><a href="#include-1" class="headerlink" title="include "></a>include <signal.h></signal.h></h1><p>int kill(pid_t pid, int sig);</p><p>它的作用把信号sig发送给进程号为pid的进程，成功时返回0。</p><p>kill()调用失败返回-1，调用失败通常有三大原因：</p><p>1、给定的信号无效（errno = EINVAL)<br>2、发送权限不够( errno = EPERM ）<br>3、目标进程不存在( errno = ESRCH )</p><p>2、alarm()函数</p><p>这个函数跟它的名字一样，给我们提供了一个闹钟的功能，进程可以调用alarm()函数在经过预定时间后向发送一个SIGALRM信号。</p><p>alarm()函数的型如下：</p><p>alarm()函数用来在seconds秒之后安排发送一个SIGALRM信号，如果seconds为0，将取消所有已设置的闹钟请求。alarm()函数的返回值是以前设置的闹钟时间的余留秒数，如果返回失败返回-1。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>网络编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>网络编程</tag>
+      
+      <tag>signal</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>select和poll和epoll的区别</title>
+    <link href="/2021/12/26/select%E5%92%8Cepoll%E5%92%8Cpoll%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <url>/2021/12/26/select%E5%92%8Cepoll%E5%92%8Cpoll%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<p>参考博客<a href="https://zhuanlan.zhihu.com/p/272891398">参考博客</a></p><p>参考博客<a href="https://www.cnblogs.com/anker/p/3265058.html">参考博客</a></p><h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><p>select本质上是通过设置或检查存放fd标志位的数据结构进行下一步处理。 这带来缺点：</p><p>FD_SETSIZE宏定义，其大小是32个整数的大小<br>当然我们可以对进行修改，然后重新编译内核，但是性能可能会受到影响，<br>这需要进一步的测试 一般该数和系统内存关系很大，具体数目可以cat /proc/sys/fs/file-max察看。32位机默认1024个，64位默认2048</p><p>对socket是线性扫描，即轮询，效率较低： 仅知道有I/O事件发生，却不知是哪几个流，<br>只会无差异轮询所有流，找出能读数据或写数据的流进行操作。同时处理的流越多，无差别轮询时间越长 - O(n)。</p><p>（1）使用copy_from_user从用户空间拷贝fd_set到内核空间</p><p>（2）注册回调函数__pollwait</p><p>（3）遍历所有fd，调用其对应的poll方法（对于socket，这个poll方法是sock_poll，sock_poll根据情况会调用到tcp_poll,udp_poll或者datagram_poll）</p><p>（4）以tcp_poll为例，其核心实现就是__pollwait，也就是上面注册的回调函数。</p><p>（5）__pollwait的主要工作就是把current（当前进程）挂到设备的等待队列中，不同的设备有不同的等待队列，对于tcp_poll来说，其等待队列是sk-&gt;sk_sleep（注意把进程挂到等待队列中并不代表进程已经睡眠了）。在设备收到一条消息（网络设备）或填写完文件数据（磁盘设备）后，会唤醒设备等待队列上睡眠的进程，这时current便被唤醒了。</p><p>（6）poll方法返回时会返回一个描述读写操作是否就绪的mask掩码，根据这个mask掩码给fd_set赋值。</p><p>（7）如果遍历完所有的fd，还没有返回一个可读写的mask掩码，则会调用schedule_timeout是调用select的进程（也就是current）进入睡眠。当设备驱动发生自身资源可读写后，会唤醒其等待队列上睡眠的进程。如果超过一定的超时时间（schedule_timeout指定），还是没人唤醒，则调用select的进程会重新被唤醒获得CPU，进而重新遍历fd，判断有没有就绪的fd。</p><p>（8）把fd_set从内核空间拷贝到用户空间。</p><p>缺点：</p><p>内核需要将消息传递到用户空间，都需要内核拷贝动作。需要维护一个用来存放大量fd的数据结构，使得用户空间和内核空间在传递该结构时复制开销大。</p><p>每次调用select，都需把fd集合从用户态拷贝到内核态，fd很多时开销就很大</p><p>同时每次调用select都需在内核遍历传递进来的所有fd，fd很多时开销就很大</p><p>select支持的文件描述符数量太小了，默认最大支持1024个</p><p>主动轮询效率很低</p><p>poll</p><p>和select类似，只是描述fd集合的方式不同，poll使用pollfd结构而非select的fd_set结构。 管理多个描述符也是进行轮询，根据描述符的状态进行处理，但poll没有最大文件描述符数量的限制。<br>因为pollfd使用的是链表</p><p>poll和select同样存在一个缺点就是，包含大量文件描述符的数组被整体复制于用户态和内核的地址空间之间，而不论这些文件描述符是否就绪，它的开销随着文件描述符数量的增加而线性增大。</p><p>它将用户传入的数组拷贝到内核空间</p><p>然后查询每个fd对应的设备状态：</p><p>如果设备就绪 在设备等待队列中加入一项继续遍历</p><p>若遍历完所有fd后，都没发现就绪的设备 挂起当前进程，直到设备就绪或主动超时，被唤醒后它又再次遍历fd。这个过程经历多次无意义的遍历。</p><p>没有最大连接数限制，因其基于链表存储，其缺点：</p><p>大量fd数组被整体复制于用户态和内核地址空间间，而不管是否有意义</p><p>如果报告了fd后，没有被处理，那么下次poll时会再次报告该fd</p><p>epoll</p><p>epoll模型修改主动轮询为被动通知，当有事件发生时，被动接收通知。所以epoll模型注册套接字后，主程序可做其他事情，当事件发生时，接收到通知后再去处理。</p><p>可理解为event poll，epoll会把哪个流发生哪种I/O事件通知我们。所以epoll是事件驱动（每个事件关联fd），此时我们对这些流的操作都是有意义的。复杂度也降到O(1)。</p><p>epoll的触发模式，两种水平触发和边缘触发，EPOLLLT和EPOLLET两种：</p><h3 id="LT"><a href="#LT" class="headerlink" title="LT"></a>LT</h3><p><a href="https://github.com/yedf2/handy/blob/master/raw-examples/epoll.cc">LT的一个例子</a></p><p>默认的模式（水平触发） 只要该fd还有数据可读，每次 epoll_wait 都会返回它的事件，提醒用户程序去操作，</p><h3 id="ET"><a href="#ET" class="headerlink" title="ET"></a>ET</h3><p><a href="https://github.com/yedf/handy/blob/master/raw-examples/epoll-et.cc">ET的一个例子</a></p><p>是“高速”模式（边缘触发），只会提示一次，直到下次再有数据流入之前都不会再提示，无论fd中是否还有数据可读。<br>所以在ET模式下，read一个fd的时候一定要把它的buffer读完，即读到read返回值小于请求值或遇到EAGAIN错误</p><p>epoll使用“事件”的就绪通知方式，通过epoll_ctl注册fd，一旦该fd就绪，内核就会采用类似回调机制激活该fd，epoll_wait便可收到通知。</p><p>若用EPOLLLT，系统中一旦有大量无需读写的就绪文件描述符，它们每次调用epoll_wait都会返回，这大大降低处理程序检索自己关心的<br>就绪文件描述符的效率。 而采用EPOLLET，当被监控的文件描述符上有可读写事件发生时，epoll_wait会通知处理程序去读写。如果<br>这次没有把数据全部读写完(如读写缓冲区太小)，那么下次调用epoll_wait时，它不会通知你，<br>即只会通知你一次，直到该文件描述符上出现第二次可读写事件才会通知你。这比水平触发效率高，系统不会充斥大量你不关心的就绪文件描述符。</p><h3 id="epoll优点"><a href="#epoll优点" class="headerlink" title="epoll优点"></a>epoll优点</h3><p>没有最大并发连接的限制，能打开的FD的上限远大于1024（1G的内存上能监听约10万个端口）</p><p>效率提升，不是轮询，不会随着FD数目的增加效率下降。只有活跃可用的FD才会调用callback函数 即Epoll最大的优点就在<br>于它只关心“活跃”的连接，而跟连接总数无关，因此在实际的网络环境中，Epoll的效率就会远远高于select和poll</p><p>内存拷贝，利用mmap()文件映射内存加速与内核空间的消息传递；即epoll使用mmap减少复制开销。</p><p>epoll通过内核和用户空间共享一块内存来实现的</p><h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>在连接数少并且连接都十分活跃的情况下，select和poll的性能可能比epoll好，毕竟epoll的通知机制需要很多函数回调。</p><p>epoll跟select都能提供多路I/O复用的解决方案。在现在的Linux内核里有都能够支持，其中epoll是Linux所特有，<br>而select则应该是POSIX所规定，一般操作系统均有实现。</p><p>对于第一个缺点，epoll的解决方案在epoll_ctl函数中。每次注册新的事件到epoll句柄中时<br>（在epoll_ctl中指定EPOLL_CTL_ADD），会把所有的fd拷贝进内核，而不是在epoll_wait的时候重复拷贝。epoll保证了<br>每个fd在整个过程中只会拷贝一次。</p><p>对于第二个缺点，epoll的解决方案不像select或poll一样每次都把current轮流加入fd对应的设备等待队列中，<br>而只在epoll_ctl时把current挂一遍（这一遍必不可少）并为每个fd指定一个回调函数，当设备就绪，<br>唤醒等待队列上的等待者时，就会调用这个回调函数，而这个回调函数会把就绪的fd加入一个就绪链表）。<br>epoll_wait的工作实际上就是在这个就绪链表中查看有没有就绪的fd（利用schedule_timeout()实现睡一会，判断一会的效果，O(1)复杂度<br>和select实现中的第7步是类似的）。</p><p>对于第三个缺点，epoll没有这个限制，它所支持的FD上限是最大可以打开文件的数目，这个数字一般远大于2048,举个例子,在1GB内存的机器<br>上大约是10万左右，具体数目可以cat /proc/sys/fs/file-max察看,一般来说这个数目和系统内存关系很大。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>网络编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>网络编程</tag>
+      
+      <tag>epoll</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>红黑树知识点</title>
+    <link href="/2021/12/24/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    <url>/2021/12/24/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    
+    <content type="html"><![CDATA[<p>一般来说红黑树有以下的知识点</p><ol><li><p>根是黑色</p></li><li><p>叶节点是黑色的（即为空的黑色的哨兵节点）</p></li><li><p>从跟到叶子经过相同数目的黑色节点</p></li><li><p>红色节点的子节点一定是两个黑色的</p></li><li><p>节点为红色或者黑色</p></li></ol><p>可以参考这个链接来使用<a href="https://www.jianshu.com/p/e136ec79235c">30张图带你彻底理解红黑树</a></p><p>红黑树主要是通过左旋右旋和节点变色来实现的。这个左旋右旋和b树b+树的都是一样的。</p><h2 id="红黑树查找"><a href="#红黑树查找" class="headerlink" title="红黑树查找"></a>红黑树查找</h2><p>与二叉搜索树差不多的，但是由于红黑树总是黑色平衡的，<br>所以最坏是O(2lgN)，也即整颗树刚好红黑相隔的时候。能有这么好的查找效率得益于红黑树自平衡的特性</p><h2 id="红黑树插入"><a href="#红黑树插入" class="headerlink" title="红黑树插入"></a>红黑树插入</h2><p>首先必须先找到插入位置，把插入结点放到正确的位置就可以啦，但插入结点是应该是什么颜色呢？答案是红色。理由很简单，红色在父结点（如果存在）为黑色结点时，<br>红黑树的黑色平衡没被破坏，不需要做自平衡操作。但如果插入结点是黑色，那么插入位置所<br>在的子树黑色结点总是多1，必须做自平衡。</p><p>一般来说加入红节点会破坏1或者4。</p><h3 id="1-如果此时树为空树，那么必须把插入的节点改成黑色。"><a href="#1-如果此时树为空树，那么必须把插入的节点改成黑色。" class="headerlink" title="1. 如果此时树为空树，那么必须把插入的节点改成黑色。"></a>1. 如果此时树为空树，那么必须把插入的节点改成黑色。</h3><h3 id="2-如果插入的节点父节点为黑节点，那么可以直接插入。"><a href="#2-如果插入的节点父节点为黑节点，那么可以直接插入。" class="headerlink" title="2. 如果插入的节点父节点为黑节点，那么可以直接插入。"></a>2. 如果插入的节点父节点为黑节点，那么可以直接插入。</h3><h3 id="3-如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论"><a href="#3-如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论" class="headerlink" title="3. 如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论"></a>3. 如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论</h3><h4 id="3-1-叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。"><a href="#3-1-叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。" class="headerlink" title="3.1 叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。"></a>3.1 叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。</h4><h4 id="3-2-叔叔节点为黑色或者不存在，且父亲是爷爷的左节点"><a href="#3-2-叔叔节点为黑色或者不存在，且父亲是爷爷的左节点" class="headerlink" title="3.2 叔叔节点为黑色或者不存在，且父亲是爷爷的左节点"></a>3.2 叔叔节点为黑色或者不存在，且父亲是爷爷的左节点</h4><h5 id="3-2-1-自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。"><a href="#3-2-1-自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。" class="headerlink" title="3.2.1 自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。"></a>3.2.1 自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。</h5><h5 id="3-2-2-自己插入的是父亲节点的右节点，对父亲节点左旋变成3-2-1"><a href="#3-2-2-自己插入的是父亲节点的右节点，对父亲节点左旋变成3-2-1" class="headerlink" title="3.2.2 自己插入的是父亲节点的右节点，对父亲节点左旋变成3.2.1"></a>3.2.2 自己插入的是父亲节点的右节点，对父亲节点左旋变成3.2.1</h5><h4 id="3-3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在"><a href="#3-3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在" class="headerlink" title="3.3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在"></a>3.3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在</h4><p>且为黑色，那么自己的路径和叔叔路径的黑色数目就不一样了），且父亲是爷爷的右节点（是3.2的另外一个方向的版本）</p><h5 id="3-3-1-自己插入的是父亲节点的左节点，右旋，变成3-3-2。"><a href="#3-3-1-自己插入的是父亲节点的左节点，右旋，变成3-3-2。" class="headerlink" title="3.3.1 自己插入的是父亲节点的左节点，右旋，变成3.3.2。"></a>3.3.1 自己插入的是父亲节点的左节点，右旋，变成3.3.2。</h5><h5 id="3-3-2-自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。"><a href="#3-3-2-自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。" class="headerlink" title="3.3.2 自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。"></a>3.3.2 自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。</h5><h3 id="插入节点的key已经存在，那么此时更新节点的value。"><a href="#插入节点的key已经存在，那么此时更新节点的value。" class="headerlink" title="插入节点的key已经存在，那么此时更新节点的value。"></a>插入节点的key已经存在，那么此时更新节点的value。</h3><h2 id="红黑树删除"><a href="#红黑树删除" class="headerlink" title="红黑树删除"></a>红黑树删除</h2><p>删除的情况主要有几个点</p><p>1.删除的节点没有子节点，直接删除。</p><ol><li><p>删除的节点有一个子节点，用子节点代替删除的节点（可以认为是删除了子节点）</p></li><li><p>删除的节点有两个子节点，用后继节点代替删除的节点。（也可以用前驱节点代替，这里以后继节点为例）。<br>把二叉树所有结点投射在X轴上，所有结点都是从左到右排好序的，所有目标结点的前后结点就是对应前继和后继结点。（即中序遍历的后面一个节点）<br>这里可以认为是删除了后继节点，转成情况2或者通过情况2（不存在左节点）转情况1</p></li></ol><p>我们目的都是可以把情况2，3认为是情况1</p><p>综上所述，删除操作删除的结点可以看作删除替代结点，而替代结点最后总是在树末。</p><ol><li>替换节点是红色节点</li></ol><p>我们把替换结点换到了删除结点的位置时，<br>由于替换结点时红色，删除也了不会影响红黑树的平衡，只要把替换结点的颜色设为删除的结点的颜色即可重新平衡。</p><p>2.替换节点是黑色节点</p><p>2.1.1 替换结点是其父结点的左子结点，替换结点的兄弟结点是红结点，兄弟节点的父节点和子节点都是黑色。</p><p>此时把替换节点，父节点，兄弟节点变成黑红黑，然后左旋。</p><p>2.1.2 替换结点是其父结点的左子结点，替换结点的兄弟结点是红结点，</p><p>2.1.2.1替换结点的兄弟结点的右子结点是红结点，左子结点任意颜色</p><p>此时由于会删除黑色节点导致不平衡，所以兄弟节点改成父节点的颜色，将父节点改为黑色，<br>兄弟节点的右节点改为黑色。然后左旋。</p><p>2.1.2.2 替换结点的兄弟结点的右子结点为黑结点，左子结点为红结点</p><p>删除黑色的替换节点会不平衡，所以将S设置为红色，对兄弟节点右旋，然后得到2.1.2.1的情况。</p><p>2.1.2.3 替换结点的兄弟结点的右子结点为黑结点，左子结点为黑结点</p><p>将兄弟节点设置为红色。将父节点作为新的替换节点。然后重新进行删除节点处理。</p><p>2.2：替换结点是其父结点的左子结点</p><p>这个情况和2.1相同，只是方向相反。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>算法</category>
+      
+      <category>数据结构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+      <tag>红黑树</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>1705. 吃苹果的最大数目（可以用红黑树即map或者优先队列priority_queue实现）</title>
+    <link href="/2021/12/24/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E5%92%8C%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0/"/>
+    <url>/2021/12/24/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E5%92%8C%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0/</url>
+    
+    <content type="html"><![CDATA[<p>一般可以用优先队列的也可以用红黑树实现，可以比较一下。</p><p>优先队列实现<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs arduino"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">eatenApples</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; apples, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; days)&lt;/span&gt; &lt;/span&gt;&#123;</span></span></code></pre></p><pre><code>&lt;span class=&quot;hljs-built_in&quot;&gt;priority_queue&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;pair&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;, &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;&amp;gt;, &lt;span class=&quot;hljs-built_in&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;pair&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;, &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;&amp;gt;&amp;gt;, greater&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;pair&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;, &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; pq;&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; res = &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;;&lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; i = &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;, n = apples.&lt;span class=&quot;hljs-built_in&quot;&gt;size&lt;/span&gt;(); i &amp;lt; n || !pq.empty(); ++i) &amp;#123;    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (i &amp;lt; n  &amp;amp;&amp;amp; apples[i] != &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;) &amp;#123;        pq.emplace(i + days[i], apples[i]);    &amp;#125;    &lt;span class=&quot;hljs-keyword&quot;&gt;while&lt;/span&gt; (!pq.empty() &amp;amp;&amp;amp; pq.top().first &amp;lt;= i) &amp;#123;        pq.pop();    &amp;#125;    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (!pq.empty()) &amp;#123;        res++;        &lt;span class=&quot;hljs-built_in&quot;&gt;pair&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;,&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;&amp;gt; mypair = pq.top();        mypair.second--;        pq.pop();        &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (mypair.second&amp;gt;&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;) &amp;#123;            pq.emplace(mypair);        &amp;#125;    &amp;#125;&amp;#125;&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; res;</code></pre><p>&#125;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;<br>红黑树实现<br><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-keyword">public</span>:    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">eatenApples</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; apples, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; days)</span> </span><span class="hljs-function">    </span>&#123;        <span class="hljs-keyword">int</span> n=apples.<span class="hljs-built_in">size</span>();        <span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; m;        <span class="hljs-keyword">int</span> res=<span class="hljs-number">0</span>;        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n||!m.empty();i++)        &#123;            m.erase(i);            <span class="hljs-keyword">if</span>(i&lt;n&amp;&amp;apples[i]!=<span class="hljs-number">0</span>)                m[i+days[i]]=apples[i];            <span class="hljs-keyword">if</span>(!m.empty())            &#123;                <span class="hljs-keyword">auto</span> tmp=m.<span class="hljs-built_in">begin</span>();                tmp-&gt;second--;                <span class="hljs-keyword">if</span>(tmp-&gt;second==<span class="hljs-number">0</span>)                    m.erase(tmp);                res++;            &#125;        &#125;        <span class="hljs-keyword">return</span> res;    &#125;&#125;;</code></pre></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>算法</category>
+      
+      <category>数据结构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+      <tag>数据结构</tag>
+      
+      <tag>红黑树</tag>
+      
+      <tag>优先队列</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C++虚函数虚表内容</title>
+    <link href="/2021/12/21/c++%E8%99%9A%E5%87%BD%E6%95%B0_%E8%99%9A%E8%A1%A8%E5%86%85%E5%AE%B9/"/>
+    <url>/2021/12/21/c++%E8%99%9A%E5%87%BD%E6%95%B0_%E8%99%9A%E8%A1%A8%E5%86%85%E5%AE%B9/</url>
+    
+    <content type="html"><![CDATA[<h2 id="知乎这个答案讲的很详细可以看下"><a href="#知乎这个答案讲的很详细可以看下" class="headerlink" title="知乎这个答案讲的很详细可以看下"></a><a href="https://zhuanlan.zhihu.com/p/41309205">知乎这个答案讲的很详细可以看下</a></h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+      <tag>虚函数</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>const and static and volatile用法</title>
+    <link href="/2021/12/21/const_static_votatile%E7%94%A8%E6%B3%95/"/>
+    <url>/2021/12/21/const_static_votatile%E7%94%A8%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<h1 id="static用法"><a href="#static用法" class="headerlink" title="static用法"></a>static用法</h1><p>主要是表明某个变量是模块私有的，放在静态区，和全局变量放在一个区域，默认初始化为0，在类实例化之前，静态变量区域的变量就已经初始化好了。</p><p>具体分为几种情况：<br>1类成员变量，初始化后不可改变，只能在类外初始化，可由类直接访问，也可以用对象访问。</p><p>2类成员函数，只能访问静态成员变量，可有类直接访问，而且由于是修饰类的，没有this指针。</p><p>3局部变量，在模块外不可使用，实际上变成全局的，但是只能在这个模块内用。</p><p>4某个文件全局变量，不可在文件外使用，即使用了extern</p><p>5静态函数，只能在本文件调用，其他文件不可以调用</p><h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><p>规则：const离谁近，谁就不能被修改；</p><p>const修饰一个变量时，一定要给这个变量初始化，若不初始化，在后面也不能初始化。</p><p>例如const int *p=1;<br>p指向的内容是不可以改变的，可以去除int来看，易于理解。</p><p> int* const p=1;<br>指针的地址是不可改变的。</p><p>这个和&amp;的语法糖是一样的T * const p</p><h1 id="关键字volatile有什么含意？并给出三个不同的例子。"><a href="#关键字volatile有什么含意？并给出三个不同的例子。" class="headerlink" title="关键字volatile有什么含意？并给出三个不同的例子。"></a>关键字volatile有什么含意？并给出三个不同的例子。</h1><p>一个定义为volatile的变量是说这变量可能会被意想不到地改变，这样，编译器就不会去假设这个变量的值了。精确地说就是，优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。下面是volatile变量的几个例子：</p><p>1：并行设备的硬件寄存器（如：状态寄存器）</p><p>2：一个中断服务子程序中会访问到的非自动变量(Non-automatic variables)</p><p>3：多线程应用中被几个任务共享的变量</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>宏定义</tag>
+      
+      <tag>指针</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>C语言宏定义和一些小用法</title>
     <link href="/2021/12/21/c%E8%AF%AD%E8%A8%80%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%92%8C%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%94%A8%E6%B3%95/"/>
     <url>/2021/12/21/c%E8%AF%AD%E8%A8%80%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%92%8C%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%94%A8%E6%B3%95/</url>
@@ -368,6 +550,39 @@
       <tag>源码解析</tag>
       
       <tag>LRU</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>5. 最长回文子串 和马拉车算法</title>
+    <link href="/2021/02/19/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/"/>
+    <url>/2021/02/19/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/</url>
+    
+    <content type="html"><![CDATA[<p>主要是利用了回文串中的对称性质。将回文串分成两部分来看待，左边的已知结果，右边的未知，然后利用左边的信息，需要特殊讨论的情况就是左边回文串超出最左边的时候，超出中心并不需要讨论，因为超出中间的时候不会影响右边的结果，因为右边也只是超出中心，并没有超出最右边。算法效率很好。<br><pre><code class="hljs processing"><span class="hljs-keyword">public</span> <span class="hljs-keyword">String</span> longestPalindrome(<span class="hljs-keyword">String</span> s) &#123;    <span class="hljs-built_in">int</span> C=<span class="hljs-number">0</span>,R=<span class="hljs-number">0</span>;    <span class="hljs-built_in">int</span> len=s.length();    StringBuilder sbd=<span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">&quot;&quot;</span>);    sbd.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;!&quot;</span>);    sbd.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;#&quot;</span>);    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>;i&lt;len;i++)    &#123;        sbd.<span class="hljs-built_in">append</span>(s.charAt(i));        sbd.<span class="hljs-built_in">append</span>(<span class="hljs-string">&#x27;#&#x27;</span>);    &#125;    sbd.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;?&quot;</span>);    <span class="hljs-built_in">int</span> n=sbd.length();    <span class="hljs-built_in">int</span> a[]=<span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[n];    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;n<span class="hljs-number">-1</span>;i++)    &#123;        <span class="hljs-built_in">int</span> mirror=<span class="hljs-number">2</span>*C-i;        <span class="hljs-keyword">if</span>(i&lt;R)        &#123;            a[i]=Math.<span class="hljs-built_in">min</span>(a[mirror&lt;<span class="hljs-number">0</span>?C:mirror],R-i);            a[i]=Math.<span class="hljs-built_in">min</span>(a[i],i-C);        &#125;        <span class="hljs-keyword">else</span>        &#123;            a[i]=<span class="hljs-number">0</span>;        &#125;        <span class="hljs-keyword">while</span>(sbd.charAt(i-a[i]<span class="hljs-number">-1</span>)==sbd.charAt(i+a[i]+<span class="hljs-number">1</span>))        &#123;            a[i]++;        &#125;        <span class="hljs-keyword">if</span>(i+a[i]&gt;R)        &#123;            R=i+a[i];            C=i;        &#125;        <span class="hljs-comment">// System.out.println(a[i]);</span>    &#125;    <span class="hljs-built_in">int</span> maxlen=<span class="hljs-number">0</span>;    <span class="hljs-built_in">int</span> center=<span class="hljs-number">0</span>;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;n<span class="hljs-number">-1</span>;i++)    &#123;        <span class="hljs-keyword">if</span>(a[i]&gt;maxlen)        &#123;            maxlen=a[i];            center=i;        &#125;    &#125;    <span class="hljs-keyword">String</span> res=sbd.substring(center-maxlen,center+maxlen);    <span class="hljs-built_in">int</span> reslen=res.length();    StringBuilder s1=<span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">&quot;&quot;</span>);    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;reslen;i+=<span class="hljs-number">2</span>)    &#123;        s1.<span class="hljs-built_in">append</span>(res.charAt(i));    &#125;    <span class="hljs-keyword">return</span> s1.toString();&#125;</code></pre></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>算法</category>
+      
+      <category>字符串算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>java</tag>
+      
+      <tag>马拉车算法</tag>
+      
+      <tag>leettcode</tag>
       
     </tags>
     
@@ -1141,6 +1356,39 @@
   
   
   <entry>
+    <title>957. N 天后的牢房</title>
+    <link href="/2020/10/06/957.N%20%E5%A4%A9%E5%90%8E%E7%9A%84%E7%89%A2%E6%88%BF/"/>
+    <url>/2020/10/06/957.N%20%E5%A4%A9%E5%90%8E%E7%9A%84%E7%89%A2%E6%88%BF/</url>
+    
+    <content type="html"><![CDATA[<p>为啥14总是一个循环呢？</p><p>首先，经过一次变化之后，0位和7位的数字都会固定是0，不再改变<br>？？？？？？？?<br>|<br>0 ？？？？？？0</p><p>其次，第n次的1357位的值决定了n+1次2468位的值，而n+1次的2468位的值又决定了n+2次1357位的值。<br>因此可以得出，第n次的1357位的值可以决定n+2次1357位的值，并且，第n次的2468位的值可以决定n+2次2468位的值。</p><p>下面先考虑2468位的情况。<br>因为，8位的值是固定的，所以，只需要考虑246位的值。<br>按2^3=8的情况考虑，246的值可能的情况最多只有8种。<br>然而，仔细观察后会发现，如果第n次的246位的值是001，那么n+2次246位的值也是001，所以001的情况下，246位的值保持不变，所以循环次数为1。<br>如果246位值是其他的情况，那么他们会经历7次循环，因为每次循环需要变换两次，所以，总共需要的变化次数就是14。<br>(1)111 -&gt; (2)010 -&gt; (3)110 -&gt; (4)000 -&gt; (5)011 -&gt; (6)100 -&gt; (7)101 -&gt; (8)111</p><p>因为1357位和2468位的地位相同，情况一样，同理，考虑1357位。<br>100的情况下，135的值保持不变，其他情况下，7次循环，14次变化。<br>(0)111 -&gt; (1)010 -&gt; (2)011 -&gt; (3)000 -&gt; (4)110 -&gt; (5)001 -&gt; (6)101 -&gt; (7)111</p><p>但是，注意，我们没有考虑到在每次变换中间，375位和246位的值。<br>其实在中间位置时，它们也同样处于一个循环B中。<br>还是先考虑246位，最好的情况就是，由246位初始决定的A循环，和由1357位的初始值决定的B循环，两个循环恰好互补，也就是下面的情况：<br>（我们用A，B分别表示两个循环，A1表示第一个循环中的第一次，B1表示第二个循环中的第一次）<br>(初始情况：A1)111 -&gt; (第一次变化：B1)011 -&gt; (第二次变化：A2)010 -&gt; (第三次变化：B2)100 -&gt; (第四次变化：A3)110 -&gt; (第五次变化：B3)101 -&gt; (第六次变化：A4)000 -&gt; (第七次变化：B4)111 -&gt; (第八次变化：A5)011 -&gt; (第九次变化：B5)010 -&gt; (第十次变化：A6)100 -&gt; (第十一次变化：B6)110 -&gt; (第十二次变化：A7)101 -&gt; (第十三次变化：B7)000 -&gt; (第十四次变化：A8)111<br>这样，在第8次变化前，246位的值已经完成了一次循环。<br>因为，A循环由246位初始决定，B循环由1357位的初始值决定，所以其实在上述情况下，1357位的值也是固定的。</p><p>因此，<br>当1357位固定为0100并且2468位固定为0010时，即情况为{0,0,1,0,0,1,0,0}时，循环次数为1。<br>当1357位和2468位出现最佳情况时，循环次数为7，有一下其中情况：<br>1: {0, 1, 1, 1, 1, 1, 1, 0}<br>2: {0, 0, 1, 1, 1, 1, 0, 0}<br>3: {0, 0, 0, 1, 1, 0, 0, 0}<br>4: {0, 1, 0, 0, 0, 0, 1, 0}<br>5: {0, 1, 0, 1, 1, 0, 1, 0}<br>6: {0, 1, 1, 0, 0, 1, 1, 0}<br>7: {0, 0, 0, 0, 0, 0, 0, 0}<br>其他情况下，循环次数为14。<br><pre><code class="hljs angelscript">vector&lt;<span class="hljs-built_in">int</span>&gt; prisonAfterNDays(vector&lt;<span class="hljs-built_in">int</span>&gt;&amp; cells, <span class="hljs-built_in">int</span> N) &#123;    <span class="hljs-keyword">if</span>(N==<span class="hljs-number">0</span>)        <span class="hljs-keyword">return</span> cells;    N=N%<span class="hljs-number">14</span>;    <span class="hljs-keyword">if</span>(N==<span class="hljs-number">0</span>)<span class="hljs-comment">//当N为0的时候需要特别注意。</span>        N=<span class="hljs-number">14</span>;    vector&lt;<span class="hljs-built_in">int</span>&gt; res(<span class="hljs-number">8</span>,<span class="hljs-number">0</span>);    <span class="hljs-built_in">int</span> flag=<span class="hljs-number">1</span>;    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;=N;i++)    &#123;        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">6</span>;j++)        &#123;            <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">1</span>)            &#123;                <span class="hljs-keyword">if</span>(cells[j<span class="hljs-number">-1</span>]==cells[j+<span class="hljs-number">1</span>])                &#123;                    res[j]=<span class="hljs-number">1</span>;                &#125;                <span class="hljs-keyword">else</span>                    res[j]=<span class="hljs-number">0</span>;            &#125;            <span class="hljs-keyword">else</span>            &#123;                <span class="hljs-keyword">if</span>(res[j<span class="hljs-number">-1</span>]==res[j+<span class="hljs-number">1</span>])                &#123;                    cells[j]=<span class="hljs-number">1</span>;                &#125;                <span class="hljs-keyword">else</span>                    cells[j]=<span class="hljs-number">0</span>;            &#125;        &#125;        <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">1</span>)        &#123;            res[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;            res[<span class="hljs-number">7</span>]=<span class="hljs-number">0</span>;        &#125;        <span class="hljs-keyword">else</span>        &#123;            cells[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;            cells[<span class="hljs-number">7</span>]=<span class="hljs-number">0</span>;        &#125;        flag=-flag;    &#125;    <span class="hljs-keyword">if</span>(flag==<span class="hljs-number">1</span>)        <span class="hljs-keyword">return</span> cells;    <span class="hljs-keyword">else</span>        <span class="hljs-keyword">return</span> res;&#125;</code></pre></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>算法</category>
+      
+      <category>dp</category>
+      
+      <category>状压dp</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>动态规划</tag>
+      
+      <tag>数学</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>auto和decltype之间的区别</title>
     <link href="/2020/08/13/auto%E5%92%8Cdecltype%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
     <url>/2020/08/13/auto%E5%92%8Cdecltype%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
@@ -1210,6 +1458,37 @@
       <tag>图像处理</tag>
       
       <tag>医学图像</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>attention机制</title>
+    <link href="/2020/07/31/attention%E6%9C%BA%E5%88%B6/"/>
+    <url>/2020/07/31/attention%E6%9C%BA%E5%88%B6/</url>
+    
+    <content type="html"><![CDATA[<h1 id="attention机制"><a href="#attention机制" class="headerlink" title="attention机制"></a>attention机制</h1><p>这篇文章讲的很详细<br><a href="https://www.cnblogs.com/ydcode/p/11038064.html#encoder-decoder-%E6%A1%86%E6%9E%B6">attention机制</a></p><p>这篇文章的例子讲的可以<br><a href="https://blog.csdn.net/xiewenbo/article/details/79382785">attention机制</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>深度学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>机器学习</tag>
+      
+      <tag>深度学习</tag>
+      
+      <tag>NLP</tag>
       
     </tags>
     
@@ -1796,6 +2075,37 @@
       <tag>动态规划</tag>
       
       <tag>leetcode</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>65. 有效数字</title>
+    <link href="/2020/07/03/%5BLeetCode%5D%2065.%20%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97/"/>
+    <url>/2020/07/03/%5BLeetCode%5D%2065.%20%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97/</url>
+    
+    <content type="html"><![CDATA[<p>题目使用有穷自动机来解决，画出DFA就可以很好的解决。<br><a href="https://www.cnblogs.com/powercai/p/10930883.html">有穷自动机可见</a></p><h1 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h1><p>100%内存<br>100%速度<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs angelscript"><span class="hljs-keyword">class</span> <span class="hljs-symbol">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">bool</span> isNumber(<span class="hljs-built_in">string</span> s)<br>    &#123;<br>        <span class="hljs-built_in">int</span> sta;<br>        <span class="hljs-keyword">if</span>(s.size()&lt;=<span class="hljs-number">0</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">if</span>(isdigit(s[<span class="hljs-number">0</span>]))<br>            sta=<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[<span class="hljs-number">0</span>]==<span class="hljs-string">&#x27;.&#x27;</span>)<br>            sta=<span class="hljs-number">4</span>;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[<span class="hljs-number">0</span>]==<span class="hljs-string">&#x27; &#x27;</span>)<br>            sta=<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[<span class="hljs-number">0</span>]==<span class="hljs-string">&#x27;-&#x27;</span>||s[<span class="hljs-number">0</span>]==<span class="hljs-string">&#x27;+&#x27;</span>)<br>            sta=<span class="hljs-number">3</span>;<br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>;i&lt;s.size();i++)<br>        &#123;<br>            <span class="hljs-keyword">switch</span>(sta)<br>            &#123;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>                    <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">2</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;.&#x27;</span>)<br>                        sta=<span class="hljs-number">4</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27; &#x27;</span>)<br>                        sta=<span class="hljs-number">1</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;-&#x27;</span>||s[i]==<span class="hljs-string">&#x27;+&#x27;</span>)<br>                        sta=<span class="hljs-number">3</span>;<br>                    <span class="hljs-keyword">else</span><br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                    <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">2</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;.&#x27;</span>)<br>                        sta=<span class="hljs-number">5</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;e&#x27;</span>)<br>                        sta=<span class="hljs-number">7</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27; &#x27;</span>)<br>                        sta=<span class="hljs-number">6</span>;<br>                    <span class="hljs-keyword">else</span><br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>                    <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">2</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;.&#x27;</span>)<br>                        sta=<span class="hljs-number">4</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>                    <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">5</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>                    <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">5</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;e&#x27;</span>)<br>                        sta=<span class="hljs-number">7</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27; &#x27;</span>)<br>                        sta=<span class="hljs-number">6</span>;<br>                    <span class="hljs-keyword">else</span><br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:<br>                    <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27; &#x27;</span>)<br>                        sta=<span class="hljs-number">6</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:<br>                    <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;+&#x27;</span>||s[i]==<span class="hljs-string">&#x27;-&#x27;</span>)<br>                        sta=<span class="hljs-number">8</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">9</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">8</span>:<br>                    <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">9</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> <span class="hljs-number">9</span>:<br>                    <span class="hljs-keyword">if</span>(isdigit(s[i]))<br>                        sta=<span class="hljs-number">9</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27; &#x27;</span>)<br>                        sta=<span class="hljs-number">6</span>;<br>                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        cout&lt;&lt;sta;<br>        <span class="hljs-keyword">if</span>(sta==<span class="hljs-number">2</span>||sta==<span class="hljs-number">5</span>||sta==<span class="hljs-number">9</span>||sta==<span class="hljs-number">6</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</code></pre></p><pre><code>&amp;#125;</code></pre><p>&#125;;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术</category>
+      
+      <category>算法</category>
+      
+      <category>自动机理论</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>leettcode</tag>
+      
+      <tag>有穷自动机</tag>
       
     </tags>
     
