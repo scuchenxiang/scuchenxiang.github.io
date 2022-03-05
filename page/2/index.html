@@ -168,22 +168,23 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/21/WSL%E7%9A%84%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/">WSL的图形界面设置</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E7%9A%84%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B/">DNS的解析过程</a>
 
-      <a href="/2021/12/21/WSL%E7%9A%84%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E7%9A%84%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B/" class="index-excerpt">
         
         
           
         
-        <div>安装xserver首先是Windows上Xserver的安装，作者这里选择的是VcXsrv X Server，下载之后按照所有默认设置进行安装即可。安装完毕之后打开防火墙配置，允许所有的Xserver连接。
-然后安装apt-get install xfce4和xfce4-terminal
-打开XLaunch，在Display settings里面将Display number改为0，在Extra </div>
+        <div>
+主机向本地域名服务器的查询一般都是采用递归查询。所谓递归查询就是：如果主机所询问的本地域名服务器不知道被查询的域名的 IP 地址，那么本地域名服务器就以 DNS 客户的身份，向根域名服务器继续发出查询请求报文(即替主机继续查询)，而不是让主机自己进行下一步查询。因此，递归查询返回的查询结果或者是所要查询的 IP 地址，或者是报错，表示无法查询到所需的 IP 地址。
+
+本地域名服务器向根域名服务器</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-21
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -192,7 +193,7 @@
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -200,9 +201,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/WSL/">WSL</a>
-            
-              <a href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -214,26 +213,20 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/21/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">哈夫曼树压缩和解压缩</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B/">在浏览器中输入 URL 地址到显示主页的过程？</a>
 
-      <a href="/2021/12/21/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B/" class="index-excerpt">
         
         
           
         
-        <div>主要是把字符串读到vector中，然后记录每个字符出现的次数，然后构建哈夫曼树，然后再生成哈夫曼编码，再写入。
-#include &lt;iostream&gt;
-#include &lt;Windows.h&gt;
-#include &lt;fstream&gt;
-#include &lt;vector&gt;
-#include&lt;stdio.h&gt;
-#include &lt;algor</div>
+        <div>DNS 解析：浏览器查询 DNS，获取域名对应的 IP 地址：具体过程包括浏览器搜索自身的 DNS 缓存、搜索操作系统的 DNS 缓存、读取本地的 Host 文件和向本地 DNS 服务器进行查询等。对于向本地 DNS 服务器进行查询，如果要查询的域名包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析(此解析具有权威性)；如果要查询的域名不由本地 DNS 服务器区域解析，但该服务器已缓存</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-21
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -242,11 +235,7 @@
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95/">压缩算法</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -254,11 +243,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%A0%91/">树</a>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-            
-              <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">哈夫曼树</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -270,26 +255,24 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/21/latex%E4%B8%AD%E6%96%87%E4%BD%BF%E7%94%A8/">latex中文使用miktex，ctexart</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%B2%98%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/">什么是粘包以及如何解决</a>
 
-      <a href="/2021/12/21/latex%E4%B8%AD%E6%96%87%E4%BD%BF%E7%94%A8/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%B2%98%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/" class="index-excerpt">
         
         
           
         
-        <div>latex中文使用miktex，ctexart
-\documentclass[UTF8]&#123;ctexart&#125;
-\usepackage[T1]&#123;fontenc&#125;
-\usepackage&#123;listings&#125;
-\usepackage&#123;graphicx&#125;
-\usepackage&#123;xcolor&#125;
-\usepac</div>
+        <div>在进行 Java NIO 学习时，可能会发现：如果客户端连续不断的向服务端发送数据包时，服务端接收的数据会出现两个数据包粘在一起的情况。  
+    TCP 是基于字节流的，虽然应用层和 TCP 传输层之间的数据交互是大小不等的数据块，但是 TCP 把这些数据块仅仅看成一连串无结构的字节流，没有边界；
+
+    从 TCP 的帧结构也可以看出，在 TCP 的首部没有表示数据长度的字段。  
+ 基于</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-21
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -298,7 +281,7 @@
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -306,9 +289,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">数学公式</a>
-            
-              <a href="/tags/latex/">latex</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -320,25 +301,21 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/19/29.%20%E4%B8%A4%E6%95%B0%E7%9B%B8%E9%99%A4/">leetcode29_两数相除</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ARQ%E5%8D%8F%E8%AE%AE/">ARQ协议和停止等待协议</a>
 
-      <a href="/2021/12/19/29.%20%E4%B8%A4%E6%95%B0%E7%9B%B8%E9%99%A4/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ARQ%E5%8D%8F%E8%AE%AE/" class="index-excerpt">
         
         
           
         
-        <div>方法主要是用了倍增的思想+位运算如果能用long，就用位运算，再判断溢出的特例。class Solution &#123;
-public:
-    int divide(int dividend, int divisor) 
-    &#123;
-        int flag;
-        if((dividend&gt;0&amp;&amp;divisor&gt;0)||(divisor</div>
+        <div>停止等待协议停止等待协议是为了实现可靠传输的，它的基本原理就是每发完一个分组就停止发送，等待对方确认。在收到确认后再发下一个分组；在停止等待协议中，若接收方收到重复分组，就丢弃该分组，但同时还要发送确认。主要包括以下几种情况：无差错情况、出现差错情况（超时重传）、确认丢失和确认收到。
+自动重传请求 ARQ 协议停止等待协议中超时重传是指只要超过一段时间仍然没有收到确认，就重传前面发送过的分组（认为</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-19
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -347,9 +324,7 @@ public:
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -357,13 +332,7 @@ public:
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/leettcode/">leettcode</a>
-            
-              <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>
-            
-              <a href="/tags/%E5%80%8D%E5%A2%9E%E6%80%9D%E6%83%B3/">倍增思想</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -375,24 +344,24 @@ public:
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/05/25/raft%20%E7%AE%97%E6%B3%95/">raft算法</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%20%E5%8D%8F%E8%AE%AE%E6%98%AF%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%EF%BC%9F/">TCP协议是如何保证可靠传输的。</a>
 
-      <a href="/2021/05/25/raft%20%E7%AE%97%E6%B3%95/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%20%E5%8D%8F%E8%AE%AE%E6%98%AF%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%EF%BC%9F/" class="index-excerpt">
         
         
           
         
-        <div>raft相比 paxos更容易理解。
-raft leader 是一种强leader，日志只能从leader复制日志到其他服务器。
-复制是用来解决分布式系统的容错的问题的。
-复制状态机就是这种用来解决分布式系统的容错的问题的，在怎么做的呢？复制状态机是通过复制日志来实现的，每个服务器都有相同的日志
-raft这种一致性算法就是为了实现分布式的容错性，通过保证复制日志的一致性来实现的。为了解决这个问题，</div>
+        <div>数据包校验：目的是检测数据在传输过程中的任何变化，若校验出包有错，则丢弃报文段并且不给出响应，这时 TCP 发送数据端超时后会重发数据；  
+对失序数据包重排序：既然 TCP 报文段作为 IP 数据报来传输，而 IP 数据报的到达可能会失序，因此 TCP 报文段的到达也可能会失序。
+TCP 将对失序数据进行重新排序，然后才交给应用层；  
+丢弃重复数据：对于重复数据，能够丢弃重复数据；  
+应答机</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-05-25
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -401,9 +370,7 @@ raft这种一致性算法就是为了实现分布式的容错性，通过保证�
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -411,9 +378,7 @@ raft这种一致性算法就是为了实现分布式的容错性，通过保证�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/raft/">raft</a>
-            
-              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -425,27 +390,23 @@ raft这种一致性算法就是为了实现分布式的容错性，通过保证�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/04/27/kmp%E7%AE%97%E6%B3%95/">kmp算法，模板</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/">HTTP和HTTPS的区别</a>
 
-      <a href="/2021/04/27/kmp%E7%AE%97%E6%B3%95/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
         
         
           
         
-        <div>在求next数组和求相似数组很相似，只是i的起始点要为1，一个为0
-可以参考leetcode链接
-void getNext(List&lt;Integer&gt; next,String s1)
-&#123;
-    int j=0;
-    for(int i=1;i&lt;s1.length();i++)
-    &#123;
-        while(j&gt;0&amp;&amp;(s1</div>
+        <div>Http协议运行在TCP之上，明文传输，客户端与服务器端都无法验证对方的身份；
+Https是身披SSL(Secure Socket Layer)外壳的Http，运行于SSL上，SSL运行于TCP之上，是添加了加密和认证机制的HTTP。二者之间存在如下不同： 
+ 1、端口不同：Http与Http使用不同的连接方式，用的端口也不一样，前者是80，后者是443；  
+ 2、资源消耗：和HTTP通信相比，</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-04-27
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -454,9 +415,7 @@ void getNext(List&lt;Integer&gt; next,String s1)
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -464,13 +423,7 @@ void getNext(List&lt;Integer&gt; next,String s1)
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/java/">java</a>
-            
-              <a href="/tags/kmp/">kmp</a>
-            
-              <a href="/tags/%E6%A8%A1%E6%9D%BF/">模板</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -482,24 +435,22 @@ void getNext(List&lt;Integer&gt; next,String s1)
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/04/12/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%B2%E4%B8%80%E4%B8%8B%E7%BD%91%E7%BB%9C%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E7%9A%84%E8%81%8C%E8%B4%A3/">讲一下网络五层模型，每一层的职责？</a>
 
-      <a href="/2021/04/12/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%B2%E4%B8%80%E4%B8%8B%E7%BD%91%E7%BB%9C%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E7%9A%84%E8%81%8C%E8%B4%A3/" class="index-excerpt">
         
         
           
         
-        <div>关键之处在于要利用镜像的信息，对于镜像已经知道的及时跳过。
-然后还有一点就是扩充字符串#，然后两端加@！，这个时候我们如果得到最长回文串，那么怎么获得原始的最长回文串呢，是最右边的-中心得到最左边的位置，然后最左边的位置除2就是原始的起始值，这个很容易理解，因为是刚好扩充了两倍的，用#隔开的。
-还有一点关键是更新的是每个点已经以他为中心扩充的字符串，dp数组记录的是长度
-
-class Soluti</div>
+        <div>天各一方的两台计算机是如何通信的呢？ 在成千上万的计算机中，为什么一台计算机能够准确着寻找到另外一台计算机，并且把数据发送给它呢？可能很多人都听说过网络通信的 5 层模型，但是可能并不是很清楚为什么需要五层模型，五层模型负责的任务也有可能经常混淆。 
+下面是网络通信的五层模型   
+说实话，五层模型的具体内容还是极其复杂的，不过今天这篇文章，我将用最简洁的模式，通过网络通信的五层模型来讲解一台计算</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-04-12
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -508,9 +459,7 @@ class Soluti</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -518,9 +467,7 @@ class Soluti</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -532,20 +479,24 @@ class Soluti</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/03/29/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">146. LRU 缓存机制</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
 
-      <a href="/2021/03/29/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SQL%E6%B3%A8%E5%85%A5/" class="index-excerpt">
         
         
           
         
-        <div>HashMap 大家都清楚，底层是 数组 + 红黑树 + 链表 （不清楚也没有关系），同时其是无序的，而 LinkedHashMap 刚好就比 HashMap 多这一个功能，就是其提供 有序，并且，LinkedHashMap的有序可以按两种顺序排列，一种是按照插入的顺序，一种是按照读取的顺序（这个题目的示例就是告诉我们要按照读取的顺序进行排序），而其内部是靠 建立一个双向链表 来维护这个顺序的，在</div>
+        <div>SQL注入就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。 1). SQL注入攻击的总体思路  　
+ 　(1). 寻找到SQL注入的位置 　
+ 　(2). 判断服务器类型和后台数据库类型 　
+ 　(3). 针对不同的服务器和数据库特点进行SQL注入攻击 
+  2). SQL注入攻击实例  比如，在一个登录界面，要求输入用户名和密码，</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-03-29
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -554,9 +505,7 @@ class Soluti</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -564,13 +513,7 @@ class Soluti</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/java/">java</a>
-            
-              <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">源码解析</a>
-            
-              <a href="/tags/LRU/">LRU</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -582,22 +525,22 @@ class Soluti</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/02/19/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/">5. 最长回文子串 和马拉车算法</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%88%86%E7%B1%BB%EF%BC%88A%E7%B1%BB%20B%E7%B1%BB%20C%E7%B1%BB%20D%E7%B1%BB%20E%E7%B1%BB%EF%BC%89/">IP地址分类（A类 B类 C类 D类 E类）</a>
 
-      <a href="/2021/02/19/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%88%86%E7%B1%BB%EF%BC%88A%E7%B1%BB%20B%E7%B1%BB%20C%E7%B1%BB%20D%E7%B1%BB%20E%E7%B1%BB%EF%BC%89/" class="index-excerpt">
         
         
           
         
-        <div>主要是利用了回文串中的对称性质。将回文串分成两部分来看待，左边的已知结果，右边的未知，然后利用左边的信息，需要特殊讨论的情况就是左边回文串超出最左边的时候，超出中心并不需要讨论，因为超出中间的时候不会影响右边的结果，因为右边也只是超出中心，并没有超出最右边。算法效率很好。public String longestPalindrome(String s) 
-&#123;
-    int C=0,R=</div>
+        <div>IP地址根据网络号和主机号来分，分为A、B、C三类及特殊地址D、E。    全0和全1的都保留不用。
+A类：(1.0.0.0-126.0.0.0)（默认子网掩码：255.0.0.0或 0xFF000000）第一个字节为网络号，后三个字节为主机号。该类IP地址的最前面为“0”，所以地址的网络号取值于1~126之间。一般用于大型网络。
+B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-02-19
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -606,9 +549,7 @@ class Soluti</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -616,11 +557,7 @@ class Soluti</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/java/">java</a>
-            
-              <a href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
-            
-              <a href="/tags/leettcode/">leettcode</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -632,21 +569,22 @@ class Soluti</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/23/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/">327. 区间和的个数（树状数组+前缀和+离散化）</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/">TCP滑动窗口和拥塞控制详解</a>
 
-      <a href="/2021/01/23/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/" class="index-excerpt">
         
         
           
         
-        <div>依然考虑前缀和数组 \textit{preSum}preSum。
-对于每个下标 jj，以 jj 为右端点的下标对的数量，就等于数组 \textit{preSum}[0..j-1]preSum[0..j−1] 中的所有整数，出现在区间 [\textit{preSum}[j]-\textit{upper}, \textit{preSum}[j]-\textit{lower}][preSum[j]−up</div>
+        <div>滑动窗口（流量控制）滑动窗口的定义：    1.“窗口”对应的是一段可以被发送的字节序列，其连续的范围称为窗口；2.“滑动”则是指这段“允许发送的范围”是可以随着发送的过程而变化的，方式就是按顺序“滑动”。
+滑动窗口的作用：    是一种流量控制方法，该协议允许发送方在停止等待确认前可以连续发送发个分组。由于发送方不必每发送一个分组就停下来等待确认，因此该协议可以加速数据的传输。
+1 TCP协议的</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-23
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -655,9 +593,7 @@ class Soluti</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -665,15 +601,7 @@ class Soluti</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/c/">c++</a>
-            
-              <a href="/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
-            
-              <a href="/tags/%E7%A6%BB%E6%95%A3%E5%8C%96/">离散化</a>
-            
-              <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/">前缀和</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -685,7 +613,7 @@ class Soluti</div>
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
