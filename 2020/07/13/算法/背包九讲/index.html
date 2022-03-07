@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>背包九讲 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-13 17:01">
+      2020年7月13日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      48
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="背包九讲"><a href="#背包九讲" class="headerlink" title="背包九讲"></a>背包九讲</h1><h2 id="01背包问题"><a href="#01背包问题" class="headerlink" title="01背包问题"></a>01背包问题</h2><p>有 N 件物品和一个容量为 V 的背包。放入第 i 件物品耗费的费用是 Ci<br>1，得到的<br>价值是 Wi。求解将哪些物品装入背包可使价值总和最大。<br>递推方程应该是<br><pre><code class="hljs markdown">res[<span class="hljs-string">i</span>][<span class="hljs-symbol">V</span>]=max(res[<span class="hljs-string">i-1</span>][<span class="hljs-symbol">V-ci</span>]+wi,res[<span class="hljs-string">i-1</span>][<span class="hljs-symbol">V</span>]);
+可以用滚动数组优化成O(V)空间
+这个空间优化的过程，应该逆序得到，顺序不可以。
+res[V]=max(res[V-ci],res[V]); V=V……1；
+</code></pre><br>还可以进行常数优化res[V]=max(res[V-ci],res[V]); </p>
+<p>$a_1$</p>
+<p>$V=V……max(V-\sum^{n}_{i+1}ci+1,ci)$</p>
+<p>为什么是循环到i+1就可以停下来呢？<br>如果是ci较大，那么对于一维空间优化的情况下，表示的是res[i-1][V],对于继续向下循环是不会改变结果的。</p>
+<p>如果是V-\sum^{n}_{i+1}ci+1较大，说明剩下的空间已经不够装ci了，自然也没必要再继续了。</p>
+<h2 id="完全背包问题"><a href="#完全背包问题" class="headerlink" title="完全背包问题"></a>完全背包问题</h2><p>有 N 种物品和一个容量为 V 的背包，每种物品都有无限件可用。放入第 i 种物品<br>的费用是 Ci，价值是 Wi。求解：将哪些物品装入背包，可使这些物品的耗费的费用总<br>和不超过背包容量，且价值总和最大。</p>
+<p>这个题目一看很容易认为是贪心问题，但是这个物品是不能分的所以不是贪心的，需要注意。<br><pre><code class="hljs markdown">这个我们考虑的就是还是某个物品选不选，但是是可以再次选它的。
+二维形式
+res[<span class="hljs-string">i</span>][<span class="hljs-symbol">V</span>]=max(res[<span class="hljs-string">i-1</span>][<span class="hljs-symbol">V</span>],res[<span class="hljs-string">i</span>][<span class="hljs-symbol">V-ci</span>]+wi);
+一维形式为res[V]=max(res[V],res[V-ci]+wi) v=1……V;</code></pre><br>在优化的情况下，体积大于V可以直接去掉。O(n)</p>
+<p>另外对于任何的体积更大的，但是价值更低的，也可以优化掉。O(n^2)</p>
+<p>还可以将体积相同的物品，都用其价值最大的代替。O(V+N)<a href="计数排序基数排序和桶排序">类似计数排序</a></p>
+<p>for i……n<br>    if(store[V[i]]&lt;wi)<br>        store[V[i]]=wi<br>for i ……v<br>    把这些物品丢进去</p>
+<h2 id="多重背包问题"><a href="#多重背包问题" class="headerlink" title="多重背包问题"></a>多重背包问题</h2><p>有 N 种物品和一个容量为 V 的背包。第 i 种物品最多有 Mi 件可用，每件耗费的<br>空间是 Ci，价值是 Wi。求解将哪些物品装入背包可使这些物品的耗费的空间总和不超<br>过背包容量，且价值总和最大。</p>
+<p>这个首先有两个朴素的想法</p>
+<h3 id="01背包的想法"><a href="#01背包的想法" class="headerlink" title="01背包的想法"></a>01背包的想法</h3><p>这个想法是把M[i]个相同的物品看成很多个不同的物品，然后用01背包方法求解。</p>
+<h3 id="完全背包的想法"><a href="#完全背包的想法" class="headerlink" title="完全背包的想法"></a>完全背包的想法</h3><p>这个方法就是对于任何一个物品，每次都有许多个选择，然后选取其中的k个<br>进行空间优化之后和01背包的思路相同。复杂度也相同<br><pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> mutibackpack()<span class="hljs-comment">//类似完全背包的方法</span>
+&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt;N; i++)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j = <span class="hljs-number">1</span>; j &lt;=M[i]; j++)
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> k = C[i]*j; k &lt;=V; k++)
+            &#123;
+                res[k] =max(res[k], res[k-j*C[i]]+j*W[i]);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> res[V];
+&#125;</code></pre></p>
+<h3 id="二进制优化"><a href="#二进制优化" class="headerlink" title="二进制优化"></a>二进制优化</h3><p>二进制思想：</p>
+<p>假设有 1000 个苹果，现在要取n个苹果，如何取？朴素的做法应该是将苹果一个一个拿出来，直到n个苹果被取出来。<br>再假设有 1000 个苹果和10只箱子，利用箱子进行某些预工作，然后如何快速的取出n个苹果呢？So..可以在每个箱子中放 2^i (i&lt;=0&lt;=n)个苹果，也就是 1、2、4、8、16、32、64、128、256、489（n减完之前的数之后不足 2^i，取最后剩余的数），相当于把十进制的数用二进制来表示，取任意n个苹果时，只要推出几只箱子就可以了。</p>
+<p>再次分析：</p>
+<p>只看上面是不好理解的，比如：7的二进制 7 = 111, 它可以分解成 001, 010, 100. 这三个数可以组合成任意小于等于 7 的数，而且每种组合都会得到不同的数。再比如，13 = 1101, 则分解为 0001, 0010, 0100, 0110. 前三个数字可以组合成 7 以内任意一个数，每个数再加上0110(= 6) 之后可以组合成任意一个大于等于 6 小于等于 13 的数，所以依然能组成任意小于等于 13 的数，很明显 6,7 会多重复 1 次，但对于求解背包问题是没有影响的，基于这种思想把一种多件物品转换为，多件一种物品，然后用01背包求解即可。</p>
+<p>这个想法可以视为从以前我们对于某种物品取它的n数量，会考虑n-1数量的情况，现在我们不是间隔为1进行考虑，而是用二进制的方法来考虑<br><pre><code class="hljs dart"><span class="hljs-built_in">int</span> mutibackpack2()<span class="hljs-comment">//二进制优化</span>
+&#123;
+    <span class="hljs-built_in">int</span> ste = <span class="hljs-number">1</span>;
+    <span class="hljs-built_in">int</span> <span class="hljs-built_in">num</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i++)
+    &#123;
+        <span class="hljs-built_in">num</span> = M[i];
+        <span class="hljs-keyword">while</span>(<span class="hljs-built_in">num</span>&gt;<span class="hljs-number">0</span>)
+        &#123;
+            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">num</span>&gt;ste)
+                <span class="hljs-built_in">num</span> -= ste;
+            <span class="hljs-keyword">else</span>
+            &#123;
+                ste = <span class="hljs-built_in">num</span>;
+                <span class="hljs-built_in">num</span> -= ste;
+            &#125;
+            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> k = C[i] * ste; k &lt;= V; k++)
+            &#123;
+                res[k] = max(res[k], res[k - ste * C[i]] + ste * W[i]);
+            &#125;
+            ste *= <span class="hljs-number">2</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> res[V];
+&#125;</code></pre></p>
+<h3 id="可行性问题"><a href="#可行性问题" class="headerlink" title="可行性问题"></a>可行性问题</h3><p>多重背包可行性问题指的是：每种有若干件的物品能否填满给定容量的背包，此时不考虑价值最大问题</p>
+<p>F(i,j)表示使用前i个物品，填充容量为jjj的背包，第i个物品最多能够剩余多少个，如果无法填充容量为j的背包，则值为-1.</p>
+<p>F[i-1][j]&gt;0<br>res[i][j]=M[i]</p>
+<p>F[i][j-C[i]]&lt;=0 || j&lt;C[i]<br>res[i][j]=-1</p>
+<p>其他<br>res[i][j]=res[i][j-C[i]]-1</p>
+<pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> mutibackpack3()<span class="hljs-comment">//res[i][j]表示前i中物品填满j大小的空间最大的剩余物品数量,进行了空间优化</span>
+&#123;
+    res[<span class="hljs-number">0</span>] = M[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; V; i++)
+    &#123;
+        res[V] = <span class="hljs-number">-1</span>;
+    &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i++)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j = <span class="hljs-number">0</span>; j &lt; V; j++)
+        &#123;
+            <span class="hljs-keyword">if</span> (res[j] &gt; <span class="hljs-number">0</span>)
+                res[j] = M[i];
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (res[j - C[i]] &lt;= <span class="hljs-number">0</span> || j &lt; C[i])
+                res[j] = <span class="hljs-number">-1</span>;
+            <span class="hljs-keyword">else</span> 
+                res[j] = res[j - W[i]] - <span class="hljs-number">1</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> res[V];
+&#125;</code></pre>
+<h3 id="单调队列求解"><a href="#单调队列求解" class="headerlink" title="单调队列求解"></a>单调队列求解</h3><p>这个比较难，暂时没写</p>
+<h2 id="混合背包问题"><a href="#混合背包问题" class="headerlink" title="混合背包问题"></a>混合背包问题</h2><p>01 背包与完全背包的混合<br>考虑到 01 背包和完全背包中给出的伪代码只有一处不同，故如果只有两类物品：<br>一类物品只能取一次，另一类物品可以取无限次，那么只需在对每个物品应用转移方程<br>时，根据物品的类别选用顺序或逆序的循环即可，复杂度是 O(V N)。</p>
+<p>再加上多重背包<br>如果再加上最多可以取有限次的多重背包式的物品，那么利用单调队列，也可以给<br>出均摊 O(V N) 的解法。<br>但如果不考虑单调队列算法的话，用将每个这类物品分成 O(logMi) 个 01 背包的物<br>品的方法也已经很优了。<br>最清晰的写法是调用我们前面给出的三个过程。</p>
+<h2 id="二维费用的背包问题"><a href="#二维费用的背包问题" class="headerlink" title="二维费用的背包问题"></a>二维费用的背包问题</h2><p>二维费用的背包问题是指：对于每件物品，具有两种不同的费用，选择这件物品必<br>须同时付出这两种费用。对于每种费用都有一个可付出的最大值（背包容量）。问怎样<br>选择物品可以得到最大的价值。<br>设第 i 件物品所需的两种费用分别为 Ci 和 Di。两种费用可付出的最大值（也即两<br>种背包容量）分别为 V 和 U。物品的价值为 Wi。</p>
+<p>算法可以写成res[i][j][k]=max(res[i-1][j][k],res[i][j-ci][k-di]+2i)</p>
+<p>有时，“二维费用”的条件是以这样一种隐含的方式给出的：最多只能取 U 件物品。<br>这事实上相当于每件物品多了一种“件数”的费用，每个物品的件数费用均为 1，可以<br>付出的最大件数费用为 U。换句话说，设 F[v, u] 表示付出费用 v、最多选 u 件时可得<br>到的最大价值，则根据物品的类型（01、完全、多重）用不同的方法循环更新，最后在<br>f[0 . . . V, 0 . . . U] 范围内寻找答案。</p>
+<h2 id="分组背包"><a href="#分组背包" class="headerlink" title="分组背包"></a>分组背包</h2><p>有 N 件物品和一个容量为 V 的背包。第 i 件物品的费用是 Ci，价值是 Wi。这些<br>物品被划分为 K 组，每组中的物品互相冲突，最多选一件。求解将哪些物品装入背包<br>可使这些物品的费用总和不超过背包容量，且价值总和最大。</p>
+<p>这个问题变成了每组物品有若干种策略：是选择本组的某一件，还是一件都不选。<br>也就是说设 F[k, v] 表示前 k 组物品花费费用 v 能取得的最大权值</p>
+<p>res[k][v]=max(res[k-1][v],res[k][v-c[i]]+wi),ci,wi 为组中的东西</p>
+<h2 id="依赖背包"><a href="#依赖背包" class="headerlink" title="依赖背包"></a>依赖背包</h2><p>这个问题由 NOIP2006 中“金明的预算方案”一题扩展而来。遵从该题的提法，将<br>不依赖于别的物品的物品称为“主件”，依赖于某主件的物品称为“附件”。由这个问题<br>的简化条件可知所有的物品由若干主件和依赖于每个主件的一个附件集合组成。<br>按照背包问题的一般思路，仅考虑一个主件和它的附件集合。可是，可用的策略非<br>常多，包括：一个也不选，仅选择主件，选择主件后再选择一个附件，选择主件后再选<br>择两个附件……无法用状态转移方程来表示如此多的策略。事实上，设有 n 个附件，则<br>策略有 2<br>n + 1 个，为指数级。</p>
+<p>考虑到所有这些策略都是互斥的（也就是说，你只能选择一种策略），所以一个主<br>件和它的附件集合实际上对应于依赖背包中的一个物品组，每个选择了主件又选择了若干个附<br>件的策略对应于这个物品组中的一个物品，其费用和价值都是这个策略中的物品的值的<br>和。但仅仅是这一步转化并不能给出一个好的算法，因为物品组中的物品还是像原问题<br>的策略一样多。</p>
+<p>再考虑对每组内的物品应用完全背包中的优化。我们可以想到，对于第 k 个物品组中的<br>物品，所有费用相同的物品只留一个价值最大的，不影响结果。所以，可以对主件 k 的<br>“附件集合”先进行一次 01 背包，得到费用依次为 0. . .V − Ck 所有这些值时相应的最<br>大价值 Fk[0 . . . V − Ck]。那么，这个主件及它的附件集合相当于 V − Ck + 1 个物品的<br>物品组，其中费用为 v 的物品的价值为 Fk[v − Ck] + Wk，v 的取值范围是 Ck ≤ v ≤ V 。</p>
+<p>也就是说，原来指数级的策略中，有很多策略都是冗余的，通过一次 01 背包后，<br>将主件 k 及其附件转化为 V − Ck + 1 个物品的物品组，就可以直接应用6的算法解决问<br>题了。</p>
+<p>在树形依赖的背包问题中，我们将每颗子树作为一个泛化物品来看。同样，我们可以对每个主件的附件集合进行处理，合成一个新的泛化物品。即对每个主件的附件集合做一次01背包，得到res[j],j为0……v-wi,wi为第i个主件的空间，表示该附件集合在分配体积为j的情况下该附件总和的最优值。</p>
+<h3 id="更一般的问题是："><a href="#更一般的问题是：" class="headerlink" title="更一般的问题是："></a>更一般的问题是：</h3><p>依赖关系以图论中“森林”3的形式给出。</p>
+<p>也就是说，主件的附件<br>仍然可以具有自己的附件集合。限制只是每个物品最多只依赖于一个物品（只有一个主<br>件）且不出现循环依赖。<br>解决这个问题仍然可以用将每个主件及其附件集合转化为物品组的方式。唯一不同<br>的是，由于附件可能还有附件，就不能将每个附件都看作一个一般的 01 背包中的物品<br>了。若这个附件也有附件集合，则它必定要被先转化为物品组，然后用分组的背包问题<br>解出主件及其附件集合所对应的附件组中各个费用的附件所对应的价值。<br>事实上，这是一种树形动态规划，其特点是，在用动态规划求每个父节点的属性之<br>前，需要对它的各个儿子的属性进行一次动态规划式的求值。这已经触及到了“泛化物<br>品”的思想。看完泛化物品后，你会发现这个“依赖关系树”每一个子树都等价于一件泛化物<br>品，求某节点为根的子树对应的泛化物品相当于求其所有儿子的对应的泛化物品之和。</p>
+<h2 id="泛化物品"><a href="#泛化物品" class="headerlink" title="泛化物品"></a>泛化物品</h2><p>考虑这样一种物品，它并没有固定的费用和价值，而是它的价值随着你分配给它的<br>费用而变化。这就是泛化物品的概念。<br>更严格的定义之。在背包容量为 V 的背包问题中，泛化物品是一个定义域为 0 . . . V<br>中的整数的函数 h，当分配给它的费用为 v 时，能得到的价值就是 h(v)。<br>这个定义有一点点抽象，另一种理解是一个泛化物品就是一个数组 h[0 . . . V ]，给它<br>费用 v，可得到价值 h[v]。<br>一个费用为 c 价值为 w 的物品，如果它是 01 背包中的物品，那么把它看成泛化物<br>品，它就是除了 h(c) = w 外，其它函数值都为 0 的一个函数。如果它是完全背包中的<br>物品，那么它可以看成这样一个函数，仅当 v 被 c 整除时有 h(v) = w ·<br>v</p>
+<p>c，其它函数值<br>均为 0。如果它是多重背包中重复次数最多为 m 的物品，那么它对应的泛化物品的函<br>数有 h(v) = w ·<br>v<br>c 仅当 v 被 c 整除且 v<br>c ≤ n，其它情况函数值均为 0。</p>
+<p>一个物品组可以看作一个泛化物品 h。对于一个 0 . . . V 中的 v，若物品组中不存在<br>费用为 v 的物品，则 h(v) = 0，否则 h(v) 取值为所有费用为 v 的物品的最大价值。6中<br>每个主件及其附件集合等价于一个物品组，自然也可看作一个泛化物品。</p>
+<h3 id="泛化物品的和"><a href="#泛化物品的和" class="headerlink" title="泛化物品的和"></a>泛化物品的和</h3><p>如果给定了两个泛化物品 h 和 l，要用一定的费用从这两个泛化物品中得到最大的<br>价值，这个问题怎么求呢？事实上，对于一个给定的费用 v，只需枚举将这个费用如何<br>分配给两个泛化物品就可以了。同样的，对于 0. . .V 中的每一个整数 v，可以求得费用<br>v 分配到 h 和 l 中的最大价值 f(v)。</p>
+<p>f(v)=max(h(k)+l(v-k)) k=1……v</p>
+<p>由泛化物品的定义可知：在一个背包问题中，若将两个泛化物品代以它们的和，不<br>影响问题的答案。事实上，对于其中的物品都是泛化物品的背包问题，求它的答案的过<br>程也就是求所有这些泛化物品之和的过程。若问题的和为 s，则答案就是 s(0 . . . V ) 中<br>的最大值。</p>
+<h1 id="搜索还是DP"><a href="#搜索还是DP" class="headerlink" title="搜索还是DP?"></a>搜索还是DP?</h1><p>在看到一道背包问题时，应该用搜索还是动态规划呢？</p>
+<p>首先，可以从数据范围中得到命题人意图的线索。如果一个背包问题可以用DP解，V一定不能很大，否则O(VN)的算法无法承受，而一般的搜索解法都是仅与N有关，与V无关的。所以，V很大时（例如上百万），命题人的意图就应该是考察搜索。另一方面，N较大时（例如上百），命题人的意图就很有可能是考察动态规划了。</p>
+<p>另外，当想不出合适的动态规划算法时，就只能用搜索了。例如看到一个从未见过的背包中物品的限制条件，无法想出DP的方程，只好写搜索以谋求一定的分数了。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/">背包九讲</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/13/%E7%AE%97%E6%B3%95/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计数排序基数排序和桶排序</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/13/%E7%AE%97%E6%B3%95/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/">
+                        <span class="hidden-mobile">打家劫舍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "背包九讲&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

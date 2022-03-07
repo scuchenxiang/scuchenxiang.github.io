@@ -168,9 +168,276 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/">大端和小端</a>
+      <a class="index-header" href="/2020/07/03/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/">验证集和测试集的区别</a>
 
-      <a href="/2020/05/20/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/" class="index-excerpt">
+      <a href="/2020/07/03/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>验证集和测试集
+
+
+
+类别
+验证集
+测试集
+
+
+
+
+是否被训练到
+否
+否
+
+
+作用
+用于调整超参数
+用于验证泛化能力
+
+
+使用次数
+多次使用，以不断调参
+仅仅一次使用
+
+
+缺陷
+模型在一次次重新手动调参并继续训练后所逼近的验证集，可能只代表一部分非训练集，导致最终训练好的模型泛化性能不够
+测试集为了具有泛化代表性，往往数据量比较大，测试一轮要很久，所以往往只取测试集的其中一小部分作为训练过程中的验</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+              <a href="/tags/%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9C%BA/">验证机和测试机</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/12/%E7%AE%97%E6%B3%95/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/">166. 分数到小数</a>
+
+      <a href="/2020/06/12/%E7%AE%97%E6%B3%95/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>166. 分数到小数这道题我认为需要注意的有几个地方
+第一个地方在于除法如何计算，这里我选择的方法是当被除数相同的时候认为是循环小数。
+第二个地方在于结果可能有负数，负数的求模和正数有所不同，需要注意。负数求模是a-(a/b)*b的，有个时候因此会有正负的区分。
+第三个地方在于数字溢出的问题，a=-2147483648, b=-1,a*b是会溢出的，因为会先转成一个整形的数，因此需要转一下long</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-12
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E5%AD%A6/">数学</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E9%99%A4%E6%B3%95/">除法</a>
+            
+              <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+
+      <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
+        
+        
+          
+        
+        <div>设计模式学习[toc]
+设计模式和原则单一职责的原则简单的说就是软件模块应该只有一个被修改的理由。例如Spring中，我们需要有dao 层和service层，而不是把它放在一起，这样后面数据库增加字段，或者业务逻辑更改的时候就不需要修改很多东西，更容易维护。
+开闭原则就是在一个模块完成的之后，就不要去改变它，最好是通过继承和多态来增加功能。所以开闭就是，对外的拓展开放，对外的修改闭合。
+里氏替换原</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/">ART算法实现与理解</a>
+
+      <a href="/2020/06/03/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Code这两个图显示了算法的原理，整体的几何意义也较为容易理解
+import numpy as np
+def ART_My( A, b, X0, e0):
+    e=e0+1
+    i=0
+    while(e&gt;e0):
+        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))
+ </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ART/">ART</a>
+            
+              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
+
+      <a href="/2020/05/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/" class="index-excerpt">
+        
+        
+          
+        
+        <div>对同一个超平面，通过比例缩放w和b，函数间隔也会同比例变化。也就是说，对于一个成功划分正负实例的超平面（不一定最优），该平面固定，但是通过缩放w和b，可以使其function margin取任何正值。而我们的目标是找到具有最大margin的超平面。显然通过最大化函数间隔没有意义，因为任何成功划分训练实例的超平面都可以使函数间隔无限大。我们注意到，对一个超平面，函数间隔与∥w∥的比值保持不变，也就是</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-21
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/SVM/">SVM</a>
+            
+              <a href="/tags/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/20/C++/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/">大端和小端</a>
+
+      <a href="/2020/05/20/C++/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/" class="index-excerpt">
         
         
           
@@ -213,9 +480,9 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/">218. 天际线问题</a>
+      <a class="index-header" href="/2020/05/20/%E7%AE%97%E6%B3%95/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/">218. 天际线问题</a>
 
-      <a href="/2020/05/20/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/" class="index-excerpt">
+      <a href="/2020/05/20/%E7%AE%97%E6%B3%95/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/" class="index-excerpt">
         
         
           
@@ -263,9 +530,9 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/">为啥那么C++pop不返回值</a>
+      <a class="index-header" href="/2020/05/20/C++/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/">为啥那么C++pop不返回值</a>
 
-      <a href="/2020/05/20/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/" class="index-excerpt">
+      <a href="/2020/05/20/C++/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/" class="index-excerpt">
         
         
           
@@ -310,9 +577,9 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">145. 二叉树的后序遍历</a>
+      <a class="index-header" href="/2020/05/19/%E7%AE%97%E6%B3%95/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">145. 二叉树的后序遍历</a>
 
-      <a href="/2020/05/19/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" class="index-excerpt">
+      <a href="/2020/05/19/%E7%AE%97%E6%B3%95/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" class="index-excerpt">
         
         
           
@@ -362,9 +629,9 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">232. 用栈实现队列</a>
+      <a class="index-header" href="/2020/05/19/%E7%AE%97%E6%B3%95/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">232. 用栈实现队列</a>
 
-      <a href="/2020/05/19/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/" class="index-excerpt">
+      <a href="/2020/05/19/%E7%AE%97%E6%B3%95/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/" class="index-excerpt">
         
         
           
@@ -400,255 +667,6 @@
               <a href="/tags/%E6%A0%88/">栈</a>
             
               <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/">225. 用队列实现栈</a>
-
-      <a href="/2020/05/19/225.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/" class="index-excerpt">
-        
-        
-          
-        
-        <div>队列实现栈主要是栈的pop操作比较困难，这个可以通过栈的循环出队入队来实现，复杂度为O(N)。&lt;!—hexoPostRenderEscape:class MyStack &#123;&lt;/span&gt;    private Queue&lt;Integer&gt; quene=new LinkedList&lt;Integer&gt;();    private    int myt</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/">linux短横线的区别</a>
-
-      <a href="/2020/05/18/linux%E7%9F%AD%E6%A8%AA%E7%BA%BF%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>linux短横线的区别rm -vf ***
-
-tar -xzvf  ***.tar.gz
-
-gcc --version
-
-rm --help
-　　从上面命令我们可以看出，绝大数命令有以下的规则：
-　　①　参数前单杠的表明后面的参数是字符形式；
-　　②　参数前双杠的则表明后面的参数是单词形式
-tar xzvf  ***.tar.gz
-
-tar -xzvf ***.tar.gz
-两种命令行都是行的通的</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/linux/">linux</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">linux</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/">224. 基本计算器</a>
-
-      <a href="/2020/05/18/224.%20%E5%9F%BA%E6%9C%AC%E8%AE%A1%E7%AE%97%E5%99%A8/" class="index-excerpt">
-        
-        
-          
-        
-        <div>方法1和方法二：只有加减的话，相当于去掉括号，去掉括号的过程就是，把数字和字符串弹出，然后计算的过程，这个方法比较麻烦，应该可以采用字符串反向便利的方式进行计算，这样计算表达式就要方便很多，从左到右算就可以，如果还有乘除之类的话，那么在过程中应该还要判断字符的优先级，然后进行计算,还有一个需要注意的就是，数字可能有很多位。&lt;!—hexoPostRenderEscape:方法一：class S</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E8%AE%A1%E7%AE%97%E5%99%A8/">计算器</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/Leetcode/">Leetcode</a>
-            
-              <a href="/tags/java/">java</a>
-            
-              <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/">表达式计算</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/">统计学习方法-第九章EM算法及其推广</a>
-
-      <a href="/2020/05/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/" class="index-excerpt">
-        
-        
-          
-        
-        <div>第九章EM算法及其推广9.1
-import numpy as np
-
-y=[1,1,0,1,0,0,1,0,1,1]
-pai=0.46
-p=0.55
-q=0.67
-theta=2
-while(theta&gt;0.0001):
-    u_next=[]
-    for i in  range(len(y)):
-        a=pai*(p**y[i])*((1-p)**(1-y[i]))
- </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%9C%E4%B8%9A/">统计学习方法，作业</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8Exavier%E5%88%9D%E5%A7%8B%E5%8C%96/">神经网络初始化与xavier初始化</a>
-
-      <a href="/2020/05/18/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8Exavier%E5%88%9D%E5%A7%8B%E5%8C%96/" class="index-excerpt">
-        
-        
-          
-        
-        <div>xavier初始化 
-深度学习初始化总结
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8Cxavier/">初始化，xavier</a>
             
           </div>
         

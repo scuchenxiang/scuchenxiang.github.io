@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>145. 二叉树的后序遍历 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-05-19 23:48">
+      2020年5月19日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      716 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>后序遍历的麻烦之处在于不知道现在自己是父节点的左节点还是右节点，只有知道才能决定下一步是访问右节点还是根节点，不知道的情况下就不清楚下一步应该访问弹出的栈元素的本身还是它的右节点。<br>而前序遍历和中序遍历是总是只需要弹出栈中的元素，然后访问其右节点即可或者先访问自己再访问其右节点。</p>
+<p>所以方法有三种：</p>
+<h3 id="开始的话，也是不停的往左子树走，然后直到为-null-，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶"><a href="#开始的话，也是不停的往左子树走，然后直到为-null-，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶" class="headerlink" title="开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶"></a>开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为空，那么我们就访问栈顶元素的右节点，并把栈顶</h3><h3 id="元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。"><a href="#元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。" class="headerlink" title="元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。"></a>元素加入集合中，如果集合中有，那么直接访问栈顶元素即可。</h3><pre><code class="hljs lasso">class Solution &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; postorderTraversal(TreeNode root) 
+    &#123;
+        <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; res=<span class="hljs-literal">new</span> ArrayList&lt;<span class="hljs-built_in">Integer</span>&gt;();
+        <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt; <span class="hljs-built_in">stack</span>=<span class="hljs-literal">new</span> <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt;();
+        <span class="hljs-built_in">Set</span>&lt;TreeNode&gt; <span class="hljs-built_in">set</span>=<span class="hljs-literal">new</span> HashSet&lt;TreeNode&gt;();
+        TreeNode treenode=root;
+        <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">stack</span>.isEmpty()||treenode!=<span class="hljs-built_in">null</span>)
+        &#123;
+            <span class="hljs-keyword">if</span>(treenode!=<span class="hljs-built_in">null</span>)
+            &#123;
+                <span class="hljs-built_in">stack</span>.push(treenode);
+                treenode=treenode.left;       
+            &#125;   
+            <span class="hljs-keyword">else</span>
+            &#123;
+                TreeNode tmp=<span class="hljs-built_in">stack</span>.peek();
+                <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">set</span>.contains(tmp)&amp;&amp;tmp.right!=<span class="hljs-built_in">null</span>)
+                &#123;
+                    treenode=tmp.right;
+                    <span class="hljs-built_in">set</span>.add(tmp);
+                &#125;
+                <span class="hljs-keyword">else</span>
+                &#123;
+                    res.add(tmp.val);
+                    <span class="hljs-built_in">stack</span>.pop();
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> res;
+    &#125;
+&#125;</code></pre>
+<h3 id="如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了"><a href="#如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了" class="headerlink" title="如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了"></a>如果当前节点的右节点和上一次遍历的节点相同，那就表明当前是从右节点过来的了</h3><pre><code class="hljs routeros">class Solution &#123;
+    public List&lt;Integer&gt; postorderTraversal(TreeNode root) 
+    &#123;
+        List&lt;Integer&gt; <span class="hljs-attribute">res</span>=new ArrayList&lt;Integer&gt;();
+        Stack&lt;TreeNode&gt; <span class="hljs-attribute">stack</span>=new Stack&lt;TreeNode&gt;();
+        TreeNode <span class="hljs-attribute">treenode</span>=root;
+        TreeNode <span class="hljs-attribute">last</span>=<span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">while</span>(!stack.isEmpty()||treenode!=<span class="hljs-literal">null</span>)
+        &#123;
+            <span class="hljs-keyword">if</span>(treenode!=<span class="hljs-literal">null</span>)
+            &#123;
+                stack.push(treenode);
+                <span class="hljs-attribute">treenode</span>=treenode.left;       
+            &#125;   
+            <span class="hljs-keyword">else</span>
+            &#123;
+                TreeNode <span class="hljs-attribute">tmp</span>=stack.peek();
+                <span class="hljs-keyword">if</span>(tmp.right!=<span class="hljs-literal">null</span>&amp;&amp;tmp.right!=last)
+                &#123;
+                    <span class="hljs-attribute">treenode</span>=tmp.right;
+                &#125;
+                <span class="hljs-keyword">else</span>
+                &#123;
+                    res.<span class="hljs-builtin-name">add</span>(tmp.val);
+                    <span class="hljs-attribute">last</span>=tmp;
+                    stack.pop();
+                &#125;
+            &#125;
+        &#125;
+        return res;
+    &#125;
+&#125;</code></pre>
+<h3 id="只需要把每个节点-push-两次，然后判断当前-pop-节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。"><a href="#只需要把每个节点-push-两次，然后判断当前-pop-节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。" class="headerlink" title="只需要把每个节点 push 两次，然后判断当前 pop 节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。"></a>只需要把每个节点 push 两次，然后判断当前 pop 节点和栈顶节点是否相同。相同的话，就意味着是从左子树到的根节点。</h3><h3 id="不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到-list-中。这个方法比较巧妙"><a href="#不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到-list-中。这个方法比较巧妙" class="headerlink" title="不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到 list 中。这个方法比较巧妙"></a>不同的话，就意味着是从右子树到的根节点，此时就可以把节点加入到 list 中。这个方法比较巧妙</h3><pre><code class="hljs lasso">    <span class="hljs-keyword">public</span> <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; postorderTraversal(TreeNode root) &#123;
+    <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; <span class="hljs-built_in">list</span> = <span class="hljs-literal">new</span> ArrayList&lt;&gt;();
+    <span class="hljs-keyword">if</span> (root == <span class="hljs-built_in">null</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">list</span>;
+    &#125;
+    <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt; <span class="hljs-built_in">stack</span> = <span class="hljs-literal">new</span> <span class="hljs-built_in">Stack</span>&lt;&gt;();
+    <span class="hljs-built_in">stack</span>.push(root);
+    <span class="hljs-built_in">stack</span>.push(root);
+    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">stack</span>.isEmpty()) &#123;
+        TreeNode cur = <span class="hljs-built_in">stack</span>.pop();
+        <span class="hljs-keyword">if</span> (cur == <span class="hljs-built_in">null</span>) &#123;
+            continue;
+        &#125;
+        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">stack</span>.isEmpty() &amp;&amp; cur == <span class="hljs-built_in">stack</span>.peek()) &#123;
+            <span class="hljs-built_in">stack</span>.push(cur.right);
+            <span class="hljs-built_in">stack</span>.push(cur.right);
+            <span class="hljs-built_in">stack</span>.push(cur.left);
+            <span class="hljs-built_in">stack</span>.push(cur.left);
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-built_in">list</span>.add(cur.val);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">list</span>;
+&#125;</code></pre>
+<h3 id="可以转换成一个逆的前序遍历来实现"><a href="#可以转换成一个逆的前序遍历来实现" class="headerlink" title="可以转换成一个逆的前序遍历来实现"></a>可以转换成一个逆的前序遍历来实现</h3><pre><code class="hljs lasso"><span class="hljs-keyword">public</span> <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; postorderTraversal(TreeNode root) 
+&#123;
+    <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">Integer</span>&gt; res=<span class="hljs-literal">new</span> ArrayList&lt;<span class="hljs-built_in">Integer</span>&gt;();
+    <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt; <span class="hljs-built_in">stack</span>=<span class="hljs-literal">new</span> <span class="hljs-built_in">Stack</span>&lt;TreeNode&gt;();
+    TreeNode treenode=root;
+    <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">stack</span>.isEmpty()||treenode!=<span class="hljs-built_in">null</span>)
+    &#123;
+
+        <span class="hljs-keyword">if</span>(treenode!=<span class="hljs-built_in">null</span>)
+        &#123;
+            res.add(treenode.val);
+            <span class="hljs-built_in">stack</span>.add(treenode);
+            treenode=treenode.right; 
+        &#125;   
+        <span class="hljs-keyword">else</span>
+        &#123;
+            treenode=<span class="hljs-built_in">stack</span>.pop().left;
+        &#125;
+    &#125;
+    Collections.reverse(res);
+    <span class="hljs-keyword">return</span> res;
+&#125;</code></pre>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">后序遍历</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/leetcode/">leetcode</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A0%88/">栈</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A0%91/">树</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/20/C++/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">为啥那么C++pop不返回值</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/19/%E7%AE%97%E6%B3%95/232.%20%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">
+                        <span class="hidden-mobile">232. 用栈实现队列</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "145. 二叉树的后序遍历&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

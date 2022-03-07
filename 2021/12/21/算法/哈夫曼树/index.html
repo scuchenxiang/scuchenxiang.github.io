@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>哈夫曼树压缩和解压缩 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-12-21 00:20">
+      2021年12月21日 凌晨
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>主要是把字符串读到vector中，然后记录每个字符出现的次数，然后构建哈夫曼树，然后再生成哈夫曼编码，再写入。</p>
+<pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;Windows.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fstream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;map&gt; </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bitset&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;unordered_map&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">long</span> byteNum = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-keyword">int</span> weight;
+    <span class="hljs-keyword">int</span> parent, lchild, rchild;
+&#125;HafuNode, * HufumanTree;
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-keyword">char</span>* data;
+    <span class="hljs-keyword">int</span>* num;
+    <span class="hljs-keyword">int</span> length;
+&#125;TNode;
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-keyword">char</span>* data;
+    <span class="hljs-keyword">char</span>** HM;
+&#125;Code;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">char</span>** HuffmanCode;
+
+
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Hafuman</span></span>
+<span class="hljs-class">&#123;</span>
+<span class="hljs-keyword">private</span>:
+    HuffmanCode code;
+    TNode tnod;
+    HufumanTree hafutree;
+    <span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">char</span>&gt; hafumanHash;
+    <span class="hljs-comment">//存文件内容</span>
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">char</span>&gt; str;
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">compression</span><span class="hljs-params">(<span class="hljs-built_in">string</span> decomFile,<span class="hljs-built_in">string</span> comFile)</span></span>
+<span class="hljs-function">    </span>&#123;
+        Read(comFile);
+        TNodeCount();
+        CreateHuffmanTree();
+        CreatHuffmanCode();
+        <span class="hljs-keyword">int</span> i, j, k;
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> tmp = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> <span class="hljs-built_in">bit</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-function">ofstream <span class="hljs-title">outfile</span><span class="hljs-params">(<span class="hljs-string">&quot;compression.txt&quot;</span>, ios::out)</span></span>;
+        <span class="hljs-function">ofstream <span class="hljs-title">outComFile</span><span class="hljs-params">(decomFile, ios::out)</span></span>;
+        <span class="hljs-keyword">if</span> (!outfile)
+        &#123;
+            <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;open error&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-comment">//写入编码</span>
+        outComFile &lt;&lt; tnod.length &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; tnod.length; i++)
+        &#123;
+            outComFile &lt;&lt; tnod.data[i];
+            outComFile &lt;&lt; code[i + <span class="hljs-number">1</span>];
+            outComFile &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;
+        &#125;
+
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; str.<span class="hljs-built_in">size</span>(); i++)
+        &#123;
+            <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; tnod.length; j++)
+            &#123;
+                <span class="hljs-keyword">if</span> (tnod.data[j] == str[i])
+                &#123;
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+            <span class="hljs-keyword">for</span> (k = <span class="hljs-number">0</span>; code[j + <span class="hljs-number">1</span>][k] != <span class="hljs-string">&#x27;\0&#x27;</span>; k++)
+            &#123;
+                outfile &lt;&lt; code[j + <span class="hljs-number">1</span>][k];
+                <span class="hljs-keyword">if</span> (code[j + <span class="hljs-number">1</span>][k] == <span class="hljs-string">&#x27;0&#x27;</span>)
+                &#123;
+                    tmp = tmp | <span class="hljs-number">0</span>;
+                &#125;
+                <span class="hljs-keyword">else</span>
+                &#123;
+                    tmp = (tmp | <span class="hljs-number">1</span>);
+                &#125;
+                <span class="hljs-built_in">bit</span> = (<span class="hljs-built_in">bit</span> + <span class="hljs-number">1</span>) % <span class="hljs-number">32</span>;
+                <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">bit</span>)
+                &#123;
+                    outComFile &lt;&lt; tmp &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;
+                    tmp = <span class="hljs-number">0</span>;
+                &#125;
+                <span class="hljs-keyword">else</span>
+                    tmp = tmp &lt;&lt; <span class="hljs-number">1</span>;
+                byteNum++;
+            &#125;
+        &#125;
+        tmp = tmp &lt;&lt; (<span class="hljs-number">32</span> - byteNum % <span class="hljs-number">32</span> - <span class="hljs-number">1</span>);
+        outComFile &lt;&lt; tmp &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;
+        outComFile &lt;&lt; byteNum;
+        <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;文件的总的字符数为 &quot;</span> &lt;&lt; byteNum &lt;&lt; <span class="hljs-built_in">endl</span>;
+        outfile.<span class="hljs-built_in">close</span>();
+        <span class="hljs-comment">//写总共的位数</span>
+
+
+        <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;压缩成功!,可以到compression.txt中查看具体二进制码，压缩文件为 &quot;</span>&lt;&lt;decomFile &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+
+        <span class="hljs-comment">//outComFile.seekg(0, ios::beg);</span>
+
+        <span class="hljs-comment">//streampos size = outComFile.tellg();</span>
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;压缩文件大小为：&quot;</span> &lt;&lt; byteNum/<span class="hljs-number">8</span> &lt;&lt; <span class="hljs-string">&quot; 字节&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        outComFile.<span class="hljs-built_in">close</span>();
+
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decompression</span><span class="hljs-params">(<span class="hljs-built_in">string</span> decomFilename, <span class="hljs-built_in">string</span> comfilename)</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">char</span> a[<span class="hljs-number">30</span>];
+        <span class="hljs-function">ofstream <span class="hljs-title">outfile</span><span class="hljs-params">(comfilename, ios::out)</span></span>;
+        <span class="hljs-function">ifstream <span class="hljs-title">inComfile</span><span class="hljs-params">(decomFilename, ios::in)</span></span>;
+        <span class="hljs-keyword">if</span> (!outfile)
+        &#123;
+            <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;open error&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-keyword">if</span> (!inComfile)
+        &#123;
+            <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;open error&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-keyword">int</span> bytenum;
+        inComfile.seekg(<span class="hljs-number">-2L</span>, ios::<span class="hljs-built_in">end</span>);
+        inComfile &gt;&gt; bytenum;
+
+        inComfile.seekg(<span class="hljs-number">0</span>, ios::beg);
+        <span class="hljs-keyword">int</span> codeNum;
+        inComfile &gt;&gt; codeNum;
+
+        <span class="hljs-keyword">char</span>* code = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">100</span>];
+        <span class="hljs-keyword">char</span> ch;
+        <span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">char</span>&gt; hash;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; codeNum; i++)
+        &#123;
+            inComfile &gt;&gt; ch;
+            inComfile &gt;&gt; code;
+            <span class="hljs-built_in">string</span> tmp = code;
+            hash[tmp] = ch;
+        &#125;
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> m;
+        <span class="hljs-built_in">string</span> mystr = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-keyword">for</span> (; bytenum &gt;= <span class="hljs-number">32</span>; bytenum -= <span class="hljs-number">32</span>)
+        &#123;
+            inComfile &gt;&gt; m;
+            <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> mask = <span class="hljs-number">0x80000000</span>;
+            <span class="hljs-keyword">int</span> countForByte = <span class="hljs-number">32</span>;
+
+            <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)
+            &#123;
+                <span class="hljs-keyword">if</span> (!(mask &amp; m))
+                    mystr.append(<span class="hljs-string">&quot;0&quot;</span>);
+                <span class="hljs-keyword">else</span>
+                    mystr.append(<span class="hljs-string">&quot;1&quot;</span>);
+                m = m &lt;&lt; <span class="hljs-number">1</span>;
+                countForByte--;
+                <span class="hljs-keyword">if</span> (hash.count(mystr))
+                &#123;
+                    outfile &lt;&lt; hash[mystr];
+                    mystr = <span class="hljs-string">&quot;&quot;</span>;
+                &#125;
+                <span class="hljs-keyword">if</span> (countForByte &lt;= <span class="hljs-number">0</span>)
+                    <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        inComfile &gt;&gt; m;
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> mask = <span class="hljs-number">0x80000000</span>;
+        <span class="hljs-keyword">int</span> countForByte = bytenum;
+
+        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)
+        &#123;
+            <span class="hljs-keyword">if</span> (!(mask &amp; m))
+                mystr.append(<span class="hljs-string">&quot;0&quot;</span>);
+            <span class="hljs-keyword">else</span>
+                mystr.append(<span class="hljs-string">&quot;1&quot;</span>);
+            m = m &lt;&lt; <span class="hljs-number">1</span>;
+            countForByte--;
+            <span class="hljs-keyword">if</span> (hash.count(mystr))
+            &#123;
+                outfile &lt;&lt; hash[mystr];
+                mystr = <span class="hljs-string">&quot;&quot;</span>;
+            &#125;
+            <span class="hljs-keyword">if</span> (countForByte &lt;= <span class="hljs-number">0</span>)
+                <span class="hljs-keyword">break</span>;
+        &#125;
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;解压成功！解压文件为&quot;</span> &lt;&lt; comfilename&lt;&lt;<span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">delete</span> code;
+        code = <span class="hljs-literal">nullptr</span>;
+
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">CreatHuffmanCode</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">int</span> n = tnod.length;
+        <span class="hljs-keyword">int</span> pare, child, start;
+        code = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>* [n + <span class="hljs-number">1</span>];
+        <span class="hljs-keyword">char</span>* cd = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[n];
+        cd[n - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        &#123;
+            start = n - <span class="hljs-number">1</span>;
+            child = i;
+            pare = hafutree[i].parent;
+            <span class="hljs-keyword">while</span> (pare != <span class="hljs-number">0</span>)
+            &#123;
+                start--;
+                <span class="hljs-keyword">if</span> (child == hafutree[pare].lchild)
+                &#123;
+                    cd[start] = <span class="hljs-string">&#x27;0&#x27;</span>;
+                &#125;
+                <span class="hljs-keyword">else</span>
+                &#123;
+                    cd[start] = <span class="hljs-string">&#x27;1&#x27;</span>;
+                &#125;
+                child = pare;
+                pare = hafutree[child].parent;
+            &#125;
+            code[i] = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[n - start];
+            <span class="hljs-built_in">strcpy</span>(code[i], &amp;cd[start]);
+        &#125;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        &#123;
+            <span class="hljs-built_in">cerr</span> &lt;&lt; tnod.data[i<span class="hljs-number">-1</span>] &lt;&lt; <span class="hljs-string">&quot;权重 : &quot;</span> &lt;&lt; tnod.num[i<span class="hljs-number">-1</span>];
+            <span class="hljs-built_in">cerr</span> &lt;&lt;<span class="hljs-string">&quot;二进制编码为&quot;</span>&lt;&lt; code[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+        &#125;
+        <span class="hljs-keyword">delete</span> cd;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initTnode</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        tnod.data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">256</span>];
+        tnod.num = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">256</span>];
+        <span class="hljs-keyword">if</span> (tnod.data == <span class="hljs-literal">NULL</span> || tnod.num == <span class="hljs-literal">NULL</span>)
+        &#123;
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;发生错误&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+        &#125;
+        tnod.length = <span class="hljs-number">0</span>;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Read</span><span class="hljs-params">( <span class="hljs-built_in">string</span> filename)</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">char</span> ch;
+        <span class="hljs-function">ifstream <span class="hljs-title">infile</span><span class="hljs-params">(filename, ios::in)</span></span>;
+        <span class="hljs-keyword">if</span> (!infile)
+        &#123;
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;open error&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+            <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-keyword">while</span> (infile.<span class="hljs-built_in">peek</span>() != EOF)
+        &#123;
+            infile.<span class="hljs-built_in">get</span>(ch);
+            str.push_back(ch);
+        &#125;
+        infile.seekg(<span class="hljs-number">0</span>, ios::<span class="hljs-built_in">end</span>);
+        streampos <span class="hljs-built_in">size</span> = infile.tellg();
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;源文件大小为：&quot;</span> &lt;&lt; <span class="hljs-built_in">size</span> &lt;&lt; <span class="hljs-string">&quot; 字节&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        infile.<span class="hljs-built_in">close</span>();
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> ch, TNode t)</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; t.length; i++)
+        &#123;
+            <span class="hljs-keyword">if</span> (t.data[i] == ch)
+            &#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">TNodeCount</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">int</span> m = str.<span class="hljs-built_in">size</span>(), j = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">char</span> ch;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)
+        &#123;
+            ch = str[i];
+            <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">find</span>(ch, tnod))
+            &#123;
+                tnod.data[j] = ch;
+                tnod.num[j] = count(str.<span class="hljs-built_in">begin</span>(), str.<span class="hljs-built_in">end</span>(), ch);
+                tnod.length++;
+                j++;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Select</span><span class="hljs-params">(HufumanTree&amp; tree, <span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span>&amp; b, <span class="hljs-keyword">int</span>&amp; c)</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">int</span> min1, min2, minweight = <span class="hljs-number">10000</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= a; i++)
+        &#123;
+            <span class="hljs-keyword">if</span> (tree[i].parent == <span class="hljs-number">0</span>)
+            &#123;
+                <span class="hljs-keyword">if</span> (tree[i].weight &lt; minweight)
+                &#123;
+                    minweight = tree[i].weight;
+                    min1 = i;
+                &#125;
+            &#125;
+        &#125;
+        tree[min1].parent = <span class="hljs-number">1</span>;
+        minweight = <span class="hljs-number">10000</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= a; i++)
+        &#123;
+            <span class="hljs-keyword">if</span> (tree[i].parent == <span class="hljs-number">0</span>)
+            &#123;
+                <span class="hljs-keyword">if</span> (tree[i].weight &lt; minweight)
+                &#123;
+                    minweight = tree[i].weight;
+                    min2 = i;
+                &#125;
+            &#125;
+        &#125;
+        tree[min2].parent = <span class="hljs-number">1</span>;
+        b = min1;
+        c = min2;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">CreateHuffmanTree</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">int</span> n = tnod.length;
+        <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">1</span>)
+        &#123;
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> m = <span class="hljs-number">2</span> * n - <span class="hljs-number">1</span>;
+        hafutree = <span class="hljs-keyword">new</span> HafuNode[m + <span class="hljs-number">1</span>];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++)<span class="hljs-comment">//为0表示没有左右节点，父节点</span>
+        &#123;
+            hafutree[i].lchild = <span class="hljs-number">0</span>;
+            hafutree[i].parent = <span class="hljs-number">0</span>;
+            hafutree[i].rchild = <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        &#123;
+            hafutree[i].weight = tnod.num[i - <span class="hljs-number">1</span>];
+        &#125;
+        <span class="hljs-keyword">int</span> s1, s2;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = n + <span class="hljs-number">1</span>; i &lt;= m; i++)
+        &#123;
+            Select(hafutree, i - <span class="hljs-number">1</span>, s1, s2);
+            hafutree[s1].parent = i;
+            hafutree[s2].parent = i;
+            hafutree[i].lchild = s1;
+            hafutree[i].rchild = s2;
+            hafutree[i].weight = hafutree[s1].weight + hafutree[s2].weight;
+        &#125;
+    &#125;
+&#125;;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+
+    Hafuman  hafumanClass;
+    hafumanClass.initTnode();
+
+    <span class="hljs-built_in">string</span> command;
+    <span class="hljs-keyword">char</span> commandOpt;
+    <span class="hljs-built_in">string</span> comFile, deComFile;
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)
+    &#123;
+        <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;请输入选择的功能&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;1.压缩文件（SZip A  xx.haf test.txt（需要压缩的文件名）)&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-built_in">cerr</span> &lt;&lt; <span class="hljs-string">&quot;2.解压文件（SZip X  xx.haf test1.txt(解压的文件名))&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-built_in">cin</span> &gt;&gt; command;
+        <span class="hljs-built_in">cin</span> &gt;&gt; commandOpt;
+        <span class="hljs-keyword">if</span> (command != <span class="hljs-string">&quot;SZip&quot;</span>||(commandOpt!=<span class="hljs-string">&#x27;A&#x27;</span>&amp;&amp; commandOpt != <span class="hljs-string">&#x27;X&#x27;</span>))
+        &#123;
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;命令输入错误，请重新输入 &quot;</span> ;
+            <span class="hljs-keyword">continue</span>;
+        &#125;
+        <span class="hljs-built_in">cin</span> &gt;&gt; deComFile &gt;&gt; comFile;
+        <span class="hljs-keyword">switch</span> (commandOpt)
+        &#123;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;A&#x27;</span>:
+
+            hafumanClass.compression(deComFile, comFile);
+
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;X&#x27;</span>:
+            hafumanClass.decompression(deComFile,comFile);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;输入错误！请重新输入&quot;</span>;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95/">压缩算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A0%91/">树</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">哈夫曼树</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/21/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/WSL%E7%9A%84%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">WSL的图形界面设置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/21/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/latex%E4%B8%AD%E6%96%87%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">latex中文使用miktex，ctexart</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "哈夫曼树压缩和解压缩&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

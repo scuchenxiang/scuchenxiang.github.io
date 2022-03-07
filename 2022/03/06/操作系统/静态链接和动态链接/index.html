@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>静态链接和动态链接，库打桩，位置无关代码 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-03-06 00:11">
+      2022年3月6日 凌晨
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>主要是为了将一些可重定位目标文件链接为可执行的目标文件。</p>
+<p>目标文件主要包括三种：</p>
+<h2 id="可重定位目标文件，可执行目标文件，共享目标文件"><a href="#可重定位目标文件，可执行目标文件，共享目标文件" class="headerlink" title="可重定位目标文件，可执行目标文件，共享目标文件"></a>可重定位目标文件，可执行目标文件，共享目标文件</h2><p>链接的主要完成的有两点，符号解析和地址重定位</p>
+<h2 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h2><p>主要是为了解析函数符号，全局变量的符号，static的符号，主要是为了将符号引用与符号定义关联起来。为什么不需要对局部变量进行符号解析呢，因为在文件内部可以找到，不需要链接。</p>
+<p>符号解析主要是通过将每个引用同输入的可重定位目标文件的符号表中的一个条目对应起来<br>局部变量的符号解析比较简单，静态局部变量会有本地链接器的符号，编译器需要确保有唯一的名字，</p>
+<p>如果碰到当前模块没有定义的符号，会假设是其他某个模块定义的，然后生成一个链接器符号表条目，交给链接器处理，然后去其他模块中找，没找到就会报错。</p>
+<p>如果出现重名的全局符号，要么选出一个抛弃其他的，要么报错。重名时根据符号强弱来选择，已经初始化的为强符号，没有初始化的为弱符号。</p>
+<p>多个强符号报错，一个强多个弱，选强，如果多个弱，任意选一个</p>
+<p>对于函数C++和JAVA都会用方法和参数列表组合出一个对链接器唯一的名字，叫函数重整。</p>
+<h1 id="地址重定位"><a href="#地址重定位" class="headerlink" title="地址重定位"></a>地址重定位</h1><p>汇编器生成的是从0开始的代码和数据节，链接器通过把每个符号同一个内存位置关联起来，重定位这些节，然后修改对这些符号的引用，使其指向这个位置，链接器使用汇编器产生的重定位条目。</p>
+<p>主要包含两个，重定位节和符号定义，重定位节中的符号引用</p>
+<h2 id="重定位节和符号定义-确定符号和节的地址"><a href="#重定位节和符号定义-确定符号和节的地址" class="headerlink" title="重定位节和符号定义(确定符号和节的地址)"></a>重定位节和符号定义(确定符号和节的地址)</h2><p>将所有相同类型的节合并成聚合的节，然后将运行时的内存地址赋给新的聚合节，赋给输入模块的定义每个符号，此时全局变量和每条指令都有唯一的运行地址了。</p>
+<h2 id="重定位节中的符号引用（确定每个符号引用的地址）"><a href="#重定位节中的符号引用（确定每个符号引用的地址）" class="headerlink" title="重定位节中的符号引用（确定每个符号引用的地址）"></a>重定位节中的符号引用（确定每个符号引用的地址）</h2><p>修改代码节和数据节中对每个符号的引用，使其指向正确的运行时地址，这一个步骤依赖于重定位条目。</p>
+<p>重定位条目是由于目标模块不知道函数和代码具体存放在内存的位置。也不知道外部定义的函数和全局变量的位置，所以生成重定位条目用来后面生成可执行文件时的修改。</p>
+<h2 id="重定位条目包含"><a href="#重定位条目包含" class="headerlink" title="重定位条目包含"></a>重定位条目包含</h2><pre><code class="hljs routeros">
+offset 被修改的引用的节偏移
+
+type 告诉链接器如何修改新的引用
+主要有两种常用类型，R_X86_64_PC32,,重定位一个32位PC相对地址的引用，例如当进行PC相对寻址的时候，这个数加上PC值得到有效地址，例如call的地址。
+R_X86_64_32，重定位一个使用32位绝对地址的引用，CPU直接使用这个绝对地址作为有效地址，不需要进一步修改。
+
+addend 有符号常熟，对一些类型的重定位需要使用其对被修改引用的值做偏移调整
+
+symbol 表示被修改的引用应该指向的符号
+</code></pre>
+<p>重定位符号引用<br><pre><code class="hljs plain"></code></pre></p>
+<p>可重定位目标文件包含的内容</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">ELF</span>头
+<span class="hljs-selector-class">.text</span> 已经编译的机器代码
+
+<span class="hljs-selector-class">.rodata</span> 只读数据，例如<span class="hljs-selector-tag">printf</span>的格式串
+
+<span class="hljs-selector-class">.data</span> 已经初始化的全局数据和静态数据
+
+<span class="hljs-selector-class">.bss</span> 未初始化的全局数据和静态数据,不占实际空间,分配在符号表中以及段表中,实际运行才会分配空间.
+
+<span class="hljs-selector-class">.systab</span> 符号表，存放文件引用的全局变量和函数信息（不包含局部变量），静态变量也在符号表中，局部变量放在栈中管理。
+符号表的每个条目由一个结构体表示，包含<span class="hljs-selector-tag">name</span>，<span class="hljs-selector-tag">type</span>，<span class="hljs-selector-tag">section</span>(目标文件的哪个节)，其中有三个特殊的伪节（只在可重定位目标文件才有，可执行文件中没有），<span class="hljs-selector-tag">UNDEF</span>（未定义的符号），<span class="hljs-selector-tag">ABS</span>(不该被重定位的符号)，<span class="hljs-selector-tag">COMMON</span>(未被分配位置的未初始化的数据目标)，<span class="hljs-selector-tag">value</span>，<span class="hljs-selector-tag">size</span>。
+<span class="hljs-selector-tag">COMMON</span>主要代表未初始化的全局变量，<span class="hljs-selector-tag">bss</span>主要代表未初始化的静态变量以及初始化未0的全局和静态变量
+
+
+<span class="hljs-selector-class">.rel</span><span class="hljs-selector-class">.text</span>  <span class="hljs-selector-class">.text</span> 节中位置的列表，当链接器将这个文件和其他文件组合的时候需要修改，即任何调用外部函数时候都需要修改这些位置，调用本地文件不需要
+
+<span class="hljs-selector-class">.rel</span><span class="hljs-selector-class">.data</span> 被模块引用的全局变量的重定位信息。
+
+<span class="hljs-selector-class">.debug</span> 调试符号表，文件中定义的局部变量，以及其类型
+
+<span class="hljs-selector-class">.line</span> <span class="hljs-selector-class">.text</span>中的行号和对应的机器指令的映射
+
+<span class="hljs-selector-class">.strtab</span> 字符串表
+
+节头部表</code></pre>
+<h2 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h2><pre><code class="hljs mathematica">当与静态库进行链接的时候，构建出的可执行文件实际上只复制静态库中引用的目标模块，
+它只需要包含较少的模块。linux中静态库以存档的形式放在磁盘中，是一组连接起来的可重定位目标文件的集合，有头部描述每个文件的大小和位置，存档文件为.a文件。
+
+假设有可重定位目标文件集合<span class="hljs-keyword">E</span>，未解析的符号U，前面输入文件定义的符号集合<span class="hljs-keyword">D</span>。
+
+静态链接的时候是从左到右扫描，添加符号，如果文件是目标文件，那么就会添加到<span class="hljs-keyword">E</span>中，然后修改U，<span class="hljs-keyword">D</span>。
+
+如果是静态库中的每个可重定位目标文件，那么就会比较U中的符号这个文件中有没有，有就添加到<span class="hljs-keyword">E</span>，然后修改U，<span class="hljs-keyword">D</span>，如果没有那么直接丢弃。
+
+但是如果定义的符号的库出现在引用符号的库之前，那么就会链接失败，所以顺序很重要。
+
+所以我们一般把库都放在链接命令的末尾，如果各个库之间没有相互引用，那么顺序是任意的，如果有相互引用，那么需要按照一定的顺序
+
+</code></pre>
+<h2 id="可执行目标文件"><a href="#可执行目标文件" class="headerlink" title="可执行目标文件"></a>可执行目标文件</h2><pre><code class="hljs asciidoc">ELF头 描述总体格式，程序的入口点
+段头部表 
+<span class="hljs-title">.init 初始化代码时调用的</span>
+<span class="hljs-title">.text</span>
+<span class="hljs-title">.rodata</span>
+<span class="hljs-title">.data</span>
+<span class="hljs-title">.bss</span>
+其他的像符号表可重定位条目都没了</code></pre>
+<pre><code class="hljs sqf">加载器加载可执行目标文件时在linux中使用execve函数来调用，在程序头部表的引导下，然后将可执行目标文件的片（chunk）代码和数据复制到内存，然后跳转到第一个入口点（<span class="hljs-variable">_start</span>）运行该程序。这个入口是在系统目标文件ctrl.o中定义的，然后<span class="hljs-variable">_start</span>调用<span class="hljs-variable">__libc_start_main</span>,此函数定义在libc.o中，它初始化环境，调用用户的main函数，处理返回值，需要时将控制返回给内核。
+
+实际上当父shell进程生成一个子进程的时候，foke继承父进程的所有内容，然后删除子进程的虚拟内存段，然后创建新的代码数据，堆栈段，并用虚拟地址空间的页映射可执行目标文件的片（chunk），代码段和数据段初始化为可执行文件的内容。然后跳到<span class="hljs-variable">_start</span>，执行main</code></pre>
+<p>代码段总是从0x400000开始，然后地址从低到高分别是数据段，堆，栈，内核内存。</p>
+<p>数据段要求内存对齐，因此有间隙，</p>
+<h2 id="动态链接共享库"><a href="#动态链接共享库" class="headerlink" title="动态链接共享库"></a>动态链接共享库</h2><p>静态链接的缺点在于每次需要复制静态库中的模块到最终的文件中，同时如果静态库更新了，需要重新链接。<br>使用动态共享库使得每次运行或者加载的时候才将文件加载到内存中，进行连接，重定位符号引用，不需要复制模块，只复制一些符号表和重定位信息，而且只有一个副本，由不同的进程共享</p>
+<p>linux 中dlopen函数用来在运行的时候加载和链接共享库</p>
+<h3 id="JAVA-JNI-java-native-interface-java本地接口"><a href="#JAVA-JNI-java-native-interface-java本地接口" class="headerlink" title="JAVA JNI(java native interface)java本地接口"></a>JAVA JNI(java native interface)java本地接口</h3><p>他是将本地的C函数foo编译到一个共享库中，然后当正在运行的java程序试图调用foo时，会使用dlopen动态链接和加载foo.so，然后调用foo</p>
+<h2 id="位置无关代码（PIC"><a href="#位置无关代码（PIC" class="headerlink" title="位置无关代码（PIC)"></a>位置无关代码（PIC)</h2><p>可以加载而无需重定位的代码称为PIC，使用-fpic，生成pic代码，共享库的生成总是需要这个选项，对于共享文件内部，是不需要做什么的，因为进行引用的时候直接用PC相对寻址就好，但是外部过程和全局变量需要特殊的技巧。</p>
+<h3 id="PIC数据引用"><a href="#PIC数据引用" class="headerlink" title="PIC数据引用"></a>PIC数据引用</h3><p>有一个事实是这样的：无论在内存的哪里加载目标模块（包括共享目标模块），数据段和代码段的距离总是不变的。</p>
+<p>同时在数据段中会有一个全局偏移量表GOT，每个被这个模块引用的全局数据目标都有一个条目，动态链接器会重定位每个条目，使其包含正确的地址，比如说调用一个A，是在其他模块定义的，然后它就会去通过GOT间接访问。</p>
+<h3 id="PIC函数调用"><a href="#PIC函数调用" class="headerlink" title="PIC函数调用"></a>PIC函数调用</h3><p>使用了延迟绑定技术，即将过程地址的绑定推迟到第一次调用该过程时候。<br>优点在于当一个共享库的函数太多的时候，将地址绑定推迟到第一次调用时，可以减少很多不需要的重定位，虽然第一次很慢，但是后面都很快，只需要一条指令和一个间接的内存引用。</p>
+<p>他是通过GOT和过程链接表PLT实现的，GOT属于数据段，PLT数据代码段。</p>
+<p>第一次的时候，会先跳到PLT，然后跳到对应的GOT，然后跳到PLT，然后在栈中压入一些参数，然后跳到动态链接器，使用栈中的条目确定函数地址，然后重写GOT的内容，再调用函数。</p>
+<p>后面每次就直接会先跳到PLT，然后跳到对应的GOT，然后跳到对应函数。</p>
+<h2 id="库打桩机制"><a href="#库打桩机制" class="headerlink" title="库打桩机制"></a>库打桩机制</h2><p>它可以截获对共享库函数的调用，转而执行我们自己的代码。</p>
+<p>可以在编译时，运行时，或者加载和链接时刻。</p>
+<h3 id="编译时打桩"><a href="#编译时打桩" class="headerlink" title="编译时打桩"></a>编译时打桩</h3><p>在编译的时候的命令行参数加入-I. ，此时会进行打桩，在搜索系统目录的时候优先搜索当前目录。</p>
+<h3 id="链接时打桩"><a href="#链接时打桩" class="headerlink" title="链接时打桩"></a>链接时打桩</h3><p>例如使用—wrap f 标志进行链接时打桩，这个会将f符号解释为<strong>wrap_f，将</strong>real_f的符号解释为f。</p>
+<h3 id="运行时打桩"><a href="#运行时打桩" class="headerlink" title="运行时打桩"></a>运行时打桩</h3><p>编译时打桩需要访问程序的源代码，链接时打桩需要访问程序的可重定位对象文件。运行时打桩只需要访问可执行目标文件。</p>
+<p>它基于动态链接器的LD_PRELOAD.将LD_PRELOAD设置为一个路径，然后当加载和执行一个程序的时候，需要解析其他未定义的引用的时候，会优先搜索LD_PRELOAD库，然后才搜索其他的库。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C++</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5/">静态链接</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/">动态链接</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BA%93%E6%89%93%E6%A1%A9/">库打桩</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%BD%8D%E7%BD%AE%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81/">位置无关代码</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">虚拟内存</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/05/C++/C++%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F/">
+                        <span class="hidden-mobile">C++运行时的内存映像</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "静态链接和动态链接，库打桩，位置无关代码&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>raft算法 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-05-25 19:45">
+      2021年5月25日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>raft相比 paxos更容易理解。</p>
+<p>raft leader 是一种强leader，日志只能从leader复制日志到其他服务器。</p>
+<p>复制是用来解决分布式系统的容错的问题的。</p>
+<p>复制状态机就是这种用来解决分布式系统的容错的问题的，在怎么做的呢？<br>复制状态机是通过复制日志来实现的，每个服务器都有相同的日志</p>
+<p>raft这种一致性算法就是为了实现分布式的容错性，通过保证复制日志的一致性来实现的。<br>为了解决这个问题，实际上是通过raft实际上只有三个问题.</p>
+<p>1 是如何选举出leader</p>
+<p>2 如何复制日志</p>
+<p>3 怎么保证安全</p>
+<p>raft必须保证大部分机器可用。<br>以下是一些raft的基础的内容，三种角色，leader，candidate，follower。</p>
+<p>只有leader可以处理客户端的请求，如果其他角色接收到了请求，会重定向到leader。</p>
+<p>任期，每个任期从选举开始，只会有一个leader，时间长度不确定。当出现选举分裂的情况下，将不会选取leader，然后新的任期开始，重新选举。</p>
+<p>在服务器被孤立的情况下，可能服务器接收到请求时发现任期和自己不一样。如果请求的任期太旧了，拒绝请求。如果任期比自己新，那么如果自己是leader，转变成follower，然后更新任期，如果是其他角色，也更新任期。</p>
+<p>raft通过RPC通信<br>请求选举RPC<br>追加日志RPC<br>传送快照RPC</p>
+<p>心跳机制，folloewr有计时器，如果超时就发起选举，leader会发送心跳授权延长自己的任期<br>在一次选举开始时，folloewr转为候选者，然后任期增加<br>当候选者接收到其他服务器请求投票的请求时</p>
+<p>实现：<br>对于每个raft的服务器<br>同时启动follower和Leader的协程</p>
+<p>follower协程sleep，每当超时就发起选举，对其他的每个服务器发送请求投票RPC。<br>Leader的协程每当间隔一定时间就向其他的服务器发送心跳同时给出自己的日志相关信息，通过增加日志RPC发送给它们，同时如果对方的日志太旧就安装快照，发送安装快照RPC，针对结果进行。</p>
+<h2 id="6-824-内容"><a href="#6-824-内容" class="headerlink" title="6.824 内容"></a>6.824 内容</h2><h3 id="Shard"><a href="#Shard" class="headerlink" title="Shard"></a>Shard</h3><p>把所有数据按照Key Hash然后取模10,把数据切分成10片.每一片称为一个Shard, 其中包括一组键值对</p>
+<h3 id="ShardServer-Group"><a href="#ShardServer-Group" class="headerlink" title="ShardServer (Group)"></a>ShardServer (Group)</h3><p>每个Group都是一个Raft集群, 通过Raft保证这组服务器上的数据一致性. 一组服务器负责几个Shard的读写请求.整个集群由N个Group组成</p>
+<h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h3><p>客户端, 发起读写请求.</p>
+<h3 id="ShardMaster"><a href="#ShardMaster" class="headerlink" title="ShardMaster"></a>ShardMaster</h3><p>是集群中的协调者, 他负责调整Shard在集群间的分配, 以及集群路由的查询工作.</p>
+<p>扩容: 新加入了一组服务器Group3, 需要将针对某个Shard的历史数据和后续的读写请求由Group1交给Group3负责以扩容集群.</p>
+<p>缩容: 需要下线Group3, 需要将Group3负责的Shard历史数据和后续读写请求交给其他Group负责.扩缩容操作后需要保证Group间的负载均衡</p>
+<p>路由查询: 假设Client 需要 Put(key:”name”, value: “L” ), “name”这个key存储在Shard1上. 需要Client根据从ShardMaster获取到的配置来确认向哪个Group发起写请求.</p>
+<h3 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h3><p>由ShardMaster维护, 客户端和ShardServer拉取的配置, 其中包括的所有服务器分组地址以及集群路由信息. 每次集群动作的变更都会引起Config Version的更新.</p>
+<h3 id="Recoverable"><a href="#Recoverable" class="headerlink" title="Recoverable"></a>Recoverable</h3><p>快照和Raft中的状态要及时落盘,每一台服务器都要能够在故障后重启恢复</p>
+<h3 id="线性一致性"><a href="#线性一致性" class="headerlink" title="线性一致性"></a>线性一致性</h3><p>需要能立刻读到之前完成的写请求</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>Shard在Group间的分布要尽可能均衡, 可以通过一致性哈希或者其他方法来实现</p>
+<h3 id="multiRaft"><a href="#multiRaft" class="headerlink" title="multiRaft"></a>multiRaft</h3><p>我们使用 Raft 一致性算法来确保在机器发生故障时数据也能保持一致。在大多数使用 Raft 的系统中，如 etcd 和 Consul，整个系统只有一个 Raft 共识组。然而，在 CockroachDB 中，数据被分成不同的范围，每个范围都有自己的共识组。这意味着每个节点都可能参与成千上万个共识组。这就提出了一些独特的挑战，我们通过在 Raft 之上引入一层 MultiRaft 来解决这些问题。</p>
+<p>简单来说，MultiRaft 是在整个系统中，把所管理的数据按照一定的方式切片，每一个切片的数据都有自己的副本，这些副本之间的数据使用 Raft 来保证数据的一致性，在全局来看整个系统中同时存在多个 Raft-Group<br>单个 Raft-Group 在 KV 的场景下存在一些弊端:</p>
+<p>(1) 系统的存储容量受制于单机的存储容量（使用分布式存储除外）。</p>
+<p>(2) 系统的性能受制于单机的性能（读写请求都由Leader节点处理）。</p>
+<p>MultiRaft 需要解决的一些核心问题：</p>
+<p>(1) 数据何如分片。</p>
+<p>(2) 分片中的数据越来越大，需要分裂产生更多的分片，组成更多 Raft-Group。</p>
+<p>(3) 分片的调度，让负载在系统中更平均（分片副本的迁移，补全，Leader 切换等等）。</p>
+<p>(4) 一个节点上，所有的 Raft-Group 复用链接（否则 Raft 副本之间两两建链，链接爆炸了）。</p>
+<p>(5) 如何处理 stale 的请求（例如 Proposal 和 Apply 的时候，当前的副本不是 Leader、分裂了、被销毁了等等）。</p>
+<p>(6) Snapshot 如何管理（限制Snapshot，避免带宽、CPU、IO资源被过度占用）。</p>
+<p>lab4b<br>在实际的生产系统中，不同 raft 组的成员可能存在于一个物理节点上，而且一般情况下都是一个物理节点拥有一个状态机，不同 raft 组使用不同地命名空间或前缀来操作同一个状态机。<br>系统的运行方式：一开始系统会创建一个 shardctrler 组来负责配置更新，分片分配等任务，接着系统会创建多个 raft 组来承载所有分片的读写任务。此外，raft 组增删，节点宕机，节点重启，网络分区等各种情况都可能会出现。</p>
+<p>对于集群内部，我们需要保证所有分片能够较为均匀的分配在所有 raft 组上，还需要能够支持动态迁移和容错。</p>
+<p>对于集群外部，我们需要向用户保证整个集群表现的像一个永远不会挂的单节点 KV 服务一样，即具有线性一致性。</p>
+<p>所有涉及修改集群分片状态的操作都应该通过 raft 日志的方式去提交，这样才可以保证同一 raft 组内的所有分片数据和状态一致。<br>在 6.824 的框架下，涉及状态的操作都需要 leader 去执行才能保持正确性，否则需要添加一些额外的同步措施，而这显然不是 6.824 所推荐的。因此配置更新，分片迁移，分片清理和空日志检测等逻辑都只能由 leader 去检测并执行。<br>数据迁移的实现为 pull 还是 push？其实都可以，个人感觉难度差不多，这里实现成了 pull 的方式。</p>
+<p>首先，每个 raft 组的 leader 需要有一个协程去向 shardctrler 定时拉取最新配置，一旦拉取到就需要提交到该 raft 组中以更新配置。此外，为了防止集群的分片状态被覆盖，从而使得某些任务永远被丢弃，因此一旦存在某一分片的状态不是默认状态，配置更新协程就会停止获取和提交新配置直至所有分片的状态都为默认状态为止。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/raft/">raft</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/19/%E7%AE%97%E6%B3%95/29.%20%E4%B8%A4%E6%95%B0%E7%9B%B8%E9%99%A4/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">leetcode29_两数相除</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/27/%E7%AE%97%E6%B3%95/kmp%E7%AE%97%E6%B3%95/">
+                        <span class="hidden-mobile">kmp算法，模板</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "raft算法&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
