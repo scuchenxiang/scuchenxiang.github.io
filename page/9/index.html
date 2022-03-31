@@ -168,22 +168,24 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/31/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/attention%E6%9C%BA%E5%88%B6/">attention机制</a>
+      <a class="index-header" href="/2021/04/12/%E7%AE%97%E6%B3%95/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
 
-      <a href="/2020/07/31/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/attention%E6%9C%BA%E5%88%B6/" class="index-excerpt">
+      <a href="/2021/04/12/%E7%AE%97%E6%B3%95/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/" class="index-excerpt">
         
         
           
         
-        <div>attention机制这篇文章讲的很详细attention机制
-这篇文章的例子讲的可以attention机制
-</div>
+        <div>关键之处在于要利用镜像的信息，对于镜像已经知道的及时跳过。
+然后还有一点就是扩充字符串#，然后两端加@！，这个时候我们如果得到最长回文串，那么怎么获得原始的最长回文串呢，是最右边的-中心得到最左边的位置，然后最左边的位置除2就是原始的起始值，这个很容易理解，因为是刚好扩充了两倍的，用#隔开的。
+还有一点关键是更新的是每个点已经以他为中心扩充的字符串，dp数组记录的是长度
+
+class Soluti</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-31
+            <i class="iconfont icon-date"></i>&nbsp;2021-04-12
           </div>
         
         
@@ -192,7 +194,9 @@
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
             
           </div>
         
@@ -200,11 +204,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+              <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
-            
-              <a href="/tags/NLP/">NLP</a>
+              <a href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
             
           </div>
         
@@ -216,22 +218,231 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/29/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/">医学图像相关内容</a>
+      <a class="index-header" href="/2021/03/29/%E7%AE%97%E6%B3%95/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">146. LRU 缓存机制</a>
 
-      <a href="/2020/07/29/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" class="index-excerpt">
+      <a href="/2021/03/29/%E7%AE%97%E6%B3%95/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="index-excerpt">
         
         
           
         
-        <div>ASTRA Toolbox一个python的库，包含很多的医学图像的算法，比如fbp，sart，生成投影数据等问题。
-还可以进行gpu加速，可以学习学习。
-</div>
+        <div>HashMap 大家都清楚，底层是 数组 + 红黑树 + 链表 （不清楚也没有关系），同时其是无序的，而 LinkedHashMap 刚好就比 HashMap 多这一个功能，就是其提供 有序，并且，LinkedHashMap的有序可以按两种顺序排列，一种是按照插入的顺序，一种是按照读取的顺序（这个题目的示例就是告诉我们要按照读取的顺序进行排序），而其内部是靠 建立一个双向链表 来维护这个顺序的，在</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
+            <i class="iconfont icon-date"></i>&nbsp;2021-03-29
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/java/">java</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">源码解析</a>
+            
+              <a href="/tags/LRU/">LRU</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/02/19/%E7%AE%97%E6%B3%95/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/">5. 最长回文子串 和马拉车算法</a>
+
+      <a href="/2021/02/19/%E7%AE%97%E6%B3%95/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="index-excerpt">
+        
+        
+          
+        
+        <div>主要是利用了回文串中的对称性质。将回文串分成两部分来看待，左边的已知结果，右边的未知，然后利用左边的信息，需要特殊讨论的情况就是左边回文串超出最左边的时候，超出中心并不需要讨论，因为超出中间的时候不会影响右边的结果，因为右边也只是超出中心，并没有超出最右边。算法效率很好。public String longestPalindrome(String s) 
+&#123;
+    int C=0,R=</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-02-19
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java/">java</a>
+            
+              <a href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+            
+              <a href="/tags/leettcode/">leettcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/01/23/%E7%AE%97%E6%B3%95/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/">327. 区间和的个数（树状数组+前缀和+离散化）</a>
+
+      <a href="/2021/01/23/%E7%AE%97%E6%B3%95/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>依然考虑前缀和数组 \textit{preSum}preSum。
+对于每个下标 jj，以 jj 为右端点的下标对的数量，就等于数组 \textit{preSum}[0..j-1]preSum[0..j−1] 中的所有整数，出现在区间 [\textit{preSum}[j]-\textit{upper}, \textit{preSum}[j]-\textit{lower}][preSum[j]−up</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-23
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/c/">c++</a>
+            
+              <a href="/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
+            
+              <a href="/tags/%E7%A6%BB%E6%95%A3%E5%8C%96/">离散化</a>
+            
+              <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/">前缀和</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/01/22/%E7%AE%97%E6%B3%95/1584.%20%E8%BF%9E%E6%8E%A5%E6%89%80%E6%9C%89%E7%82%B9%E7%9A%84%E6%9C%80%E5%B0%8F%E8%B4%B9%E7%94%A8/">1584. 连接所有点的最小费用（最小生成树Prime）</a>
+
+      <a href="/2021/01/22/%E7%AE%97%E6%B3%95/1584.%20%E8%BF%9E%E6%8E%A5%E6%89%80%E6%9C%89%E7%82%B9%E7%9A%84%E6%9C%80%E5%B0%8F%E8%B4%B9%E7%94%A8/" class="index-excerpt">
+        
+        
+          
+        
+        <div>朴素版Prim O(n^2)
+适用于稠密图
+稀疏图的 最小生成树
+这个是prim的情况
+学习STL，发现STL默认都是使用()比较的，默认比较使用less（即’&lt;’运算符），如sort(a,a+n)，默认将数组按照递增的顺序来排序（前面的元素&lt;后面的嘛），但是优先队列的源码比较奇特，虽然按道理使用less比较应该默认是小根堆（即堆顶元素最小），但是priority_queue&lt;&</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-22
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/tags/c/">c++</a>
+            
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">最小生成树</a>
+            
+              <a href="/tags/prim/">prim</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/01/18/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/%E8%83%BD%E8%B0%B1CT%E7%89%A9%E7%90%86%E5%8E%9F%E7%90%86/">能谱CT物理原理</a>
+
+      <a href="/2021/01/18/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/%E8%83%BD%E8%B0%B1CT%E7%89%A9%E7%90%86%E5%8E%9F%E7%90%86/" class="index-excerpt">
+        
+        
+          
+        
+        <div>CNR = contrast-to-noise ratio, EID = energy-integrating detector, PCD= photon-counting detector
+相对于传统的能量集成探测器CT，光子计数CT将允许减少辐射剂量，提高空间分辨率，纠正光束硬化伪影，并使用替代对比剂，同时为定量成像创造机会。
+EID CT， x光打到一个吸收层上，吸收层吸收x射线光子，然后转</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-18
           </div>
         
         
@@ -250,7 +461,9 @@
             
               <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
             
-              <a href="/tags/python/">python</a>
+              <a href="/tags/%E7%89%A9%E7%90%86%E5%8E%9F%E7%90%86/">物理原理</a>
+            
+              <a href="/tags/%E8%83%BD%E8%B0%B1CT/">能谱CT</a>
             
           </div>
         
@@ -262,67 +475,23 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/29/C++/memset%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98/">memset赋值问题</a>
+      <a class="index-header" href="/2021/01/16/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%88%86%E5%9B%BE_%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">匈牙利算法（二分图）</a>
 
-      <a href="/2020/07/29/C++/memset%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98/" class="index-excerpt">
+      <a href="/2021/01/16/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%88%86%E5%9B%BE_%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" class="index-excerpt">
         
         
           
         
-        <div>在memset的赋值问题中，是按字节赋值的，如果是menset(array,1,n*sizeof(int));结果不是每个int变成1，而是变成很大的数，它是将int的每一个字节赋值为1，因此最好只在赋值为0的时候使用。
-</div>
+        <div>匹配：在图论中，一个匹配（matching）是指一个边的集合，其中任意两条边都没有公共顶点。
+最大匹配：一个图所有匹配中，所含匹配边数最多的匹配，称为这个图的最大匹配
+完美匹配：如果一个图的某个匹配中，所有的顶点都是匹配点，那么它就是一个完美匹配。完美匹配一定是最大匹配（完美匹配的任何一个点都已经匹配，添加一条新的匹配边一定会与已有的匹配边冲突），但并非每个图都存在完美匹配。
+交替路径：从一个未匹</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/29/%E7%AE%97%E6%B3%95/%E7%8A%B6%E5%8E%8Bdp/">状压dp</a>
-
-      <a href="/2020/07/29/%E7%AE%97%E6%B3%95/%E7%8A%B6%E5%8E%8Bdp/" class="index-excerpt">
-        
-        
-          
-        
-        <div>状压dp状态压缩动态规划，就是我们俗称的状压DP，是利用计算机二进制的性质来描述状态的一种DP方式。
-很多棋盘问题都运用到了状压，同时，状压也很经常和BFS及DP连用。
-状压dp其实就是将状态压缩成2进制来保存 其特征就是看起来有点像搜索，每个格子的状态只有1或0 ，是另一类非常典型的动态规划
-举个例子：有一个大小为n*n的农田，我们可以在任意处种田，现在来描述一下某一行的某种状态：
-设n = 9</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-29
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-16
           </div>
         
         
@@ -333,9 +502,7 @@
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%8A%B6%E5%8E%8Bdp/">状压dp</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
             
           </div>
         
@@ -343,11 +510,13 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
               <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E7%8A%B6%E5%8E%8Bdp/">状压dp</a>
+              <a href="/tags/c/">c++</a>
+            
+              <a href="/tags/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">匈牙利算法</a>
+            
+              <a href="/tags/%E4%BA%8C%E5%88%86%E5%9B%BE/">二分图</a>
             
           </div>
         
@@ -359,26 +528,26 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/28/%E7%AE%97%E6%B3%95/%E6%A0%91%E5%BD%A2dp/">树形dp</a>
+      <a class="index-header" href="/2021/01/14/%E7%AE%97%E6%B3%95/785.%20%E5%88%A4%E6%96%AD%E4%BA%8C%E5%88%86%E5%9B%BE/">785. 判断二分图（染色法）</a>
 
-      <a href="/2020/07/28/%E7%AE%97%E6%B3%95/%E6%A0%91%E5%BD%A2dp/" class="index-excerpt">
+      <a href="/2021/01/14/%E7%AE%97%E6%B3%95/785.%20%E5%88%A4%E6%96%AD%E4%BA%8C%E5%88%86%E5%9B%BE/" class="index-excerpt">
         
         
           
         
-        <div>树形dp543. 二叉树的直径这里就是对于每棵树判断两种情况，是选择自己作为深度，祖宗节点作为根节点穿过最长，还是就是自己作为根节点穿过最长呢。于是只需要求子节点的最长的节点长度，然后最后把节点长度减一就可以了。
-class Solution &#123;
-public:
-    int res=0;
-    int dfs(TreeNode* root)
-    &#123;
-        i</div>
+        <div>一个图是二分图，当且仅当图中不含有奇数环二分图的方法，染色法，就是通过对节点进行着色，算法就是深搜的方法
+bool res=true;
+int sta[105];
+bool isBipartite(vector&lt;vector&lt;int&gt;&gt;&amp; graph) 
+&#123;
+    for(int i=0;i&lt;graph.size();i++)
+    &#123;</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-28
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-14
           </div>
         
         
@@ -389,9 +558,7 @@ public:
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E6%A0%91%E5%BD%A2dp/">树形dp</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
             
           </div>
         
@@ -399,13 +566,13 @@ public:
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
               <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E6%A0%91%E5%BD%A2dp/">树形dp</a>
+              <a href="/tags/c/">c++</a>
             
-              <a href="/tags/%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5/">邻接矩阵</a>
+              <a href="/tags/%E4%BA%8C%E5%88%86%E5%9B%BE/">二分图</a>
+            
+              <a href="/tags/%E6%9F%93%E8%89%B2%E6%B3%95/">染色法</a>
             
           </div>
         
@@ -417,70 +584,22 @@ public:
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/27/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/">区间dp</a>
+      <a class="index-header" href="/2021/01/13/%E7%AE%97%E6%B3%95/787.%20K%20%E7%AB%99%E4%B8%AD%E8%BD%AC%E5%86%85%E6%9C%80%E4%BE%BF%E5%AE%9C%E7%9A%84%E8%88%AA%E7%8F%AD/">787. K 站中转内最便宜的航班（bellman-ford）</a>
 
-      <a href="/2020/07/27/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/Dicom%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" class="index-excerpt">
+      <a href="/2021/01/13/%E7%AE%97%E6%B3%95/787.%20K%20%E7%AB%99%E4%B8%AD%E8%BD%AC%E5%86%85%E6%9C%80%E4%BE%BF%E5%AE%9C%E7%9A%84%E8%88%AA%E7%8F%AD/" class="index-excerpt">
         
         
           
         
-        <div>图像转CT值CT值的单位是Hounsfield，简称为Hu，范围是-1024-3071。用于衡量人体组织对X射线的吸收率，设定水的吸收率为0Hu。
-　在DICOM图像读取的过程中，我们会发现图像的像素值有可能不是这个范围，通常是0-4096，这是我们常见到的像素值或者灰度值，这就需要我们在图像像素值（灰度值）转换为CT值。
-首先，需要读取两个DICOM Tag信息，（0028|1052）：resc</div>
+        <div>循环n次遍历所有边u-&gt;v,权w (松弛操作)dist[v]=min(dist[v], dist[u]+w)
+应用处理有负权边的图循环次数的含义：循环K次后，表示不超过K条边的最短距离有边数限制的最短路，只能用Bellman-Ford算法，不能用spfa算法如果有负权回路，最短路不一定存在 -
+Bellman-Ford算法可以求出是否有负环第n循环后，还有更新，说明路径上有n+1个点，也就是</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/27/%E7%AE%97%E6%B3%95/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
-
-      <a href="/2020/07/27/%E7%AE%97%E6%B3%95/%E5%8C%BA%E9%97%B4dp/" class="index-excerpt">
-        
-        
-          
-        
-        <div>区间dp是线性动态规划的扩展，它在分阶段地划分问题时，与阶段中元素出现的顺序和由前一阶段的哪些元素合并而来由很大的关系。令状态f(i,j)表示将下标位置 i 到 j 的所有元素合并能获得的价值的最大值，那么 f(i,j) = max{f(i,k) + f(k+1, j) + cost}, cost 为将这两组元素合并起来的代价。
-区间 DP 的特点：
-合并：即将两个或多个部分进行整合，当然也可以反</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-13
           </div>
         
         
@@ -491,9 +610,7 @@ public:
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
             
           </div>
         
@@ -501,11 +618,13 @@ public:
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
               <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E5%8C%BA%E9%97%B4dp/">区间dp</a>
+              <a href="/tags/c/">c++</a>
+            
+              <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">最短路径</a>
+            
+              <a href="/tags/ford%E7%AE%97%E6%B3%95/">ford算法</a>
             
           </div>
         
@@ -517,21 +636,23 @@ public:
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/22/%E7%AE%97%E6%B3%95/%E7%9F%A9%E9%98%B5%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">矩阵动态规划</a>
+      <a class="index-header" href="/2021/01/13/%E7%AE%97%E6%B3%95/743.%20%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4/">743. 网络延迟时间（迪杰斯特拉+SPFA+floyd)</a>
 
-      <a href="/2020/07/22/%E7%AE%97%E6%B3%95/%E7%9F%A9%E9%98%B5%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="index-excerpt">
+      <a href="/2021/01/13/%E7%AE%97%E6%B3%95/743.%20%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4/" class="index-excerpt">
         
         
           
         
-        <div>矩阵动态规划的思路方法方法都是用  dp(i, j)dp(i,j) 表示以 (i, j)(i,j) 为右下角，且只包含 11 的正方形的边长最大值。如果我们能计算出所有 dp(i, j)dp(i,j) 的值，那么其中的最大值即为矩阵中只包含 11 的正方形的边长最大值，其平方即为最大正方形的面积。
-那么如何计算 dpdp 中的每个元素值呢？对于每个位置 (i, j)(i,j)，检查在矩阵中该位置的</div>
+        <div>有 N 个网络节点，标记为 1 到 N。
+给定一个列表 times，表示信号经过有向边的传递时间。 times[i] = (u, v, w)，其中 u 是源节点，v 是目标节点， w 是一个信号从源节点传递到目标节点的时间。
+现在，我们从某个节点 K 发出一个信号。需要多久才能使所有节点都收到信号？如果不能使所有节点收到信号，返回 -1。
+输入：times = [[2,1,1],[2,3,1],[</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-22
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-13
           </div>
         
         
@@ -542,102 +663,7 @@ public:
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/21/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%A8%B3%E5%AE%9A%E6%80%A7/">排序算法稳定性</a>
-
-      <a href="/2020/07/21/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%A8%B3%E5%AE%9A%E6%80%A7/" class="index-excerpt">
-        
-        
-          
-        
-        <div>堆排序、快速排序、希尔排序、直接选择排序是不稳定的排序算法，而基数排序、冒泡排序、直接插入排序、折半插入排序、归并排序是稳定的排序算法。首先，排序算法的稳定性大家应该都知道，通俗地讲就是能保证排序前2个相等的数其在序列的前后位置顺序和排序后它们两个的前后位置顺序相同。在简单形式化一下，如果Ai = Aj, Ai原来在位置前，排序后Ai还是要在Aj位置前。其次，说一下稳定性的好处。排序算法如果是稳定</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-21
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/21/%E7%AE%97%E6%B3%95/%E6%A1%B6%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE/">桶排序基数排序相关题目</a>
-
-      <a href="/2020/07/21/%E7%AE%97%E6%B3%95/%E6%A1%B6%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE/" class="index-excerpt">
-        
-        
-          
-        
-        <div>164. 最大间距桶排序第一种方法采用的是桶排序，方法很巧妙。我们可以知道比较排序最好都是nlogn的，所以不能使用，使用桶排序让我们忽略桶中的顺序，只比较桶之间的大小就可以获得On的复杂度。
-那么怎么得到呢，可以得到max,min 然后如果有n个，取一个比平均距离小的内容，为（max-min）/（n）+1,其实也可以加三加四都可以，只需要保证桶内的距离比平均距离小，插值一定在桶间取到就可以，如果</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-21
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
             
           </div>
         
@@ -647,9 +673,15 @@ public:
             
               <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+              <a href="/tags/c/">c++</a>
             
-              <a href="/tags/%E6%A1%B6%E6%8E%92%E5%BA%8F/">桶排序</a>
+              <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">最短路径</a>
+            
+              <a href="/tags/%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89/">迪杰斯特拉</a>
+            
+              <a href="/tags/SPFA/">SPFA</a>
+            
+              <a href="/tags/floyd/">floyd</a>
             
           </div>
         
@@ -661,7 +693,7 @@ public:
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/8/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/8/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

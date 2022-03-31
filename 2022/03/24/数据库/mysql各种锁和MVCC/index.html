@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>mysql各种锁和MVCC - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-03-24 15:40">
+      2022年3月24日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>MySQL中的锁<br>主要分为三类<br><pre><code class="hljs markdown">表锁：
+<span class="hljs-code">    读锁：多个读可并发</span>
+<span class="hljs-code">    写锁：当前写未提交事务之前，会阻塞其他写和读的进程</span>
+<span class="hljs-code"></span>
+<span class="hljs-code">行锁：</span>
+<span class="hljs-code">    共享锁：允许一个事务读一行，而阻止其他事务获得相同的排他锁</span>
+<span class="hljs-code">    排他锁：允许获得排他锁的事务更新数据，阻止其他事务获得共享锁和排他锁</span>
+<span class="hljs-code">    意向共享锁（IS）：一个事务给一个数据行加共享锁时，必须先获得意向共享锁</span>
+<span class="hljs-code">    意向排他锁(IX)：一个事务给一个数据行加排他锁时，必须先获得意向排他锁</span>
+<span class="hljs-code"></span>
+<span class="hljs-code">页锁:</span></code></pre></p>
+<p>提到锁到种类,需要提一下MySQL到存储引擎,MySQL常用引擎有MyISAM和InnoDB，而InnoDB是mysql默认的引擎。MyISAM是不支持行锁的，而InnoDB支持行锁和表锁。</p>
+<p>MyISAM在执行查询语句（SELECT）前，会自动给涉及的所有表加读锁，在执行更新操作（UPDATE、DELETE、INSERT等）前，会自动给涉及的表加写锁,读锁会阻塞对同一张表对写操作,而写锁既会阻塞对同一张表对写操作,也会阻塞读操作.</p>
+<p>对于InnoDB来说,大家都知道InnoDB相对与MyISAM,支持了事务和行锁.而行锁顾名思义,就是针对具体某一行数据上的锁,更切确的说是针对索引加的锁(这个会在下文锁的实现中讲到).</p>
+<p>排他锁,通常我们在InnoDB中执行一个更新操作,针对这一行数据会持有排他锁,持有排他锁时,不允许再在数据行上添加写锁与读锁,其他事务对此行数据的读、写操作都会被阻塞,只有当前事务提交了,锁释放了才允许其他事务进行读写,达到避免 脏读 的效果<br>共享锁,主要是为了支持并发的读取数据而出现的，当一个事务持有某一数据行的共享锁时,允许其它事务再获取共享锁,但不允许其它事务获取排他锁，也就是说,在持有共享锁时,多个事务可以读取当前数据,但不不允许任何事务对当前数据进行修改操作，从而避免 不可重复 的问题</p>
+<p>意向锁,首先需要明白一点,意向锁的作用是在表上的,当一个事务需要获取共享锁或排他锁时,首先要获取对应的意向锁,为什么要这样做呢,举个例子,假设在事务A中,某一行数据持有共享锁,这一行只能读,不能写.此时事务B申请获得表的写锁,假如加锁成功,那么事务B将能够对整个表的数据进行读写,与事务A冲突.这种操作肯定是不允许的,所以MySQL会在申请共享锁或者排他锁的时候,先获取对应的意向锁,也就是说,你要操作表中的某一行锁数据,先要看看整个表能不能被操作.意向锁的申请是有数据库完成的,不需要人为申请.</p>
+<h2 id="行锁的3种实现"><a href="#行锁的3种实现" class="headerlink" title="行锁的3种实现"></a>行锁的3种实现</h2><p>上文对几种锁类型进行了分析,其实平时开发中接触到最多的还是行锁,行锁的实现有以下几种<br><pre><code class="hljs sql">行锁分为：
+    Record <span class="hljs-keyword">Lock</span>记录锁：针对单个行记录得锁
+    Gap <span class="hljs-keyword">Lock</span>间隙锁：锁定一个范围
+    <span class="hljs-keyword">Next</span>-<span class="hljs-keyword">Key</span> <span class="hljs-keyword">Lock</span>：<span class="hljs-built_in">Record</span> <span class="hljs-keyword">Lock</span>和Gap <span class="hljs-keyword">Lock</span>的并集</code></pre><br>在InnoDB中,锁的实现是基于索引的</p>
+<p>Record Lock(记录锁),会锁住索引记录,比如 update table where id = 1;,会是这种实现</p>
+<p>Gap Lock(间隙锁),实质上是对索引前后的间隙上锁，不对索引本身上锁,目的是为了防止幻读.当使用范围条件而不是相等条件检索数据并请求排他锁、或共享锁时,对于该范围内不存在的记录,不允许其修改插入.举个例子,当表中只有一条id=101的记录,一个事务执行select * from  user where user_id &gt; 100 for update;,此时另一个事务执行插入一条id=102的数据是会阻塞的,必须等待第一个事务提交后才能完成.间隙锁是针对事务隔离级别为可重复读或以上级别</p>
+<p>Next-Key Lock,是记录锁和间隙锁对结合,会同时锁住记录与间隙.在可重复读(Repeatable Read)隔离级别下，会以Next-Key Lock的方式对数据行进行加锁</p>
+<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>锁机制可以控制并发操作,来保证一致性,但是系统开销会很大.在RC、RR的隔离级别下,MySQL InnoDB通过MVCC (多版本并发控制)机制来解决幻读,使事务在并发过程中,SELECT 操作不用加锁，读写不冲突从而提高性能.其原理是通过保存数据在某个时间点的快照来实现的.通过在每行记录后面保存隐藏列来存放事务ID,这样每一个事务,都会对应一个递增的事务ID.假设三个事务同时更新来同一行数据,那么就会对应三个数据版本,但实际上版本1、版本2并不是物理存在的,而是通过关联记录在undo log中,这样就可以通过undo log找回数据的历史版本,比如回滚的操作,会使用上一个版本的数据覆盖数据页上的数据</p>
+<p>下面举例一个RR隔离级别下快照读的</p>
+<p>例子1:开启事务A按条件A查询到两条数据,此时事务B再插入1条数据满足条件A的数据,并提交事务,此时事务A再按条件A进行查询,查询到的依然是两条数据,也就是说,事务A查询到的并不是当前最新的数据版本,而是通过MVCC实现的历史快照版本.这也是可重复读的实现.<strong>快照读</strong></p>
+<p>上面的例子介绍了读操作,那么写操作呢,也是如此事务之间互不干扰吗.再举例一个RR隔离级别下更新操作的</p>
+<p>例子2:假设事务A执行一个更新语句,满足更新条件A的的数据是2条,更新成功后不提交事务,此时事务B插入一条新的满足条件A的数据,此时事务A再按条件A去更新数据,实验发现事务B新插入的数据也被更新了.出现了幻读,这就是<strong>当前读</strong>,即对数据修改的操作(update、insert、delete)都会读到已提交事务的最新数据.</p>
+<p>那么当前读的幻读问题如何解决呢?MVCC不能解决的问题当然是交给锁来解决了.上文提到的Next-Key Lock正是解决这个问题的方法,还以上面的例子2为例,给条件A字段非唯一索引,事务B进行插入数据的时候就会被阻塞,原因是事务A持有了Gap Lock,只有事务A提交了,事务B才能成功插入数据.这就解决了当前读操作下的幻读问题.</p>
+<p>所以MVCC机制可防止快照读引起的幻读，next-key锁可防止当前读引起的幻读.需要说明的是,MVCC只在RC和RR两个隔离级别下工作。其他两个隔离级别和MVCC不兼容, 因为 RU总是读取最新的数据行, 而不是符合当前事务版本的数据行.而SERIALIZABLE 则会对所有读取的行都加锁.</p>
+<h2 id="锁的触发和升级"><a href="#锁的触发和升级" class="headerlink" title="锁的触发和升级"></a>锁的触发和升级</h2><p>以默认的InnoDB引擎RR级别说明,表锁可以理解为每一行记录都持有Record Lock,更新记录时,当更新字段没有走索引时,无法获取对应记录的Record Lock,行锁便会升级为表锁,这一点可以结合MySQL Explain去分析.需要注意的是当普通索引值区分度低时，此时观察Explain显示是走了索引的,但当另一个事务并发操作不同数据时,依然发现第二个事务会阻塞,这是因为MySQL的执行优化器认为给多行记录一次一次当加锁不如表锁来的高效,所以不会把这个普通索引当做索引,而当区分度高时,则认为是高效的,不会升级为表锁.所以,创建合适的索引很重要,区分度低的字段不建议创建索引.</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MVCC/">MVCC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B5%81%E7%A8%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">mysql写入数据的流程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E6%95%B0%E6%8D%AE%E5%A4%A7%E9%87%8F%E5%86%99%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">mysql数据大量写入的问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "mysql各种锁和MVCC&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

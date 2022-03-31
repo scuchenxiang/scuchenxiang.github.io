@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      99 字
+      153 字
     </span>
   
 
@@ -205,19 +205,21 @@
             
             <article class="markdown-body">
               <p>主要分为这几个部分，</p>
-<pre><code class="hljs haskell">地址从高到低
+<pre><code class="hljs mipsasm">地址从高到低
 
 系统内核的内存
 
-栈的内存，由高地址向低地址延申
+栈的内存，由高地址向低地址延申（这里有一个rsp，栈指针）
 
 共享库的内存映射区域
 
-堆内存，由低地址向高地址延申
-
-已经初始化全局数据段和静态变量区<span class="hljs-class"><span class="hljs-keyword">data</span>，以及未初始化的全局变量区和静态变量bss</span>
-
-只读代码段
+堆内存，由低地址向高地址延申（这里有一个<span class="hljs-keyword">brk指针）</span>
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">已经初始化全局数据段和静态变量区data，以及未初始化的全局变量区和静态变量bss</span>
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">只读数据段和代码段 </span> 
+- 常量区(只读数据段，rodata) ，虚函数表就放在这个位置
+- 代码段(<span class="hljs-meta">.text</span>),虚函数放在这个位置
 </code></pre>
             </article>
             <hr>

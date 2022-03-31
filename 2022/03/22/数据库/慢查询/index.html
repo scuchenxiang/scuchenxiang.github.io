@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>慢查询 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-03-22 17:18">
+      2022年3月22日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>慢查询就是那些查询时间过长的语句</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">show</span> <span class="hljs-keyword">variables</span> <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%slow_qurey%&#x27;</span>
+
+<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> slow_query_log = <span class="hljs-keyword">ON</span>; 开启慢查询SQL功能,最好在配置环境直接配置保证重启时也生效
+<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> long_query_time = <span class="hljs-number">1</span>; 慢查询阈值</code></pre>
+<p>执行计划是指一条SQL 语句在经过MySQL 查询优化器的优化会后，具体的执行方式。</p>
+<p>思路<br>1.开启慢查询日志，设置超过几秒为慢sql语句，抓取慢sq语句。l<br>2.通过explain查看执行计划，对慢sql语句分析。<br>3.创建索引并调整语句，再查看执行计划，对比优化结果。</p>
+<p>比如说<br><pre><code class="hljs pgsql"><span class="hljs-keyword">explain</span> <span class="hljs-keyword">select</span> *<span class="hljs-keyword">from</span> single <span class="hljs-keyword">where</span> <span class="hljs-type">name</span> <span class="hljs-keyword">like</span> &quot;%解%&quot;</code></pre><br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs routeros">得到的结果为<br>id  selectType  table   patition   <span class="hljs-built_in"> type </span>   possiable_key   key     key_len     ref     rows    fitered     Extra</code></pre></p>
+<p>1 <span class="hljs-built_in"> simple </span> single   <span class="hljs-literal">null</span>    range    idx_single_name   idx_single_name     137     <span class="hljs-literal">null</span>     1    100     using index condition&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<p>先看type：All全表扫描，没有用到索引</p>
+<p>再看key：Null没有使用索引列</p>
+<p>然后看rows：数值越多耗时越长</p>
+<p>最后看Extra：避免Using temporary和Using Filesort</p>
+<p>id:选择标识符，代表执行顺序</p>
+<p>select_type:表示查询的类型。</p>
+<pre><code class="hljs crystal"><span class="hljs-symbol">simple:</span>简单的<span class="hljs-keyword">select</span>查询，不包含联合查询和子查询
+<span class="hljs-symbol">primary:</span>查询中包含子查询
+<span class="hljs-symbol">subquery:</span><span class="hljs-keyword">select</span> 或者where中包含子查询
+derived：from中包含子查询
+<span class="hljs-class"><span class="hljs-keyword">union</span>：联合查询</span>
+<span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">result</span>：<span class="hljs-title">union</span>后的结果集</span></code></pre>
+<p>table:查询的表名<br>partitions:匹配的分区<br>type:表示表的连接类型<br><pre><code class="hljs pgsql"><span class="hljs-keyword">All</span>：全表扫描
+<span class="hljs-keyword">Index</span>：只遍历索引树，索引树上就有要查询的结果，不需要IO
+Range：索引范围扫描
+<span class="hljs-keyword">Ref</span>：非唯一性索引扫描
+Eq_ref：唯一索引扫描
+Const：通过一次索引就能查询到，通常是<span class="hljs-keyword">Primary Key</span>或者<span class="hljs-keyword">Unique</span>
+<span class="hljs-keyword">System</span>：Const特例，表数据只有一行
+<span class="hljs-keyword">Null</span>：不用访问索引就可以直接查询到结果</code></pre></p>
+<p>Possible_key：能使用哪个索引找到数据行，单并不一定会被使用到<br>Key：Possible_key中决定使用的索引<br>Key_len:显示索引中使用的字节数<br>ref:上述表的连接匹配条件，即哪些列或常量被用于查找索引上的值<br>Rows:找到所需记录要读取的行数<br>Extra:<br><pre><code class="hljs pgsql"><span class="hljs-keyword">Using</span> <span class="hljs-keyword">Where</span>：仅通过索引就可以过滤所需数据
+<span class="hljs-keyword">Using</span> <span class="hljs-keyword">temporary</span>：需要使用临时表来存储结果集
+<span class="hljs-keyword">Using</span> Filesort：<span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span>操作无法利用索引完成导致的“文件排序”
+<span class="hljs-keyword">Using</span> <span class="hljs-keyword">join</span> buffer：连接使用了缓存，可以通过添加索引来解决
+<span class="hljs-keyword">Using</span> <span class="hljs-keyword">Index</span>：索引树中包含要查询的所有信息
+<span class="hljs-keyword">Using</span> <span class="hljs-keyword">Index</span> Condition:根据辅助索引过滤数据，减少<span class="hljs-keyword">Server</span>和磁盘的IO次数</code></pre></p>
+<h2 id="索引创建原则"><a href="#索引创建原则" class="headerlink" title="索引创建原则"></a>索引创建原则</h2><pre><code class="hljs pgsql">表一定要有业务无关的主键
+适合添加索引的列：经常被查询、经常用于表链接，经常排序或者分组
+索引列尽量都是不重复的数据
+组合索引一般不超过<span class="hljs-number">5</span>列，选择性高的放在前面
+合理利用索引覆盖，禁止<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">explain</span> 判断<span class="hljs-keyword">sql</span>是否合理利用索引
+单表索引控制在<span class="hljs-number">5</span>个以内
+不建议在频繁更新的字段上添加索引
+<span class="hljs-keyword">where</span>条件中的索引列不能是表达式的一部分，避免对索引列进行函数计算
+<span class="hljs-keyword">join</span>类型的字段必须类型一致且都建立索引</code></pre>
+<h2 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h2><pre><code class="hljs xquery">隐式的类型转换会导致索引失效，导致全表扫描
+对索引列进行函数或者数学计算，例如日期格式化
+模糊匹配未使用前缀匹配
+使用了负方向查询<span class="hljs-built_in">，not</span>，!=<span class="hljs-built_in">，not</span> <span class="hljs-keyword">in</span>等</code></pre>
+<h2 id="Sql规范"><a href="#Sql规范" class="headerlink" title="Sql规范"></a>Sql规范</h2><pre><code class="hljs pgsql">按需查询避免 <span class="hljs-keyword">select</span> *
+无法使用覆盖索引，回表，增加IO
+多查询的列，会有多余的IO和网络开销
+避免大事务，将大事务拆成小事务。防止出现锁阻塞，导致的雪崩效应
+少用多表<span class="hljs-keyword">join</span>，禁止大表<span class="hljs-keyword">join</span>，小表驱动大表，<span class="hljs-keyword">join</span>列必须字符集一致，且有索引
+尽量避免多层子查询嵌套
+定期对慢<span class="hljs-keyword">sql</span>优化</code></pre>
+<h1 id="总的优化"><a href="#总的优化" class="headerlink" title="总的优化"></a>总的优化</h1><h2 id="1、索引优化"><a href="#1、索引优化" class="headerlink" title="1、索引优化"></a>1、索引优化</h2><pre><code class="hljs pgsql">为搜索字段（<span class="hljs-keyword">where</span>中的条件）、排序字段、<span class="hljs-keyword">select</span>查询列，创建合适的索引，不过要考虑数据的 业务场景：查询多还是增删多？
+
+尽量建立组合索引并注意组合索引的创建顺序，按照顺序组织查询条件、尽量将筛选粒度大的查询 条件放到最左边。
+
+尽量使用覆盖索引，<span class="hljs-keyword">SELECT</span>语句中尽量不要使用*。
+
+<span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span>、<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span>语句要尽量使用到索引
+
+索引长度尽量短，短索引可以节省索引空间，使查找的速度得到提升，同时内存中也可以装载更多 的索引键值。太长的列，可以选择建立前缀索引
+
+索引更新不能频繁，更新非常频繁的数据不适宜建索引，因为维护索引的成本。
+
+<span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span>的索引生效，<span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span>排序应该遵循最佳左前缀查询，如果是使用多个索引字段进行排 序，那么排序的规则必须相同（同是升序或者降序），否则索引同样会失效。
+
+(最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、<span class="hljs-keyword">between</span>、<span class="hljs-keyword">like</span>)就停止匹配，比如a = <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> b = <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> c &gt; <span class="hljs-number">3</span> <span class="hljs-keyword">and</span> d = <span class="hljs-number">4</span> 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。)</code></pre>
+<h2 id="2-LIMIT优化"><a href="#2-LIMIT优化" class="headerlink" title="2. LIMIT优化"></a>2. LIMIT优化</h2><pre><code class="hljs sql">如果预计<span class="hljs-keyword">SELECT</span>语句的查询结果是一条，最好使用 <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">1</span>，可以停止全表扫描
+
+处理分页会使用到 <span class="hljs-keyword">LIMIT</span> ，当翻页到非常靠后的页面的时候，偏移量会非常大，这时<span class="hljs-keyword">LIMIT</span>的效率 会非常差。<span class="hljs-keyword">LIMIT</span> <span class="hljs-keyword">OFFSET</span> , <span class="hljs-keyword">SIZE</span>；
+
+<span class="hljs-keyword">LIMIT</span>的优化问题，其实是 <span class="hljs-keyword">OFFSET</span> 的问题，它会导致MySql扫描大量不需要的行然后再抛弃掉。解决方案：单表分页时，使用自增主键排序之后，先使用<span class="hljs-keyword">where</span>条件 <span class="hljs-keyword">id</span> &gt; <span class="hljs-keyword">offset</span>值，<span class="hljs-keyword">limit</span>后面只写 <span class="hljs-keyword">rows</span></code></pre>
+<h2 id="3-其他查询优化"><a href="#3-其他查询优化" class="headerlink" title="3. 其他查询优化"></a>3. 其他查询优化</h2><pre><code class="hljs pgsql">小表驱动大表, 在 <span class="hljs-keyword">left join</span> 时, 小的表应该为基准表, 外联大表
+避免全表扫描, mysql在使用不等于(!=或者&lt;&gt;)的时候无法使用索引导致全表扫描。
+尽量使用count（主键）
+<span class="hljs-keyword">JOIN</span>条件的两表的字段最好加上索引
+<span class="hljs-keyword">WHERE</span>条件中尽量不要使用<span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span>语句（建议使用<span class="hljs-keyword">not</span> <span class="hljs-keyword">exists</span>）</code></pre>
+<p><a target="_blank" rel="noopener" href="https://www.modb.pro/db/44911">参考的文章1</a></p>
+<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/06/30/mysql-index.html">参考的文章2</a></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%85%A2%E6%9F%A5%E8%AF%A2/">慢查询</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/io%20read%20write%20on%20closed%20pipe/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">io read/write on closed pipe</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/22/%E5%88%86%E5%B8%83%E5%BC%8F/2pc3pc%E5%8D%8F%E8%AE%AE/">
+                        <span class="hidden-mobile">2pc 和3pc 协议</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "慢查询&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

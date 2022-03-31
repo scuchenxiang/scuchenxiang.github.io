@@ -168,23 +168,21 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/">softmax和SVM损失函数</a>
+      <a class="index-header" href="/2020/07/17/C++/C++%E4%B8%AD%E5%8F%96INF/">C++中取INF</a>
 
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" class="index-excerpt">
+      <a href="/2020/07/17/C++/C++%E4%B8%AD%E5%8F%96INF/" class="index-excerpt">
         
         
           
         
-        <div>softmax可以参考softmax可以参考
-softmax可以参考主要要理解熵的原理，以及交叉熵。以及softmax的正则化的内容
-SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分类的类别多出一个边界出来
+        <div>int型是4个字bai节 一个字节8个位 0x7f7f7f7f 是十六进制du也就是4个0x7f ,一个0x7f 转化为二进制就zhi是 01111111因为是int型 第一个位是符号位dao ，因而在int 型中 0x7f7f7f7f也就是无穷大的意思通过 #define 将 “INF” 转化为符号常量 代表 0x7f7f7f7f
 </div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-17
           </div>
         
         
@@ -193,7 +191,7 @@ SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分�
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
             
           </div>
         
@@ -201,9 +199,7 @@ SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/softmax/">softmax</a>
-            
-              <a href="/tags/SVM%E6%8D%9F%E5%A4%B1/">SVM损失</a>
+              <a href="/tags/C/">C++</a>
             
           </div>
         
@@ -215,23 +211,23 @@ SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">Numpy中矩阵与向量的加法</a>
+      <a class="index-header" href="/2020/07/13/%E7%AE%97%E6%B3%95/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F/">计数排序基数排序和桶排序</a>
 
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/" class="index-excerpt">
+      <a href="/2020/07/13/%E7%AE%97%E6%B3%95/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E6%A1%B6%E6%8E%92%E5%BA%8F/" class="index-excerpt">
         
         
           
         
-        <div>在Numpy中，矩阵与向量相加时，矩阵的每一行与向量相加，即要求矩阵的列数与向量的维数相等。&lt;!—hexoPostRenderEscape:import numpy as np
-x = np.array([[1, 2, 3], [4, 5, 6]])
-array([[1, 2, 3],[4, 5, 6]])y = np.array([1, 2])
-array([1, 2])z = np.ar</div>
+        <div>计数排序基数排序和桶排序
+这三种方法我经常容易忘记，不太熟悉。总结一下。
+计数排序原理很容易懂就是排序元素的范围我们知道，那么就可以将其放到一个这么大的数组中，然后直接每次从数组中取数丢进排序数组中，这个不是一个比较排序的方法。最坏时间复杂度为O(n+k),空间复杂度也为O(n+k)
+空间复杂度容易理解，但是时间复杂度我一开始以为的是O(n),实际上这是不对的，因为需要考虑到n很小而k很大 n很大</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
           </div>
         
         
@@ -240,7 +236,9 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
             
           </div>
         
@@ -248,7 +246,7 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">矩阵加法</a>
+              <a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
             
           </div>
         
@@ -260,20 +258,23 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/matlab%E5%B9%B6%E8%A1%8C/">matlab并行</a>
+      <a class="index-header" href="/2020/07/13/%E7%AE%97%E6%B3%95/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/">背包九讲</a>
 
-      <a href="/2020/05/18/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/matlab%E5%B9%B6%E8%A1%8C/" class="index-excerpt">
+      <a href="/2020/07/13/%E7%AE%97%E6%B3%95/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/" class="index-excerpt">
         
         
           
         
-        <div>parfor matlab用法matlab会弄出几个虚拟的小pc，一个算i=1:30部分循环,一个算i=50:80部分循环,再来一个算i=90:120部分循环，当然数字是我瞎编的，我是想说matlab将一个大循环分成小块，然后这些小块并行计算，最后再合在一起。这样，有一个问题，因为普通的循环是从i=1算到i=100，一个接一个算，如果下一次循环要依赖上一次循环怎么办？如果出现这种情况，那就不能用m</div>
+        <div>背包九讲01背包问题有 N 件物品和一个容量为 V 的背包。放入第 i 件物品耗费的费用是 Ci1，得到的价值是 Wi。求解将哪些物品装入背包可使价值总和最大。递推方程应该是res[i][V]=max(res[i-1][V-ci]+wi,res[i-1][V]);
+可以用滚动数组优化成O(V)空间
+这个空间优化的过程，应该逆序得到，顺序不可以。
+res[V]=max(res[V-ci],res[V</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
           </div>
         
         
@@ -282,7 +283,11 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/matlab/">matlab</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
           </div>
         
@@ -290,9 +295,11 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/matlab/">matlab</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
-              <a href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/%E8%83%8C%E5%8C%85%E4%B9%9D%E8%AE%B2/">背包九讲</a>
             
           </div>
         
@@ -304,20 +311,22 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/">makedown数学公式写法</a>
+      <a class="index-header" href="/2020/07/13/%E7%AE%97%E6%B3%95/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/">打家劫舍</a>
 
-      <a href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/" class="index-excerpt">
+      <a href="/2020/07/13/%E7%AE%97%E6%B3%95/%E7%B2%89%E5%88%B7%E6%88%BF%E5%AD%90/" class="index-excerpt">
         
         
           
         
-        <div>此网站可以查看公式写法</div>
+        <div>粉刷房子1这个题目leetcode需要会员，题干如下。假如有一排房子，共 n 个，每个房子可以被粉刷成红色、蓝色或者绿色这三种颜色中的一种，你需要粉刷所有的房子并且使其相邻的两个房子颜色不能相同。
+当然，因为市场上不同颜色油漆的价格不同，所以房子粉刷成不同颜色的花费成本也是不同的。每个房子粉刷成不同颜色的花费是以一个 n x 3 的矩阵来表示的。
+例如，costs[0][0] 表示第 0 号房子粉</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
           </div>
         
         
@@ -326,7 +335,11 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
           </div>
         
@@ -334,9 +347,11 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/makedown/">makedown</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
-              <a href="/tags/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">数学公式</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
             
           </div>
         
@@ -348,22 +363,26 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/conda%20%E5%AE%89%E8%A3%85%20pytorch/">conda 安装 pytorch</a>
+      <a class="index-header" href="/2020/07/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">打家劫舍</a>
 
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/conda%20%E5%AE%89%E8%A3%85%20pytorch/" class="index-excerpt">
+      <a href="/2020/07/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/" class="index-excerpt">
         
         
           
         
-        <div>关于conda安装pytorch的一些问题的总结
-使用conda安装pytorch较为简单在pytorch官网选择自己需要的版本，以及是否带gpu的，我的由于是没有gpu的，所以是conda install pytorch torchvision cpuonly -c pytorch
-但是下载的速度会很慢，而且会出现httperror,这时可以考虑更换源，选择国内的镜像源，例如清华的镜像更换镜像c</div>
+        <div>打家劫舍1递推公式为d0[i]=d1[i-1]+price,d1[i]=max(d1[i-1],d0[i-1]);可以进行空间优化class Solution &#123;
+public:
+    int rob(vector&lt;int&gt;&amp; nums) 
+    &#123;
+        if(nums.size()==0)
+            return 0;
+   </div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-13
           </div>
         
         
@@ -372,7 +391,11 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
           </div>
         
@@ -380,9 +403,11 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/conda/">conda</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
-              <a href="/tags/pytorch/">pytorch</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
             
           </div>
         
@@ -394,22 +419,25 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">使用github+hexo部署博客</a>
+      <a class="index-header" href="/2020/07/12/%E7%AE%97%E6%B3%95/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/">股票买卖问题</a>
 
-      <a href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="index-excerpt">
+      <a href="/2020/07/12/%E7%AE%97%E6%B3%95/%E8%82%A1%E7%A5%A8%E4%B9%B0%E5%8D%96%E9%97%AE%E9%A2%98/" class="index-excerpt">
         
         
           
         
-        <div>可见这篇博客
-更多信息: 我的博客
-</div>
+        <div>股票买卖问题1当前的最大收益只依赖于之前的最小买入价格。只需要记住到目前为止的最小值，然后可以得到每个位置的收益。O(n)class Solution &#123;
+public:
+    int maxProfit(vector&lt;int&gt;&amp; prices) 
+    &#123;
+        int max=0;
+        int len=prices.size()</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
           </div>
         
         
@@ -418,7 +446,11 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
           </div>
         
@@ -426,9 +458,11 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/github/">github</a>
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
             
-              <a href="/tags/hexo/">hexo</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
             
           </div>
         
@@ -440,22 +474,22 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">图像生成</a>
+      <a class="index-header" href="/2020/07/12/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划题型总结</a>
 
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/" class="index-excerpt">
+      <a href="/2020/07/12/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="index-excerpt">
         
         
           
         
-        <div>可以参考这个博客图像生成cs231
-同时这个人还总结了cs231的很多内容，可以都参考一下
-</div>
+        <div>因为动态规划毕竟要满足：
+阶段性无后效性子问题重叠性因此，能够利用DP来解决的问题实际上是有限的，大部分题目都是针对现有的模型的一些变种，改改题目描述，或者加点限制条件。所以要想攻克DP题目，最根本的就是要充分理解几个常见的DP模型。而要充分理解常见经典DP模型，就需要通过大量的做题和总结，而且二者不可偏废。通过做题进行思考和量的积累，通过总结加深理解和融会贯通进而完成质的提升。
+动态规划是求解一</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
           </div>
         
         
@@ -464,7 +498,9 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
             
           </div>
         
@@ -472,9 +508,155 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/cs231/">cs231</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
             
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">图像生成</a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/12/%E7%AE%97%E6%B3%95/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/">1143. 最长公共子序列</a>
+
+      <a href="/2020/07/12/%E7%AE%97%E6%B3%95/1143.%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最长公共子序列最长公共子序列也是线性DP中的一种比较常见的模型。说它是一种“模型”其实有点拔高了，其实它就是一类比较常见的题目。很多题目都是在LCS的基础上进行简单的扩展，或者仅仅就是换一个说法而已。求两个数组的最长公共子序列，最直观地做法就是：设f[i][j]表示S[..i]和T[..j]的最长公共子序列，则有:
+f[i][j] = f[i-1][j-1] + 1 …… S[i]==T[j]f[</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/12/%E7%AE%97%E6%B3%95/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">300. 最长上升子序列</a>
+
+      <a href="/2020/07/12/%E7%AE%97%E6%B3%95/300.%20%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最长上升序列最长上升序列是一个非常经典的线性模型。说它是个模型，是因为它是一类题的代表，很多题目都只是换个说法，或者要求在这基础上进一步优化而已。最长上升序列最基础的转移方程就是f[i] = max{f[j]}+1 (a[i] &gt; a[j]),f[i]表示一定要以a[i]结尾的序列，最长长度是多少。很显然就是在前面找到一个最大的f[j]同时满足a[j]&lt;a[i]。因此是N^2的时间复杂</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-12
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/">dp</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/dp/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BA%BF%E6%80%A7dp/">线性dp</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/03/%E7%AE%97%E6%B3%95/%5BLeetCode%5D%2065.%20%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97/">65. 有效数字</a>
+
+      <a href="/2020/07/03/%E7%AE%97%E6%B3%95/%5BLeetCode%5D%2065.%20%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97/" class="index-excerpt">
+        
+        
+          
+        
+        <div>题目使用有穷自动机来解决，画出DFA就可以很好的解决。有穷自动机可见
+代码如下：100%内存100%速度&lt;!—hexoPostRenderEscape:class Solution &#123;public:    bool isNumber(string s)    &#123;        int sta;        if(s.size()&lt;=0)            re</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E8%87%AA%E5%8A%A8%E6%9C%BA%E7%90%86%E8%AE%BA/">自动机理论</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leettcode/">leettcode</a>
+            
+              <a href="/tags/%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA/">有穷自动机</a>
             
           </div>
         
@@ -486,7 +668,7 @@ array([1, 2])z = np.ar</div>
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/12/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
+      <a class="extend prev" rel="prev" href="/page/12/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/14/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
