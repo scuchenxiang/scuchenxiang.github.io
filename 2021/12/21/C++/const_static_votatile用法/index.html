@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      511 字
+      563 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5
+      6
        分钟
     </span>
   
@@ -215,6 +215,8 @@
 <p>例如const int *p=1;<br>p指向的内容是不可以改变的，可以去除int来看，易于理解。</p>
 <p> int* const p=1;<br>指针的地址是不可改变的。</p>
 <p>这个和&amp;的语法糖是一样的T * const p</p>
+<p>C++ 在函数前面使用const 代表返回值为const的</p>
+<p>在函数后面使用const代表函数不可以修改数据成员，同时只能用在非静态成员函数中。 </p>
 <h1 id="关键字volatile有什么含意？并给出三个不同的例子。"><a href="#关键字volatile有什么含意？并给出三个不同的例子。" class="headerlink" title="关键字volatile有什么含意？并给出三个不同的例子。"></a>关键字volatile有什么含意？并给出三个不同的例子。</h1><p>一个定义为volatile的变量是说这变量可能会被意想不到地改变，这样，编译器就不会去假设这个变量的值了。精确地说就是，优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。下面是volatile变量的几个例子：</p>
 <p>1：并行设备的硬件寄存器（如：状态寄存器）</p>
 <p>2：一个中断服务子程序中会访问到的非自动变量(Non-automatic variables)</p>

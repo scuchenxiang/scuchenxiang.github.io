@@ -168,23 +168,95 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/">softmax和SVM损失函数</a>
+      <a class="index-header" href="/2020/07/03/%E7%AE%97%E6%B3%95/%5BLeetCode%5D%2065.%20%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97/">65. 有效数字</a>
 
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/softmax%E5%92%8CSVM%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" class="index-excerpt">
+      <a href="/2020/07/03/%E7%AE%97%E6%B3%95/%5BLeetCode%5D%2065.%20%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97/" class="index-excerpt">
         
         
           
         
-        <div>softmax可以参考softmax可以参考
-softmax可以参考主要要理解熵的原理，以及交叉熵。以及softmax的正则化的内容
-SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分类的类别多出一个边界出来
-</div>
+        <div>题目使用有穷自动机来解决，画出DFA就可以很好的解决。有穷自动机可见
+代码如下：100%内存100%速度&lt;!—hexoPostRenderEscape:class Solution &#123;public:    bool isNumber(string s)    &#123;        int sta;        if(s.size()&lt;=0)            re</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E8%87%AA%E5%8A%A8%E6%9C%BA%E7%90%86%E8%AE%BA/">自动机理论</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leettcode/">leettcode</a>
+            
+              <a href="/tags/%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA/">有穷自动机</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/03/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/">验证集和测试集的区别</a>
+
+      <a href="/2020/07/03/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E9%AA%8C%E8%AF%81%E9%9B%86%E5%92%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>验证集和测试集
+
+
+
+类别
+验证集
+测试集
+
+
+
+
+是否被训练到
+否
+否
+
+
+作用
+用于调整超参数
+用于验证泛化能力
+
+
+使用次数
+多次使用，以不断调参
+仅仅一次使用
+
+
+缺陷
+模型在一次次重新手动调参并继续训练后所逼近的验证集，可能只代表一部分非训练集，导致最终训练好的模型泛化性能不够
+测试集为了具有泛化代表性，往往数据量比较大，测试一轮要很久，所以往往只取测试集的其中一小部分作为训练过程中的验</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
           </div>
         
         
@@ -201,9 +273,9 @@ SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/softmax/">softmax</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
             
-              <a href="/tags/SVM%E6%8D%9F%E5%A4%B1/">SVM损失</a>
+              <a href="/tags/%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9C%BA/">验证机和测试机</a>
             
           </div>
         
@@ -215,23 +287,169 @@ SVM损失函数可以参考SVM损失函数可以参考主要是要比正确分�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">Numpy中矩阵与向量的加法</a>
+      <a class="index-header" href="/2020/06/12/%E7%AE%97%E6%B3%95/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/">166. 分数到小数</a>
 
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/numpy%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/" class="index-excerpt">
+      <a href="/2020/06/12/%E7%AE%97%E6%B3%95/166.%20%E5%88%86%E6%95%B0%E5%88%B0%E5%B0%8F%E6%95%B0/" class="index-excerpt">
         
         
           
         
-        <div>在Numpy中，矩阵与向量相加时，矩阵的每一行与向量相加，即要求矩阵的列数与向量的维数相等。&lt;!—hexoPostRenderEscape:import numpy as np
-x = np.array([[1, 2, 3], [4, 5, 6]])
-array([[1, 2, 3],[4, 5, 6]])y = np.array([1, 2])
-array([1, 2])z = np.ar</div>
+        <div>166. 分数到小数这道题我认为需要注意的有几个地方
+第一个地方在于除法如何计算，这里我选择的方法是当被除数相同的时候认为是循环小数。
+第二个地方在于结果可能有负数，负数的求模和正数有所不同，需要注意。负数求模是a-(a/b)*b的，有个时候因此会有正负的区分。
+第三个地方在于数字溢出的问题，a=-2147483648, b=-1,a*b是会溢出的，因为会先转成一个整形的数，因此需要转一下long</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-12
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E5%AD%A6/">数学</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E9%99%A4%E6%B3%95/">除法</a>
+            
+              <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+
+      <a href="/2020/06/03/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
+        
+        
+          
+        
+        <div>设计模式学习[toc]
+设计模式和原则单一职责的原则简单的说就是软件模块应该只有一个被修改的理由。例如Spring中，我们需要有dao 层和service层，而不是把它放在一起，这样后面数据库增加字段，或者业务逻辑更改的时候就不需要修改很多东西，更容易维护。
+开闭原则就是在一个模块完成的之后，就不要去改变它，最好是通过继承和多态来增加功能。所以开闭就是，对外的拓展开放，对外的修改闭合。
+里氏替换原</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/">ART算法实现与理解</a>
+
+      <a href="/2020/06/03/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Code这两个图显示了算法的原理，整体的几何意义也较为容易理解
+import numpy as np
+def ART_My( A, b, X0, e0):
+    e=e0+1
+    i=0
+    while(e&gt;e0):
+        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))
+ </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ART/">ART</a>
+            
+              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
+
+      <a href="/2020/05/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/" class="index-excerpt">
+        
+        
+          
+        
+        <div>对同一个超平面，通过比例缩放w和b，函数间隔也会同比例变化。也就是说，对于一个成功划分正负实例的超平面（不一定最优），该平面固定，但是通过缩放w和b，可以使其function margin取任何正值。而我们的目标是找到具有最大margin的超平面。显然通过最大化函数间隔没有意义，因为任何成功划分训练实例的超平面都可以使函数间隔无限大。我们注意到，对一个超平面，函数间隔与∥w∥的比值保持不变，也就是</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-21
           </div>
         
         
@@ -248,7 +466,11 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95/">矩阵加法</a>
+              <a href="/tags/SVM/">SVM</a>
+            
+              <a href="/tags/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
+            
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
             
           </div>
         
@@ -260,20 +482,21 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/matlab%E5%B9%B6%E8%A1%8C/">matlab并行</a>
+      <a class="index-header" href="/2020/05/20/C++/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/">大端和小端</a>
 
-      <a href="/2020/05/18/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/matlab%E5%B9%B6%E8%A1%8C/" class="index-excerpt">
+      <a href="/2020/05/20/C++/%E5%A4%A7%E7%AB%AF%E5%92%8C%E5%B0%8F%E7%AB%AF/" class="index-excerpt">
         
         
           
         
-        <div>parfor matlab用法matlab会弄出几个虚拟的小pc，一个算i=1:30部分循环,一个算i=50:80部分循环,再来一个算i=90:120部分循环，当然数字是我瞎编的，我是想说matlab将一个大循环分成小块，然后这些小块并行计算，最后再合在一起。这样，有一个问题，因为普通的循环是从i=1算到i=100，一个接一个算，如果下一次循环要依赖上一次循环怎么办？如果出现这种情况，那就不能用m</div>
+        <div>字节存储顺序主要分为大端序（Big-endian）和小端序（Little-endian），区别如下Big-endian：高位字节存入低地址，低位字节存入高地址Little-endian：低位字节存入低地址，高位字节存入高地址一般来说，x86系列CPU都是Little-endian字节序，PowerPC通常是Big-endian字节序。
+因为网络协议也都是采用Big-endian方式传输数据的，所以</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
           </div>
         
         
@@ -282,7 +505,7 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/matlab/">matlab</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
             
           </div>
         
@@ -290,9 +513,9 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/matlab/">matlab</a>
+              <a href="/tags/C/">C++</a>
             
-              <a href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -304,20 +527,22 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/">makedown数学公式写法</a>
+      <a class="index-header" href="/2020/05/20/%E7%AE%97%E6%B3%95/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/">218. 天际线问题</a>
 
-      <a href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/makedown%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%86%99%E6%B3%95/" class="index-excerpt">
+      <a href="/2020/05/20/%E7%AE%97%E6%B3%95/218.%20%E5%A4%A9%E9%99%85%E7%BA%BF%E9%97%AE%E9%A2%98/" class="index-excerpt">
         
         
           
         
-        <div>此网站可以查看公式写法</div>
+        <div>问题的求解方法一其实我们在题目标签看到了Line Sweep，[ 线扫描或扫描线 ] ，扫描线可以想象成一条向右扫过平面的竖直线，也是一个算法，一般是玩图形学的。
+接着上面的步骤，可以通过扫描线算法将两个关键点集合进行合并。
+如下图，扫描线从两个集合的起始点，同时向右移动，接触到第一个关键点，则判断这一个关键点是不是满足天际线的，如果是，则将这个关键点添加到“父”集合中；如果不是，则继续同时移动到</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
           </div>
         
         
@@ -326,7 +551,11 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/%E6%89%AB%E6%8F%8F%E7%BA%BF%E7%AE%97%E6%B3%95/">扫描线算法</a>
             
           </div>
         
@@ -334,9 +563,9 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/makedown/">makedown</a>
+              <a href="/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/">线段树</a>
             
-              <a href="/tags/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">数学公式</a>
+              <a href="/tags/%E6%89%AB%E6%8F%8F%E7%BA%BF%E7%AE%97%E6%B3%95/">扫描线算法</a>
             
           </div>
         
@@ -348,22 +577,23 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/conda%20%E5%AE%89%E8%A3%85%20pytorch/">conda 安装 pytorch</a>
+      <a class="index-header" href="/2020/05/20/C++/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/">为啥那么C++pop不返回值</a>
 
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/conda%20%E5%AE%89%E8%A3%85%20pytorch/" class="index-excerpt">
+      <a href="/2020/05/20/C++/%E4%B8%BA%E4%BB%80%E4%B9%88C++pop%E4%B8%8D%E8%BF%94%E5%9B%9E%E5%80%BC/" class="index-excerpt">
         
         
           
         
-        <div>关于conda安装pytorch的一些问题的总结
-使用conda安装pytorch较为简单在pytorch官网选择自己需要的版本，以及是否带gpu的，我的由于是没有gpu的，所以是conda install pytorch torchvision cpuonly -c pytorch
-但是下载的速度会很慢，而且会出现httperror,这时可以考虑更换源，选择国内的镜像源，例如清华的镜像更换镜像c</div>
+        <div>书上的解释也就是说，为什么先用top（），然后用pop（）来访问和删除站定的元素，而不是把它们合并一个返回类型T的成员函数。
+这种设计有很好的理由。如果pop（）返回栈顶元素，则必须按值返回，而不是按引用返回。按引用返回是不可行的，因为元素
+在栈中已经不存在，必须在按引用返回之前现将其存储到某个地方。如果选用动态内存，除非动态内存最终被删除，否则将导致内存泄露。
+按照数值返回效率很差，因为它包含对</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-20
           </div>
         
         
@@ -372,7 +602,7 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
             
           </div>
         
@@ -380,9 +610,9 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/conda/">conda</a>
+              <a href="/tags/%E6%A0%88/">栈</a>
             
-              <a href="/tags/pytorch/">pytorch</a>
+              <a href="/tags/pop/">pop</a>
             
           </div>
         
@@ -394,22 +624,22 @@ array([1, 2])z = np.ar</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">使用github+hexo部署博客</a>
+      <a class="index-header" href="/2020/05/19/%E7%AE%97%E6%B3%95/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">145. 二叉树的后序遍历</a>
 
-      <a href="/2020/05/18/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/github+hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="index-excerpt">
+      <a href="/2020/05/19/%E7%AE%97%E6%B3%95/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" class="index-excerpt">
         
         
           
         
-        <div>可见这篇博客
-更多信息: 我的博客
-</div>
+        <div>方法后序遍历的麻烦之处在于不知道现在自己是父节点的左节点还是右节点，只有知道才能决定下一步是访问右节点还是根节点，不知道的情况下就不清楚下一步应该访问弹出的栈元素的本身还是它的右节点。而前序遍历和中序遍历是总是只需要弹出栈中的元素，然后访问其右节点即可或者先访问自己再访问其右节点。
+所以方法有三种：
+开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-19
           </div>
         
         
@@ -418,7 +648,11 @@ array([1, 2])z = np.ar</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">后序遍历</a>
             
           </div>
         
@@ -426,55 +660,11 @@ array([1, 2])z = np.ar</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/github/">github</a>
+              <a href="/tags/leetcode/">leetcode</a>
             
-              <a href="/tags/hexo/">hexo</a>
+              <a href="/tags/%E6%A0%88/">栈</a>
             
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">图像生成</a>
-
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/cs231%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/" class="index-excerpt">
-        
-        
-          
-        
-        <div>可以参考这个博客图像生成cs231
-同时这个人还总结了cs231的很多内容，可以都参考一下
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/cs231/">cs231</a>
-            
-              <a href="/tags/%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/">图像生成</a>
+              <a href="/tags/%E6%A0%91/">树</a>
             
           </div>
         
@@ -486,7 +676,7 @@ array([1, 2])z = np.ar</div>
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/15/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span>
+      <a class="extend prev" rel="prev" href="/page/15/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/17/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

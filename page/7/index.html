@@ -168,22 +168,22 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB/">TCP和UDP的区别</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%92%8CMAC%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88/">IP地址和MAC地址作用的区别</a>
 
-      <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%92%8CMAC%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88/" class="index-excerpt">
         
         
           
         
-        <div>TCP协议的主要特点（1）TCP是面向连接的运输层协议；所谓面向连接就是双方传输数据之前，必须先建立一条通道，例如三次握手就是建议通道的一个过程，而四次挥手则是结束销毁通道的一个其中过程。  
-（2）每一条TCP连接只能有两个端点（即两个套接字），只能是点对点的；  
-（3）TCP提供可靠的传输服务。传送的数据无差错、不丢失、不重复、按序到达；（4）TCP提供全双工通信。允许通信双方的应用进程在任</div>
+        <div>简单着说，IP 地址主要用来网络寻址用的，就是大致定位你在哪里，而 MAC 地址，则是身份的唯一象征，通过 MAC 来唯一确认这人是不是就是你，MAC 地址不具备寻址的功能。
+IP 地址是基于逻辑的，比较灵活，不受硬件的限制，也容易记忆。而 MAC地址在一定程度上与硬件一致，是基于物理的，能够标识具体的网络节点。这两种地址各有优点，使用时也因条件不同而采取不同的地址 [6]  。
+大多数接入Int</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-03
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -212,22 +212,22 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">TCP四次挥手</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IPV4%E4%B8%8D%E5%A4%9F%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/">IPV4不够如何解决</a>
 
-      <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IPV4%E4%B8%8D%E5%A4%9F%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/" class="index-excerpt">
         
         
           
         
-        <div>刚开始双方都处于 establised 状态，假如是客户端先发起关闭请求，则：1、第一次挥手：客户端发送一个 FIN 报文，报文中会指定一个序列号。此时客户端处于FIN_WAIT1状态。  
-2、第二次挥手：服务端收到 FIN 之后，会发送 ACK 报文，且把客户端的序列号值 + 1 作为 ACK 报文的序列号值，表明已经收到客户端的报文了，此时服务端处于 CLOSE_WAIT状态。  
-3、第三</div>
+        <div>目前主要有以下两种方式：  
+1、其实我们平时上网，电脑的 IP 地址都是属于私有地址，我无法出网关，我们的数据都是通过网关来中转的，这个其实 NAT 协议，可以用来暂缓 IPV4 地址不够，关于 NAT，具体可以看我写的这篇文章：什么是 NAT 网络地址转换协议？  
+2、IPv6 ：作为接替 IPv4 的下一代互联网协议，其可以实现 2 的 128 次方个地址，而这个数量级，即使是给地球上每一</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-03
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -256,25 +256,23 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ICMP%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8/">ICMP以及相关应用</a>
 
-      <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ICMP%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8/" class="index-excerpt">
         
         
           
         
-        <div>三次握手 当面试官问你为什么需要有三次握手、三次握手的作用、讲讲三次三次握手的时候，我想很多人会这样回答： 首先很多人会先讲下握手的过程： 
-1、第一次握手：客户端给服务器发送一个 SYN 报文。
-2、第二次握手：服务器收到 SYN 报文之后
-3.第三次握手：客户端收到 SYN+ACK 报文之后，会回应一个 ACK 报文。
-4、服务器收到 ACK 报文之后，三次握手建立完成
-作用是为了确认双方的接</div>
+        <div>ICMP 主要有两个应用，一个是 Ping，一个是 Traceroute。
+1. PingPing 是 ICMP 的一个重要应用，主要用来测试两台主机之间的连通性。
+Ping 的原理是通过向目的主机发送 ICMP Echo 请求报文，目的主机收到之后会发送 Echo 回答报文。Ping 会根据时间和成功响应的次数估算出数据包往返时间以及丢包率。
+2. TracerouteTraceroute 是 </div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-03
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -303,22 +301,23 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E5%8D%8F%E8%AE%AE/">计算机网络七层协议以及相关的功能是什么</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SYN%E6%B4%AA%E6%B0%B4%E6%94%BB%E5%87%BB/">SYN洪水攻击</a>
 
-      <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E5%8D%8F%E8%AE%AE/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SYN%E6%B4%AA%E6%B0%B4%E6%94%BB%E5%87%BB/" class="index-excerpt">
         
         
           
         
-        <div>可以参考 https://www.cnblogs.com/schips/p/osi_framework_and_tcp-ip.html
-应用层：负责给应⽤程序提供统⼀的接⼝；
-表示层：数据格式的转换，以及一些压缩解压的功能，比如下层给过来的数据是二进制的，转换其为图片让人可以看到图片这就是数据转换。即对数据格式进行转换，对收到或发出的数据根据应用层的特征进行处理，如处理为文字、图片、音频、视频、文</div>
+        <div>SYN Flood 又称 SYN 洪水攻击，也是拒绝服务攻击的一种，是一种曾经很经典的攻击方式。攻击者利用TCP协议的安全缺陷，不断发送一系列的SYN请求到目标系统，消耗服务器系统的资源，从而导致目标服务器不响应合法流量请求。
+在谈SYN flood 之前，我们先了解一下一次正常的网络请求都有哪些步骤，从而更清晰的了解SYN Flood的攻击方式。
+一般一次正常的网络请求分以下几个步骤：
+    </div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-03
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -347,22 +346,21 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/02/20/C++/C++_push_back%E7%9B%B8%E6%AF%94emplace_back/">push_back and emplace difference</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%BF%87%E5%A4%9A%E7%9A%84TIME_WAIT%20%E7%8A%B6%E6%80%81%E4%BC%9A%E5%AF%BC%E8%87%B4%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/">TIME_WAIT 状态会导致什么问题，怎么解决</a>
 
-      <a href="/2022/02/20/C++/C++_push_back%E7%9B%B8%E6%AF%94emplace_back/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%BF%87%E5%A4%9A%E7%9A%84TIME_WAIT%20%E7%8A%B6%E6%80%81%E4%BC%9A%E5%AF%BC%E8%87%B4%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/" class="index-excerpt">
         
         
           
         
-        <div>push_back 和 emplace_back 的区别在哪里？
-回答emplace_back 能就地通过参数构造对象，不需要拷贝或者移动内存，相比 push_back 能更好地避免内存的拷贝与移动，使容器插入元素的性能得到进一步提升。在大多数情况下应该优先使用 emplace_back 来代替 push_back。
-下面的代码节选自 https://en.cppreference.com/w/c</div>
+        <div>我们考虑高并发短连接的业务场景，在高并发短连接的 TCP 服务器上，当服务器处理完请求后主动请求关闭连接，这样服务器上会有大量的连接处于 TIME_WAIT 状态，服务器维护每一个连接需要一个 socket，也就是每个连接会占用一个文件描述符，而文件描述符的使用是有上限的，如果持续高并发，会导致一些正常的 连接失败。
+解决方案：修改配置或设置 SO_REUSEADDR 套接字，使得服务器处于 TI</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-02-20
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -371,7 +369,7 @@
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -379,7 +377,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/c/">c++</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -391,29 +389,21 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/02/14/C++/C++_placement_new/">placement new and delete 用法</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8C%BA%E5%88%AB/">HTTP 长连接短连接使用场景是什么</a>
 
-      <a href="/2022/02/14/C++/C++_placement_new/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8C%BA%E5%88%AB/" class="index-excerpt">
         
         
           
         
-        <div>运算符重载可以重载new and delete。
-
-但是第一个参数必须为std::size_t size
-
-必须返回值为void*，一般如果重载了new，也要 用相同参数重载delete，因为当使用了某种new，就会使用对应参数的delete来删除，如果没有定义，就不会调用，会发生内存泄漏
-
-
-void * new(std::size_t  size)
-&#123;
-    return std:</div>
+        <div>长连接多用于操作频繁，点对点的通讯，而且连接数不能太多情况。每个 TCP 连接都需要三步握手，这需要时间，如果每个操作都是先连接，再操作的话那么处理速度会降低很多， 所以每个操作完后都不断开，下次处理时直接发送数据包就 OK 了，不用建立 TCP 连接。例如： 数据库的连接用长连接， 如果用短连接频繁的通信会造成 socket 错误，而且频繁的 socket创建也是对资源的浪费。
+而像 WEB 网</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-02-14
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -422,7 +412,7 @@ void * new(std::size_t  size)
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -430,7 +420,7 @@ void * new(std::size_t  size)
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/c/">c++</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -442,32 +432,23 @@ void * new(std::size_t  size)
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/02/14/C++/STL_priority_queue%E7%94%A8%E6%B3%95/">STL:priority_queue 用法</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E7%9A%84%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B/">DNS的解析过程</a>
 
-      <a href="/2022/02/14/C++/STL_priority_queue%E7%94%A8%E6%B3%95/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E7%9A%84%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B/" class="index-excerpt">
         
         
           
         
-        <div>#include&lt;queue&gt;
+        <div>
+主机向本地域名服务器的查询一般都是采用递归查询。所谓递归查询就是：如果主机所询问的本地域名服务器不知道被查询的域名的 IP 地址，那么本地域名服务器就以 DNS 客户的身份，向根域名服务器继续发出查询请求报文(即替主机继续查询)，而不是让主机自己进行下一步查询。因此，递归查询返回的查询结果或者是所要查询的 IP 地址，或者是报错，表示无法查询到所需的 IP 地址。
 
-// 默认优先从小到大输出
-
-std::priority_queue&lt;Type,Container,Functional&gt;
-
-//期中type是数据类型，第二个是保存数据的容器，第三个是元素比较函数，默认从大到小operator&lt;
-
-//容器默认为vectord
-
-//如果优先输出小数据则使用，
-
-priority_queue&lt;</div>
+本地域名服务器向根域名服务器</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-02-14
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -476,7 +457,7 @@ priority_queue&lt;</div>
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -484,9 +465,7 @@ priority_queue&lt;</div>
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/priority-queue/">priority_queue</a>
-            
-              <a href="/tags/STL%EF%BC%8Cc/">STL，c++</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -498,22 +477,20 @@ priority_queue&lt;</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/26/C++/signal%E5%92%8Csigaction/">signal和sigaction的用法</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B/">在浏览器中输入 URL 地址到显示主页的过程？</a>
 
-      <a href="/2021/12/26/C++/signal%E5%92%8Csigaction/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B/" class="index-excerpt">
         
         
           
         
-        <div>参考博客
-Linux进程间通信（一）： 信号 signal()、sigaction()一、什么是信号用过Windows的我们都知道，当我们无法正常结束一个程序时，可以用任务管理器强制结束这个进程，但这其实是怎么实现的呢？同样的功能在Linux上是通过生成信号和捕获信号来实现的，运行中的进程捕获到这个信号然后作出一定的操作并最终被终止。
-信号是UNIX和Linux系统响应某些条件而产生的一个事件，接</div>
+        <div>DNS 解析：浏览器查询 DNS，获取域名对应的 IP 地址：具体过程包括浏览器搜索自身的 DNS 缓存、搜索操作系统的 DNS 缓存、读取本地的 Host 文件和向本地 DNS 服务器进行查询等。对于向本地 DNS 服务器进行查询，如果要查询的域名包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析(此解析具有权威性)；如果要查询的域名不由本地 DNS 服务器区域解析，但该服务器已缓存</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-26
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -522,7 +499,7 @@ Linux进程间通信（一）： 信号 signal()、sigaction()一、什么是信
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -530,9 +507,7 @@ Linux进程间通信（一）： 信号 signal()、sigaction()一、什么是信
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
-            
-              <a href="/tags/signal/">signal</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -544,23 +519,24 @@ Linux进程间通信（一）： 信号 signal()、sigaction()一、什么是信
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/26/C++/select%E5%92%8Cepoll%E5%92%8Cpoll%E7%9A%84%E5%8C%BA%E5%88%AB/">select和poll和epoll的区别</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%B2%98%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/">什么是粘包以及如何解决</a>
 
-      <a href="/2021/12/26/C++/select%E5%92%8Cepoll%E5%92%8Cpoll%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%B2%98%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/" class="index-excerpt">
         
         
           
         
-        <div>参考博客参考博客
-参考博客参考博客
-selectselect本质上是通过设置或检查存放fd标志位的数据结构进行下一步处理。 这带来缺点：
-FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进行修改，然后重新编译内核，但是性能可能会受到影响，这需要进一步的测试 一般该数和系统内存关系很大，具体数目可以cat /proc/sys/fs/file-max察看。32位机默认1024个，64</div>
+        <div>在进行 Java NIO 学习时，可能会发现：如果客户端连续不断的向服务端发送数据包时，服务端接收的数据会出现两个数据包粘在一起的情况。  
+    TCP 是基于字节流的，虽然应用层和 TCP 传输层之间的数据交互是大小不等的数据块，但是 TCP 把这些数据块仅仅看成一连串无结构的字节流，没有边界；
+
+    从 TCP 的帧结构也可以看出，在 TCP 的首部没有表示数据长度的字段。  
+ 基于</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-26
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -569,7 +545,7 @@ FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进�
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -577,9 +553,7 @@ FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
-            
-              <a href="/tags/epoll/">epoll</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -591,35 +565,21 @@ FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/24/%E7%AE%97%E6%B3%95/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/">红黑树知识点</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ARQ%E5%8D%8F%E8%AE%AE/">ARQ协议和停止等待协议</a>
 
-      <a href="/2021/12/24/%E7%AE%97%E6%B3%95/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ARQ%E5%8D%8F%E8%AE%AE/" class="index-excerpt">
         
         
           
         
-        <div>一般来说红黑树有以下的知识点
-
-根是黑色
-
-叶节点是黑色的（即为空的黑色的哨兵节点）
-
-从跟到叶子经过相同数目的黑色节点
-
-红色节点的子节点一定是两个黑色的
-
-节点为红色或者黑色
-
-
-可以参考这个链接来使用30张图带你彻底理解红黑树
-红黑树主要是通过左旋右旋和节点变色来实现的。这个左旋右旋和b树b+树的都是一样的。
-红黑树查找与二叉搜索树差不多的，但是由于红黑树总是黑色平衡的，所以最坏是O(2lg</div>
+        <div>停止等待协议停止等待协议是为了实现可靠传输的，它的基本原理就是每发完一个分组就停止发送，等待对方确认。在收到确认后再发下一个分组；在停止等待协议中，若接收方收到重复分组，就丢弃该分组，但同时还要发送确认。主要包括以下几种情况：无差错情况、出现差错情况（超时重传）、确认丢失和确认收到。
+自动重传请求 ARQ 协议停止等待协议中超时重传是指只要超过一段时间仍然没有收到确认，就重传前面发送过的分组（认为</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-24
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
           </div>
         
         
@@ -628,9 +588,7 @@ FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进�
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -638,9 +596,7 @@ FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/">红黑树</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
@@ -652,7 +608,7 @@ FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进�
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/6/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/6/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/8/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>effective C++笔记 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-04-04 01:15">
+      2022年4月4日 凌晨
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      74
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>3.尽可能使用const<br><pre><code class="hljs actionscript">当non-<span class="hljs-keyword">const</span>和<span class="hljs-keyword">const</span>实现相同逻辑时，non-<span class="hljs-keyword">const</span>对象可以调用<span class="hljs-keyword">const</span>成员函数，这样可以缩减代码量。另外注意<span class="hljs-keyword">const</span>对象不能调用non-<span class="hljs-keyword">const</span>成员函数，编译报错：discards qualifiers。</code></pre></p>
+<p>4.确定对象使用前被初始化<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs angelscript">　在构造函数的初始化列表中的才算是初始化，而构造函数的内容是在初始化列表之后执行的，已经不算是初始化操作。在初始化列表中进行初始化，调用的是<span class="hljs-built_in">string</span>的拷贝构造函数，而在构造函数中进行赋值的话，调用的是：默认构造函数+赋值函数，调用默认构造的原因是，调用构造函数之前会先对成员进行初始化（这也就是为什么在构造函数中进行的操作不能称之为初始化操作），而对于大多数类，默认构造函数+赋值函数的效率是小于只调用拷贝构造函数的。</code></pre></p>
+<p><span class="hljs-number">1.</span>因此最好是在初始化列表中进行初始化操作。<br>　　<span class="hljs-number">2.</span>内置类型要手动初始化，不同的平台不能保证对内置类型进行初始化&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<p>5.C++默认编写并调用的函数</p>
+<pre><code class="hljs plain">编译器默认实现的函数：默认构造、析构、拷贝构造、赋值函数。</code></pre>
+<p>6.不想使用默认生成的函数，可以明确拒绝</p>
+<pre><code class="hljs actionscript">默认的构造可以被其他构造替换，拷贝构造和赋值函数如果不想被外面调用可以将其声明为<span class="hljs-keyword">private</span>。</code></pre>
+<p>8.别让异常逃离析构函数</p>
+<pre><code class="hljs arduino">绝不要让析构函数抛出异常，应该让用户自己处理可能发生异常的操作。这个应该说是提供给用户接口来<span class="hljs-built_in">close</span>东西，如果用户没有这么做，可以在析构函数中<span class="hljs-keyword">try</span>，<span class="hljs-keyword">catch</span>.</code></pre>
+<p>9.不要在构造和析构函数调用virtual函数</p>
+<pre><code class="hljs cpp">　　由于父类的构造函数发生在子类之前，而此时子类的成员变量等并未初始化，因此在父类的构造函数中调用<span class="hljs-keyword">virtual</span>函数，绝对不会调用子类的方法，即使现在你在创建一个子类对象。换句话说，在构造函数中调用的<span class="hljs-keyword">virtual</span>函数，都会下降到父类类型，即都不是<span class="hljs-keyword">virtual</span>函数，因为一进入析构函数，子类对象就不存在了，默认就是调用父类的函数。</code></pre>
+<p>10.令operator=返回reference to *this 并 11处理自我赋值</p>
+<pre><code class="hljs kotlin">赋值操作返回*<span class="hljs-keyword">this</span>的引用。在shardptr以及很多相关的类型都是这样的。返回引用比临时变量要少几次构造析构，效率高。</code></pre>
+<p> 13.以对象管理资源</p>
+<pre><code class="hljs plain">在构造中获得资源并在析构函数中释放资源（RAII）
+</code></pre>
+<p>14.在资源管理类中小心copy行为<br><pre><code class="hljs angelscript">    在RAII对象中进行复制的时候，可能会导致出现双重释放。
+这个解决办法有几种，一个是禁止对象赋值。一个是使用引用计数，最后一个释放的时候才真的释放资源，使用shard_ptr包装，或者使用深拷贝，资源复制一份，或者直接转移所有权，向<span class="hljs-built_in">auto</span>_ptr一样。</code></pre></p>
+<p>条款 15：在资源管理类中提供对原始资源的访问</p>
+<pre><code class="hljs pgsql"><span class="hljs-number">1.</span>    RAII 类应该提供访问其所管理的原始资源的方法，例如条款 <span class="hljs-number">14</span> 中提到的 shared_ptr 中的 <span class="hljs-keyword">get</span> 方法。
+<span class="hljs-number">16.</span>成对的使用<span class="hljs-built_in">new</span>和<span class="hljs-keyword">delete</span>
+
+<span class="hljs-number">1</span>　　使用<span class="hljs-built_in">new</span>申请内存，必须使用<span class="hljs-keyword">delete</span>释放内存，使用<span class="hljs-built_in">new</span> [] 申请内存，必须使用<span class="hljs-keyword">delete</span> []释放内存
+<span class="hljs-number">17</span>以单独的语句将newed对象置入shared_ptr
+
+<span class="hljs-number">1.</span>    意思为不要写下类似<span class="hljs-keyword">Function</span>(shared_ptr&lt;<span class="hljs-keyword">Class</span>&gt;(<span class="hljs-built_in">new</span> <span class="hljs-keyword">Class</span>), x())，其中<span class="hljs-keyword">Function</span>和x为函数，<span class="hljs-keyword">Class</span>是一个类。原因在于shared_ptr的构造分为<span class="hljs-number">3</span>，<span class="hljs-built_in">new</span> <span class="hljs-keyword">class</span>, 构建shard_ptr对象，然后调用fuction，这个顺序在编译器中是不确定的，如果是先<span class="hljs-built_in">new</span>然后调用fuction， 构建shard_ptr对象，如果第二步出现异常，指针丢失，可能导致内存泄漏。</code></pre>
+<p>20.以pass-by-reference-const替换pass-by-value</p>
+<pre><code class="hljs csharp">　　主要考虑两点：
+　　<span class="hljs-number">1</span>效率问题，pass-<span class="hljs-keyword">by</span>-<span class="hljs-keyword">value</span>会导致很多临时对象的产生和销毁，就会多调用几次构造和析构，因此效率更低
+
+<span class="hljs-number">2</span> 对象切割问题，pass-<span class="hljs-keyword">by</span>-<span class="hljs-keyword">value</span>的方式将一个子类对象传入一个参数类型父类的函数，那么拷贝的对象将被切割成只有父类对象被保留，调用方法会调用父类的方法而不是子类。<span class="hljs-keyword">const</span>引用可以解决这个问题，因为引用本质上也是指针，就和多态是一样的
+
+　　另外，内置类型，STL迭代器和函数对象一般采用pass-<span class="hljs-keyword">by</span>-<span class="hljs-keyword">value</span>，因为其复制代价很小</code></pre>
+<p>21.不要返回临时对象的引用</p>
+<pre><code class="hljs actionscript">　　不要返回一个临时对象的引用
+　　不要返回在堆上分配的对象的引用，因为这违背了<span class="hljs-keyword">new</span>和<span class="hljs-keyword">delete</span>成对出现的原则，这样的方式是很不合理的，很容易导致内存泄漏。
+也不要返回一个<span class="hljs-keyword">static</span>对象的引用，因为<span class="hljs-keyword">static</span>可能同时被很多地方需要，是存在于静态变量区的，比如重载*之后，a*b==c*d,永远都是<span class="hljs-literal">true</span>，因为他们都指向那一个位置。 
+　　所以对于这种问题，最好的解决方法就是不返回引用就OK了。</code></pre>
+<p>24.若所有参数皆需类型转换，那么请采用non-member函数</p>
+<pre><code class="hljs angelscript">　　文中举了一个有理数Rational运算的例子，在类中加入一个operator*(<span class="hljs-keyword">const</span> Rational&amp; other)的函数，可以实现类似 rational * <span class="hljs-number">2</span>的操作，其中<span class="hljs-number">2</span>是个<span class="hljs-built_in">int</span>，但是因为rational有一个以<span class="hljs-built_in">int</span>为参数的构造，因此编译器帮你执行了隐式类型转换。但是反过来写<span class="hljs-number">2</span> * rational的时候，编译就报错了。因为<span class="hljs-number">2</span>是个<span class="hljs-built_in">int</span>，并没有operator*这个函数。但是为什么这样写就没有执行隐式类型转换呢？这又引出一个问题：隐士类型转换的合格条件是什么？答案是：必须是参数列中的参数才是隐士类型转换的有效参与者，类的执行者也就是<span class="hljs-string">&#x27;.&#x27;</span>前面的那个对象（<span class="hljs-keyword">this</span>指向的对象，比如说rational.func()中的rational是类执行者，相当于他是函数的调用人，地位较高，不能参与隐式类型转换），这就解释了为什么<span class="hljs-number">2</span>放在前面是不行的。解决此种问题的方法是提供一个non-mem的operator*(Rational a, Rational b)即可。</code></pre>
+<p>25.写一个不抛出异常的swap函数（有点没看懂）</p>
+<pre><code class="hljs avrasm">一般写<span class="hljs-keyword">swap</span>最普通的方法就是利用中间变量，temp = a<span class="hljs-comment">;a = b;b = temp，这种方法对于内置类型没任何问题，内置类型上的赋值绝对不会抛出异常，并且效率很高。但是如果a,b不是内置类型，就会调用类的copy构造函数和assign函数，并且必须是深拷贝。这样如果类的成员较多就会造成交换的效率很低，特别是针对pimpl实现方法，即成员中包含指针（即资源）时。更好的做法就是直接交换指针就可以了，相当于交换了两个int(指针都是4字节的)，这就比拷贝这个指针指向的资源要快得多。</span>
+
+　　如何实现呢？只要将<span class="hljs-keyword">swap</span>都转换成内置类型的<span class="hljs-keyword">swap</span>就可以了，做法就是在类中提供一个public的<span class="hljs-keyword">swap</span>(T&amp; b)函数（T为一个类），将每个成员进行交换（如果成员中包含其他非内置对象，调用这个对象的<span class="hljs-keyword">swap</span>函数即可）。然后提供一个non-member的<span class="hljs-keyword">swap</span>(T&amp; a, T&amp; b)重载函数，在函数内部调用类中的a.swap(b)，就可以像如下方式实现交换两个对象的操作：<span class="hljs-keyword">swap</span>(a, b)。
+
+　　注意：
+　　<span class="hljs-number">1</span>在类内的<span class="hljs-keyword">swap</span>交换内置类型时要调用<span class="hljs-keyword">std</span>命名空间内的<span class="hljs-keyword">swap</span>函数，必须使用using <span class="hljs-keyword">std</span>::<span class="hljs-keyword">swap</span>，否则就变成递归函数了
+
+　　<span class="hljs-number">2</span>另外文中说在<span class="hljs-keyword">std</span>命名空间内不能加入新东西，比如重载<span class="hljs-keyword">swap</span>函数，但是经博主测试是可以在<span class="hljs-keyword">std</span>内重载<span class="hljs-keyword">swap</span>函数的（g++版本为<span class="hljs-number">5.4</span><span class="hljs-number">.0</span>）。</code></pre>
+<p>　　<br> 26.尽可能延后变量定义得时间</p>
+<pre><code class="hljs routeros">　　1因为变量（对类而言）的定义，需要承担一次构造函数的时间，在函数结束后还可能承担一次析构函数的时间，假如该变量未被使用，那么构造函数和析构函数的时间就白白浪费了，尤其是在可能发生异常的函数中，假如你过早的定义变量，然后在你使用这个变量之前抛出了异常，那么这个变量的构造函数就没有意义而且降低效率。所以应该尽可能延后变量定义得时间，只有真正使用这个变量的时候才定义它
+
+　　2条款4讲过，copy construction的效率 &gt;<span class="hljs-built_in"> default </span>construction +assign function，所以最好的做法是直接调用copy construction函数对变量直接进行初始化，而不是先定义，再赋值
+
+　　3对于有循环的情况，假设一个n次的循环，如图所示：
+　　 
+　　那么方法A的代价：1次构造+1次析构+n次赋值
+　　方法B的代价：n次构造+n次析构
+　　如果n较大，那么应该选择方法A，如果n较小，可以选择方法B。</code></pre>
+<p>27.尽量避免转型</p>
+<pre><code class="hljs cpp">　　<span class="hljs-number">1</span>最好使用C++<span class="hljs-number">4</span>个新式的类型转换函数，因为这很容易辨识，代码可读性提高
+
+Static cast ：常规转换，可以将子类指针转换为父类指针，<span class="hljs-keyword">dynamic_cast</span> 将父类指针转换为子类指针，<span class="hljs-keyword">reinterpret_cast</span> 可以转指针成为一个<span class="hljs-keyword">int</span>，<span class="hljs-keyword">const_cast</span> 转<span class="hljs-keyword">const</span>到非<span class="hljs-keyword">const</span>类型
+
+　　<span class="hljs-number">2</span>尽量避免使用<span class="hljs-keyword">dynamic_cast</span>，因为这种转换效率很低，一般用虚函数的方式来避免转型</code></pre>
+<p>28.避免返回一个指针、引用或者迭代器指向类内的成员</p>
+<pre><code class="hljs actionscript">　　原因是如果返回了成员的引用或者指针，就可以通过这个引用或者指针修改雷内的<span class="hljs-keyword">private</span>成员，这样是不合理的（这样的话成员就相当于<span class="hljs-keyword">public</span>的了），这一点可以通过给函数的返回类型加<span class="hljs-keyword">const</span>修饰符来防止内部成员变量被修改。但是还有一种情况是，如果获得的类内的一个成员的引用或指针，但是在使用之前，对象被释放了，那么这个引用或指针就变成了野指针了，必然会导致core dump错误。所以应该避免返回类内成员的指针或引用。</code></pre>
+<p>30.inline 函数</p>
+<pre><code class="hljs cpp">　　<span class="hljs-keyword">inline</span>只是一种申请，编译器会根据具体情况来决定一个函数是否可以是<span class="hljs-keyword">inline</span>得，比如递归函数、<span class="hljs-keyword">virtual</span>函数、代码较多的函数，即使你声明了<span class="hljs-keyword">inline</span>关键字，编译器也不会将此类函数视为<span class="hljs-keyword">inline</span>的函数。
+
+
+　　</code></pre>
+<p>31.编译依存关系降低至最低<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs stata">理解此条款关键是要理解C++的编译方式，具体可以参考：https:<span class="hljs-comment">//www.cnblogs.com/jerry19880126/p/3551836.html文中说的很详细。理解了文中的意思，再回头看这个条款就清晰多了。其关键点如下：</span></code></pre></p>
+<p>　　1 关于前置声明的一个限制是：编译器必须在编译时确定类的大小，即分配多少内存。因此如果你前置声明一个类<span class="hljs-keyword">class</span> <span class="hljs-keyword">TEST</span>，然后在后面试图创建一个<span class="hljs-keyword">TEST</span>的对象<span class="hljs-keyword">TEST</span> <span class="hljs-keyword">test</span>，那么这个代码是不会通过编译的，因为编译器不确定要给<span class="hljs-keyword">test</span>分配多少内存。那怎么规避这个问题呢？答案就是指针，典型的pimpl方式，因为指针的字节数是固定的（相对于平台，一般就是4或者8字节）。例如下面的代码就是可以通过编译的。</p>
+<h1 id="include-lt-iostream-gt"><a href="#include-lt-iostream-gt" class="headerlink" title="include &lt;iostream&gt;"></a><span class="hljs-keyword">include</span> &lt;iostream&gt;</h1><p>using namespace std;<br><span class="hljs-keyword">class</span> <span class="hljs-keyword">TEST</span>;<br><span class="hljs-keyword">class</span> AA&#123;<br>    public:<br>        <span class="hljs-keyword">TEST</span><em> aa;<br>        <span class="hljs-comment">//TEST&amp; b; //引用不可以，因为引用必须在初始化列表中进行初始化</span><br>        void T(<span class="hljs-keyword">TEST</span>&amp; tt) &#123;<br>        &#125;<br>        void wdt(<span class="hljs-keyword">TEST</span></em> tt) &#123;<br>        &#125;<br>        void PP() &#123;<br>            cout &lt;&lt; <span class="hljs-string">&quot;AA::PP()&quot;</span> &lt;&lt; endl;<br>        &#125;<br>        AA() &#123;&#125;<br>        ~AA() &#123;&#125;<br>&#125;;</p>
+<p>int main() &#123;<br>    AA aa;<br>    aa.PP();<br>    <span class="hljs-keyword">return</span> 0;<br>&#125;</p>
+<p>　可见，前置声明一个<span class="hljs-keyword">TEST</span>类，并没有对应的类的实现，在另外一个类A中声明一个<span class="hljs-keyword">TEST</span><em>的成员，包括在函数中使用<span class="hljs-keyword">TEST</span></em> 或者 <span class="hljs-keyword">TEST</span>&amp;类型的参数都没问题。但是在用这两个函数的时候还是要有<span class="hljs-keyword">TEST</span>的定义和实现，那么这个时候怎么办，就是再创建一个<span class="hljs-keyword">TEST</span>.<span class="hljs-keyword">h</span>和<span class="hljs-keyword">TEST</span>.<span class="hljs-keyword">cc</span>，然后在A.<span class="hljs-keyword">cc</span>中#<span class="hljs-keyword">Include</span><span class="hljs-string">&quot;TEST.H&quot;</span>(假如<span class="hljs-keyword">class</span> A也单独创建一个A.<span class="hljs-keyword">cc</span>和A.<span class="hljs-keyword">h</span>)，这样当<span class="hljs-keyword">TEST</span>中的内容有所改变的时候，只有<span class="hljs-keyword">TEST</span>.<span class="hljs-keyword">cc</span>和A.<span class="hljs-keyword">cc</span>被重新编译。所有使用<span class="hljs-keyword">class</span> A和<span class="hljs-keyword">class</span> <span class="hljs-keyword">TEST</span>的地方都不会被重新编译。假如使用这两个类的地方特别多，那么这样就可以减少很多文件的编译了。<br>　　2. 上面利用指针是一种实现方法，另一种就是Interface <span class="hljs-keyword">class</span>，即类中全部都是pure virtual函数，这样的类在使用的时候只能是以指针的形式出现，这样就同样达到了减少编译依赖的效果。<br>　　③当然这两种方式都存在一定的代价：指针方式的实现要多分配指针大小的内存，每次访问都是间接访问。接口形式的实现方式要承担虚函数表的代价以及运行时的查找表的代价。但是一般这两种实现对资源和效率的影响通常不是最关键的，因此可以放心的使用，类似tensorflow源码中就大量使用这种方式降低编译依赖。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<p>33.名称遮掩问题</p>
+<pre><code class="hljs cpp">　　子类会遮掩父类同名的函数，即使参数不一样也被遮掩了。可以使用类名作用域决定调用父类还是子类的函数,<span class="hljs-keyword">using</span> base:: fun1;</code></pre>
+<p>34.接口继承与实现继承</p>
+<pre><code class="hljs kotlin">　　理解接口继承和实现继承的区别，纯虚函数、非纯虚函数和普通函数在这两方面的区别：纯虚函数只指定接口继承、非纯虚函数指定接口继承并存在默认的实现继承、普通函数指定接口继承及强制实现继承。就是如果父类是普通函数非虚函数，那么是强制实现继承，子类的行为就和父类的一样，如果是纯虚函数说明只是一个接口，父类必须实现。如果是非纯虚函数，即virtual void <span class="hljs-function"><span class="hljs-title">fun</span><span class="hljs-params">()</span></span>=<span class="hljs-number">0</span>;然后在类外定义它，这样子类必须实现，同时父类还有默认的行为。</code></pre>
+<p>35.考虑virtual函数以外的选择、</p>
+<pre><code class="hljs cpp">可以将<span class="hljs-keyword">virtual</span>函数变为<span class="hljs-keyword">private</span>和<span class="hljs-keyword">protected</span>的，然后用puclic的函数调用它，提供给他人。NVI方法。
+可以将<span class="hljs-keyword">virtual</span>函数替换为函数指针成员变量。Strategy设计模式。</code></pre>
+<p>36.不要重新定义继承来的non-virtual函数</p>
+<pre><code class="hljs dns">　　non-virtual在实现上是静态绑定的，调用父类还是子类的函数完全取决于指针或者对象的类型，不管<span class="hljs-keyword">A</span>指针指向的是<span class="hljs-keyword">A</span>的对象还是B的对象，总是调用<span class="hljs-keyword">A</span>的方法，B指针总是B类的方法。</code></pre>
+<p>37.不要重新定义重写函数（virtual）的默认参数</p>
+<pre><code class="hljs verilog">　　默认参数都是静态绑定的，即你的指针是什么类型，默认参数就是什么类型。而<span class="hljs-keyword">virtual</span>函数是动态绑定的，在运行期才决定调用哪个函数。所以如果你在父类<span class="hljs-keyword">class</span> Father有一个<span class="hljs-keyword">virtual</span>函数并带有默认参数，例如<span class="hljs-keyword">void</span> p(<span class="hljs-keyword">int</span> <span class="hljs-keyword">default</span> = <span class="hljs-number">100</span>)，在子类重写这个函数，然后换了新的默认参数为<span class="hljs-keyword">default</span> = <span class="hljs-number">10</span>，在你以多态的方式调用p的时候：Father* f = <span class="hljs-keyword">new</span> Son; f-&gt;p();这种情况p的默认参数为<span class="hljs-number">100</span>而非<span class="hljs-number">10</span>。因为f指针的静态类型为Father，而动态类型为Son。所以如果你的函数必须包含默认参数，不要这样写，解决方法是将带有默认参数的函数改为non-<span class="hljs-keyword">virtual</span>函数，内部再调用一个<span class="hljs-keyword">virtual</span>函数。因为non-<span class="hljs-keyword">virtual</span>函数是从来不应该被重写的（条款<span class="hljs-number">36</span>，覆盖问题）</code></pre>
+<p>39.私有继承</p>
+<pre><code class="hljs actionscript">　　子类继承父类的方式决定了在子类中父类函数的属性，一般规则就是所有属性都按照继承方式对其。比如采用<span class="hljs-keyword">protected</span>继承方式，那么父类中的<span class="hljs-keyword">public</span>成员在子类都升级为<span class="hljs-keyword">protected</span>，其他保持不变。如果采用<span class="hljs-keyword">private</span>继承方式，父类中的所有成员全部变为<span class="hljs-keyword">private</span>，特殊之处之一是父类中原本就是<span class="hljs-keyword">private</span>的成员不可继承，即在子类中也无法使用父类的<span class="hljs-keyword">private</span>成员。</code></pre>
+<p>40.多重继承 </p>
+<pre><code class="hljs plain">　　会导致歧义性，需要虚继承。</code></pre>
+<p>41.隐式接口和编译器多态</p>
+<pre><code class="hljs d">　　<span class="hljs-keyword">class</span>的继承和<span class="hljs-keyword">template</span>都支持接口和多态。只不过<span class="hljs-keyword">class</span>实现的接口是显示的，就是说一定能直接找到这个接口的实现代码。而<span class="hljs-keyword">template</span>实现的接口，只能模糊的知道接口的特征，一般间接能找到实现的代码。比如我们用<span class="hljs-keyword">template</span>函数T w，w.size(),表明w必须实现size（）接口。用不同的参数具体化模板会导致调用不同的函数，就是编译器多态。用继承实现的多态属于运行期多态、模板实现的多态则是编译期多态。</code></pre>
+<p>42.了解typename</p>
+<pre><code class="hljs cpp">　　<span class="hljs-number">1.</span> 在声明<span class="hljs-keyword">template</span>参数时，<span class="hljs-class"><span class="hljs-keyword">class</span>和<span class="hljs-title">typename</span>可互换。</span>
+<span class="hljs-class">　　2. <span class="hljs-title">typename</span>的第二个用处是告诉编译期某一个嵌套从属类型是类型，最典型的就是<span class="hljs-title">STL</span>中容器的迭代器类型，例如：<span class="hljs-title">T</span>:</span>:iterator(T是个容器的类型，例如：<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;)，这个时候就要在T::iterator前面加一个<span class="hljs-keyword">typename</span>，告诉编译器这是一个类型，否则编译器不能确定这是什么，因为有可能iterator是个静态变量或者某一<span class="hljs-keyword">namespace</span>下的变量。
+　　③类的继承列表和初始化列表中的类型不需要<span class="hljs-keyword">typename</span>指定类型，因为继承的一定是个类，而初始化列表一定是调用父类的构造或者初始化某个成员。</code></pre>
+<p>43.调用基类模板成员</p>
+<pre><code class="hljs stata">　　当一个类的基类包含模板参数时，需要通过this-&gt;的方式调用基类内的函数，例如 <span class="hljs-keyword">class</span> F: public S&lt;C&gt;，在F中的成员函数中调用S中的成员函数this-&gt;<span class="hljs-keyword">test</span>()，而直接写<span class="hljs-keyword">test</span>()无法通过编译，原因是因为C是个模板没有办法确定类S的具体长相，或者说无法确定S中一定有<span class="hljs-keyword">test</span>函数，即使你写的所有C都包含<span class="hljs-keyword">test</span>函数，但是在编译器看来它是不确定这个问题的，因此无法通过编译。
+　　解决办法是：1. 使用this-&gt;<span class="hljs-keyword">test</span>，这样做告诉编译器假设这个<span class="hljs-keyword">test</span>已经被继承了。2. 使用using声明式：using S&lt;C&gt;::<span class="hljs-keyword">test</span>告诉编译期这个<span class="hljs-keyword">test</span>位于S内。相当于必须手动通知编译器这个函数是存在的。</code></pre>
+<p>44.将与template参数无关的代码抽离到模板外</p>
+<pre><code class="hljs plain">　　原因是模板会根据具体类型具象化不同的代码，如果将与模板无关的代码也放入模板函数或者类中，那么就会生成重复的代码，就会导致代码膨胀的问题，函数模板中与参数无关的代码可以包装成单独的函数。类模板中与参数无关的模板可以放到父类中。</code></pre>
+<p>45.运用成员函数模板接受所有兼容类型</p>
+<pre><code class="hljs cpp">　　文中以<span class="hljs-built_in">shared_ptr</span>为例讲解了使用成员函数模板实现智能指针不同类型间的转换，以及如何避免任意类型之间的相互转换，这种函数可称为泛化拷贝构造函数。另外泛化拷贝构造不同于默认拷贝构造函数。如果没有自己没有编写赋值构造函数和拷贝构造函数，那么泛化拷贝构造函数不会阻止编译器生成默认的赋值构造和拷贝构造。</code></pre>
+<p>46.需要类型转换时请为模板定义非成员函数</p>
+<pre><code class="hljs cpp">　 　条款<span class="hljs-number">24</span>中Rational函数仅以<span class="hljs-keyword">int</span>为例，说明了隐士类型转换的合格参与者的条件，并提出了非成员函数的解决方法。现在将其扩展为<span class="hljs-keyword">template</span>形式：
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-keyword">const</span> Rational&lt;T&gt; <span class="hljs-keyword">operator</span>*(<span class="hljs-keyword">const</span> Rational&lt;T&gt;&amp; lhs, <span class="hljs-keyword">const</span> Rational&lt;T&gt;&amp; rhs) &#123;……&#125;
+
+　　发现在调用的时候无法通过编译，即以下代码无法通过编译：
+    <span class="hljs-function">Rational&lt;<span class="hljs-keyword">int</span>&gt;   <span class="hljs-title">oneHalf</span><span class="hljs-params">(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)</span></span>;
+Rational&lt;<span class="hljs-keyword">int</span>&gt;    ret = oneHalf*<span class="hljs-number">2</span>;
+　　相比于条款<span class="hljs-number">24</span>，换成模板之后为什么就无法通过编译了呢？原因在于模板的运行需要进行模板推算，即<span class="hljs-keyword">operator</span>*函数的两个参数类型的T要根据传入的参数类型进行确认，第一个参数因为是oneHalf，其本身就是Rational&lt;<span class="hljs-keyword">int</span>&gt;类型，因此第一个参数的类型中的T很容易进行推理，但是第二个传入的参数是<span class="hljs-keyword">int</span>，如何根据这个<span class="hljs-keyword">int</span>参数推导出第二个参数的类型T呢？显然编译器无法进行推理，条款<span class="hljs-number">24</span>能推理的原因是进行了隐士类型转换，或者说Rational的构造函数中有一个以<span class="hljs-keyword">int</span>为参数的构造函数，但是<span class="hljs-keyword">template</span>在进行参数推到的过程中从不将隐士类型转换函数考虑在内，这也是合理的因为你没法根据参数类型推导出模板参数，这个Ratinal的例子貌似看起来可以，因为构造函数的参数类型是<span class="hljs-keyword">const</span> T&amp; 但是假如其构造参数类型是个固定类型，比如说<span class="hljs-keyword">float</span>，那么难道模板参数能永远是<span class="hljs-keyword">float</span>么。因此编译器不考虑隐士类型转换也是有道理的。
+　　那么这个问题怎么解决呢，该如何让这个模板函数的参数能进行隐式类型转换，答案就是：先具象化这个函数，相当于先确定T，然后就可以进行隐士类型转换了，做法是在类中声明一个非成员函数，这该如何做到呢，答案就是友元函数，在类中定义的友元函数都被视为非成员函数，对于本例该像如下方式声明：
+
+<span class="hljs-keyword">friend</span> <span class="hljs-keyword">const</span> Rational <span class="hljs-keyword">operator</span>*(<span class="hljs-keyword">const</span> Rational&amp; lhs, <span class="hljs-keyword">const</span> Rational&amp; rhs) &#123;
+   <span class="hljs-keyword">return</span>  (lhs.numrator()*rhs.numrator()/lhs.denominator()*rhs.denominator()); 
+&#125;
+　　由于此函数是在模板类的内部，因此当oneHalf对象生成之后，T就被确定为<span class="hljs-keyword">int</span>，那么<span class="hljs-keyword">operator</span>*函数的参数和返回值中的T也均是确定的了。
+　　另外，由于此函数的功能过于简单，因此可直接将其实现放入类中（<span class="hljs-keyword">inline</span>的），假如类的功能很复杂，那么一般都采用调用类外的某一个功能函数，这时候代码这样实现：
+
+<span class="hljs-keyword">friend</span> <span class="hljs-keyword">const</span> Rational&lt;T&gt; <span class="hljs-keyword">operator</span>*(<span class="hljs-keyword">const</span> Rational&lt;T&gt;&amp; lhs, <span class="hljs-keyword">const</span> Rational&lt;T&gt;&amp; rhs) &#123;
+      <span class="hljs-keyword">return</span>  DoMultiply&lt;T&gt;(lhs, rhs); 
+&#125;
+　　这样写实际和上面的写法是一样的，当T被确定为<span class="hljs-keyword">int</span>时，会生成一份Rational&lt;<span class="hljs-keyword">int</span>&gt;的类，具象化出里面的函数，这样就能确定调用的是T为<span class="hljs-keyword">int</span>的<span class="hljs-keyword">operator</span>*函数，然后在另一个模板函数内实现其操作，本例来说就是DoMultiply函数。</code></pre>
+<p>47.traits编程技巧</p>
+<pre><code class="hljs cpp">　　traits是用来获取参数类型信息，因为有时候需要根据参数类型信息做不同的处理，下面这篇博客中列举了两个简单的例子，https:<span class="hljs-comment">//blog.csdn.net/my_business/article/details/7891687（其实可以使用typeid进行简单的实现，但是这种做法效率低，因为typeid需要配个if使用，if是在运行期才决定的，而traits可以在编译器就进行类型的判别，效率更高），文中以STL迭代器相关函数中的advance为例，advance函数原型为：</span>
+
+看到这里大家可能都会发现这里 <span class="hljs-keyword">if</span> (TypeTraits &lt;T&gt;::__IsPODType().Get()) 这句其实是最关键的，用这句来区别调用的是哪个方法。但是这句里面的 __IsPODType()和Get()是哪里来的呢？
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">TrueType</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">Get</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    &#125;
+&#125;;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> __<span class="hljs-title">FalseType</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">Get</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    &#125;
+&#125;;
+
+这个是TypeTraits的模板本体，默认__IsPODType为_FalseType.当它为内置类型的特化时  __IsPODType为_TureType
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> _<span class="hljs-title">Tp</span>&gt;</span>
+<span class="hljs-class"><span class="hljs-title">struct</span> <span class="hljs-title">TypeTraits</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-keyword">typedef</span> __FalseType   __IsPODType;
+&#125;;
+
+<span class="hljs-comment">//从这开始都是特化版本（类型萃取的开始）</span>
+<span class="hljs-keyword">template</span> &lt;&gt;
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TypeTraits</span>&lt; char&gt;</span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-keyword">typedef</span> __TrueType     __IsPODType;
+&#125;;
+
+<span class="hljs-keyword">template</span> &lt;&gt;
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TypeTraits</span>&lt; unsigned char &gt;</span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-keyword">typedef</span> __TrueType     __IsPODType;
+&#125;;
+为了类型萃取，我们把所有的内置类型进行特化， 当然这里我只是把内置类型特化的前两个拿了出来，当T为内置
+
+类型 时 让 _IsPODType为_TureType，所以 <span class="hljs-keyword">if</span> (TypeTraits &lt;T&gt;::__IsPODType().Get())表达为真，走的是<span class="hljs-built_in">realloc</span>的方法
+
+主要使用的是模板特化的方法。通过一个<span class="hljs-class"><span class="hljs-keyword">struct</span>将不同的类型<span class="hljs-title">typedef</span>定义成一个类型，然后使用模板特化编译的时候获取到真实的类型，然后调用实际的方法。</span></code></pre>
+<p>48.模板元编程</p>
+<pre><code class="hljs haxe">　　采用模板编程的好处是：<span class="hljs-number">1.</span> 可将工作由运行期移动到编译器完成，造成更高的执行效率（占用内存小，运行速度快）和更早的侦测错误<span class="hljs-number">2.</span> 编码更加简洁；坏处：<span class="hljs-number">1.</span> 编译时间长<span class="hljs-number">2.</span> 代码不易理解
+八.定制<span class="hljs-keyword">new</span><span class="hljs-type"></span>和delete（条款<span class="hljs-number">49</span>~<span class="hljs-number">52</span>）
+ 　　这章讲了<span class="hljs-keyword">new</span><span class="hljs-type"></span>和delete的一些高级用法：set_new<span class="hljs-type">_handler</span>、operator <span class="hljs-keyword">new</span><span class="hljs-type"></span>/delete的重载及应该遵循的规则、placement <span class="hljs-keyword">new</span><span class="hljs-type"></span>。一般情况下较少会重载<span class="hljs-keyword">new</span><span class="hljs-type"></span>，所以倒不如了解<span class="hljs-keyword">new</span><span class="hljs-type"></span>/delete的基础知识更好</code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C++</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/04/C++/explicit/">
+                        <span class="hidden-mobile">explicit</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "effective C++笔记&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

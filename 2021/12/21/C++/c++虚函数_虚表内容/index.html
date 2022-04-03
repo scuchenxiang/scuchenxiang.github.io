@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      15 字
+      1.9k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      20
        分钟
     </span>
   
@@ -204,7 +204,47 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="知乎这个答案讲的很详细可以看下"><a href="#知乎这个答案讲的很详细可以看下" class="headerlink" title="知乎这个答案讲的很详细可以看下"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/41309205">知乎这个答案讲的很详细可以看下</a></h2>
+              <h2 id="知乎这个答案讲的很详细可以看下"><a href="#知乎这个答案讲的很详细可以看下" class="headerlink" title="知乎这个答案讲的很详细可以看下"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/41309205">知乎这个答案讲的很详细可以看下</a></h2><p>总结以下就是，指针在64位系统中占8字节，在32位系统占4字节</p>
+<h2 id="单继承包含虚函数"><a href="#单继承包含虚函数" class="headerlink" title="单继承包含虚函数"></a>单继承包含虚函数</h2><pre><code class="hljs routeros">    假设B继承A，那么B虚表的构建规则:
+
+将A虚表中内容拷贝一份保存到B的虚表中
+如果B重写了A的虚函数，那么将B的虚表对应的函数指针替换为对应的函数地址
+
+如果类型B中出现了基类型A中没有的虚函数，新的虚函数将会被附加在虚函数表的最后
+
+对于多态类型，除了要在运行时确定虚函数地址外，还需要提供运行时类型信息(Run-Time<span class="hljs-built_in"> Type </span>Identification, RTTI)的支持。一个显然的解决方案是，将类型信息的地址加入到虚表之中。为了避免虚函数表长度对其位置的影响，g++将它放在虚函数表的前</code></pre>
+<h2 id="多继承内存模型"><a href="#多继承内存模型" class="headerlink" title="多继承内存模型"></a>多继承内存模型</h2><p><a target="_blank" rel="noopener" href="http://www.008ct.top/blog/2020/01/03/%E5%8D%95%E7%BB%A7%E6%89%BF%E3%80%81%E5%A4%9A%E7%BB%A7%E6%89%BF%E3%80%81%E8%8F%B1%E5%BD%A2%E7%BB%A7%E6%89%BF%E7%9A%84%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/">参考的文章</a><br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs angelscript">假设类型C同时继承了两个独立的基类A和B,假设A有<span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span>虚函数，B有<span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span>虚函数，C有<span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span>虚函数</code></pre></p>
+<p>首先在每个虚函数表的类型信息RTTI之前还有一个偏移量offset_to_top假设是<span class="hljs-number">-8</span>，表示当前这个虚函数表地址距离对象顶部地址的偏移量</p>
+<p>首先A和B的虚函数指针都会被继承，然后会选一个虚函数表作为主虚函数表，假设选A，那么C的有P_A,P_B,此时P_A会包含<span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">5</span>的函数指针，即包括A中的都会在，以及C重写的，C加的同时基类都没有的，P_B包含的是<span class="hljs-number">3</span> <span class="hljs-number">4</span>，即C类有的，但是没有被重写的，被重写的会被替换为thunk，这个会加上offset_to_top偏移到C的主的虚表中，然后找到对应的虚函数<br>&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<h2 id="菱形继承（使用-虚继承）"><a href="#菱形继承（使用-虚继承）" class="headerlink" title="菱形继承（使用 虚继承）"></a>菱形继承（使用 虚继承）</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhying719/article/details/107526987">可以参考的文章</a><br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs less">假设<span class="hljs-selector-tag">B</span>，<span class="hljs-selector-tag">C</span>都继承<span class="hljs-selector-tag">A</span>，<span class="hljs-selector-tag">D</span>继承<span class="hljs-selector-tag">B</span>，<span class="hljs-selector-tag">C</span>，使用虚继承</code></pre></p>
+<p><span class="hljs-selector-tag">B</span>，<span class="hljs-selector-tag">C</span>会有两个虚表指针，包括<span class="hljs-selector-tag">A</span>和自己的（因为使用了虚继承），这个和单继承的情况有所区别，假设看<span class="hljs-selector-tag">B</span>，<span class="hljs-selector-tag">B</span>的虚表指针在前，然后<span class="hljs-selector-tag">A</span>的虚表指针在后，在<span class="hljs-selector-tag">offset_to_top</span>的前面还会出现一个<span class="hljs-selector-tag">vbase_offset</span>，代表距离基类虚函数表的指针地址的偏移量</p>
+<p>同时还会出现<span class="hljs-selector-tag">vcall_offset</span>(X)：当<span class="hljs-selector-tag">Base</span>的引用或指针<span class="hljs-selector-tag">base</span>实际接受的是<span class="hljs-selector-tag">Derive</span>类型的对象，执行<span class="hljs-selector-tag">base-</span>&gt;<span class="hljs-selector-tag">FuncC</span>()时候，由于<span class="hljs-selector-tag">FuncC</span>()没有被重写，所以不需要对<span class="hljs-selector-tag">this</span>指针进行调整，就是<span class="hljs-selector-tag">vcall_offset</span>(<span class="hljs-number">0</span>)，之后调用<span class="hljs-selector-tag">FuncC</span>(),如果重写了就会偏移<span class="hljs-selector-tag">X</span>，然后调用。只要需要偏移函数对应的虚表才会出现<span class="hljs-selector-tag">vcall_offset</span>(X).</p>
+<p>当出现虚继承的时候，<span class="hljs-selector-tag">D</span>只会有<span class="hljs-selector-tag">3</span>份虚表指针，<span class="hljs-selector-tag">B</span>,<span class="hljs-selector-tag">C</span>的主的虚表指针，<span class="hljs-selector-tag">A</span>只会保留一份,然后也会像多继承一样选择一个主的虚表，然后有的对应的函数在<span class="hljs-selector-tag">B</span>，或者<span class="hljs-selector-tag">A</span>的虚表中，有些在主的虚表中，当虚基类<span class="hljs-selector-tag">Base</span>的引用或指针<span class="hljs-selector-tag">base</span>实际接受的是<span class="hljs-selector-tag">Derive</span>类型的对象，执行<span class="hljs-selector-tag">base-</span>&gt;<span class="hljs-selector-tag">FuncB</span>()时候，由于<span class="hljs-selector-tag">FuncB</span>()已经被重写，而此时的<span class="hljs-selector-tag">this</span>指针指向的是<span class="hljs-selector-tag">Base</span>类型的对象，需要对<span class="hljs-selector-tag">this</span>指针进行调整，就是<span class="hljs-selector-tag">vcall_offset</span>(-<span class="hljs-number">32</span>)，所以<span class="hljs-selector-tag">this</span>指针向上调整了<span class="hljs-selector-tag">32</span>字节，之后调用<span class="hljs-selector-tag">FuncB</span>()，就调用到了被重写后的<span class="hljs-selector-tag">FuncB</span>()函数。</p>
+<p>&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<h2 id="为什么需要虚继承"><a href="#为什么需要虚继承" class="headerlink" title="为什么需要虚继承"></a>为什么需要虚继承</h2><pre><code class="hljs dns">为了防止二义性，非虚继承时，显然D会继承两次<span class="hljs-keyword">A</span>，内部就会存储两份<span class="hljs-keyword">A</span>的数据浪费空间，而且还有二义性，D调用<span class="hljs-keyword">A</span>的方法时，由于有两个<span class="hljs-keyword">A</span>，究竟时调用哪个<span class="hljs-keyword">A</span>的方法呢，编译器也不知道，就会报错，所以有了虚继承，解决了空间浪费以及二义性问题。在虚拟继承下，只有一个共享的基类子对象被继承，而无论该基类在派生层次中出现多少次。共享的基类子对象被称为虚基类。在虚继承下，基类子对象的复制及由此而引起的二义性都被消除了。</code></pre>
+<h2 id="为什么虚函数表中有两个析构函数"><a href="#为什么虚函数表中有两个析构函数" class="headerlink" title="为什么虚函数表中有两个析构函数"></a>为什么虚函数表中有两个析构函数</h2><pre><code class="hljs vim">我们可以看到虚函数表中有两个析构函数，一个标志为deleting，一个标志为<span class="hljs-built_in">complete</span>（不执行<span class="hljs-keyword">delete</span>），因为对象有两种构造方式，栈构造和堆构造，所以对应的实现上，对象也有两种析构方式，其中堆上对象的析构和栈上对象的析构不同之处在于，栈内存的析构不需要执行 <span class="hljs-keyword">delete</span> 函数，会自动被回收。
+为什么构造函数不能是虚函数？
+构造函数就是为了在编译阶段确定对象的类型以及为对象分配空间，如果类中有虚函数，那就会在构造函数中初始化虚函数表，虚函数的执行却需要依赖虚函数表。如果构造函数是虚函数，那它就需要依赖虚函数表才可执行，而只有在构造函数中才会初始化虚函数表，鸡生蛋蛋生鸡的问题，很矛盾，所以构造函数不能是虚函数。</code></pre>
+<h2 id="为什么基类析构函数要是虚函数？"><a href="#为什么基类析构函数要是虚函数？" class="headerlink" title="为什么基类析构函数要是虚函数？"></a>为什么基类析构函数要是虚函数？</h2><pre><code class="hljs plain">一般基类的析构函数都要设置成虚函数，因为如果不设置成虚函数，在析构的过程中只会调用到基类的析构函数而不会调用到子类的析构函数，可能会产生内存泄漏。</code></pre>
+<h2 id="构造函数和析构函数中为什么不可以调用虚函数-不会出现多态-？"><a href="#构造函数和析构函数中为什么不可以调用虚函数-不会出现多态-？" class="headerlink" title="构造函数和析构函数中为什么不可以调用虚函数(不会出现多态)？"></a>构造函数和析构函数中为什么不可以调用虚函数(不会出现多态)？</h2><pre><code class="hljs plain">
+背景知识：
+
+构造子类对象时，首先调用父类构造函数初始化对象的父类部分，在执行父类的构造函数时，对象的子类部分都是未初始化的，实际上此时对象还不是一个子类对象
+
+析构子类对象时，先析构子类部分，然后按照构造顺序逆序析构父类部分
+
+所以在运行子类的构造和析构函数时，对象都是不完整的，为了适应这种不完整，编译器视对象类型为当前构造或析构函数所在类的类型，由此造成的结果就是：在父类的构造或析构函数中，会将子类对象当作父类对象看待
+
+在这样的背景下，如果我们在父类的构造或析构函数中调用虚函数，调用的往往是当前类的虚函数，达不到多态的效果，跟普通函数调用没有区别</code></pre>
+<h2 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h2><pre><code class="hljs cpp">offset_to_top：对象在对象布局中与对象顶部地址的偏移量。
+
+RTTI指针：指向存储运行时类型信息(type_info)的地址，用于运行时类型识别，用于<span class="hljs-keyword">typeid</span>和<span class="hljs-keyword">dynamic_cast</span>。
+
+vbase_offset：对象在对象布局中与指向虚基类虚函数表的指针地址的偏移量。
+
+vcall_offset：父类引用或指针指向子类对象，调用被子类重写的方法时，用于对虚函数执行指针地址调整，方便成功调用被重写的方法。
+
+thunk: 表示上面虚函数表中带有adjustment字段的函数调用需要先进行<span class="hljs-keyword">this</span>指针调整，才可以调用到被子类重写的函数。</code></pre>
             </article>
             <hr>
             <div>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>Linux下 c/c++线程锁种类有哪些？如何理解互斥锁、条件变量、读写锁以及自旋锁,原子操作，无锁编程 以及异步编程？ - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-04-01 21:35">
+      2022年4月1日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      52
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <pre><code>   互斥锁是阻塞锁，当某线程无法获取互斥量时，该线程会被直接挂起，该线程不再消耗CPU时间，当其他线程释放互斥量后，操作系统会激活那个被挂起的线程，让其投入运行。
+</code></pre><p>临界区：每个进程中访问临界资源的那段程序称为临界区，每次只允许一个进程进入临界区，进入后不允许其他进程进入。</p>
+<p>信号量：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</p>
+<p>现象：</p>
+<p>（1）单线程无锁速度最快，但应用场合受限；</p>
+<p>（2）多线程无锁速度第二快，但结果不对，未保护临界代码段；</p>
+<p>（3）多线程原子锁第三快，且结果正确；</p>
+<p>（4）多线程互斥量较慢，慢与原子锁近10倍，结果正确；</p>
+<p>（5）多线程自旋锁最慢，慢与原子锁30倍，结果正确。</p>
+<p>结论：原子锁速度最快，互斥量和自旋锁都用保护多线程共享资源。</p>
+<p>线程之间的锁有：互斥锁、条件锁、自旋锁、读写锁、递归锁(可重入锁)。一般而言，锁的功能越强大，性能就会越低。</p>
+<h1 id="mutex-互斥锁"><a href="#mutex-互斥锁" class="headerlink" title="mutex(互斥锁)"></a>mutex(互斥锁)</h1><pre><code class="hljs sql">mutex（mutual exclusive）即互斥量（互斥体）。也便是常说的互斥锁。
+
+尽管名称不含<span class="hljs-keyword">lock</span>，但是称之为锁，也是没有太大问题的。<span class="hljs-keyword">mutex</span>无疑是最常见的多线程同步方式。其思想简单粗暴，多线程共享一个互斥量，然后线程之间去竞争。得到锁的线程可以进入临界区执行代码。
+
+<span class="hljs-keyword">mutex</span>是睡眠等待（<span class="hljs-keyword">sleep</span> waiting）类型的锁，当线程抢互斥锁失败的时候，线程会陷入休眠。优点就是节省CPU资源，缺点就是休眠唤醒会消耗一点时间。另外自从Linux <span class="hljs-number">2.6</span>版以后，<span class="hljs-keyword">mutex</span>完全用futex的API实现了，内部系统调用的开销大大减小。
+
+值得一提的是，pthread的锁一般都有一个trylock的函数，比如对于互斥量：
+
+pthread_mutex_trylock用于以非阻塞的模式来请求互斥量。就好比各种IO函数都有一个noblock的模式一样，对于加锁这件事也有类似的非阻塞模式。
+
+当线程尝试加锁时，如果锁已经被其他线程锁定，该线程就会阻塞住，直到能成功acquire。但有时候我们不希望这样。
+
+pthread_mutex_trylock在被其他线程锁定时，会返回特殊错误码。加锁成返回<span class="hljs-number">0</span>，仅当成功但时候，我们才能解锁在后面进行解锁操作！
+
+C++<span class="hljs-number">11</span>开始引入了多线程库&lt;<span class="hljs-keyword">thread</span>&gt;，其中也包含了互斥锁的API：<span class="hljs-keyword">std</span>::muxtex 。
+
+</code></pre>
+<p>互斥锁可以分为可重入的以及不可重入的<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs sql"><span class="hljs-comment"># 可重入锁</span><br>此外，依据同一线程是否能多次加锁，把互斥锁又分为如下两类：</code></pre></p>
+<p>是：称为『递归互斥量』recursive mutex ，也称『可重入锁』reentrant <span class="hljs-keyword">lock</span><br>否：即『非递归互斥量』non-<span class="hljs-keyword">recursive</span> mute），也称『不可重入锁』non-reentrant <span class="hljs-keyword">mutex</span></p>
+<p>若同一线程对非递归的互斥量多次加锁，可能会造成死锁。递归互斥量则无此风险。C++<span class="hljs-number">11</span>中有递归互斥量的API：<span class="hljs-keyword">std</span>::recursive_mutex。对于pthread则可以通过给<span class="hljs-keyword">mutex</span>添加PTHREAD_MUTEX_RECURSIVE 属性的方式来使用递归互斥量</p>
+<p>使用场景：<br>    一个线程在执行一个带锁的方法，该方法中又调用了另一个需要相同锁的方法，则该线程可以直接执行调用的方法【即可重入】，而无需重新获得锁</p>
+<pre><code>比如，&lt;span class=&quot;hljs-keyword&quot;&gt;add&lt;/span&gt;操作将会获取锁，若一个事务当中多次&lt;span class=&quot;hljs-keyword&quot;&gt;add&lt;/span&gt;，就应该允许该线程多次进入该临界区。
+</code></pre><p>可重入锁存在的问题<br>递归锁必须配合临界区的语义使用，解锁操作不仅不能在别的线程，而且绝对不能在reschedule放弃线程并在重新获得线程之后解锁。举例说明：</p>
+<p>假设有一个单服务线程，<span class="hljs-keyword">lock</span>之后让出线程等待回调，线程此时服务于其它service，其它service也<span class="hljs-keyword">lock</span>同一个<span class="hljs-keyword">mutex</span>，此时本应互斥的操作就成了重入操作，在递归锁下不能互斥！换句话说，不同的服务，通过同一个线程实例获取到了同一个监视器资源。</p>
+<p>这是非常刁钻的bug，实际可能会出现在线程池使用中，需要格外注意。</p>
+<p>总结<br>可重入锁的优点：支持线程进入多个同步代码块，不容易造成死锁。<br>可重入锁的缺点：在非常刁钻的情况下，会出现监视器资源互斥失效的情况。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<h1 id="condition-variable-条件变量"><a href="#condition-variable-条件变量" class="headerlink" title="condition variable(条件变量)"></a>condition variable(条件变量)</h1><pre><code class="hljs cpp">请注意条件变量不是锁，它是一种线程间的通讯机制，并且几乎总是和互斥量一起使用的。所以互斥量和条件变量二者一般是成套出现的。比如C++<span class="hljs-number">11</span>中也有条件变量的API：<span class="hljs-built_in">std</span>::condition_variable。
+
+可以使用<span class="hljs-built_in">std</span>::condition_variable cv</code></pre>
+<h1 id="read-write-lock-读写锁"><a href="#read-write-lock-读写锁" class="headerlink" title="read-write lock(读写锁)"></a>read-write lock(读写锁)</h1><pre><code class="hljs awk">顾名思义『读写锁』就是对于临界区区分读和写。在读多写少的场景下，不加区分的使用互斥量显然是有点浪费的。此时便该上演读写锁的拿手好戏。但是在单读多写的情况，更为复杂的锁竞争，不在此章介绍，后面我会用单读的一章来介绍。
+
+读写锁有一个别称叫『共享-独占锁』。不过单看『共享-独占锁』或者『读写锁』这两个名称，其实并未区分对于读和写，到底谁共享，谁独占。可能会让人误以为读写锁是一种更为泛化的称呼，其实不是。读写锁的含义是准确的：是一种 读共享，写独占的锁。
+
+读写锁的特性：
+
+当读写锁被加了写锁时，其他线程对该锁加读锁或者写锁都会阻塞（不是失败）。
+当读写锁被加了读锁时，其他线程对该锁加写锁会阻塞，加读锁会成功。
+因而适用于多读少写的场景。
+
+在C++<span class="hljs-number">17</span>中出现了一种读写锁：std::shared_mutex。用它可以模拟实现出读写锁。demo代码可以直接参考cppreference：
+
+https:<span class="hljs-regexp">//</span>en.cppreference.com<span class="hljs-regexp">/w/</span>cpp<span class="hljs-regexp">/thread/</span>shared_mutex
+</code></pre>
+<h1 id="spinlock-自旋锁"><a href="#spinlock-自旋锁" class="headerlink" title="spinlock(自旋锁)"></a>spinlock(自旋锁)</h1><pre><code class="hljs mipsasm">       自旋锁是一种非阻塞锁，也就是说，如果某线程需要获取自旋锁，但该锁已经被其他线程占用时，该线程不会被挂起，而是在不断的消耗CPU的时间，不停的试图获取自旋锁。
+
+要了解自旋锁，首先了解自旋。什么是自旋（spin）呢？更为通俗的一个词是『忙等待』（<span class="hljs-keyword">busy </span><span class="hljs-keyword">waiting）。最最通俗的一个理解，其实就是死循环……。</span>
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">单看使用方法和使用互斥量的代码是差不多的。只不过自旋锁不会引起线程休眠。当共享资源的状态不满足的时候，自旋锁会不停地循环检测状态。因为不会陷入休眠，而是忙等待的方式也就不需要条件变量。</span>
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">这是优点也是缺点。不休眠就不会引起上下文切换，但是会比较浪费CPU。</span>
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">在多处理器环境中对持有锁时间较短的程序来说使用自旋锁代替一般的互斥锁往往能提高程序的性能</span></code></pre>
+<p>pthread 自旋锁的使用<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs reasonml"><span class="hljs-comment">// 声明一个自旋锁变量</span><br>pthread_spinlock_t spinlock;</code></pre></p>
+<p><span class="hljs-comment">// 初始化</span><br>pthread<span class="hljs-constructor">_spin_init(&amp;<span class="hljs-params">spinlock</span>, 0)&lt;/span&gt;;</span></p>
+<p><span class="hljs-comment">// 加锁</span><br>pthread<span class="hljs-constructor">_spin_lock(&amp;<span class="hljs-params">spinlock</span>)&lt;/span&gt;;</span></p>
+<p><span class="hljs-comment">// 解锁</span><br>pthread<span class="hljs-constructor">_spin_unlock(&amp;<span class="hljs-params">spinlock</span>)&lt;/span&gt;;</span></p>
+<p><span class="hljs-comment">// 销毁</span><br>pthread<span class="hljs-constructor">_spin_destroy(&amp;<span class="hljs-params">spinlock</span>)&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</span></p>
+<h1 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h1><p><a target="_blank" rel="noopener" href="https://www.hiyu.space/2021/02/20/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E4%BA%94%EF%BC%89-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/">原子操作与无锁编程</a></p>
+<pre><code class="hljs dns">果数据结构本身就带有排他性访问的特性，也就相当于该数据结构自带一个细粒度的锁，对该数据结构的并发访问就能更加简单高效，这就是C++<span class="hljs-number">11</span>提供的原子数据类型&lt; atomic &gt;。下面解释两个概念：
+
+原子操作：顾名思义就是不可分割的操作，该操作只存在未开始和已完成两种状态，不存在中间状态；
+原子类型：原子库中定义的数据类型，对这些类型的所有操作都是原子的，包括通过原子类模板st<span class="hljs-number">d::</span>atomic&lt; T &gt;实例化的数据类型，也都是支持原子操作的。
+
+比如st<span class="hljs-number">d::</span>atomic&lt;int&gt; a<span class="hljs-comment">;</span>
+
+对原子类型的访问，最主要的就是读和写，但原子库提供的对应原子操作是load()与store(val)
+
+原子操作中的内存访问模型
+原子操作保证了对数据的访问只有未开始和已完成两种状态，不会访问到中间状态，但我们访问数据一般是需要特定顺序的，比如想读取写入后的最新数据，原子操作函数是支持控制读写顺序的，即带有一个数据同步内存模型参数st<span class="hljs-number">d::</span>memory_order，用于对同一时间的读写操作进行排序。C++<span class="hljs-number">11</span>定义的<span class="hljs-number">6</span>种类型如下：
+
+memory_order_relaxed: 宽松操作，没有同步或顺序制约，仅对此操作要求原子性；
+
+memory_order_release &amp; memory_order_acquire: 两个线程<span class="hljs-keyword">A</span>&amp;B，<span class="hljs-keyword">A</span>线程Release后，B线程Acquire能保证一定读到的是最新被修改过的值；这种模型更强大的地方在于它能保证发生在<span class="hljs-keyword">A</span>-Release前的所有写操作，在B-Acquire后都能读到最新值；
+
+memory_order_release &amp; memory_order_consume: 上一个模型的同步是针对所有对象的，这种模型只针对依赖于该操作涉及的对象：比如这个操作发生在变量a上，而s = a + b<span class="hljs-comment">; 那s依赖于a，但b不依赖于a; 当然这里也有循环依赖的问题，例如：t = s + 1，因为s依赖于a，那t其实也是依赖于a的；</span>
+
+memory_order_seq_cst: 顺序一致性模型，这是C++<span class="hljs-number">11</span>原子操作的默认模型；大概行为为对每一个变量都进行Release-Acquire操作，当然这也是一个最慢的同步模型；</code></pre>
+<h1 id="使用原子操作实现无锁编程"><a href="#使用原子操作实现无锁编程" class="headerlink" title="使用原子操作实现无锁编程"></a>使用原子操作实现无锁编程</h1><p><a target="_blank" rel="noopener" href="https://www.hiyu.space/2021/02/20/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E4%BA%94%EF%BC%89-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/">原子操作与无锁编程</a></p>
+<p>详细示例可以参考链接<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs dns"><br>无锁编程是基于原子操作的，对基本原子类型的共享访问由load()与store(val)即可保证其并发同步，对抽象复杂类型的共享访问则需要更复杂的CAS来保证其并发同步，并发访问过程只是不使用锁机制了，但还是可以理解为有锁止行为的，其粒度很小，性能更高。对于某个无法实现为一个原子操作的并发访问过程还是需要借助锁机制来实现。</code></pre></p>
+<p>CAS原子操作实现无锁编程<br>CAS原子操作主要是通过函数a.compare_exchange(expected,desired)实现的，其语义为“我认为V的值应该为<span class="hljs-keyword">A</span>，如果是，那么将V的值更新为B，否则不修改并告诉V的值实际为多少”</p>
+<p>CAS 看起来很厉害，但也有缺点，最著名的就是 ABA 问题，假设一个变量 <span class="hljs-keyword">A</span> ，修改为 B之后又修改为 <span class="hljs-keyword">A</span>，CAS 的机制是无法察觉的，但实际上已经被修改过了。如果在基本类型上是没有问题的，但是如果是引用类型呢？这个对象中有多个变量，我怎么知道有没有被改过？聪明的你一定想到了，加个版本号啊。每次修改就检查版本号，如果版本号变了，说明改过，就算你还是 <span class="hljs-keyword">A</span>，也不行。</p>
+<p>上面的例子节点指针也属于引用类型，自然也存在ABA问题，比如在线程<span class="hljs-number">2</span>执行pop操作，将<span class="hljs-keyword">A</span>,B都删掉，然后创建一个新元素push进去，因为操作系统的内存分配机制会重复使用之前释放的内存，恰好push进去的内存地址和<span class="hljs-keyword">A</span>一样，我们记为<span class="hljs-keyword">A</span>’，这时候切换到线程<span class="hljs-number">1</span>，CAS操作检查到<span class="hljs-keyword">A</span>没变化成功将B设为栈顶，但B是一个已经被释放的内存块。该问题的解决方案就是上面说的通过打标签标识<span class="hljs-keyword">A</span>和<span class="hljs-keyword">A</span>’为不同的指针。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<h1 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h1><p><a target="_blank" rel="noopener" href="https://www.hiyu.space/2021/02/19/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">多线程（四）-异步编程</a><br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs angelscript">同步：就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到返回值了。换句话说，就是由调用者主动等待这个调用的结果。</code></pre></p>
+<p>异步：调用在发出之后，这个调用就直接返回了，所以没有返回结果。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在调用发出后，被调用者通过状态、通知来通知调用者，或通过回调函数处理这个调用。</p>
+<p>方法<span class="hljs-number">1</span>：<br>使用全局变量与条件变量传递结果，即mutex 和条件变量</p>
+<p>条件变量具有“通知–唤醒”功能，可以把执行结果或执行状态放入一个全局变量中，当被调用者执行完任务后，通过条件变量通知调用者结果或状态已更新，可以使用了。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<pre><code class="hljs arduino">方法<span class="hljs-number">2</span>：
+
+使用promise与<span class="hljs-built_in">future</span>传递结果
+线程间传递的返回值或抛出的异常都是在共享状态中交流的。我们知道多线程间并发访问共享数据是需要保持同步的，这里的共享状态是保证返回值或异常在线程间正确传递的关键，被调用线程可以通过改变共享状态通知调用线程返回值或异常已写入完毕，可以访问或操作了。<span class="hljs-built_in">future</span>的状态（future_status）有以下三种：
+
+deferred：异步操作还没开始；
+<span class="hljs-built_in">ready</span>：异步操作已经完成；
+timeout：异步操作超时。
+
+既然线程间传递返回值或异常是通过共享状态进行的，就涉及到共享状态的提供方与获取方，只有该任务或线程拥有包含共享状态的对象，其他任务或线程才能够通过共享状态的通知机制同步获取到该任务或线程的返回值或异常。我们通常使用的&lt; thread &gt;创建线程并不拥有共享状态，我们需要为该线程提供一个共享状态，以便后续对其返回值或异常的访问。那么，怎么为一个线程提供一个包含共享状态的对象呢？这就需要借助<span class="hljs-built_in">std</span>::promise&lt; T &gt;类模板实现了，
+
+<span class="hljs-built_in">std</span>::promise&lt; T &gt;构造时，产生一个未就绪的共享状态（包含存储的T值和是否就绪的状态）。可设置T值，并让状态变为<span class="hljs-built_in">ready</span>。也可以通过产生一个<span class="hljs-built_in">future</span>对象获取到已就绪的共享状态中的T值。继续使用上面的程序示例，改为使用promise传递结果，
+
+值得注意的是，<span class="hljs-built_in">std</span>::<span class="hljs-built_in">future</span>&lt; T &gt;在多个线程等待时，只有一个线程能获取等待结果。当需要多个线程等待相同的事件的结果(即多处访问同一个共享状态)，需要用<span class="hljs-built_in">std</span>::shared_future&lt; T &gt;来替代<span class="hljs-built_in">std</span>::<span class="hljs-built_in">future</span> &lt; T &gt;，<span class="hljs-built_in">std</span>::<span class="hljs-built_in">future</span>&lt; T &gt;也提供了一个将<span class="hljs-built_in">future</span>转换为shared_future的方法f.share()，但转换后原<span class="hljs-built_in">future</span>状态失效。这有点类似于智能指针<span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt; T &gt;与<span class="hljs-built_in">std</span>::<span class="hljs-built_in">shared_ptr</span>&lt; T &gt;的关系，使用时需要留心。</code></pre>
+<pre><code class="hljs cpp">使用packaged_task与<span class="hljs-built_in">future</span>传递结果
+除了为一个任务或线程提供一个包含共享状态的变量，还可以直接把共享状态包装进一个任务或线程中。这就需要借助<span class="hljs-built_in">std</span>::packaged_task&lt; Func &gt;来实现了，
+
+<span class="hljs-built_in">std</span>::packaged_task&lt; Func &gt;构造时绑定一个函数对象，也产生一个未就绪的共享状态。通过thread启动或者仿函数形式启动该函数对象。但是相比promise，没有提供set_value()公用接口，而是当执行完绑定的函数对象，其执行结果返回值或所抛异常被存储于能通过 <span class="hljs-built_in">std</span>::<span class="hljs-built_in">future</span> 对象访问的共享状态中。继续使用上面的程序示例，改为使用packaged_task传递结果，
+</code></pre>
+<pre><code class="hljs rust">使用<span class="hljs-keyword">async</span>传递结果
+前面介绍的std::promise&lt; T &gt;与std::packaged_task&lt; Func &gt;已经提供了较丰富的异步编程工具，但在使用时既需要创建提供共享状态的对象(promise与packaged_task)，又需要创建访问共享状态的对象(future与shared_future)，还是觉得使用起来不够方便。有没有更简单的异步编程工具呢？future头文件也确实封装了更高级别的函数std::<span class="hljs-keyword">async</span>，其具体用法如下：
+
+std::future std::<span class="hljs-keyword">async</span>(std::launch policy, Func, Args…)
+
+std::<span class="hljs-keyword">async</span>是一个函数而非类模板，其函数执行完后的返回值绑定给使用std::<span class="hljs-keyword">async</span>的std::futrue对象（std::<span class="hljs-keyword">async</span>其实是封装了thread,packged_task的功能，使异步执行一个任务更为方便）。Func是要调用的可调用对象(function, member function, function object, lambda)，Args是传递给Func的参数，std::launch policy是启动策略，它控制std::<span class="hljs-keyword">async</span>的异步行为，我们可以用三种不同的启动策略来创建std::<span class="hljs-keyword">async</span>：
+
+std::launch::<span class="hljs-keyword">async</span>参数 保证异步行为，即传递函数将在单独的线程中执行；
+std::launch::deferred参数 当其他线程调用get()/wait()来访问共享状态时，将调用非异步行为；
+std::launch::<span class="hljs-keyword">async</span> | std::launch::deferred参数 是默认行为(可省略)。有了这个启动策略，它可以异步运行或不运行，这取决于系统的负载。
+继续使用上面的程序示例，改为使用std::<span class="hljs-keyword">async</span>传递结果
+
+从上面的代码可以看出使用std::<span class="hljs-keyword">async</span>能在很大程度上简少编程工作量，使我们不用关注线程创建内部细节，就能方便的获取异步执行状态和结果，还可以指定线程创建策略。所以，我们可以使用std::<span class="hljs-keyword">async</span>替代线程的创建，让它成为我们做异步操作的首选。</code></pre>
+<p><a target="_blank" rel="noopener" href="http://www.kolhuang.top/posts/java-reentrantlock-pros-and-cons/">可重入锁参考</a></p>
+<p><a target="_blank" rel="noopener" href="https://lusaceg.com/index.php/2021/10/28/pthread_mutex/">Linux下 c/c++线程锁种类有哪些？如何理解互斥锁、条件变量、读写锁以及自旋锁？</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhangbaochong/p/5879263.html">条件变量和信号量的区别</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.shuzhiduo.com/A/n2d9WBDvJD/">条件变量和信号量的区别</a></p>
+<p><a target="_blank" rel="noopener" href="http://shouce.jb51.net/cpp_concurrency_in_action/content/chapter7/7.2-chinese.html">并发编程参考书籍</a></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/C/C-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">C++并发编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/c/">c++</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%BA%92%E6%96%A5%E9%94%81/">互斥锁</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/">条件变量</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%BB%E5%86%99%E9%94%81/">读写锁</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%87%AA%E6%97%8B%E9%94%81/">自旋锁</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/">原子操作</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/">无锁编程</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">二叉树的后序遍历，先序遍历和层次遍历，中序遍历</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/01/C++/C++%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97/">
+                        <span class="hidden-mobile">C++类的内存大小计算</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Linux下 c/c++线程锁种类有哪些？如何理解互斥锁、条件变量、读写锁以及自旋锁,原子操作，无锁编程 以及异步编程？&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

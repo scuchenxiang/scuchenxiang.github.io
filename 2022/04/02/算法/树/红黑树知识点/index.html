@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>红黑树知识点 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-04-02 20:38">
+      2022年4月2日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>一般来说红黑树有以下的知识点</p>
+<ol>
+<li><p>根是黑色</p>
+</li>
+<li><p>叶节点是黑色的（即为空的黑色的哨兵节点）</p>
+</li>
+<li><p>从跟到叶子经过相同数目的黑色节点</p>
+</li>
+<li><p>红色节点的子节点一定是两个黑色的</p>
+</li>
+<li><p>节点为红色或者黑色</p>
+</li>
+</ol>
+<p>可以参考这个链接来使用<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e136ec79235c">30张图带你彻底理解红黑树</a></p>
+<p>红黑树主要是通过左旋右旋和节点变色来实现的。这个左旋右旋和b树b+树的都是一样的。</p>
+<h2 id="红黑树查找"><a href="#红黑树查找" class="headerlink" title="红黑树查找"></a>红黑树查找</h2><p>与二叉搜索树差不多的，但是由于红黑树总是黑色平衡的，<br>所以最坏是O(2lgN)，也即整颗树刚好红黑相隔的时候。能有这么好的查找效率得益于红黑树自平衡的特性</p>
+<h2 id="红黑树插入"><a href="#红黑树插入" class="headerlink" title="红黑树插入"></a>红黑树插入</h2><p>首先必须先找到插入位置，把插入结点放到正确的位置就可以啦，但插入结点是应该是什么颜色呢？答案是红色。理由很简单，红色在父结点（如果存在）为黑色结点时，<br>红黑树的黑色平衡没被破坏，不需要做自平衡操作。但如果插入结点是黑色，那么插入位置所<br>在的子树黑色结点总是多1，必须做自平衡。</p>
+<p>一般来说加入红节点会破坏1或者4。</p>
+<h3 id="1-如果此时树为空树，那么必须把插入的节点改成黑色。"><a href="#1-如果此时树为空树，那么必须把插入的节点改成黑色。" class="headerlink" title="1. 如果此时树为空树，那么必须把插入的节点改成黑色。"></a>1. 如果此时树为空树，那么必须把插入的节点改成黑色。</h3><h3 id="2-如果插入的节点父节点为黑节点，那么可以直接插入。"><a href="#2-如果插入的节点父节点为黑节点，那么可以直接插入。" class="headerlink" title="2. 如果插入的节点父节点为黑节点，那么可以直接插入。"></a>2. 如果插入的节点父节点为黑节点，那么可以直接插入。</h3><h3 id="3-如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论"><a href="#3-如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论" class="headerlink" title="3. 如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论"></a>3. 如果插入的节点的父节点为红色节点，破坏了4，同时此时的爷爷节点一定为黑色，需要分三种情况讨论</h3><h4 id="3-1-叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。"><a href="#3-1-叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。" class="headerlink" title="3.1 叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。"></a>3.1 叔叔节点为红色，直接爷爷父亲叔叔变为红黑黑，如果爷爷层级颜色被破坏就还需要继续修改，没有就ok了。</h4><h4 id="3-2-叔叔节点为黑色或者不存在，且父亲是爷爷的左节点"><a href="#3-2-叔叔节点为黑色或者不存在，且父亲是爷爷的左节点" class="headerlink" title="3.2 叔叔节点为黑色或者不存在，且父亲是爷爷的左节点"></a>3.2 叔叔节点为黑色或者不存在，且父亲是爷爷的左节点</h4><h5 id="3-2-1-自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。"><a href="#3-2-1-自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。" class="headerlink" title="3.2.1 自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。"></a>3.2.1 自己插入的是父亲节点的左节点，将父亲改为黑色，爷爷改为红色，右旋。</h5><h5 id="3-2-2-自己插入的是父亲节点的右节点，对父亲节点左旋变成3-2-1"><a href="#3-2-2-自己插入的是父亲节点的右节点，对父亲节点左旋变成3-2-1" class="headerlink" title="3.2.2 自己插入的是父亲节点的右节点，对父亲节点左旋变成3.2.1"></a>3.2.2 自己插入的是父亲节点的右节点，对父亲节点左旋变成3.2.1</h5><h4 id="3-3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在"><a href="#3-3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在" class="headerlink" title="3.3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在"></a>3.3叔叔节点为黑色或者不存在（此时应该是不存在的，因为插入的地方是叶子节点的地方，如果叔叔节点存在</h4><p>且为黑色，那么自己的路径和叔叔路径的黑色数目就不一样了），且父亲是爷爷的右节点（是3.2的另外一个方向的版本）</p>
+<h5 id="3-3-1-自己插入的是父亲节点的左节点，右旋，变成3-3-2。"><a href="#3-3-1-自己插入的是父亲节点的左节点，右旋，变成3-3-2。" class="headerlink" title="3.3.1 自己插入的是父亲节点的左节点，右旋，变成3.3.2。"></a>3.3.1 自己插入的是父亲节点的左节点，右旋，变成3.3.2。</h5><h5 id="3-3-2-自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。"><a href="#3-3-2-自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。" class="headerlink" title="3.3.2 自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。"></a>3.3.2 自己插入的是父亲节点的右节点，对父亲节点左旋，然后将父亲改为黑色，爷爷改为红色。</h5><h3 id="插入节点的key已经存在，那么此时更新节点的value。"><a href="#插入节点的key已经存在，那么此时更新节点的value。" class="headerlink" title="插入节点的key已经存在，那么此时更新节点的value。"></a>插入节点的key已经存在，那么此时更新节点的value。</h3><h2 id="红黑树删除"><a href="#红黑树删除" class="headerlink" title="红黑树删除"></a>红黑树删除</h2><p>删除的情况主要有几个点</p>
+<p>1.删除的节点没有子节点，直接删除。</p>
+<ol>
+<li><p>删除的节点有一个子节点，用子节点代替删除的节点（可以认为是删除了子节点）</p>
+</li>
+<li><p>删除的节点有两个子节点，用后继节点代替删除的节点。（也可以用前驱节点代替，这里以后继节点为例）。<br>把二叉树所有结点投射在X轴上，所有结点都是从左到右排好序的，所有目标结点的前后结点就是对应前继和后继结点。（即中序遍历的后面一个节点）<br>这里可以认为是删除了后继节点，转成情况2或者通过情况2（不存在左节点）转情况1</p>
+</li>
+</ol>
+<p>我们目的都是可以把情况2，3认为是情况1</p>
+<p>综上所述，删除操作删除的结点可以看作删除替代结点，而替代结点最后总是在树末。</p>
+<ol>
+<li>替换节点是红色节点</li>
+</ol>
+<p>我们把替换结点换到了删除结点的位置时，<br>由于替换结点时红色，删除也了不会影响红黑树的平衡，只要把替换结点的颜色设为删除的结点的颜色即可重新平衡。</p>
+<p>2.替换节点是黑色节点</p>
+<p>2.1.1 替换结点是其父结点的左子结点，替换结点的兄弟结点是红结点，兄弟节点的父节点和子节点都是黑色。</p>
+<p>此时把替换节点，父节点，兄弟节点变成黑红黑，然后左旋。</p>
+<p>2.1.2 替换结点是其父结点的左子结点，替换结点的兄弟结点是红结点，</p>
+<p>2.1.2.1替换结点的兄弟结点的右子结点是红结点，左子结点任意颜色</p>
+<p>此时由于会删除黑色节点导致不平衡，所以兄弟节点改成父节点的颜色，将父节点改为黑色，<br>兄弟节点的右节点改为黑色。然后左旋。</p>
+<p>2.1.2.2 替换结点的兄弟结点的右子结点为黑结点，左子结点为红结点</p>
+<p>删除黑色的替换节点会不平衡，所以将S设置为红色，对兄弟节点右旋，然后得到2.1.2.1的情况。</p>
+<p>2.1.2.3 替换结点的兄弟结点的右子结点为黑结点，左子结点为黑结点</p>
+<p>将兄弟节点设置为红色。将父节点作为新的替换节点。然后重新进行删除节点处理。</p>
+<p>2.2：替换结点是其父结点的左子结点</p>
+<p>这个情况和2.1相同，只是方向相反。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C++</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/">红黑树</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E5%92%8C%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">1705. 吃苹果的最大数目（可以用红黑树即map或者优先队列priority_queue实现）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">
+                        <span class="hidden-mobile">哈夫曼树压缩和解压缩</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "红黑树知识点&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

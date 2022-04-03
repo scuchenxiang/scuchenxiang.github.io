@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.6k 字
+      6.7k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      70
+      71
        分钟
     </span>
   
@@ -212,7 +212,9 @@
 <p>1 是如何选举出leader</p>
 <p>2 如何复制日志</p>
 <p>3 怎么保证安全</p>
-<p>raft必须保证大部分机器可用。<br>以下是一些raft的基础的内容，三种角色，leader，candidate，follower。</p>
+<p>这里可能出现的情况，当发起选举过程中，有别的机器发起选举，同时比我的任期更新<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs sqf">首先是选举，raft必须保证大部分机器可用。</code></pre></p>
+<p>以下是一些raft的基础的内容，三种角色，<span class="hljs-built_in">leader</span>，candidate，follower。</p>
+<p>对于每个机器，一开始是follower，然后每隔一段时间如果没有收到<span class="hljs-built_in">Leader</span>的心跳，那么任期+<span class="hljs-number">1</span>，变为candidate，投票给自己，然后启动新的协程发起选举，向其他的机器发送RPC，请求它们投票。如果收到的投票ack超过一半那么就升级为<span class="hljs-built_in">Leader</span>。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
 <p>只有leader可以处理客户端的请求，如果其他角色接收到了请求，会重定向到leader。</p>
 <p>任期，每个任期从选举开始，只会有一个leader，时间长度不确定。当出现选举分裂的情况下，将不会选取leader，然后新的任期开始，重新选举。</p>
 <p>在服务器被孤立的情况下，可能服务器接收到请求时发现任期和自己不一样。如果请求的任期太旧了，拒绝请求。如果任期比自己新，那么如果自己是leader，转变成follower，然后更新任期，如果是其他角色，也更新任期。</p>

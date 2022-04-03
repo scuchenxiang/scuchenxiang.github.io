@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      766 字
+      1.1k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      12
        分钟
     </span>
   
@@ -275,7 +275,13 @@ detach 在主线程结束但是分线程没结束得时候可能会导致引用�
 <p>C++标准库为互斥量提供了一个RAII语法的模板类std::lock_guard，其会在构造的时候提供已锁的互斥量，并在析构的时候进行解锁</p>
 <p>要避免成员函数通过返回值或者输出参数的形式向其调用者返回指向受保护数据的指针或引用</p>
 <p>std::lock——可以一次性锁住多个(两个以上)的互斥量，并且没有副作用(死锁风险)</p>
-<p>std::unique_lock——灵活的锁</p>
+<p>std::unique_lock——灵活的锁<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs cpp">简单地讲，unique_lock 是 lock_guard 的升级加强版，它具有 lock_guard 的所有功能，同时又具有其他很多方法，使用起来更强灵活方便，能够应对更复杂的锁定需要。</code></pre></p>
+<p>特点如下：</p>
+<p>创建时可以不锁定（通过指定第二个参数为<span class="hljs-built_in">std</span>::defer_lock），而在需要时再锁定<br>可以随时加锁解锁<br>作用域规则同 lock_grard，析构时自动释放锁<br>不可复制，可移动<br>条件变量需要该类型的锁作为参数（此时必须使用unique_lock）&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<p>lock_guard<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs delphi">lock_guard是一个互斥量包装程序，它提供了一种方便的RAII（Resource acquisition <span class="hljs-keyword">is</span> <span class="hljs-keyword">initialization</span> ）风格的机制来在作用域块的持续时间内拥有一个互斥量。</code></pre></p>
+<p>创建lock_guard对象时，它将尝试获取提供给它的互斥锁的所有权。当控制流离开lock_guard对象的作用域时，lock_guard析构并释放互斥量。</p>
+<p>它的特点如下：</p>
+<p>创建即加锁，作用域结束自动析构并解锁，无需手工解锁<br>不能中途解锁，必须等作用域结束才解锁<br>不能复制&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
 
             </article>
             <hr>
