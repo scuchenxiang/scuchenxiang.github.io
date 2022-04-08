@@ -168,6 +168,102 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/06/%E5%88%86%E5%B8%83%E5%BC%8F/6.824%E5%AE%9E%E9%AA%8C/">mit6.824 lab实现</a>
+
+      <a href="/2022/04/06/%E5%88%86%E5%B8%83%E5%BC%8F/6.824%E5%AE%9E%E9%AA%8C/" class="index-excerpt">
+        
+        
+          
+        
+        <div>lab2首先是选举，raft必须保证大部分机器可用。
+以下是一些raft的基础的内容，三种角色，leader，candidate，follower。
+follower对于每个机器，一开始是follower，然后每隔一段时间如果没有收到Leader的心跳，那么任期+1，变为candidate，投票给自己，然后启动新的协程发起选举（如果在这过程中任期被改变或者role被改变（？？需不需要变为leade</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-06
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/raft/">raft</a>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/lab/">lab</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/05/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%96%B0%E5%BB%BA%20MD_AUTO_FILE%20%E6%96%87%E4%BB%B6/">mit6.824 lab实现</a>
+
+      <a href="/2022/04/05/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%96%B0%E5%BB%BA%20MD_AUTO_FILE%20%E6%96%87%E4%BB%B6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>lab2首先是选举，raft必须保证大部分机器可用。
+以下是一些raft的基础的内容，三种角色，leader，candidate，follower。
+follower对于每个机器，一开始是follower，然后每隔一段时间如果没有收到Leader的心跳，那么任期+1，变为candidate，投票给自己，然后启动新的协程发起选举（如果在这过程中任期被改变或者role被改变（？？需不需要变为leade</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-05
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/raft/">raft</a>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/lab/">lab</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2022/04/04/C++/effective%20C++%E7%AC%94%E8%AE%B0/">effective C++笔记</a>
 
       <a href="/2022/04/04/C++/effective%20C++%E7%AC%94%E8%AE%B0/" class="index-excerpt">
@@ -542,102 +638,6 @@ malloc的返回值是void*，在使用时必须强转，new不需要，因为n</
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/C/">C++</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/C++/C++%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">c++单例设计模式</a>
-
-      <a href="/2022/04/04/C++/C++%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
-        
-        
-          
-        
-        <div>最推荐的懒汉式单例(magic static )——局部静态变量#include &lt;iostream&gt;
-class Singleton &#123;
-public:
-  static Singleton&amp; GetInstance() &#123;
-    static Singleton intance;
-    return intance;
-  &#125;
-  ~Sing</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">单例模式</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/C++/RAII/">RAII</a>
-
-      <a href="/2022/04/04/C++/RAII/" class="index-excerpt">
-        
-        
-          
-        
-        <div>RAIIResource Acquisition Is Initialization的缩写，即资源获取即初始化，当对象创建的时候获取资源，对象析构的时候释放资源
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/RAII/">RAII</a>
             
           </div>
         

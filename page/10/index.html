@@ -168,6 +168,99 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/12/26/C++/signal%E5%92%8Csigaction/">signal和sigaction的用法</a>
+
+      <a href="/2021/12/26/C++/signal%E5%92%8Csigaction/" class="index-excerpt">
+        
+        
+          
+        
+        <div>参考博客
+Linux进程间通信（一）： 信号 signal()、sigaction()一、什么是信号用过Windows的我们都知道，当我们无法正常结束一个程序时，可以用任务管理器强制结束这个进程，但这其实是怎么实现的呢？同样的功能在Linux上是通过生成信号和捕获信号来实现的，运行中的进程捕获到这个信号然后作出一定的操作并最终被终止。
+信号是UNIX和Linux系统响应某些条件而产生的一个事件，接</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-12-26
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+            
+              <a href="/tags/signal/">signal</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/12/26/C++/select%E5%92%8Cepoll%E5%92%8Cpoll%E7%9A%84%E5%8C%BA%E5%88%AB/">select和poll和epoll的区别</a>
+
+      <a href="/2021/12/26/C++/select%E5%92%8Cepoll%E5%92%8Cpoll%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>参考博客参考博客
+参考博客参考博客
+selectselect本质上是通过设置或检查存放fd标志位的数据结构进行下一步处理。 这带来缺点：
+FD_SETSIZE宏定义，其大小是32个整数的大小当然我们可以对进行修改，然后重新编译内核，但是性能可能会受到影响，这需要进一步的测试 一般该数和系统内存关系很大，具体数目可以cat /proc/sys/fs/file-max察看。32位机默认1024个，64</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-12-26
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+            
+              <a href="/tags/epoll/">epoll</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2021/12/24/%E7%AE%97%E6%B3%95/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/">红黑树知识点</a>
 
       <a href="/2021/12/24/%E7%AE%97%E6%B3%95/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/" class="index-excerpt">
@@ -567,111 +660,6 @@
               <a href="/tags/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">数学公式</a>
             
               <a href="/tags/latex/">latex</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/19/%E7%AE%97%E6%B3%95/29.%20%E4%B8%A4%E6%95%B0%E7%9B%B8%E9%99%A4/">leetcode29_两数相除</a>
-
-      <a href="/2021/12/19/%E7%AE%97%E6%B3%95/29.%20%E4%B8%A4%E6%95%B0%E7%9B%B8%E9%99%A4/" class="index-excerpt">
-        
-        
-          
-        
-        <div>方法主要是用了倍增的思想+位运算如果能用long，就用位运算，再判断溢出的特例。class Solution &#123;
-public:
-    int divide(int dividend, int divisor) 
-    &#123;
-        int flag;
-        if((dividend&gt;0&amp;&amp;divisor&gt;0)||(divisor</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-19
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/leettcode/">leettcode</a>
-            
-              <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>
-            
-              <a href="/tags/%E5%80%8D%E5%A2%9E%E6%80%9D%E6%83%B3/">倍增思想</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/05/25/%E5%88%86%E5%B8%83%E5%BC%8F/raft%20%E7%AE%97%E6%B3%95/">raft算法</a>
-
-      <a href="/2021/05/25/%E5%88%86%E5%B8%83%E5%BC%8F/raft%20%E7%AE%97%E6%B3%95/" class="index-excerpt">
-        
-        
-          
-        
-        <div>raft相比 paxos更容易理解。
-raft leader 是一种强leader，日志只能从leader复制日志到其他服务器。
-复制是用来解决分布式系统的容错的问题的。
-复制状态机就是这种用来解决分布式系统的容错的问题的，在怎么做的呢？复制状态机是通过复制日志来实现的，每个服务器都有相同的日志
-raft这种一致性算法就是为了实现分布式的容错性，通过保证复制日志的一致性来实现的。为了解决这个问题，</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-05-25
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/raft/">raft</a>
-            
-              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
             
           </div>
         

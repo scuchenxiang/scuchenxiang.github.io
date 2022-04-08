@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.7k 字
+      3.2k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      71
+      34
        分钟
     </span>
   
@@ -204,129 +204,72 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>raft相比 paxos更容易理解。</p>
-<p>raft leader 是一种强leader，日志只能从leader复制日志到其他服务器。</p>
-<p>复制是用来解决分布式系统的容错的问题的。</p>
+              <h1 id="lab2"><a href="#lab2" class="headerlink" title="lab2"></a>lab2</h1><p>实现raft算法（一种共识算法），raft相比 paxos更容易理解，是一种强leader，日志只能从leader复制日志到其他服务器，复制是用来解决分布式系统的容错的问题的。</p>
 <p>复制状态机就是这种用来解决分布式系统的容错的问题的，在怎么做的呢？<br>复制状态机是通过复制日志来实现的，每个服务器都有相同的日志</p>
-<p>raft这种一致性算法就是为了实现分布式的容错性，通过保证复制日志的一致性来实现的。<br>为了解决这个问题，实际上是通过raft实际上只有三个问题.</p>
+<p>raft算法不依赖于时间</p>
+<p>raft这种一致性算法就是为了实现分布式的容错性，通过保证复制日志的一致性来实现的。<br>为了解决这个问题，实际上是通过raft实际上只有三个问题。</p>
+<p>主要是选择一个确定的Leader，然后通过leader管理日志的复制，leader接收来自客户端的请求并追加到本地日志，然后把日志复制到其他机器并告诉它们什么时候可以安全的将日志提交到状态机。</p>
+<p>raft主要是三个问题：</p>
 <p>1 是如何选举出leader</p>
-<p>2 如何复制日志</p>
-<p>3 怎么保证安全</p>
-<p>这里可能出现的情况，当发起选举过程中，有别的机器发起选举，同时比我的任期更新<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs sqf">首先是选举，raft必须保证大部分机器可用。</code></pre></p>
-<p>以下是一些raft的基础的内容，三种角色，<span class="hljs-built_in">leader</span>，candidate，follower。</p>
-<p>对于每个机器，一开始是follower，然后每隔一段时间如果没有收到<span class="hljs-built_in">Leader</span>的心跳，那么任期+<span class="hljs-number">1</span>，变为candidate，投票给自己，然后启动新的协程发起选举，向其他的机器发送RPC，请求它们投票。如果收到的投票ack超过一半那么就升级为<span class="hljs-built_in">Leader</span>。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
-<p>只有leader可以处理客户端的请求，如果其他角色接收到了请求，会重定向到leader。</p>
-<p>任期，每个任期从选举开始，只会有一个leader，时间长度不确定。当出现选举分裂的情况下，将不会选取leader，然后新的任期开始，重新选举。</p>
-<p>在服务器被孤立的情况下，可能服务器接收到请求时发现任期和自己不一样。如果请求的任期太旧了，拒绝请求。如果任期比自己新，那么如果自己是leader，转变成follower，然后更新任期，如果是其他角色，也更新任期。</p>
-<p>raft通过RPC通信<br>请求选举RPC<br>追加日志RPC<br>传送快照RPC</p>
-<p>心跳机制，folloewr有计时器，如果超时就发起选举，leader会发送心跳授权延长自己的任期<br>在一次选举开始时，folloewr转为候选者，然后任期增加<br>当候选者接收到其他服务器请求投票的请求时</p>
-<p>实现：<br>对于每个raft的服务器<br>同时启动follower和Leader的协程</p>
-<p>follower协程sleep，每当超时就发起选举，对其他的每个服务器发送请求投票RPC。<br>Leader的协程每当间隔一定时间就向其他的服务器发送心跳同时给出自己的日志相关信息，通过增加日志RPC发送给它们，同时如果对方的日志太旧就安装快照，发送安装快照RPC，针对结果进行。</p>
-<p>Go 语言在这里的特性，Goroutine，这个的用法在于比如说一开始每次机器都会有两个协程不断循环检查自己是follower，以及是leader的情况</p>
-<p>follower：当发现leader给自己的心跳超时的时候，就开启协程开始选举，在这个协程开启n个协程来请求其他的机器给自己投票，每个请求投票的协程依据情况处理。</p>
-<p>leader：每次经过一定的时间，对于每一个follower的机器，发现follower的机器太旧的时候，就启动一个发送快照的协程来处理，否则启动一个发送心跳和日志的协程来处理。</p>
-<p>三：raft如何保证集群的一致性<br>3.1:Raft 协议由leader节点负责接收客户端的请求,leader会将请求包装成log entry分发到从节点,所以集群强依赖 Leader节点的可用性,以确保集群 数据的一致性。数据的流向只能从 Leader 节点向 Follower 节点转移，这个过程叫做日志复制(Log Replication)：</p>
-<p> 当 Client 向集群 Leader 节点 提交数据 后，Leader 节点 接收到的数据 处于 未提交状态（Uncommitted）。</p>
-<p>  接着 Leader 节点会并发地向所有Follower节点复制数据并等待接收响应ACK</p>
-<p> leader会等待集群中至少超过一半的节点已接收到数据后， Leader 再向 Client 确认数据 已接收。</p>
-<p> 一旦向 Client 发出数据接收 Ack 响应后，表明此时 数据状态 进入 已提交（Committed），Leader 节点再向 Follower 节点发通知告知该数据状态已提交</p>
-<p> follower开始commit自己的数据,此时raft集群达到主节点和从节点的一致</p>
-<p>3.2:在进行一致性复制的过程中,假如出现了异常情况，raft都是如何处理的呢？<br>1.数据到达 Leader 节点前，这个阶段 Leader 挂掉不影响一致性</p>
-<p>2.数据到达 Leader 节点，但未复制到 Follower 节点。这个阶段 Leader 挂掉，数据属于 未提交状态，Client 不会收到 Ack 会认为 超时失败 可安全发起 重试。</p>
-<p>3.数据到达 Leader 节点，成功复制到 Follower 所有节点，但 Follower 还未向 Leader 响应接收。这个阶段 Leader 挂掉，虽然数据在 Follower 节点处于 未提交状态（Uncommitted），但是 保持一致 的。重新选出 Leader 后可完成 数据提交。</p>
-<p>4.数据到达 Leader 节点，成功复制到 Follower 的部分节点，但这部分 Follower 节点还未向 Leader 响应接收。这个阶段 Leader 挂掉，数据在 Follower 节点处于 未提交状态（Uncommitted）且 不一致。</p>
-<p>Raft 协议要求投票只能投给拥有 最新数据 的节点。所以拥有最新数据的节点会被选为 Leader，然后再 强制同步数据 到其他 Follower，保证 数据不会丢失并 最终一致。<br>5.数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在 Leader 处于已提交状态，但在 Follower 处于未提交状态。<br>这个阶段 Leader 挂掉，重新选出 新的 Leader 后的处理流程和阶段 3 一样。</p>
-<p>6.数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在所有节点都处于已提交状态，但还未响应 Client。这个阶段 Leader 挂掉，集群内部数据其实已经是 一致的，Client 重复重试基于幂等策略对 一致性无影响</p>
-<h2 id="6-824-内容"><a href="#6-824-内容" class="headerlink" title="6.824 内容"></a>6.824 内容</h2><h3 id="Shard"><a href="#Shard" class="headerlink" title="Shard"></a>Shard</h3><p>把所有数据按照Key Hash然后取模10,把数据切分成10片.每一片称为一个Shard, 其中包括一组键值对</p>
-<h3 id="ShardServer-Group"><a href="#ShardServer-Group" class="headerlink" title="ShardServer (Group)"></a>ShardServer (Group)</h3><p>每个Group都是一个Raft集群, 通过Raft保证这组服务器上的数据一致性. 一组服务器负责几个Shard的读写请求.整个集群由N个Group组成</p>
-<h3 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h3><p>客户端, 发起读写请求.</p>
-<h3 id="Shardctrler"><a href="#Shardctrler" class="headerlink" title="Shardctrler"></a>Shardctrler</h3><p>是集群中的协调者, 他负责调整Shard在集群间的分配, 以及集群路由的查询工作.</p>
-<p>扩容: 新加入了一组服务器Group3, 需要将针对某个Shard的历史数据和后续的读写请求由Group1交给Group3负责以扩容集群.</p>
-<p>缩容: 需要下线Group3, 需要将Group3负责的Shard历史数据和后续读写请求交给其他Group负责.扩缩容操作后需要保证Group间的负载均衡</p>
-<p>路由查询: 假设Client 需要 Put(key:”name”, value: “L” ), “name”这个key存储在Shard1上. 需要Client根据从ShardMaster获取到的配置来确认向哪个Group发起写请求.</p>
-<h3 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h3><p>由ShardMaster维护, 客户端和ShardServer拉取的配置, 其中包括的所有服务器分组地址以及集群路由信息. 每次集群动作的变更都会引起Config Version的更新.</p>
-<h3 id="Recoverable"><a href="#Recoverable" class="headerlink" title="Recoverable"></a>Recoverable</h3><p>快照和Raft中的状态要及时落盘,每一台服务器都要能够在故障后重启恢复</p>
-<h3 id="线性一致性"><a href="#线性一致性" class="headerlink" title="线性一致性"></a>线性一致性</h3><p>需要能立刻读到之前完成的写请求</p>
-<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>Shard在Group间的分布要尽可能均衡, 可以通过一致性哈希或者其他方法来实现</p>
-<h3 id="multiRaft"><a href="#multiRaft" class="headerlink" title="multiRaft"></a>multiRaft</h3><p>我们使用 Raft 一致性算法来确保在机器发生故障时数据也能保持一致。在大多数使用 Raft 的系统中，如 etcd 和 Consul，整个系统只有一个 Raft 共识组。然而，在 CockroachDB 中，数据被分成不同的范围，每个范围都有自己的共识组。这意味着每个节点都可能参与成千上万个共识组。这就提出了一些独特的挑战，我们通过在 Raft 之上引入一层 MultiRaft 来解决这些问题。</p>
-<p>简单来说，MultiRaft 是在整个系统中，把所管理的数据按照一定的方式切片，每一个切片的数据都有自己的副本，这些副本之间的数据使用 Raft 来保证数据的一致性，在全局来看整个系统中同时存在多个 Raft-Group<br>单个 Raft-Group 在 KV 的场景下存在一些弊端:</p>
-<p>(1) 系统的存储容量受制于单机的存储容量（使用分布式存储除外）。</p>
-<p>(2) 系统的性能受制于单机的性能（读写请求都由Leader节点处理）。</p>
-<p>MultiRaft 需要解决的一些核心问题：</p>
-<p>(1) 数据何如分片。</p>
-<p>(2) 分片中的数据越来越大，需要分裂产生更多的分片，组成更多 Raft-Group。</p>
-<p>(3) 分片的调度，让负载在系统中更平均（分片副本的迁移，补全，Leader 切换等等）。</p>
-<p>(4) 一个节点上，所有的 Raft-Group 复用链接（否则 Raft 副本之间两两建链，链接爆炸了）。</p>
-<p>(5) 如何处理 stale 的请求（例如 Proposal 和 Apply 的时候，当前的副本不是 Leader、分裂了、被销毁了等等）。</p>
-<p>(6) Snapshot 如何管理（限制Snapshot，避免带宽、CPU、IO资源被过度占用）。</p>
-<p>Lab 4A and 4b(Shard ctrler)<br>Shard Master负责管理所有的组，决定每个组负责存储哪些分片，以及响应用户对组的增加（Join）、删除（Leave）、移动（Move）和查询（Query）操作。与Lab 3中实现的简易分布式Key-Value存储系统类似，Shard Master同样分为服务器和客户端。其框架与Lab 3完全相同，区别仅在需要处理的请求的语义不同。Lab 3中需要处理Get、Put以及Append，本节则处理Join、Leave、Move和Query操作。</p>
-<p>每个组的服务器配置信息以及分片到组的对应关系，称为配置（config）。历史上的所有配置均保留在服务器中，每次对配置进行修改操作（即Join、Leave以及Move操作）时，最新的配置会被复制一份，然后再进行修改，同时其序号（Num）增加一。用户可以通过Query查询最新配置，或历史上某一个特定配置。上述修改操作具体实现为：</p>
-<p>在实际的生产系统中，不同 raft 组的成员可能存在于一个物理节点上，而且一般情况下都是一个物理节点拥有一个状态机，不同 raft 组使用不同地命名空间或前缀来操作同一个状态机。<br>系统的运行方式：一开始系统会创建一个 shardctrler 组来负责配置更新，分片分配等任务，接着系统会创建多个 raft 组来承载所有分片的读写任务。此外，raft 组增删，节点宕机，节点重启，网络分区等各种情况都可能会出现。</p>
-<p>对于集群内部，我们需要保证所有分片能够较为均匀的分配在所有 raft 组上，还需要能够支持动态迁移和容错。</p>
-<p>对于集群外部，我们需要向用户保证整个集群表现的像一个永远不会挂的单节点 KV 服务一样，即具有线性一致性。</p>
-<p>所有涉及修改集群分片状态的操作都应该通过 raft 日志的方式去提交，这样才可以保证同一 raft 组内的所有分片数据和状态一致。<br>在 6.824 的框架下，涉及状态的操作都需要 leader 去执行才能保持正确性，否则需要添加一些额外的同步措施，而这显然不是 6.824 所推荐的。因此配置更新，分片迁移，分片清理和空日志检测等逻辑都只能由 leader 去检测并执行。<br>数据迁移的实现为 pull 还是 push？其实都可以，个人感觉难度差不多，这里实现成了 pull 的方式。</p>
-<p>首先，每个 raft 组的 leader 需要有一个协程去向 shardctrler 定时拉取最新配置，一旦拉取到就需要提交到该 raft 组中以更新配置。此外，为了防止集群的分片状态被覆盖，从而使得某些任务永远被丢弃，因此一旦存在某一分片的状态不是默认状态，配置更新协程就会停止获取和提交新配置直至所有分片的状态都为默认状态为止。</p>
-<p>lab4是基于lab2实现的基于raft协议的分片的key-value存储，主要包括ctrler节点和分片的group的服务端，还有客户端。</p>
-<p>lab4a:<br>shardctrler负责管理这些group，决定每个组存储哪些分片，响应用户对组的join（增加），删除（leave），移动（move）和查询（query）。</p>
-<p>实现总体架构和lab3类似，分为客户端和服务端，然后服务端对底层的raft完成一致性的命令进行处理，客户端每次不断请求服务。</p>
-<p>每个组的服务器的配置信息以及每个分片到组的对应关系，以及每个group包含的server，称为配置。配置都保存在服务器中，每次对配置进行修改操作，最新的配置会复制一份副本，然后修改，然后被追加到原本的配置集合中。同时配置号加一。</p>
-<p>query可以查询最新的配置或者历史上某一个特定的配置。</p>
-<p>具体实现为：</p>
-<p>join操作，参数为一系列的组的配置信息，首先复制一个新的配置副本，然后新增配置号，然后将组的配置添加到配置副本中，然后进行重平衡算法。？？</p>
-<p>Leave操作，参数是一些组的编号，首先复制一个新的配置副本，然后新增配置号，然后将配置中这些组删除，将属于这些组的分片暂时设置为0，然后进行重平衡算法。执行完该操作后，服务器要求至少剩余一个组。</p>
-<p>move操作，参数是移动的分片和目标的组，首先复制一个新的配置副本，然后新增配置号，然后更新目标分片到目标组中，这个接口是为了调试和测试用的</p>
-<p>query操作，查询任意时期的配置，没有指定的函数（query每次都是在底层的raft命令中发现这个命令之后就直接返回对应的config就可以）</p>
-<p>重平衡算法</p>
-<p>在对配置进行修改后，每个组存储的分片数量可能会变得不均匀，因此需要进行重平衡。重平衡的目标是使得每个组存储的分片数量变得均匀（数量的最大值与最小值之差不超过1），并且重新达到平衡的过程中被移动的分片的数量最少。</p>
-<p>对于配置，如果只有一个group，肯定所有的shard都在这上面。</p>
-<p>对于配置，如果只有0个group，此时什么都没有，shard也应该为空</p>
-<p>如果shard的数目大于group的数目，那么求出每个group平均分配的最小数目，以及剩余的余数数目，</p>
-<p>此时分四种情况讨论，<br>如果group的shard和avg一样，continue，</p>
-<p>如果group的shard大于avg，并且remain=0，将多于avg的shard的group置为0，</p>
-<p>如果group的shard大于avg，并且remain&gt;0，将多于avg+remain的shard的group置为0，<br>如果group的shard小于avg，从group为0的那些shard选一些补到avg，如果还不足avg，还需要循环一次,因为此时的有可能其他分片还没有空出来<br>这个最严重的情况下，会导致某一个group最大为avg+remain</p>
-<p>如果shard_num&lt;group_num,那么就把多于一个shard的group的多的shard拿出来，<br>shard还没选group的拿出来分别分配到一个都没有的group中。</p>
-<p>这个重平衡算法还有可以优化的地方</p>
-<p>还有一种平衡机制是这样的，这种会更平衡一些，<br>对于一个配置，重平衡算法首先通过分片到组的对应关系计算出每个组存储的分片的列表，然后将这些组按照其存储的分片数量从大到小排序。为了确保Shard Master所有服务器执行相同的操作，当某两个组的分片数量一致时，编号更小的组排在更前。排序后，算法计算每个组平衡后应当存储的分片数量。假设共有ngroups个组，nshards个分片，那么前nshards % ngroups个组存储nshards / ngroups + 1个分片，剩下的组存储nshards / ngroups个分片。接着算法遍历每个组，将分片数量多于预期的组的多余分片取出并统一暂存。最后，算法遍历每个组，将暂存的多余分片分配至分片数量少于预期的组。算法总计需要一次对组的排序、两次对组的遍历以及其中的分片复制操作，总体时间复杂度为O(ngroups * log(ngroups) + nshards)。</p>
-<p>server相关的实现：<br>对于每个server一开始初始化每个元素，然后启动apply协程，这个协程中，不断接收来自raft的管道信息，如果信息中的msg非快照类的，同时这个请求没有重复，<br>没重复就执行join函数，leave函数，move函数，query函数，（这四个函数就相当于上述的操作）同时向msgnotify写入管道信息</p>
-<p>4个RPC函数：<br>这四个最后都是执行waitcmd函数，对于每个命令执行在底层的raft中添加命令，然后等待msgnotify结果<br>根据是否是leader，是否超时，返回对应的msgnotify</p>
-<p>客户端：</p>
-<p>这个客户的程序就是，对于已知的server，不断循环去遍历请求(query,move,join,leave)<br>如果对方不是leader或者返回不对，就休息一段时间，选下一个机器，<br>其中msgid是随机生成的，ckid也是随机生成的</p>
-<p>运行的流程：</p>
-<p>当客户端发起group的加入，离开，移动，或者查询任意配置的时候，<br>server执行join（例如）函数，然后执行runcmd函数（在这里将加入reqId，随机值）<br>然后执行waitcmd函数，交给底层的raft提交日志，如果非leader，或者超时，返回，如果没有这些问题，就等待收到的回复，这个回复是这样的流程（当server收到raft的信息的时候，同时处理完相关的函数，然后向msgnotify返回信息），当收到返回的msgnotify信息的时候，删除通道的数据，返回rpc对应的结果</p>
-<p>即服务端两个线，一条是RPC接收到客户端信息的时候，交给底层的raft日志处理不断监听结果，同时一方面，一个apply不断从raft applymsg信息中查看是否达成一致性，是就进行处理返回msgnotify结果信息。</p>
-<p>lab4b：</p>
-<p>客户端：<br>put 或者append或者get</p>
-<p>每次请求，对于每个key，获取它所处的shard，然后对负责这个shard的group上的每个server，进行请求，<br> 如果成功，或者没有这个key，返回reply，如果group错误或者正在传输中直接退出这一次对这个group的请求，<br>同时每隔一段时间向ctrler节点查询最新配置</p>
-<p>server：</p>
-<p>本节的核心设计思想为，服务器存储的分片可以分为实际存储数据的分片和不实际存储数据的分片引用。分片引用存储该分片实际数据的来源（配置序号以及分片编号），表示服务器正在等待其他组的服务器将此分片迁移至当前服务器。这一设计允许服务器将配置更新与分片迁移操作分离，配置更新时仅需快速更新分片引用，而分片数据则可以后续独立传送。一旦某一分片数据传送（迁移）完成，服务器可立即开始处理对该分片的请求，而无需等待其他正在传送的分片数据（对应TestChallenge2Unaffected及TestChallenge2Partial）。</p>
-<p>一开始启动三个协程</p>
-<p>applydb：</p>
-<p>一个不断获取底层raft的状态机的信息，如果为快照的命令，那么就读取快照信息<br>如果不是那么就看日志的command是哪种命令，</p>
-<p>如果是更新配置的命令，如果原来就是这个group的shard就只更新shard配置号，原来不是这个group的shard的，就添加需要pullmap的信息，后续进行拉取</p>
-<pre><code class="hljs crmsh">分片服务器在启动时会启动一个goroutine负责更新配置，其定期利用Shard <span class="hljs-literal">Master</span>客户端向Shard <span class="hljs-literal">Master</span>轮询最新的配置，并获取当前配置之后的所有新配置。然后，其调用Raft协议的<span class="hljs-literal">Start</span>接口来将分片组服务器当前配置之后的所有新配置逐一加入Raft日志（log）中。当这些日志（新配置）被Raft协议提交（commit）后，便会出现在applyCh。此时，分片组服务器会进行配置更新，配置更新一般会导致每个组负责的分片的情况发生变化，
-</code></pre>
-<p>如果是拉取shard的命令PullShardOp，实际上更新了对应shard的kvdb即（存储信息），以及clientseqNum,并且将kv.pullMap的valid设置为false（表明已经拉取了shard了），同时更新shardsVerNum</p>
-<p>如果是删除shard的命令DeleteShardOp，如果请求我们删除的配置号不比我们旧，删除shard和clientseqnum，否则不删除（可能正在传输中），返回reschan结果</p>
-<p>如果是删除pullmap的命令RemovePullMapOp，那么就删除对应的pullmap</p>
-<p>如果是get，put，append命令，若shard的版本号与kv的配置号不一样，说明正在传输，返回正在传输的结果，如果一致，在对应的数据库中更新，返回reschan结果</p>
-<p>在执行Get、Put以及Append时，服务器会首先检查请求的Key对应的分片在当前配置下是否由本服务器负责，若不由本服务器负责，则直接返回组错误响应。若确实由本服务器负责，则服务器继续按照规定的语义执行，并产生返回值。其中，若被访问的分片由本服务器负责但尚为引用，服务器不会阻塞，其会返回分片正在传输的响应，期望客户端一段时间后重试。</p>
-<p>pollconfig:</p>
-<p>每隔一段时间就向ctrler节点请求新的配置，如果请求到了新配置，同时如果不需要拉取shard，没有正在传输的config，就向raft添加ShardConfigOp更新配置的命令(表示更新config)</p>
-<p>pollshard:</p>
-<p>每隔一段时间，就对pullmap中的还没拉取的shard进行拉取（此时pullmap valid为true），给出args参数，call RPC进行拉取shard，对于返回的reply，如果成功，<br>向raft写入拉取shard的命令（同时要将给出的reply的参数放入命令中）</p>
-<p>如果（此时pullmap valid为false），说明需要删除，给出args参数，call RPC进行deleteshard，对于返回的reply，如果成功，也向底层raft写入removePullmap(即删除pullmap)的命令</p>
-<p>4个RPC函数：</p>
-<p>对于kvdb相关的RPC:</p>
-<p>PullShard:如果对方想拉shard，同时我的配置号比他的更新，就把shard给他，否则返回false</p>
-<p>DeleteShard：如果我的对应的shard的配置号比RPC参数发过来的配置号更旧，说明确实可以删除，<br>此时让底层的raft进行同步删除shard的命令DeleteShardOp，如果是leader，并且reschan对应命令的管道信息不是正在传输的状态，reply的结果那么就为success，超时或者其他情况返回reply false</p>
-<p>get:<br>应对客户端发起的get请求，先交给底层的raft进行处理，然后等待reschan通道结果</p>
-<p>PutAppend<br>应对客户端发起的putappend请求，先交给底层的raft进行处理，然后等待reschan通道结果，</p>
-<p>这里的流程主要为：</p>
-<p>（每一个kv还记录了每一个shard的版本配置号）</p>
-<p>客户端发起get、put、append，然后服务端的Get，putappend的RPC函数收到后交给底层的raft提交，等待结果，applydbd等待到raft的提交结果之后，就进行kvdb的更新，然后返回结果，然后结束。（这里处理的时候可能会发现shard还在传输，会返回正在传输）</p>
-<p>服务端自己每隔一定时间会发起拉取配置的请求（pollconfig），如果发现有新配置，那么就向底层raft写入更新配置的命令，applydbd等待到raft的提交结果之后，就对这个命令进行处理，原来就是这个group的shard现在还是的就只更新shard配置号，原来不是这个group的shard的，就添加需要pullmap的信息，后续进行拉取，原来是现在不是的暂时不删除</p>
-<p>服务端每隔一段时间会处理拉取shard的命令（pollshard），然后如果发现pullmap的valid是true发起pullshard RPC，返回的reply如果成功，就向raft写入拉取shard的命令，applydbd等待到raft的提交结果之后（PullShardOp）（PullShardOp这里必须要求op.ver是当前配置号减一，为什么是这样呢，因为正常操作就是我们config更新了，然后配置号加一，然后拉取配置），更新信息，然后设置pullmap的valid是false（因为这里就是说组把一个shard交给了另外一个组，所以需要删除）</p>
-<p>如果发现pullmap的valid是false发起deleteshard RPC，在deleteshardRPC中向底层raft写入DeleteShardOp，applydbd等待到raft的提交结果之后，处理结果然后返回（这里可能会发现这个shard已经被更新了，不是原来的shard就返回还在传输），如果返回的这个结果成功，那么再向底层的raft写入removePullmap命令，applydbd等待到raft的提交结果之后，返回结果然后返回。</p>
+<p>2 如何复制日志，leader接受来自客户端的请求并把日志复制到集群来保证其他机器的日志与自己的相同</p>
+<p>3 怎么保证安全，安全指的是，一旦有一个机器将特定的日志复制到自己的状态机，那么其他机器不能够应用一条不同的日志到自己的状态机。（主要是在选举时增加额外的规则约束）</p>
+<h1 id="当客户端连接到follewer"><a href="#当客户端连接到follewer" class="headerlink" title="当客户端连接到follewer"></a>当客户端连接到follewer</h1><p>那么参与者会将其重定向到leader。</p>
+<h1 id="raft的任期"><a href="#raft的任期" class="headerlink" title="raft的任期"></a>raft的任期</h1><p>任期是一个任意长度的间隔，每个任期由连续的整数组成，而且任期是单调递增的，server通讯会交换互相的任期。</p>
+<p>如果发现自己的任期小于对方的，会变更自己的任期到大的那个任期。如果candidate或者leader发现自己的任期过期，那么就会变为follower。任意的server接收到过期的请求就会拒绝请求。</p>
+<h1 id="raft的RPC通讯"><a href="#raft的RPC通讯" class="headerlink" title="raft的RPC通讯"></a>raft的RPC通讯</h1><p>raft是通过RPC通讯的，主要是两个RPC，一个是requestVoteRPC（请求投票） 和AppendentriesRPC（进行日志复制和心跳）以及doInstallSnapshotRPC（传送快照）</p>
+<h1 id="1-如何选举leader"><a href="#1-如何选举leader" class="headerlink" title="1.如何选举leader"></a>1.如何选举leader</h1><p>server一开始启动都是参与者，然后经过一段时间的超时（即没有收到leader的心跳），那么就会发起选举，转换为candidate，然后增加自己的任期，投票给自己，然后向其他的server发起requestVoteRPC（请求投票）,只要收到超过一半的server投票给自己，那么就转变为leader。一旦成为leader，就会发送心跳给其他人，说明自己胜出。</p>
+<p>只有在发起requestVoteRPC（请求投票）的server的任期更新或者日志不更旧的情况下才可以给他投票，否则就会拒绝投票。</p>
+<p>同时为了防止没有一个机器拿到一半以上的投票，leader超时的时间是随机150ms到300ms之间。</p>
+<h1 id="2-如何进行日志的复制"><a href="#2-如何进行日志的复制" class="headerlink" title="2.如何进行日志的复制"></a>2.如何进行日志的复制</h1><p>当有一个server是leader，他会处理来自client的请求，首先会将请求追加到自己日志记录，然后发送AppendentriesRPC进行日志复制，日志复制成功之后，leader会将日志应用到自己的状态机并将结果返回给客户端。如果follower宕机或者丢包了，会重复发送AppendentriesRPC直到安全的复制。</p>
+<p>日志包括command，以及term，以及index(记录在日志中的位置)</p>
+<p>当日志被应用到状态机，这样的日志被称为已经提交。</p>
+<p>raft保证所有被提交的日志都会被应用到状态机。如果当前日志被提交那么由前任leader或者由当前leader之前创建的日志记录也都被提交了。</p>
+<p>leader维护了被提交日志记录的索引，这个索引会放在AppendentriesRPC（进行日志复制和心跳）中，当参与者收到RPC中的提交的索引的时候，会将本地该索引的日志应用到状态机。</p>
+<h2 id="日志匹配原则："><a href="#日志匹配原则：" class="headerlink" title="日志匹配原则："></a>日志匹配原则：</h2><p>1.如果两条日志记录的索引和任期是一样的，那么这两条日志记录的命令也是一样的</p>
+<p>2.如果两条日志记录的索引和任期是一样的，那么这两条日志记录的之前的日志记录也是一样的。</p>
+<p>给定日期的日志索引是递增的，并且创建之后不会改变他在日志中的位置（保证了第一条）</p>
+<p>AppendentriesRPC（进行日志复制和心跳）会包含当前正在复制的日志记录的前继日志记录的索引和任期，如果follower发现自己的日志中没有这一条就会拒绝请求。（保证了第二条）</p>
+<h2 id="follower与leader日志不同的时候"><a href="#follower与leader日志不同的时候" class="headerlink" title="follower与leader日志不同的时候"></a>follower与leader日志不同的时候</h2><p>follwer可能比leader日志多或者少，可能日志不一致。</p>
+<p>raft强制follower只能复制leader的日志来解决不一致问题，即follower与leader冲突的时候，follower会重写或者删除。</p>
+<p>这个时候需要确认它们相同的最后一条日志，然后让follower删除之后的，然后再把leader剩下的复制给follower。</p>
+<p>leader为每一个follower维护了nextIndex(记录需要复制给follower的下一个日志索引，初始值为leader最后一条日志的索引)。当出现不匹配的时候可能需要找nextindex，那么每次leader发RPC会nextindex减一尝试寻找一致的位置，但是效率会很低，所以为了提速可以follower直接响应这个任期的第一条日志（相当于这个任期的日志都不要了，重新从leader复制过来）</p>
+<h1 id="3-如何保持安全"><a href="#3-如何保持安全" class="headerlink" title="3.如何保持安全"></a>3.如何保持安全</h1><p>安全指的是，一旦有一个机器将特定的日志复制到自己的状态机，那么其他机器不能够应用一条不同的日志到自己的状态机。（主要是在选举时增加额外的规则约束）</p>
+<p>这里添加的约束有这些</p>
+<h2 id="1选举约束"><a href="#1选举约束" class="headerlink" title="1选举约束"></a>1选举约束</h2><p>每个raft的leader必须包含之前已经提交的日志。在选举中，一个candidate必须包含所有已经提交的日志才会胜出。</p>
+<p>requestVoteRPC（请求投票）实现这个约束：在RPC中包含leader的日志信息，如果投票者的日志比候选者更新那么其拒绝投票（这是通过比较日志的最后一条的任期和索引来比较的，任期大的更新，任期一样，索引大的更新）</p>
+<h2 id="2-提交上一个任期的日志"><a href="#2-提交上一个任期的日志" class="headerlink" title="2.提交上一个任期的日志"></a>2.提交上一个任期的日志</h2><p>为了解决fig8的问题，即一个日志已经被复制到大部分的机器，但是leader在提交日志之前宕机了。</p>
+<p>这种情况下虽然日志被复制到大部分机器，但是仍然可能被后面的leader覆盖掉，为了防止这个情况，raft不能够提交上一个任期的日志，只有当前任期的日志才可以被提交，在提交当前任期的时候，顺手提交之前的日志。</p>
+<h2 id="细说fig8"><a href="#细说fig8" class="headerlink" title="细说fig8"></a>细说fig8</h2><p>在时刻(a), s1是leader，在term2提交的日志只赋值到了s1 s2两个节点就crash了。在时刻（b), s5成为了term 3的leader，日志只赋值到了s5，然后crash。</p>
+<p>关键点在于c,在(c)时刻，s1又成为了term 4的leader，开始复制日志，于是把term2的日志复制到了s3，此刻，可以看出term2对应的日志已经被复制到了majority，假设上个任期的日志可以被提交（例如term2，但是实际上是不行的），那么term2被提交，应用到状态机。</p>
+<p>那么接下来（d）时刻，s1又crash了，s5重新当选（S2,s3,s4)，然后将term3的日志复制到所有节点,这个时候就冲突了，因为按道理s5没有已经提交的最新的日志（1，2），是不可以当选leader的。</p>
+<p>究其根本，是因为 term4的时候leader s1 在（c）时刻提交了之前term2任期的日志。</p>
+<p>为了杜绝这种情况：在某个leader选举成功后，不可以直接提交前任leader 时期的日志，可以复制日志，比如说把term2和term4复制到大多数，然后提交term4，顺手提交了term2，而是通过提交当前任期的日志的时候，‘顺手’把之前的日志提交了。如果leader 选举之后没有收到客户端的请求呢？，在任期来时的时候立即尝试复制、提交一条空 log。</p>
+<p>因此在c图中，term2不会被提交，只有4被复制到大多数，才会1，2，4一起被提交。</p>
+<p>如果我们假设term4没有被复制到大多数s1就宕机了，s5任期增加编程term5，赢得任期，那么它可以只有1，3，5被复制到大多数的情况下才可以提交term5的时候顺便提交term3.</p>
+<p>因此 在上图中不会出现（c）的情况，即term4任期的leader s1不会复制term2 的日志到s3。而是如同（e）描述的情况，通过复制-提交term4的日志顺便提交term2的日志。如果term4的日志提交成功，那么term2 的日志也一定提交成功，此时，即使 s1 crash，s5也不会重新当选。</p>
+<h2 id="如果参与者和候选者宕机"><a href="#如果参与者和候选者宕机" class="headerlink" title="如果参与者和候选者宕机"></a>如果参与者和候选者宕机</h2><p>如果候选者或者参与者宕机，leader会重复发送RPC，raft请求是可重入的，重试没有危害，如果候选者接受的AppendentriesRPC（进行日志复制和心跳）日志已经被存储，那么就会直接忽略这些请求。</p>
+<h2 id="时基和可用性"><a href="#时基和可用性" class="headerlink" title="时基和可用性"></a>时基和可用性</h2><p>设server并行发送RPC，并接收到它们回应的平均时间设为broadtime</p>
+<p>设单台机器的平均故障间隔时间为MTBF</p>
+<p>设选举时间为electtime</p>
+<p>需要满足broadtime《electtime《MTBF</p>
+<h1 id="集群成员变更"><a href="#集群成员变更" class="headerlink" title="集群成员变更"></a>集群成员变更</h1><p>待更新</p>
+<p>暂时可以参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022796386">raft成员变更</a></p>
+<h1 id="日志压缩"><a href="#日志压缩" class="headerlink" title="日志压缩"></a>日志压缩</h1><p>集群的日志会不断增长，维克可用性，需要压缩日志。</p>
+<p>快照是最简单的压缩办法。</p>
+<p>每个机器独立的进行快照压缩，快照只会覆盖已经提交的日志。</p>
+<p>快照包含最后一条被快照取代的日志的索引。（lastIncludeIndex）</p>
+<p>快照包含最后一条被快照取代的日志的任期。（lastIncludeTerm）</p>
+<p>这些要被持久化（即写到磁盘）</p>
+<p>一旦机器完成快照，在lastIncludeIndex之前的日志可以删除。</p>
+<p>正常情况日志是单独进行快照的，但是如果某个机器的日志太老了，即下一条该发给他的已经被删除了，那么就发送InstallsnapshotRPC,这个情况下，follower删除整个日志然后用快照取代，如果重复收到，那么快照之前的可以删除，快照之后的是正常的需要保留。</p>
+<p>做snapshot既不要做的太频繁，否则消耗磁盘带宽， 也不要做的太不频繁，否则一旦节点重启需要回放大量日志，影响可用性。推荐当日志达到某个固定的大小做一次snapshot。</p>
+<p>  做一次snapshot可能耗时过长，会影响正常日志同步。可以通过使用copy-on-write技术避免snapshot过程影响正常日志同步。</p>
+<h1 id="与客户端交互"><a href="#与客户端交互" class="headerlink" title="与客户端交互"></a>与客户端交互</h1><p>客户端将请求发送到leader，然后他会随机选取server发起请求，如果对方不是leader，那么他会告知客户端leader，然后客户端去请求leader，如果leader宕机，那么就随机选择机器重试。</p>
+<p>为了保持幂等性，就算客户端多次请求只会被执行一次。方法是客户端有一个独立的编号，命令有一个独立的编号，然后状态机记录客户端处理的最新的编号，如果接受到一个客户端的请求已经被执行了，直接返回不执行。</p>
+<p>只读操作可能会导致返回脏数据，即（出现脑裂，旧leader在少数派中，多数派选出新leader同时写了新内容，此时客户端请求旧leader会返回脏数据），</p>
+<p>使用两个方法避免，</p>
+<p>1.leader必须知道已经提交的所有日志记录的最新信息。选举制度保证leader一定有所有已经提交的日志，但是任期刚刚开始它可能不知道哪些日志已经提交了，所以需要在当选的时候追加一条空日志到自己的日志中。</p>
+<p>leader在处理只读任务（即Get)的时候需要知道自己这个leader是不是有效的（防止出现脑裂），在响应get的时候需要与半数以上的机器交换心跳信息。或者通过心跳值来提供租约（这样会使得安全依赖于时间）。</p>
 
             </article>
             <hr>

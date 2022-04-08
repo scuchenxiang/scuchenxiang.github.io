@@ -168,6 +168,102 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/C++/C++%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">c++单例设计模式</a>
+
+      <a href="/2022/04/04/C++/C++%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最推荐的懒汉式单例(magic static )——局部静态变量#include &lt;iostream&gt;
+class Singleton &#123;
+public:
+  static Singleton&amp; GetInstance() &#123;
+    static Singleton intance;
+    return intance;
+  &#125;
+  ~Sing</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">单例模式</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/C++/RAII/">RAII</a>
+
+      <a href="/2022/04/04/C++/RAII/" class="index-excerpt">
+        
+        
+          
+        
+        <div>RAIIResource Acquisition Is Initialization的缩写，即资源获取即初始化，当对象创建的时候获取资源，对象析构的时候释放资源
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/RAII/">RAII</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2022/04/04/C++/C++%E5%BC%95%E7%94%A8%E5%92%8C%E6%8C%87%E9%92%88%E5%8C%BA%E5%88%AB/">c++引用和指针区别</a>
 
       <a href="/2022/04/04/C++/C++%E5%BC%95%E7%94%A8%E5%92%8C%E6%8C%87%E9%92%88%E5%8C%BA%E5%88%AB/" class="index-excerpt">
@@ -607,109 +703,6 @@ class Shard_Ptr
               <a href="/tags/%E6%A0%88/">栈</a>
             
               <a href="/tags/%E6%A0%91/">树</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/01/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E8%87%AA%E6%97%8B%E9%94%81%E5%92%8C%E4%BA%92%E6%96%A5%E9%94%81%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E7%AD%89%E7%9A%84%E5%8C%BA%E5%88%AB/">Linux下 c/c++线程锁种类有哪些？如何理解互斥锁、条件变量、读写锁以及自旋锁,原子操作，无锁编程 以及异步编程？</a>
-
-      <a href="/2022/04/01/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E8%87%AA%E6%97%8B%E9%94%81%E5%92%8C%E4%BA%92%E6%96%A5%E9%94%81%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E7%AD%89%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>   互斥锁是阻塞锁，当某线程无法获取互斥量时，该线程会被直接挂起，该线程不再消耗CPU时间，当其他线程释放互斥量后，操作系统会激活那个被挂起的线程，让其投入运行。
-临界区：每个进程中访问临界资源的那段程序称为临界区，每次只允许一个进程进入临界区，进入后不允许其他进程进入。
-信号量：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/C-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">C++并发编程</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/c/">c++</a>
-            
-              <a href="/tags/%E4%BA%92%E6%96%A5%E9%94%81/">互斥锁</a>
-            
-              <a href="/tags/%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/">条件变量</a>
-            
-              <a href="/tags/%E8%AF%BB%E5%86%99%E9%94%81/">读写锁</a>
-            
-              <a href="/tags/%E8%87%AA%E6%97%8B%E9%94%81/">自旋锁</a>
-            
-              <a href="/tags/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/">原子操作</a>
-            
-              <a href="/tags/%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/">无锁编程</a>
-            
-              <a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/01/C++/C++%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97/">C++类的内存大小计算</a>
-
-      <a href="/2022/04/01/C++/C++%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97/" class="index-excerpt">
-        
-        
-          
-        
-        <div>C++类的内存大小计算
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
             
           </div>
         
