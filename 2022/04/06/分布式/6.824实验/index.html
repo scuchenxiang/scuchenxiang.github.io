@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7.4k 字
+      8.4k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      78
+      88
        分钟
     </span>
   
@@ -292,7 +292,11 @@
 <p>对于一个配置，重平衡算法首先通过分片到组的对应关系计算出每个组存储的分片的列表，然后将这些组按照其存储的分片数量从大到小排序。为了确保Shard Master所有服务器执行相同的操作，当某两个组的分片数量一致时，编号更小的组排在更前。排序后，算法计算每个组平衡后应当存储的分片数量。假设共有ngroups个组，nshards个分片，那么前nshards % ngroups个组存储nshards / ngroups + 1个分片，剩下的组存储nshards / ngroups个分片。接着算法遍历每个组，将分片数量多于预期的组的多余分片取出并统一暂存。最后，算法遍历每个组，将暂存的多余分片分配至分片数量少于预期的组。算法总计需要一次对组的排序、两次对组的遍历以及其中的分片复制操作，总体时间复杂度为O(ngroups * log(ngroups) + nshards)。</p>
 <h3 id="运行的流程："><a href="#运行的流程：" class="headerlink" title="运行的流程："></a>运行的流程：</h3><p>当客户端发起group的加入，离开，移动，或者查询任意配置的时候，<br>server执行join（例如）函数，然后执行runcmd函数（在这里将加入reqId，随机值）<br>然后执行waitcmd函数，交给底层的raft提交日志，如果非leader，或者超时，返回，如果没有这些问题，就等待收到的回复，这个回复是这样的流程（当server收到raft的信息的时候，同时处理完相关的函数，然后向msgnotify返回信息），当收到返回的msgnotify信息的时候，删除通道的数据，返回rpc对应的结果</p>
 <p>即服务端两个线，一条是RPC接收到客户端信息的时候，交给底层的raft日志处理不断监听结果，同时一方面，一个apply不断从raft applymsg信息中查看是否达成一致性，是就进行处理返回msgnotify结果信息。<br>实现总体架构和lab3类似，分为客户端和服务端，每次客户端向服务端发送请求，如果不是leader就换server重试，然后道）。同时客户端还有一个</p>
-<h1 id="lab4b："><a href="#lab4b：" class="headerlink" title="lab4b："></a>lab4b：</h1><h2 id="一些设计思想："><a href="#一些设计思想：" class="headerlink" title="一些设计思想："></a>一些设计思想：</h2><p>本节的核心设计思想为，服务器存储的分片可以分为实际存储数据的分片和不实际存储数据的分片引用(即正在传输)。分片引用存储该分片实际数据的来源（配置序号以及分片编号），表示服务器正在等待其他组的服务器将此分片迁移至当前服务器。这一设计允许服务器将配置更新与分片迁移操作分离，配置更新时仅需快速更新分片引用，而分片数据则可以后续独立传送。一旦某一分片数据传送（迁移）完成，服务器可立即开始处理对该分片的请求，而无需等待其他正在传送的分片数据（对应TestChallenge2Unaffected及TestChallenge2Partial）。</p>
+<h1 id="lab4b："><a href="#lab4b：" class="headerlink" title="lab4b："></a>lab4b：</h1><h2 id="lab4b的challenge"><a href="#lab4b的challenge" class="headerlink" title="lab4b的challenge"></a>lab4b的challenge</h2><p>背景: Group1 在 V1 负责 Shard0, Shard1 的读写, 但是在 V2 后 Shard0 由 Group2 负责读写请求, 需要Group1 将Shard0 的历史数据安全的发送给Group2.所有时间必须保持线性一致性.</p>
+<p>需要进行针对Shard的Garbage Collection, Group1在迁移Shard0 结束后及时的清理掉Shard0以释放空间.</p>
+<p>Group1 在升级到 V2后, 仍负责Shard1的读写请求, 所以迁移Shard0的过程不能影响Shard1的读写请求</p>
+<p>一开始客户端尝试旧的group，如果收到wrongGroup回复，那么就查询新配置，再查询。<br>服务器中如果这个shard是自己管理的，同时需要这个shardversion和本地的配置号是一样的，因为如果不一样说明肯定正在传输，这个时候返回InTransit错误，</p>
+<h2 id="一些设计思想："><a href="#一些设计思想：" class="headerlink" title="一些设计思想："></a>一些设计思想：</h2><p>本节的核心设计思想为，服务器存储的分片可以分为实际存储数据的分片和不实际存储数据的分片引用(即正在传输)。分片引用存储该分片实际数据的来源（配置序号以及分片编号），表示服务器正在等待其他组的服务器将此分片迁移至当前服务器。这一设计允许服务器将配置更新与分片迁移操作分离，配置更新时仅需快速更新分片引用，而分片数据则可以后续独立传送。一旦某一分片数据传送（迁移）完成，服务器可立即开始处理对该分片的请求，而无需等待其他正在传送的分片数据（对应TestChallenge2Unaffected及TestChallenge2Partial）。</p>
 <p>在实际的生产系统中，不同 raft 组的成员可能存在于一个物理节点上，而且一般情况下都是一个物理节点拥有一个状态机(一批数据)，不同 raft 组使用不同地命名空间或前缀来操作同一个状态机。<br>系统的运行方式：一开始系统会创建一个 shardctrler 组来负责配置更新，分片分配等任务，接着系统会创建多个 raft 组来承载所有分片的读写任务。此外，raft 组增删，节点宕机，节点重启，网络分区等各种情况都可能会出现。</p>
 <p>对于集群内部，我们需要保证所有分片能够较为均匀的分配在所有 raft 组上，还需要能够支持动态迁移和容错。</p>
 <p>对于集群外部，我们需要向用户保证整个集群表现的像一个永远不会挂的单节点 KV 服务一样，即具有线性一致性。</p>
@@ -308,7 +312,7 @@
 <h3 id="DeleteShard："><a href="#DeleteShard：" class="headerlink" title="DeleteShard："></a>DeleteShard：</h3><p>如果我的对应的shard的配置号比RPC参数发过来的配置号更旧，说明确实可以删除，<br>那么就向底层的raft写入同步删除shard的命令DeleteShardOp，（需要判断是否为leader），并且等待reschan对应命令的管道信息，如果不是正在传输的状态，reply的结果那么就为success，超时或者其他情况返回reply false</p>
 <h3 id="get"><a href="#get" class="headerlink" title="get:"></a>get:</h3><p>应对客户端发起的get请求，先交给底层的raft进行处理，然后等待reschan通道结果，这里的实现和lab3和lab4a的实现基本一样，主要区别在于返回的错误种类更多，可能是正在传输，可能是group错误。</p>
 <h3 id="PutAppend"><a href="#PutAppend" class="headerlink" title="PutAppend"></a>PutAppend</h3><p>应对客户端发起的putappend请求，先交给底层的raft进行处理，然后等待reschan通道结果，</p>
-<h2 id="pollconfig协程"><a href="#pollconfig协程" class="headerlink" title="pollconfig协程"></a>pollconfig协程</h2><p>服务端自己每隔一定时间会发起拉取配置的请求（pollconfig），如果发现有新配置，说明我们应该更新配置了，这个时候如果还有pullmap需要拉取或者删除就等下更新，如果有原来是这个group的shard，现在的配置号变了，也暂时不更新。否则就向底层raft写入更新配置（shardConfigOp）的命令。</p>
+<h2 id="pollconfig协程"><a href="#pollconfig协程" class="headerlink" title="pollconfig协程"></a>pollconfig协程</h2><p>服务端自己每隔一定时间会发起拉取配置的请求（pollconfig），如果发现有新配置（每次配置号加一查新配置），说明我们应该更新配置了，这个时候如果还有pullmap需要拉取或者删除就等下更新，如果有原来是这个group的shard，现在的配置号变了，也暂时不更新。否则就向底层raft写入更新配置（shardConfigOp）的命令。</p>
 <h2 id="pollshard协程"><a href="#pollshard协程" class="headerlink" title="pollshard协程"></a>pollshard协程</h2><p>服务端每隔一段时间会处理拉取shard的命令（pollshard）（处理pullmap），然后如果发现pullmap的valid是true（需要拉取shard）发起pullshard RPC，返回的reply如果成功，就向raft写入PullShardOp的命令</p>
 <h2 id="applyDb协程"><a href="#applyDb协程" class="headerlink" title="applyDb协程"></a>applyDb协程</h2><p>一个不断获取底层raft的状态机的信息，如果为快照的命令，那么就读取快照信息<br>如果不是那么就看日志的command是哪种命令，</p>
 <h3 id="ShardConfigOp"><a href="#ShardConfigOp" class="headerlink" title="ShardConfigOp"></a>ShardConfigOp</h3><p>这个时候说明我们已经拿到新配置了，然后这个时候也表明在raft group中完成共识了，这个时候就具体更新配置，如果原来就是这个group的shard就只更新shard配置号，原来不是这个group的shard的，就添加需要pullmap的信息，后续进行拉取。同时正式更新配置。</p>
@@ -322,7 +326,18 @@
 <p>如果pullmap拉取完了说明对方需要删除，那么就调用deleteShardRPC，在对应raft写入删除shard的命令</p>
 <p>如果deleteshardRPC删除成功需要写入删除pullmap的命令</p>
 <p>apply针对达成一致性的命令进行处理，这里处理的时候需要注意去重，以及修改pullmap，以及可能正在传输。</p>
+<p>发现有新配置（每次配置号加一查新配置），必须保证上次的配置更新好才能更新下次的（即pullmap为空）</p>
+<p>PullShardRPC中只需要config号更大或者一样，就可以把shard给对方，同时还要给shardVersion号，而且在raft达成一致性之后需要check这个shardversion是否刚好为当前的config号减一，</p>
+<p>deleteShardRPC需要本地的shardversion号小于等于对方的config号</p>
+<p>并且raft达成一致性之后需要shard的config号小于等于执行op的配置号（对方的请求RPC的配置号）</p>
+<p>这里当配置是旧配置的时候一定是访问到的之前的group，此时如果配置更新了，说明正在传输配置给新group，或者要删除这个shard，这个时候这个shard的服务就暂停了，让客户端更新一下配置。然后访问新的group，如果我还是旧配置是可以提供服务的。</p>
 <h2 id="正在传输的情况有哪几种？"><a href="#正在传输的情况有哪几种？" class="headerlink" title="正在传输的情况有哪几种？"></a>正在传输的情况有哪几种？</h2><p>Get、put、append中有可能，只要配置号不一样不是默认的情况就是正在传输</p>
+<h2 id="challenge的服务"><a href="#challenge的服务" class="headerlink" title="challenge的服务"></a>challenge的服务</h2><p>1.当副本组失去碎片的所有权时，该副本组应消除其数据库中丢失的键。它是浪费的，以保持它不再拥有的价值，不再为请求提供服务。但是，这会给迁移带来一些问题。假设我们有两个组，G1和G2，并且有一个新的配置C，它将Shard S从G1移动到G2。如果G1从其数据库中擦除S中的所有键，当它转换为C时，G2如何在尝试移动到C时获得数据？</p>
+<p>这个使用deleteshard 和deletepullmap来提供，当pullshard完成之后，会标记pullmap迁移完成，发现迁移完成接收者会发起deleteshardRPC请求，使其删除这个shard，当删除shardRPC完成之后就写入deletepullmap的操作，达成一致性后删除pullmap。</p>
+<p>2.当配置迁移的时候，不是迁移的分片应该可以提供服务。</p>
+<p>在迁移配置的时候，即使配置更新正在迁移，但是旧的shard的的group是可以提供服务的，这里我们可以看如果这个时候都是旧的配置，那么说明还没更新配置，那么shardversion和config号是一样的，如果更新了配置，那么都是新配置，也都是一致的，是可以提供服务的。</p>
+<p>3.虽然上面的优化是好的，但我们仍然可以做得更好。例如，在转换到C时，一些副本组G3需要从G1的碎片S1，并且来自G2的碎片S2。我们真的希望G3立即开始在收到必要的状态后开始提供碎片，即使它仍在等待其他一些碎片。例如，如果G1关闭，G3仍应开始在从G2接收到G2的适当数据后为S2服务的请求，尽管过渡到尚未完成。</p>
+<p>当收到一部分的分片的时候，客户端查询新的配置，发现shardversioon号和config号是一致的，都是新的号，可以提供服务。</p>
 <h1 id="加锁的情况"><a href="#加锁的情况" class="headerlink" title="加锁的情况"></a>加锁的情况</h1><p>规则 1：当您有多个 goroutine 使用的数据，并且至少有一个 goroutine 可能会修改数据时，goroutine 应该使用锁来防止同时使用数据。Go race 检测器非常擅长检测违反此规则的情况（尽管它对下面的任何规则都没有帮助）比如修改任期啥的</p>
 <p>规则 2：每当代码对共享数据进行一系列修改时，如果其他 goroutine 查看 sequence 中间的某个数据，则可能会出现故障，您应该对整个 sequence 临界区使用锁。</p>
 <p>规则 3：每当代码执行一系列共享数据读取（或读写）时，如果另一个 goroutine 在该 sequence 中途修改数据了，则会出现故障，您应该在整个 sequence 使用锁。</p>
