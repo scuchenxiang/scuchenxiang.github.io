@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      2.3k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      23
+      24
        分钟
     </span>
   
@@ -206,6 +206,8 @@
             <article class="markdown-body">
               <p>参考博客<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/272891398">参考博客</a></p>
 <p>参考博客<a target="_blank" rel="noopener" href="https://www.cnblogs.com/anker/p/3265058.html">参考博客</a></p>
+<p>参考博客<a target="_blank" rel="noopener" href="https://bbs.huaweicloud.com/blogs/298458">参考博客</a></p>
+<p>参考博客<a target="_blank" rel="noopener" href="https://blog.csdn.net/Dachao0707/article/details/103805224">参考博客</a></p>
 <h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><p>select本质上是通过设置或检查存放fd标志位的数据结构进行下一步处理。 这带来缺点：</p>
 <p>FD_SETSIZE宏定义，其大小是32个整数的大小<br>当然我们可以对进行修改，然后重新编译内核，但是性能可能会受到影响，<br>这需要进一步的测试 一般该数和系统内存关系很大，具体数目可以cat /proc/sys/fs/file-max察看。32位机默认1024个，64位默认2048</p>
 <p>对socket是线性扫描，即轮询，效率较低： 仅知道有I/O事件发生，却不知是哪几个流，<br>只会无差异轮询所有流，找出能读数据或写数据的流进行操作。同时处理的流越多，无差别轮询时间越长 - O(n)。</p>
@@ -233,7 +235,8 @@
 <p>没有最大连接数限制，因其基于链表存储，其缺点：</p>
 <p>大量fd数组被整体复制于用户态和内核地址空间间，而不管是否有意义</p>
 <p>如果报告了fd后，没有被处理，那么下次poll时会再次报告该fd</p>
-<p>epoll</p>
+<p>epoll<br>参考博客<a target="_blank" rel="noopener" href="https://blog.csdn.net/Dachao0707/article/details/103805224">参考博客</a>,使用数据结构红黑树，包括红黑树和就绪链表的数据结构</p>
+<p>epollctl主要修改红黑树，epollwait主要使用就绪双向链表</p>
 <p>epoll模型修改主动轮询为被动通知，当有事件发生时，被动接收通知。所以epoll模型注册套接字后，主程序可做其他事情，当事件发生时，接收到通知后再去处理。</p>
 <p>可理解为event poll，epoll会把哪个流发生哪种I/O事件通知我们。所以epoll是事件驱动（每个事件关联fd），此时我们对这些流的操作都是有意义的。复杂度也降到O(1)。</p>
 <p>epoll的触发模式，两种水平触发和边缘触发，EPOLLLT和EPOLLET两种：</p>

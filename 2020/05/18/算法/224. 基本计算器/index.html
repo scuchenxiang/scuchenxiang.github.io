@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2k 字
+      2.6k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      35
+      44
        分钟
     </span>
   
@@ -345,7 +345,95 @@
 &amp;#125;
 &lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;cal&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(Character ch,Integer num,Integer num1)&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(ch.equals(<span class="hljs-string">&#x27;-&#x27;</span>))<br>        <span class="hljs-keyword">return</span> num-num1;<br>        <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> num+num1;<br>    &#125;<br>&#125;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+<h2 id="双栈解法"><a href="#双栈解法" class="headerlink" title="双栈解法"></a>双栈解法</h2><p>我们可以使用两个栈 nums 和 ops 。</p>
+<p>nums ： 存放所有的数字<br>ops ：存放所有的数字以外的操作，+/- 也看做是一种操作<br>然后从前往后做，对遍历到的字符做分情况讨论：</p>
+<p>空格 : 跳过<br>( : 直接加入 ops 中，等待与之匹配的 )<br>) : 使用现有的 nums 和 ops 进行计算，直到遇到左边最近的一个左括号为止，计算结果放到 nums<br>数字 : 从当前位置开始继续往后取，将整一个连续数字整体取出，加入 nums<br>+/- : 需要将操作放入 ops 中。在放入之前先把栈内可以算的都算掉，使用现有的 nums 和 ops 进行计算，直到没有操作或者遇到左括号，计算结果放到 nums<br>一些细节：</p>
+<p>由于第一个数可能是负数，为了减少边界判断。一个小技巧是先往 nums 添加一个 0<br>为防止 () 内出现的首个字符为运算符，将所有的空格去掉，并将 (- 替换为 (0-，(+ 替换为 (0+（当然也可以不进行这样的预处理，将这个处理逻辑放到循环里去做）</p>
+<p>c++解法</p>
+<pre><code class="hljs arduino">
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">calculate</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span> </span>&#123;
+    <span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">int</span>&gt; num;
+    <span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">char</span>&gt; op;
+    <span class="hljs-keyword">int</span> len=s.<span class="hljs-built_in">size</span>();
+    num.push(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">char</span> lastch=<span class="hljs-string">&#x27; &#x27;</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;len;++i)
+    &#123;
+        <span class="hljs-built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">char</span> ch=s[i];
+        <span class="hljs-keyword">if</span>(ch==<span class="hljs-string">&#x27; &#x27;</span>)
+            <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch&gt;=<span class="hljs-string">&#x27;0&#x27;</span>&amp;&amp;ch&lt;=<span class="hljs-string">&#x27;9&#x27;</span>)
+        &#123;
+            <span class="hljs-keyword">int</span> curnum=<span class="hljs-number">0</span>;
+            <span class="hljs-keyword">int</span> j=i;
+            <span class="hljs-keyword">while</span>(j&lt;len&amp;&amp;s[j]&gt;=<span class="hljs-string">&#x27;0&#x27;</span>&amp;&amp;s[j]&lt;=<span class="hljs-string">&#x27;9&#x27;</span>)
+            &#123;
+                curnum=curnum*<span class="hljs-number">10</span>-<span class="hljs-string">&#x27;0&#x27;</span>+s[j];
+                j++;
+            &#125;
+            num.push(curnum);
+            i=j<span class="hljs-number">-1</span>;
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch==<span class="hljs-string">&#x27;(&#x27;</span>)
+        &#123;
+            op.push(<span class="hljs-string">&#x27;(&#x27;</span>);
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(ch==<span class="hljs-string">&#x27;)&#x27;</span>)
+        &#123;
+            <span class="hljs-keyword">while</span>(!op.empty())
+            &#123;
+                <span class="hljs-keyword">char</span> myop = op.top();
+                <span class="hljs-keyword">if</span>(myop != <span class="hljs-string">&#x27;(&#x27;</span>)
+                    calc(num, op);
+                <span class="hljs-keyword">else</span> &#123;
+                    op.pop();
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">else</span>
+        &#123;
+            <span class="hljs-keyword">if</span>(i&gt;<span class="hljs-number">0</span>&amp;&amp;(lastch==<span class="hljs-string">&#x27;(&#x27;</span>||lastch==<span class="hljs-string">&#x27;+&#x27;</span>||lastch==<span class="hljs-string">&#x27;-&#x27;</span>))
+            &#123;
+                num.push(<span class="hljs-number">0</span>);
+            &#125;
+            <span class="hljs-keyword">while</span>(!op.empty())
+            &#123;
+                <span class="hljs-keyword">if</span>(op.top()==<span class="hljs-string">&#x27;(&#x27;</span>)
+                &#123;
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+                calc(num, op);
+            &#125;
+            op.push(ch);
 
+        &#125;
+        <span class="hljs-keyword">if</span>(ch!=<span class="hljs-string">&#x27; &#x27;</span>)
+            lastch=ch;
+    &#125;
+    <span class="hljs-keyword">while</span>(!op.empty())
+    &#123;
+        calc(num,op);
+    &#125;
+    <span class="hljs-keyword">return</span> num.top();
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">calc</span><span class="hljs-params">(<span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">int</span>&gt; &amp;num,<span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">char</span>&gt; &amp;op)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">if</span>(num.<span class="hljs-built_in">size</span>() &lt; <span class="hljs-number">2</span> || op.empty())
+        <span class="hljs-keyword">return</span> ;
+    <span class="hljs-keyword">int</span> a=num.top();
+    num.pop();
+    <span class="hljs-keyword">int</span> b=num.top();
+    num.pop();
+    <span class="hljs-keyword">char</span> ch=op.top();
+    op.pop();
+    <span class="hljs-comment">// cout&lt;&lt;b&lt;&lt;&quot; &quot;&lt;&lt;ch&lt;&lt;&quot; &quot;&lt;&lt;a&lt;&lt;endl;</span>
+    <span class="hljs-keyword">if</span>(ch==<span class="hljs-string">&#x27;+&#x27;</span>)
+        num.push(b+a);
+    <span class="hljs-keyword">else</span> 
+        num.push(b-a);
+&#125;</code></pre>
             </article>
             <hr>
             <div>

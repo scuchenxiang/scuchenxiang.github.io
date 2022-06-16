@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>webserver项目 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-05-04 11:57">
+      2022年5月4日 中午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>总体过程是，一开始先监听到listenfd的信息，然后将其加到epollfd中，然后当收到读请求，然后加入线程池任务，然后线程获取任务，调用回调函数，函数从fd读内容到readbuffer中，然后如果读到末尾那么就进行处理，解析请求，返回response，到iov中，同时设置事件状态为epollout，然后后面通过同样的过程调用回调函数，进行写事件，将iov的内容写入到fd中，直到写完。如果是keepalive的状态，那么写完之后同样会又进行检查readbuf的内容，设置事件为epollin。如果写完，同时也需要调用关闭连接的函数。</p>
+<h2 id="webserver"><a href="#webserver" class="headerlink" title="webserver"></a>webserver</h2><p>C++实现的高性能web服务器，经过webbench压力测试可以实现上万的qps</p>
+<p>构造函数一开始初始化当前的绝对目录，初始化sqlpool，设置ET模式，并且注册监听对端关闭的事件，创建listenfd,</p>
+<p>然后调用start函数，每次先获取下一次定时器过期的时间，wait这么久，收到事件就去给epoll模块处理，</p>
+<p>如果是消息事件的fd=listendf，accpet这个，然后在epoller中加入这个fd，然后设置定时器。同时设置非阻塞。这里要一直循环就是当accept接受不到新连接时才会跳出</p>
+<p>如果是事件是这些情况EPOLLRDHUP 或者EPOLLHUP 或者 EPOLLERR，即代表对端关闭，那么就关闭连接。删除epoll中的fd，同时调用httpCon的close</p>
+<p>如果是需要读的事件EPOLLIN，就给线程池加入read的任务，这个任务被线程池的线程执行后，先调用webserver的回调函数，在这里面如果是read就调用httpconn的read函数，出错时需要调用关闭连接的函数（这里删除epoll_fd，调用httpcon的close函数），如果处理好了，就设置为epollout，否则设置为epollin。</p>
+<p>如果是write，就给线程池加入write的任务，这个任务被线程池的线程执行后，先调用webserver的回调函数，然后调用httpcon的写函数，将iov的内容写出到fd中，如果写完成，同时keepalive的情况，用httpcon的处理函数，如果处理好了，就设置为epollout，否则设置为epollin。<br>如果需要写的内容大于0，并且错误内容为EAGAIN，则修改fd为epollout，返回，否则调用关闭连接的函数。</p>
+<h2 id="buffer"><a href="#buffer" class="headerlink" title="buffer"></a>buffer</h2><p>主要是用于当web上的消息发送过来时，要先发送到缓冲区，再从缓冲区读，本地发送去web的时候，也要先发送到缓冲区，<br>然后将缓冲区写出到某个fd。</p>
+<p>这里主要有两个原子变量，readpos_,write_pos（原子变量）,来指示读到哪里以及写到哪里了，两个指针中间就是还需要读的(或者需要写的)。prepen就是指的readpos之前的，write之后的就是还可以利用的。</p>
+<p>缓冲区这里用的是vector<char> 来存储的，除了用vector<char>还会使用一个栈数组stack_buf[65536]来存储</char></char></p>
+<p>比如当读fd的时候，如果vector存不下，就会放到stack_buf里面，同时进行vector扩容，扩容时刚好扩到比缓存大1个字节的大小，同时如果扩容的时候发现还能放的下就移动数据到vector头部的位置。</p>
+<p>当写fd的时候，将readpos和writepos之间的内容写到fd中就可以。</p>
+<h2 id="http模块"><a href="#http模块" class="headerlink" title="http模块"></a>http模块</h2><p>这个模块分为三个部分，主要是httpcon，httprequest，httpresponse模块。</p>
+<h3 id="httpcon模块"><a href="#httpcon模块" class="headerlink" title="httpcon模块"></a>httpcon模块</h3><p>主要是负责http连接的，包含有读写缓冲区，一个httprequest对象，一个httpresponse对象，两个个iovec缓存数组，fd，sockaddr_in（套接字地址）,以及资源路径，http连接的数目（原子变量），以及是否ET模式。</p>
+<p>当读fd的时候，需要调用读buffer的接口，直到读到内容长度小于等于0，并且会提供saveError信息.</p>
+<p>写fd的时候，将iovec的内容写到fd中，直到写的长度小于等于0，同时每次写要更新iovec的base位置和len位置。</p>
+<p>还有一个处理用户请求的函数，当数据不完整的时候，还需要等待数据的时候，返回false，可以发送响应报文的时候返回true。(有错误的话code会相应地设为BAD_REQUEST,INTERNAL_ERROR等），当已经读完缓冲区的数据的时候，去匹配读缓冲区的内容，同时根据结果设置文件路径（包含相对路径和文件绝对路径）和状态码，iskeepalive，然后在写缓冲区设置respose内容，同时在iov_0中设置响应头，在iov_1中设置文件。</p>
+<p>close函数，取消文件映射，然后设置关闭，usecount数目减少，关闭某个fd</p>
+<h3 id="httprequest模块"><a href="#httprequest模块" class="headerlink" title="httprequest模块"></a>httprequest模块</h3><p>包含状态码，方法，路径，版本，body部分。</p>
+<p>主要的函数为parse函数，匹配缓冲区内容，这里的实现是通过状态机方法来匹配的，每次查一行，查到\r\n的位置，然后查看状态机的行为，去匹配这一行，匹配的时候用的是regex的正则语法？？，状态行匹配主要是获得方法，相对路径，版本，和状态码。相对路径这里要根据路径变换到自己的本地文件相对路径名下。</p>
+<p>然后是匹配head部分，记录信息到header_哈希表中。</p>
+<p>匹配body部分，这里要先匹配post，就是如果method为post，并且匹配url中的key，Value到post_的哈希表中，如果此时的相对路径为注册或者登陆，那么就验证登陆信息，如果验证成功就返回欢迎，否则返回error路径，<br>在验证的过程中，通过mysql查询对应的密码和账号，如果账号存在并且为登陆，那么就返回结果为ok，否则，插入对应的mysql，然后根据结果返回，结束的时候需要释放sqlpool的一个位置。</p>
+<p>然后转换为Finnish状态机</p>
+<h2 id="httpResponse模块"><a href="#httpResponse模块" class="headerlink" title="httpResponse模块"></a>httpResponse模块</h2><p>主要由makereponse函数对应，然后先获取对应的文件，确定状态码，如果状态码为4XX就获取错误码对应的文件，并把mmFileStat_指向这个html。</p>
+<p>然后添加状态行。（http1.1）</p>
+<p>添加头部，头部需要确定添加不添加keep-alive<br>然后添加Content-type</p>
+<p>然后添加body部分，这个部分先获取指向对应文件的指针，然后用mmap映射到内存中提高访问速度，建立一个写入时拷贝的私有映射，注意析构函数的时候需要用munmap接触进程的映射关系，当映射关系解除后，对原来映射地址的访问将导致段错误发生。 当映射错误的时候，或者打开文件错误的时候需要写入缓冲区errorContent</p>
+<h2 id="Log-模块"><a href="#Log-模块" class="headerlink" title="Log 模块"></a>Log 模块</h2><p>blockqueue类似一个生产者消费者的阻塞队列，生产者如果满了就等待，没满就生产，消费者相反，主要由两个条件变量和<br>锁来实现</p>
+<p>log是实现的日志系统，静态局部变量实现单例模式，对运行状态错误信息和访问数据进行记录，按天分类，可分为异步和同步写入</p>
+<p>其中异步写入方式，将生产者-消费者模型封装为阻塞队列即（blockqueue），创建一个写线程，工作线程将要写的内容push进队列，写线程从队列中取出内容，写入日志文件。</p>
+<p>同步日志，日志写入函数与工作线程串行执行，由于涉及到I/O操作，当单条日志比较大的时候，同步模式会阻塞整个处理流程，服务器所能处理的并发能力将有所下降，尤其是在峰值的时候，写日志可能成为系统的瓶颈。</p>
+<p>init生成日志文件 &amp;&amp; 判断写入方式</p>
+<p>通过单例模式获取唯一的日志类，调用init方法，初始化生成日志文件，服务器启动按当前时刻创建日志，前缀为时间，后缀为自定义log文件名，并记录创建日志的时间day和行数count。</p>
+<p>写入方式通过初始化时是否设置队列大小（表示在队列中可以放几条数据）来判断，若队列大小为0，则为同步，否则为异步。</p>
+<p>日志分级与分文件</p>
+<p>日志分级的实现大同小异，一般的会提供五种级别，具体的，</p>
+<p>Debug，调试代码时的输出，在系统实际运行时，一般不使用。<br>Warn，这种警告与调试时终端的warning类似，同样是调试代码时使用。<br>Info，报告系统当前的状态，当前执行的流程或接收的信息等。<br>Error和Fatal，输出系统的错误信息。</p>
+<p>上述的使用方法仅仅是个人理解，在开发中具体如何选择等级因人而异。项目中给出了除Fatal外的四种分级，实际使用了Debug，Info和Error三种。</p>
+<p>超过行数、按天分文件逻辑：</p>
+<p>日志写入前会判断当前day是否为创建日志的时间，行数是否超过最大行限制<br> 若为创建日志时间，写入日志，否则按当前时间创建新log，更新创建时间和行数<br> 若行数超过最大行限制，在当前日志的末尾加count/max_lines为后缀创建新log</p>
+<p>将系统信息格式化后输出，具体为：格式化时间 + 格式化内容</p>
+<p>调用流程</p>
+<p>主线程调用init初始化并获得日志文件指针，如果是异步则创建线程从阻塞队列获取日志字符串。</p>
+<p>程序中调用LOG_INFO等同/异步写日志，同步直接写，异步放入阻塞队列</p>
+<p>参考链接</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36459662/article/details/106901292">https://blog.csdn.net/qq_36459662/article/details/106901292</a></p>
+<h2 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h2><h3 id="threadPool"><a href="#threadPool" class="headerlink" title="threadPool"></a>threadPool</h3><p>在构造函数中，基本原理是维护一个任务队列queue<task>和一个线程池vector<thread> .<br>每个线程都是一个无限循环,当任务队列为空时wait,不为空时取一个任务执行.每添加一个新任务都会调用notify_one尝试唤醒一个线程.设计细节可以参考项目源码.</thread></task></p>
+<h3 id="sqlconnPool"><a href="#sqlconnPool" class="headerlink" title="sqlconnPool"></a>sqlconnPool</h3><p>静态局部变量实现单例模式<br>同时init中向队列中加入n个已经连接的sql连接，然后初始化信号量。</p>
+<p>每次连接的时候，信号量-1，然后队列pop，然后返回pop的sql。</p>
+<p>每次释放的时候，信号量+1，队列push这个sql。注意需要加锁</p>
+<p>析构函数中需要关闭pool，关闭pool的时候，需要pop每个sql并关闭。</p>
+<p>同时为了保持RAII，用一个类RAII类封装sqlpool，每次构造函数从pool提供sql，同时西沟函数自动将sql加入pool。</p>
+<h2 id="定时器timer"><a href="#定时器timer" class="headerlink" title="定时器timer"></a>定时器timer</h2><p>为了提高Web服务器的效率，我们考虑给每一个HTTP连接加一个定时器。</p>
+<p>定时器给每一个HTTP连接设置一个过期时间，然后我们定时清理超过过期时间的连接</p>
+<p>我们还需要考虑一下如何管理和组织这些定时器。设置定时器的主要目的是为了清理过期连接，为了方便找到过期连接，首先考虑使用优先队列，按过期时间排序，让过期的排在前面就可以了。但是这样的话，虽然处理过期连接方便了，当时没法更新一个连接的过期时间。</p>
+<p>最后，选择一个折中的方法。用vector容器存储定时器，然后在这之上实现堆结构，同时用哈希表来标记每个位置fd的Vector的为位置。</p>
+<p>每一个HTTP连接的fd都用来标记唯一的定时器，记为id。同时，我们还需要设置每一个HTTP连接的过期时间。</p>
+<p>为了后面处理过期连接的方便，我们给每一个定时器里面放置一个回调函数，用来关闭过期连接。</p>
+<p>为了便于定时器结点的比较，主要是后续堆结构的实现方便，我们还需要重载比较运算符。</p>
+<p>删除某个id的定时器，主要通过先调用回调函数删除http连接，然后删除对应的堆节点。</p>
+<p>删除堆节点主要是先和堆尾交换位置，然后调整堆，然后删除哈希表的内容删除堆尾的元素。</p>
+<p>调整id的时间，主要是通过先更新对应的节点的时间，然后调整堆。</p>
+<p>清除超时的节点主要是通过，将堆头部的节点全都清除直到找到没超时的节点，<br>节点总是直到开头才能被清除。</p>
+<p>获取下一个处理超时定时器的时间，查看堆头的超时节点还有多久超时，返回时间，如果已经超时，就返回0。</p>
+<h2 id="epoll模块"><a href="#epoll模块" class="headerlink" title="epoll模块"></a>epoll模块</h2><p>主要提供了几个函数，addfd，加入某个监听的fd，</p>
+<p>modfd，修改某个fd的监听内容</p>
+<p>delfd，删除某个监听的fd。</p>
+<p>或者epoll_wait</p>
+<p>参考链接</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/InnovatorZhang/my-WebServer">https://github.com/InnovatorZhang/my-WebServer</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Zongyin-Hao/SimpleWebServer">https://github.com/Zongyin-Hao/SimpleWebServer</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/BfnNl-3jc_x5WPrWEJGdzQ">https://mp.weixin.qq.com/s/BfnNl-3jc_x5WPrWEJGdzQ</a><br><a target="_blank" rel="noopener" href="https://github.com/qinguoyi/TinyWebServer">https://github.com/qinguoyi/TinyWebServer</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAxNzU2MzcwMw==&amp;mid=2649274431&amp;idx=1&amp;sn=2dd28c92f5d9704a57c001a3d2630b69&amp;chksm=83ffb167b48838715810b27b8f8b9a576023ee5c08a8e5d91df5baf396732de51268d1bf2a4e&amp;token=1686112912&amp;lang=zh_CN#rd">https://mp.weixin.qq.com/s?__biz=MzAxNzU2MzcwMw==&amp;mid=2649274431&amp;idx=1&amp;sn=2dd28c92f5d9704a57c001a3d2630b69&amp;chksm=83ffb167b48838715810b27b8f8b9a576023ee5c08a8e5d91df5baf396732de51268d1bf2a4e&amp;token=1686112912&amp;lang=zh_CN#rd</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36459662?type=blog">https://blog.csdn.net/qq_36459662?type=blog</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/hao_zong_yin/article/details/118977278">https://blog.csdn.net/hao_zong_yin/article/details/118977278</a></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/webserver/">webserver</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/10/%E7%AE%97%E6%B3%95/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/395.%20%E8%87%B3%E5%B0%91%E6%9C%89%20K%20%E4%B8%AA%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">395. 至少有 K 个重复字符的最长子串</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/yield%E5%92%8Csleep%E5%92%8Cwait%E5%8C%BA%E5%88%AB/">
+                        <span class="hidden-mobile">yield sleep  wait区别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "webserver项目&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

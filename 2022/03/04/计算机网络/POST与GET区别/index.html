@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      447 字
+      212 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      2
        分钟
     </span>
   
@@ -204,18 +204,17 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>GET 用于获取资源，而 POST 用于传输实体主体。  </p>
-<h2 id="参数-GET-和-POST-的请求都能使用额外的参数，"><a href="#参数-GET-和-POST-的请求都能使用额外的参数，" class="headerlink" title="参数 GET 和 POST 的请求都能使用额外的参数，"></a>参数 GET 和 POST 的请求都能使用额外的参数，</h2><p>但是 GET 的参数是以查询字符串出现在 URL 中，</p>
-<p>而 POST 的参数存储在实体主体中。不能因为 POST 参数存储在实体主体中就认为它的安全性更高，因为照样可以通过一些抓包工具（Fiddler）查看。  因为 URL 只支持 ASCII 码，因此 GET 的参数中如果存在中文等字符就需要先进行编码。例如 中文 会转换为 %E4%B8%AD%E6%96%87，而空格会转换为 %20。POST 参数支持标准字符集。</p>
-<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p>安全的 HTTP 方法不会改变服务器状态，也就是说它只是可读的。</p>
-<p>GET 方法是安全的，而 POST 却不是，因为 POST 的目的是传送实体主体内容，这个内容可能是用户上传的表单数据，上传成功之后，服务器可能把这个数据存储到数据库中，因此状态也就发生了改变。</p>
-<p>安全的方法除了 GET 之外还有：HEAD、OPTIONS。</p>
-<p>不安全的方法除了 POST 之外还有 PUT、DELETE。</p>
-<h2 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h2><p>幂等的 HTTP 方法，同样的请求被执行一次与连续执行多次的效果是一样的，服务器的状态也是一样的。换句话说就是，幂等方法不应该具有副作用（统计用途除外）。</p>
-<p>所有的安全方法也都是幂等的。</p>
-<p>在正确实现的条件下，GET，HEAD，PUT 和 DELETE 等方法都是幂等的，而 POST 方法不是。</p>
-<p>GET /pageX HTTP/1.1 是幂等的，连续调用多次，客户端接收到的结果都是一样的：</p>
-
+              <p><a target="_blank" rel="noopener" href="https://github.com/febobo/web-interview/issues/145">参考资料</a></p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>GET 用于获取资源，而 POST 用于传输实体主体。  </p>
+<pre><code class="hljs sql">GET在浏览器回退时是无害的，而POST会再次提交请求。
+GET产生的URL地址可以被Bookmark，而POST不可以。
+GET请求会被浏览器主动<span class="hljs-keyword">cache</span>，而POST不会，除非手动设置。
+<span class="hljs-keyword">GET</span>请求只能进行<span class="hljs-keyword">url</span>编码，而POST支持多种编码方式。
+<span class="hljs-keyword">GET</span>请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。
+<span class="hljs-keyword">GET</span>请求在<span class="hljs-keyword">URL</span>中传送的参数是有长度限制的，而POST没有。
+对参数的数据类型，<span class="hljs-keyword">GET</span>只接受<span class="hljs-keyword">ASCII</span>字符，而POST没有限制。
+<span class="hljs-keyword">GET</span>比POST更不安全，因为参数直接暴露在<span class="hljs-keyword">URL</span>上，所以不能用来传递敏感信息。
+<span class="hljs-keyword">GET</span>参数通过<span class="hljs-keyword">URL</span>传递，POST放在Request <span class="hljs-keyword">body</span>中</code></pre>
             </article>
             <hr>
             <div>
