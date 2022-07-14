@@ -235,7 +235,7 @@
 <span class="hljs-comment">//注意这两种主要在于P操作是while或者if，这是取决于一次通知一个还是一次全部唤醒</span>
     <span class="hljs-keyword">void</span> P() &#123;
         unique_lock&lt;mutex&gt; lck(mu);
-        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">count</span>==<span class="hljs-number">0</span>)
+        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">count</span>&lt;=<span class="hljs-number">0</span>)
         &#123;
             cv.wait(lck);
         &#125;
@@ -246,7 +246,7 @@
     &#123;
         unique_lock&lt;mutex&gt; lck(mu);
         <span class="hljs-keyword">count</span>++;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">count</span>&gt;<span class="hljs-number">0</span>)
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">count</span>&lt;=<span class="hljs-number">0</span>)
         &#123;
             cv.notify_all();
         &#125;
@@ -359,7 +359,7 @@ mutex mu_empty, mu_full;
     &#123;
         this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
         <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu_full)</span></span>;
-        <span class="hljs-keyword">while</span> (PV_full == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">while</span> (PV_full &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_full.wait(lck);
         &#125;
@@ -372,7 +372,7 @@ mutex mu_empty, mu_full;
         lck_mu.unlock();
 
         PV_empty++;
-        <span class="hljs-keyword">if</span> (PV_empty &gt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">if</span> (PV_empty &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_empty.notify_all();
         &#125;
@@ -384,7 +384,7 @@ mutex mu_empty, mu_full;
     &#123;
         this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
         <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu_empty)</span></span>;
-        <span class="hljs-keyword">while</span> (PV_empty == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">while</span> (PV_empty &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_empty.wait(lck);
         &#125;
@@ -398,7 +398,7 @@ mutex mu_empty, mu_full;
         lck_mu.unlock();
 
         PV_full++;
-        <span class="hljs-keyword">if</span> (PV_full &gt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">if</span> (PV_full &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_full.notify_all();
         &#125;
@@ -604,12 +604,12 @@ mutex  mu;
         this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
         <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu)</span></span>;
         <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot; start  eat  &quot;</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-built_in">endl</span>;
-        <span class="hljs-keyword">while</span> (PVcount[i] == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">while</span> (PVcount[i] &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_pho[i].wait(lck);
         &#125;
         PVcount[i]--;
-        <span class="hljs-keyword">while</span> (PVcount[(i + <span class="hljs-number">1</span>)%<span class="hljs-number">5</span>] == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">while</span> (PVcount[(i + <span class="hljs-number">1</span>)%<span class="hljs-number">5</span>] &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_pho[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>].wait(lck);
         &#125;
@@ -620,12 +620,12 @@ mutex  mu;
 
         lck.lock();
         PVcount[i]++;
-        <span class="hljs-keyword">if</span> (PVcount[i] &gt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">if</span> (PVcount[i] &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_pho[i].notify_all();
         &#125;
         PVcount[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>]++;
-        <span class="hljs-keyword">while</span> (PVcount[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>] == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">while</span> (PVcount[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>] &lt;= <span class="hljs-number">0</span>)
         &#123;
             cv_pho[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>].notify_all();
         &#125;

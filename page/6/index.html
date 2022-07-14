@@ -168,23 +168,113 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E6%95%B0%E6%8D%AE%E5%A4%A7%E9%87%8F%E5%86%99%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/">mysql数据大量写入的问题</a>
+      <a class="index-header" href="/2022/03/29/%E5%88%86%E5%B8%83%E5%BC%8F/raft%E7%AE%97%E6%B3%95%E7%9A%84%E5%87%A0%E7%A7%8D%E6%83%85%E5%86%B5%E4%BB%A5%E5%8F%8A%E9%97%AE%E9%A2%98/">raft算法的几种情况以及问题</a>
 
-      <a href="/2022/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E6%95%B0%E6%8D%AE%E5%A4%A7%E9%87%8F%E5%86%99%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/" class="index-excerpt">
+      <a href="/2022/03/29/%E5%88%86%E5%B8%83%E5%BC%8F/raft%E7%AE%97%E6%B3%95%E7%9A%84%E5%87%A0%E7%A7%8D%E6%83%85%E5%86%B5%E4%BB%A5%E5%8F%8A%E9%97%AE%E9%A2%98/" class="index-excerpt">
         
         
           
         
-        <div>今天这里主要给大家介绍，在有大量写入的场景，进行优化的方案。
-总的来说MYSQL数据库写入性能主要受限于数据库自身的配置，以及操作系统的性能，磁盘IO的性能。主要的优化手段包括以下几点：
-1、调整数据库参数（1） innodb_flush_log_at_trx_commit默认为1，这是数据库的事务提交设置参数，可选值如下：
-0: 日志缓冲每秒一次地被写到日志文件，并且对日志文件做到磁盘操作的刷新</div>
+        <div>关于Raft的一些面试题Q: raft算法保证了CAP的哪两点保证了分区容错性，以及一致性，但是不保证可用性
+Q: 节点故障后为何不重置为Candidate，而是Follower?正常来说，一个节点在挂了之后重新加入集群，是以Follower的身份，需要等待一定时间才能开始选举。但是为什么不设计成挂了之后以Candidate的身份，一加入就开始选举投票呢？从正确性的角度上来说，这不会影响Raft的</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-24
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-29
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/raft/">raft</a>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">磁盘调度策略</a>
+
+      <a href="/2022/03/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/" class="index-excerpt">
+        
+        
+          
+        
+        <div>磁盘调度策略
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-29
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+              <a href="/tags/%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6/">磁盘调度</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/29/%E6%95%B0%E6%8D%AE%E5%BA%93/pageCache/">pageCache 以及刷盘</a>
+
+      <a href="/2022/03/29/%E6%95%B0%E6%8D%AE%E5%BA%93/pageCache/" class="index-excerpt">
+        
+        
+          
+        
+        <div>MySQL · 性能优化 · PageCache优化管理
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-29
           </div>
         
         
@@ -203,6 +293,8 @@
             
               <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
+              <a href="/tags/pageCache/">pageCache</a>
+            
           </div>
         
       </div>
@@ -213,22 +305,22 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%97%B4%E9%9A%99%E9%94%81/">间隙锁</a>
+      <a class="index-header" href="/2022/03/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/mmap/">mmap</a>
 
-      <a href="/2022/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%97%B4%E9%9A%99%E9%94%81/" class="index-excerpt">
+      <a href="/2022/03/29/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/mmap/" class="index-excerpt">
         
         
           
         
-        <div>间隙锁当我们用范围条件而不是相等条件索引数据，并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的索引项枷锁；对于键值在条件范围内但并不存在的记录，叫做“间隙（GAP）”。
-InnoDB也会对这个“间隙”枷锁，这种锁机制就是所谓的间隙锁（Next-Key锁）。
-间隙锁的危害因为Query执行过程中通过范围查找的话，他会锁定整个范围内所有的索引键值，即使这个键值并不存在。间隙锁有一个比较致</div>
+        <div>mmap内存映射流程
+mmap文件映射过程
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-24
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-29
           </div>
         
         
@@ -237,7 +329,7 @@ InnoDB也会对这个“间隙”枷锁，这种锁机制就是所谓的间隙�
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             
           </div>
         
@@ -245,9 +337,11 @@ InnoDB也会对这个“间隙”枷锁，这种锁机制就是所谓的间隙�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/C/">C++</a>
             
-              <a href="/tags/%E9%97%B4%E9%9A%99%E9%94%81/">间隙锁</a>
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+              <a href="/tags/mmap/">mmap</a>
             
           </div>
         
@@ -259,22 +353,21 @@ InnoDB也会对这个“间隙”枷锁，这种锁机制就是所谓的间隙�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">事务的隔离级别</a>
+      <a class="index-header" href="/2022/03/29/Redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%B9%E6%A1%88%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95/">redis 分布式方案以及一致性hash算法</a>
 
-      <a href="/2022/03/23/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" class="index-excerpt">
+      <a href="/2022/03/29/Redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%B9%E6%A1%88%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95/" class="index-excerpt">
         
         
           
         
-        <div>事务并发可能出现的情况脏读（Dirty Read）一个事务读到了另一个未提交事务修改过的数据
-会话B开启一个事务，把id=1的name为武汉市修改成温州市，此时另外一个会话A也开启一个事务，读取id=1的name，此时的查询结果为温州市，会话B的事务最后回滚了刚才修改的记录，这样会话A读到的数据是不存在的，这个现象就是脏读。（脏读只在读未提交隔离级别才会出现）
-不可重复读（Non-Repeatab</div>
+        <div> redis 分布式方案以及一致性hash算法
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-23
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-29
           </div>
         
         
@@ -283,7 +376,7 @@ InnoDB也会对这个“间隙”枷锁，这种锁机制就是所谓的间隙�
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/redis/">redis</a>
             
           </div>
         
@@ -291,9 +384,9 @@ InnoDB也会对这个“间隙”枷锁，这种锁机制就是所谓的间隙�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
             
-              <a href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">隔离级别</a>
+              <a href="/tags/redis/">redis</a>
             
           </div>
         
@@ -305,121 +398,21 @@ InnoDB也会对这个“间隙”枷锁，这种锁机制就是所谓的间隙�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/io%20read%20write%20on%20closed%20pipe/">io read/write on closed pipe</a>
+      <a class="index-header" href="/2022/03/29/%E5%88%86%E5%B8%83%E5%BC%8F/CAP%E7%90%86%E8%AE%BA/">cap理论</a>
 
-      <a href="/2022/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/io%20read%20write%20on%20closed%20pipe/" class="index-excerpt">
+      <a href="/2022/03/29/%E5%88%86%E5%B8%83%E5%BC%8F/CAP%E7%90%86%E8%AE%BA/" class="index-excerpt">
         
         
           
         
-        <div>这个的主要原因在于客户端和主机的时间不同步，因此需要安装chronyd，然后进行时间校正
-date可以查看服务器的时间，如果不对就安装chronyd。
-yum install chronyd可能会出现问题
-CentOS-8中“Failed to download metadata for repo ‘AppStream“
-问题原因：原因是：CentOS-8于2021年12月31日停止了源的服务
-可</div>
+        <div>分布式之CAP原则详解 
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-23
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/">服务器配置</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E4%BB%A3%E7%90%86/">代理</a>
-            
-              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/22/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%85%A2%E6%9F%A5%E8%AF%A2/">慢查询</a>
-
-      <a href="/2022/03/22/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%85%A2%E6%9F%A5%E8%AF%A2/" class="index-excerpt">
-        
-        
-          
-        
-        <div>慢查询就是那些查询时间过长的语句
-show variables like &#x27;%slow_qurey%&#x27;
-
-set global slow_query_log = ON; 开启慢查询SQL功能,最好在配置环境直接配置保证重启时也生效
-set global long_query_time = 1; 慢查询阈值
-执行计划是指一条SQL 语句在经过MySQL 查询优化器的优化会后，具体</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-22
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/%E6%85%A2%E6%9F%A5%E8%AF%A2/">慢查询</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/22/%E5%88%86%E5%B8%83%E5%BC%8F/2pc3pc%E5%8D%8F%E8%AE%AE/">2pc 和3pc 协议</a>
-
-      <a href="/2022/03/22/%E5%88%86%E5%B8%83%E5%BC%8F/2pc3pc%E5%8D%8F%E8%AE%AE/" class="index-excerpt">
-        
-        
-          
-        
-        <div>2pc主要分为两阶段
-设计出发点为了允许任何一个参与者自行放弃他自己的那部分事务。
-第一阶段：参与者投票表决事务放弃还是提交事务T。如果提交事务，就回复协调者YES T,否则，就回复 abort，同时记录到日志中。同时为了保证提交，必须将事务所有日志记录保存到持久性存储中。
-第二阶段：协调者决定是否提交事务，如果有一个参与者放弃事务，那么最终放弃事务。如果所有参与者投票提交事务，那么最终提交事务，</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-22
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-29
           </div>
         
         
@@ -438,9 +431,7 @@ set global long_query_time = 1; 慢查询阈值
             
               <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
             
-              <a href="/tags/2pc/">2pc</a>
-            
-              <a href="/tags/3pc/">3pc</a>
+              <a href="/tags/CAP/">CAP</a>
             
           </div>
         
@@ -452,176 +443,21 @@ set global long_query_time = 1; 慢查询阈值
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/lsm%E6%A0%91/">lsm树</a>
+      <a class="index-header" href="/2022/03/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/">进程间8种通信方式详解</a>
 
-      <a href="/2022/03/21/%E6%95%B0%E6%8D%AE%E5%BA%93/lsm%E6%A0%91/" class="index-excerpt">
+      <a href="/2022/03/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F/" class="index-excerpt">
         
         
           
         
-        <div>日志结构合并树LSM树（Log-Structured Merge Tree）存储引擎代表数据库：nessDB、leveldb、hbase等
-核心思想的核心就是放弃部分读能力，换取写入的最大化能力。LSM Tree ，这个概念就是结构化合并树的意思，它的核心思路其实非常简单，就是假定内存足够大，因此不需要每次有数据更新就必须将数据写入到磁盘中，而可以先将最新的数据驻留在磁盘中，等到积累到最后多之后，</div>
+        <div>进程间8种通信方式详解
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-21
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/lsm%E6%A0%91/">lsm树</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/11/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8Bc++/">C++并发编程</a>
-
-      <a href="/2022/03/11/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8Bc++/" class="index-excerpt">
-        
-        
-          
-        
-        <div>参考链接http://shouce.jb51.net/cpp_concurrency_in_action/content/chapter2/2.4-chinese.html
-创建线程#include&lt;thread&gt;
-void fun()&#123;&#125;;
-
-std::thread m(fun);
-
-线程分为加入式，或者分离式
-
-加入是join（）
-m.join();阻塞线程，直</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-11
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/C-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">C++并发编程</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/c/">c++</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/11/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8Bleetcode/">C++并发编程</a>
-
-      <a href="/2022/03/11/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8Bleetcode/" class="index-excerpt">
-        
-        
-          
-        
-        <div>在leetcode里面最常用得就是mutex，互斥量加锁，C++11要求由同一个线程来对一个 mutex 对象进行 lock 和 unlock 操作，不然是未定义得行为
-然后还有一种是需要A线程做了某事情，然后b需要某些条件才可以做，可以使用互斥量加条件变量
-
-class H2O &#123;
-private:
-    std::mutex m;
-    std::condition_variab</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-11
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/C-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">C++并发编程</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/c/">c++</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程（读者写者问题，生产者消费者问题，哲学家进餐问题代码及思路）</a>
-
-      <a href="/2022/03/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" class="index-excerpt">
-        
-        
-          
-        
-        <div>信号量、原子变量、条件变量、异步可以参考写法
-信号量C++的信号量在c++20才有，但是我们可以使用c++的条件变量和锁实现信号量。
-class semaphore &#123;
-private:
-    int count;
-    mutex mu;
-    condition_variable cv;
-public:
-    semaphore(int val) :count(val) &#</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-07
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-28
           </div>
         
         
@@ -632,7 +468,49 @@ public:
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">多线程编程</a>
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6/">进程线程协程调度</a>
+
+      <a href="/2022/03/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>一文读懂什么是进程、线程、协程 
+图解Go协程调度原理，小白都能理解 
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-28
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             
           </div>
         
@@ -640,7 +518,100 @@ public:
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
+              <a href="/tags/C/">C++</a>
+            
               <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/24/GO/Interface%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%AE%83%E7%9A%84%E7%B1%BB%E5%9E%8B/">interface 如何判断类型</a>
+
+      <a href="/2022/03/24/GO/Interface%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%AE%83%E7%9A%84%E7%B1%BB%E5%9E%8B/" class="index-excerpt">
+        
+        
+          
+        
+        <div>interface.(type)可以判断类型
+可以参考的文章
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-24
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/GO/">GO</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/go/">go</a>
+            
+              <a href="/tags/interface/">interface</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/24/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%97%A5%E5%BF%97%E5%9E%8Bkeyvalue%E5%AD%98%E5%82%A8%E6%A8%A1%E5%9E%8B%20Bitcask/">日志型key/value存储模型 Bitcask</a>
+
+      <a href="/2022/03/24/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%97%A5%E5%BF%97%E5%9E%8Bkeyvalue%E5%AD%98%E5%82%A8%E6%A8%A1%E5%9E%8B%20Bitcask/" class="index-excerpt">
+        
+        
+          
+        
+        <div>日志型key/value存储模型 Bitcask参考文章
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-24
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/bitcask/">bitcask</a>
+            
+              <a href="/tags/kv/">kv</a>
             
           </div>
         
@@ -652,7 +623,7 @@ public:
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/5/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/7/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/5/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/7/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

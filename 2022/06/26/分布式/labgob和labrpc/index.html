@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>labgob和labrpc - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-06-26 14:46">
+      2022年6月26日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350723333">labrpc参考链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e8166a20935a">go gob包参考链接</a></p>
+<h1 id="什么是-RPC"><a href="#什么是-RPC" class="headerlink" title="什么是 RPC"></a>什么是 RPC</h1><p>远程过程调用（Remote Procedure Call，简称 RPC）是一个计算机通信协议。该协议允许运行于一台计算机的程序调用另一台计算机的子程序，而开发人员无需额外地为这个交互作用编程。如果涉及的软件采用面向对象编程，那么远程过程调用亦可称作远程调用或远程方法调用。</p>
+<p>通俗的来讲就是，RPC 允许跨机器、跨语言调用计算机程序。例如我们用Go语言写了一个获取用户信息的方法 getUserInfo，并把Go语言程序部署在阿里云服务器上面，另外我们还有一个部署在腾讯云上面的 php 项目，需要调用Go语言的 getUserInfo 方法获取用户信息，php 跨机器调用 Go 方法的过程就是 RPC 调用。</p>
+<p>在RPC框架中有三个重要的角色：RPC Server、RPC Client和Registry</p>
+<pre><code>RPC Server：即Provider，暴露服务的服务提供者
+
+RPC Client：即Consumer，调用远程服务的服务消费者
+
+Registry：服务注册与发现的服务注册中心
+</code></pre><p>RPC架构包含五个核心组件，Client，Client Stub，Server，Server Stub，NetWork Service，Stub可以理解为存根。</p>
+<pre><code>Client：客户端，服务的调用方
+Client Stub：客户端存根，存放服务端的地址消息，负责将客户端的请求信息组装成网络消息，通过网络远程发送给服务提供方
+Server：服务端，真正的服务提供方
+Server Stub：服务端存根，接收客户端发来的消息，并将消息解压后调用本地服务方法
+NetWork Service：底层网络传输，可以是TCP或HTTP
+</code></pre><p>调用过程</p>
+<pre><code>1.客户端Client通过以本地调用的方式，调用远程接口服务;
+2.客户端存根Client Stub接收到调用后，将调用信息对象进行序列化，组装成网络传输的二进制消息体;
+3.客户端Client通过Sockets将消息发送到远程服务端;
+4.服务端存根Server Stub收到消息后，对网络信息对象进行反序列化解码;
+5.服务端存根Server Stub根据解码结果，调用服务端本地的接口服务;
+6.本地接口服务执行，并将处理结果返回给服务端存根Server Stub;
+7.服务端存根Server Stub将返回结果对象进行序列化，组装成消息体;
+8.服务端Server再通过Sockets将消息发送到客户端;
+9.客户端存根Client Stub收到结果消息后，对网络信息对象进行序列化解码;
+10.客户端Client拿到最终接口处理结果。
+</code></pre><h1 id="Go语言中如何实现-RPC-的"><a href="#Go语言中如何实现-RPC-的" class="headerlink" title="Go语言中如何实现 RPC 的"></a>Go语言中如何实现 RPC 的</h1><p>在Go语言中实现 RPC 非常简单，有封装好的官方包和一些第三方包提供支持。Go语言中 RPC 可以利用 tcp 或 http 来传递数据，可以对要传递的数据使用多种类型的编解码方式。</p>
+<p>Go语言的 net/rpc 包使用 encoding/gob 进行编解码，支持 tcp 或 http 数据传输方式，由于其他语言不支持 gob 编解码方式，所以使用 net/rpc 包实现的 RPC 方法没办法进行跨语言调用。</p>
+<h1 id="golang标准库中的encoding-gob包"><a href="#golang标准库中的encoding-gob包" class="headerlink" title="golang标准库中的encoding/gob包"></a>golang标准库中的encoding/gob包</h1><p>一、golang中的gob包是什么?<br>gob是golang包自带的一个数据结构序列化的编码/解码工具。</p>
+<h1 id="gob的目的是什么？应用场景？"><a href="#gob的目的是什么？应用场景？" class="headerlink" title="gob的目的是什么？应用场景？"></a>gob的目的是什么？应用场景？</h1><p>让数据结构能够在网络上传输或能够保存到文件中。gob可以通过json或gob来序列化struct对象，虽然json的序列化更为通用，但利用gob编码可以实现json所不能支持的struct方法序列化。但是gob是golang提供的“私有”的编码方式，go服务之间通信可以使用gob传输。<br>一种典型的应用场景就是RPC。程序之间相互通信的。</p>
+<h1 id="labgob"><a href="#labgob" class="headerlink" title="labgob"></a>labgob</h1><h2 id="数据安全性检查：labgob"><a href="#数据安全性检查：labgob" class="headerlink" title="数据安全性检查：labgob"></a>数据安全性检查：labgob</h2><p>6.824的labgob库在gob的基础上添加了安全性检查。尝试通过RPC发送非大写的字段会产生一系列错误的行为，包括错误计算和机器崩溃。因此，labgob库会警告未大写的字段名称。</p>
+<p>labgob通过checkType函数在encode/decode之前检测数据中包含的结构体是否有未导出字段。</p>
+<pre><code>func checkType(t reflect.Type)
+</code></pre><p>checkType的思想就是查找t中的结构体，然后遍历字段，如果是非导出的字段会提示错误。如果t是切片、数组或者指针、字典等的话，会递归检查它们的元素，直到递归到基本类型才终止。</p>
+<p>checkDefault用来在decode之前检测decode()的参数中是否提前覆盖了部分或全部数据。checkDefault调用checkDefault1，检测value的数据是否被覆盖了。</p>
+<pre><code>func checkDefault1(value reflect.Value, depth int, name string)
+</code></pre><p>如果value是结构体、切片、数组、字典和指针等复杂结构，会递归检查其元素，直到递归到基本类型或者达到递归层数。通过检测该基本类型的数据和该类型的空值是否相同来判断是否被覆盖，否则会提示错误。</p>
+<h2 id="网络和客户端：labrpc"><a href="#网络和客户端：labrpc" class="headerlink" title="网络和客户端：labrpc"></a>网络和客户端：labrpc</h2><p>labrpc库实现了基于通道的RPC。</p>
+<p>labrpc模拟一个可能丢失请求，丢失回复，延迟消息以及断开特定主机的网络。这个网络使用labgob库encode/decode数据，以确保RPC不包含对程序对象的引用。</p>
+<p>以下是labrpc中的接口：</p>
+<pre><code>net：= MakeNetwork() -- 构建客户端节点、服务器节点的网络
+end：= net.MakeEnd(endname) -- 创建一个客户端节点，以便与一台服务器通信。
+net.AddServer(servername, server) --将一个服务器节点添加到网络。
+net.DeleteServer(servername) -- 删除一个服务器。
+net.Connect(endname，servername) -- 将客户端连接到服务器。
+net.Enable(endname，enabled) -- 启用/禁用客户端节点。
+net.Reliable(bool) -- false表示丢弃/延迟消息。
+end.Call(&quot;Raft.AppendEntries&quot;, ＆args, ＆reply) --发送RPC，等待回复。&quot;Raft&quot;是要调用的服务的名称。 &quot;AppendEntries&quot;是要调用的方法的名称。Call()返回true，表示服务器执行了请求，并且回复有效。如果网络丢失了请求或回复或服务器已关闭，则Call()返回false。一个客户端节点上同时可以进行多个Call()调用。
+srv：= MakeServer() -- 创建一个服务器节点
+srv.AddService(svc) -- 一个服务器节点可以具有多种服务，例如Raft和k/v数据库。
+svc：= MakeService(receiverObject) -- 创建一个服务，receiverObject的方法将处理客户端节点end发起的RPC调用
+</code></pre><h2 id="网络：NetWork"><a href="#网络：NetWork" class="headerlink" title="网络：NetWork"></a>网络：NetWork</h2><p>NetWork持有所有的客户端节点、服务器节点，并且可以实现网络传输丢包、切除节点等功能。</p>
+<pre><code>type Network struct &#123;
+    mu             sync.Mutex
+    reliable       bool
+    longDelays     bool                        // pause a long time on send on disabled connection
+    longReordering bool                        // sometimes delay replies a long time
+    ends           map[interface&#123;&#125;]*ClientEnd  // ends, by name
+    enabled        map[interface&#123;&#125;]bool        // by end name
+    servers        map[interface&#123;&#125;]*Server     // servers, by name
+    connections    map[interface&#123;&#125;]interface&#123;&#125; // endname -&gt; servername
+    endCh          chan reqMsg
+    done           chan struct&#123;&#125; // closed when Network is cleaned up
+    count          int32         // total RPC count, for statistics
+    bytes          int64         // total bytes send, for statistics
+&#125;
+</code></pre><p>MakeNetWork()函数创建一个NetWork，开启一个后台线程接收endCh传入的客户端请求，调用processReq(xreq)处理。</p>
+<pre><code>select &#123;
+    case xreq := &lt;-rn.endCh:
+        atomic.AddInt32(&amp;rn.count, 1)
+        atomic.AddInt64(&amp;rn.bytes,int64(len(xreq.args)))
+        go rn.processReq(xreq)
+    case &lt;-rn.done:
+        return
+&#125;
+</code></pre><p>endCh是一个传输reqMsg的channel，reqMsg包含客户端请求信息。</p>
+<pre><code>type reqMsg struct &#123;
+    endname  interface&#123;&#125; // name of sending ClientEnd
+    svcMeth  string      // e.g. &quot;Raft.AppendEntries&quot;
+    argsType reflect.Type
+    args     []byte
+    replyCh  chan replyMsg
+&#125;
+</code></pre><p>在processReq中，首先通过readEndnameInfo来获取该客户端节点的相关状态，如果该节点被启用&amp;&amp;该节点连接的服务器节点存在&amp;&amp;有相应的服务比如Raft，就对请求进行处理，否则就返回false表示请求没有被处理。</p>
+<pre><code>func (rn *Network) processReq(req reqMsg)
+</code></pre><p>处理客户端请求：</p>
+<p>如果网络设置reliable为false，就休眠一段随机时间模拟线路延迟，然后随机选择是否模拟丢失请求并返回false给客户端节点。<br>新开一条线程执行服务(在这里是Raft)的dispatch(req)函数。通过循环等待直到请求被处理或者服务不可用，将处理结果返回给客户端节点。<br>当然这一切的前提都是通过Connect函数将客户端节点和服务器节点连接起来了。</p>
+<pre><code>func (rn *Network) Connect(endname interface&#123;&#125;, servername interface&#123;&#125;)
+</code></pre><h2 id="客户端节点：ClientEnd"><a href="#客户端节点：ClientEnd" class="headerlink" title="客户端节点：ClientEnd"></a>客户端节点：ClientEnd</h2><p>定义如下：</p>
+<pre><code>type ClientEnd struct &#123;
+    endname interface&#123;&#125;   // this end-point&#39;s name
+    ch      chan reqMsg   // copy of Network.endCh
+    done    chan struct&#123;&#125; // closed when Network is cleaned up
+&#125;
+</code></pre><p>ClientEnd包含有一个channel用来向NetWork中发送请求，NetWork将请求转发给对应的服务，在这个过程中可能会模拟网络通信问题；这个channel通过复制NetWork.endCh得到。</p>
+<p>ClientEnd只有一个方法，就是用于发起RPC调用，向对应的服务发送请求。</p>
+<pre><code>func (e *ClientEnd) Call(svcMeth string, args interface&#123;&#125;, reply interface&#123;&#125;) bool
+</code></pre><p>在Call方法中，首先根据传入的参数构建reqMsg，初始化其中的replyCh以便于接收NetWork传回的响应数据。<br>通过e.ch向网络中发起请求，然后等待回复。<br>将回复的结果decode到参数reply指向的地址中(reply一般为指针类型)。</p>
+<h2 id="服务器节点：Server"><a href="#服务器节点：Server" class="headerlink" title="服务器节点：Server"></a>服务器节点：Server</h2><p>服务器的结构体定义如下：</p>
+<pre><code>type Server struct &#123;
+    mu       sync.Mutex
+    services map[string]*Service
+    count    int // incoming RPCs
+&#125;
+</code></pre><p>一个服务器中包含多个服务，例如有Raft或者k/v数据库等，都通过一个字典保存。</p>
+<p>服务器可以通过AddService方法将服务添加到自己的服务集合中。</p>
+<p>服务器中最主要的方法就是dispatch方法了，这个方法由收到客户端节点请求的NetWork调用，用于将请求分派给该服务器中的指定服务。</p>
+<pre><code>通过req.svcMeth获取服务的名称和方法名，req.svcMeth一般为&quot;Raft.AppendEntries&quot;，所以获得的服务名为&quot;Raft&quot;，方法名为&quot;AppendEntries&quot;
+
+从服务器的服务集合中查找对应的服务，如果有该服务就直接调用该服务的dispatch方法来处理请求。否则就报错并返回false作为响应信息。
+</code></pre><h2 id="服务：Service"><a href="#服务：Service" class="headerlink" title="服务：Service"></a>服务：Service</h2><p>服务是可以被RPC调用其方法的，一个服务器可以包含很多个服务。</p>
+<pre><code>type Service struct &#123;
+    name    string
+    rcvr    reflect.Value
+    typ     reflect.Type
+    methods map[string]reflect.Method
+&#125;
+</code></pre><p>通过MakeService初始化一个服务时，传入的参数是任意一个对象，之后的方法调用都是通过反射实现的，具体可以看之后的dispatch方法实现。</p>
+<p>func MakeService(rcvr interface{}) *Service<br>在MakeService方法中，使用反射遍历rcvr的方法，只把参数有三个且第三个参数是指针的方法添加到methods方法集合中。</p>
+<pre><code>for m := 0; m &lt; svc.typ.NumMethod(); m++ &#123;
+    method := svc.typ.Method(m)
+    mtype := method.Type
+    mname := method.Name
+    if method.PkgPath != &quot;&quot; || // capitalized?
+        mtype.NumIn() != 3 ||
+        mtype.In(2).Kind() != reflect.Ptr ||
+        mtype.NumOut() != 0 &#123;
+    &#125; else &#123;
+        svc.methods[mname] = method
+    &#125;
+&#125;
+</code></pre><p>在上一小节可以看到，服务器会调用指定服务的dispatch方法，让它来处理对应的请求。</p>
+<pre><code>func (svc *Service) dispatch(methname string, req reqMsg) replyMsg
+</code></pre><p>在Service.dispatch方法中，通过参数methname获取对应的方法，然后通过req中的信息构造方法中的参数，把方法执行之后的结果返回给上级调用者。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Lab2中测试Raft代码，6.824实现了一个Config，用来控制网络的通断、客户端节点、服务器节点的创建、删除、模拟崩溃等操作，这些都是基于NetWork实现的。</p>
+<p>所以总的测试思路：</p>
+<pre><code>1.使用NetWork创建多个客户端节点和服务节点，将客户端节点连接到指定的服务节点，即实现网络连接。
+2.一个或者多个客户端同时向一个或多个服务节点(Raft)发送请求(包含客户端指令)
+在发送请求时可以模拟网络的断开、服务器节点的崩溃重启
+3. Raft将指令复制到其他的实例中，然后应用。在复制和应用的过程中： 模拟Raft实例中leader的崩溃、其他实例的崩溃以及一段时间之后重新加入集群、新实例加入集群。
+</code></pre><p>labrpc库实现了基于通道的RPC，不是基于TCP和HTTP的。</p>
+<p>总体的调用RPC的过程就是在labrpc包中（注意labgob包主要是用来编解码的），这里的client调用call函数，这里首先将参数用labgob编码成二进制，然后向client的管道（这个管道是network管道的一个拷贝）中发送请求数据，然后在makeNetwork中构建了一个network，然后不断地等待管道中的请求数据，然后开启协程处理调用请求（processReq），在这个协程中，（当客户端状态正常而且服务器存在，并且服务也是有的）如果网络不可信赖，会休眠一段随机时间模拟线路延迟，然后随机选择是否模拟丢失请求并返回false给客户端节点，然后新开一条线程执行服务(Raft)的dispatch(req)函数。通过循环等待直到请求被处理或者服务不可用，将处理结果返回给客户端节点。</p>
+<p>在这个dispatch函数中，会具体的执行diapatch某个RPC服务（比如追加日志RPC之类的），就是分发到具体的RPC进行处理，</p>
+<p>在具体的这个处理这个RPC服务的函数中，会解码请求的内容，然后call对应的方法，然后将结果编码然后返回reply的msg。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/raft/">raft</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/26/GO/GO%E5%AE%9E%E7%8E%B0%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98%EF%BC%8C%E8%AF%BB%E8%80%85%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">GO实现生产者消费者问题，读者写者问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/25/GO/Go%E7%9A%84make%E5%92%8Cnew%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                        <span class="hidden-mobile">GO的make和new的区别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "labgob和labrpc&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

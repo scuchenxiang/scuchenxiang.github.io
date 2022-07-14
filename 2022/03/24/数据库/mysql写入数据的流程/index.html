@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4 字
+      247 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      2
        分钟
     </span>
   
@@ -205,6 +205,11 @@
             
             <article class="markdown-body">
               <p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022315340">参考文章</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lvqinglou/article/details/120223089">参考文章2</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_15127600/3998295">MySQL 中Redo与Binlog顺序一致性问题</a></p>
+<p>这个必须用二阶段提交是为了防止redolog成功写了，但是binlog写了之后没有提交，然后导致从机器拿到了binlog的数据，但是如果这个时候崩溃，主机器就会回滚，这个从机器和主机器就会有不一致的问题。</p>
+<p>如果用了二阶段提交，prepare阶段，先写redolog，然后redolog刷盘，然后进入提交阶段，然后写binlog同时binlog刷盘，然后提交，这个时候如果redolog写之后宕机了，会回滚，如果binlog写完刷盘之后提交了，宕机之后重启检查binlog的这个事务，会重新提交</p>
+<p><a target="_blank" rel="noopener" href="https://jockchou.gitbooks.io/jockchou/content/blog/innodb/innodb-doublewrite-buffer.html">InnoDB双写缓冲技术</a><br>双写主要是先写到共享表空间的一个buffer 里面，然后再从这个共享表空间的部分写到磁盘上，可以解决写到磁盘上数据出错的问题。</p>
 
             </article>
             <hr>

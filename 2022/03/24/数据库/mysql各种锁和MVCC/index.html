@@ -204,17 +204,16 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>MySQL中的锁<br>主要分为三类<br><pre><code class="hljs markdown">表锁：
-<span class="hljs-code">    读锁：多个读可并发</span>
-<span class="hljs-code">    写锁：当前写未提交事务之前，会阻塞其他写和读的进程</span>
-<span class="hljs-code"></span>
-<span class="hljs-code">行锁：</span>
-<span class="hljs-code">    共享锁：允许一个事务读一行，而阻止其他事务获得相同的排他锁</span>
-<span class="hljs-code">    排他锁：允许获得排他锁的事务更新数据，阻止其他事务获得共享锁和排他锁</span>
-<span class="hljs-code">    意向共享锁（IS）：一个事务给一个数据行加共享锁时，必须先获得意向共享锁</span>
-<span class="hljs-code">    意向排他锁(IX)：一个事务给一个数据行加排他锁时，必须先获得意向排他锁</span>
-<span class="hljs-code"></span>
-<span class="hljs-code">页锁:</span></code></pre></p>
+              <p>MySQL中的锁<br>主要分为三类</p>
+<p>表锁：</p>
+<pre><code>读锁：多个读可并发
+写锁：当前写未提交事务之前，会阻塞其他写和读的进程
+</code></pre><p>行锁：</p>
+<pre><code>共享锁：允许一个事务读一行，而阻止其他事务获得相同的排他锁
+排他锁：允许获得排他锁的事务更新数据，阻止其他事务获得共享锁和排他锁
+意向共享锁（IS）：一个事务给一个数据行加共享锁时，必须先获得表的意向共享锁
+意向排他锁(IX)：一个事务给一个数据行加排他锁时，必须先获得表的意向排他锁
+</code></pre><p>页锁:</p>
 <p>提到锁到种类,需要提一下MySQL到存储引擎,MySQL常用引擎有MyISAM和InnoDB，而InnoDB是mysql默认的引擎。MyISAM是不支持行锁的，而InnoDB支持行锁和表锁。</p>
 <p>MyISAM在执行查询语句（SELECT）前，会自动给涉及的所有表加读锁，在执行更新操作（UPDATE、DELETE、INSERT等）前，会自动给涉及的表加写锁,读锁会阻塞对同一张表对写操作,而写锁既会阻塞对同一张表对写操作,也会阻塞读操作.</p>
 <p>对于InnoDB来说,大家都知道InnoDB相对与MyISAM,支持了事务和行锁.而行锁顾名思义,就是针对具体某一行数据上的锁,更切确的说是针对索引加的锁(这个会在下文锁的实现中讲到).</p>

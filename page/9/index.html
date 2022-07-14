@@ -168,16 +168,102 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%B2%E4%B8%80%E4%B8%8B%E7%BD%91%E7%BB%9C%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E7%9A%84%E8%81%8C%E8%B4%A3/">讲一下网络五层模型，每一层的职责？</a>
+      <a class="index-header" href="/2022/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/">cookie和session的区别</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%B2%E4%B8%80%E4%B8%8B%E7%BD%91%E7%BB%9C%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E7%9A%84%E8%81%8C%E8%B4%A3/" class="index-excerpt">
+      <a href="/2022/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
         
         
           
         
-        <div>天各一方的两台计算机是如何通信的呢？ 在成千上万的计算机中，为什么一台计算机能够准确着寻找到另外一台计算机，并且把数据发送给它呢？可能很多人都听说过网络通信的 5 层模型，但是可能并不是很清楚为什么需要五层模型，五层模型负责的任务也有可能经常混淆。 
-下面是网络通信的五层模型   
-说实话，五层模型的具体内容还是极其复杂的，不过今天这篇文章，我将用最简洁的模式，通过网络通信的五层模型来讲解一台计算</div>
+        <div>1、由于HTTP协议是无状态的协议，所以服务端需要记录用户的状态时，就需要用某种机制来识具体的用户，这个机制就是Session.典型的场景比如购物车。
+当你点击下单按钮时，由于HTTP协议无状态，所以并不知道是哪个用户操作的，所以服务端要为特定的用户创建了特定的Session，用用于标识这个用户，并且跟踪用户，这样才知道购物车里面有几本书。
+这个Session是保存在服务端的，有一个唯一标识。在服</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-05
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0DNS%E5%8A%AB%E6%8C%81/">如何实现DNS劫持</a>
+
+      <a href="/2022/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0DNS%E5%8A%AB%E6%8C%81/" class="index-excerpt">
+        
+        
+          
+        
+        <div>DNS 劫持即域名劫持，是通过将原域名对应的 IP 地址进行替换从而使得用户访问到错误的网站或者使得用户无法正常访问网站的一种攻击方式。域名劫持往往只能在特定的网络范围内进行，范围外的 DNS 服务器能够返回正常的 IP 地址。攻击者可以冒充原域名所属机构，通过电子邮件的方式修改组织机构的域名注册信息，或者将域名转让给其它组织，并将新的域名信息保存在所指定的 DNS 服务器中，从而使得用户无法通过</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-05
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8UDP/">DNS为什么使用UDP</a>
+
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8UDP/" class="index-excerpt">
+        
+        
+          
+        
+        <div>其实 DNS 的整个过程是既使用 TCP 又使用 UDP。
+当进行区域传送（主域名服务器向辅助域名服务器传送变化的那部分数据）时会使用 TCP，因为数据同步传送的数据量比一个请求和应答的数据量要多，而 TCP 允许的报文长度更长，因此为了保证数据的正确性，会使用基于可靠连接的 TCP。
+当客户端向 DNS 服务器查询域名 ( 域名解析) 的时候，一般返回的内容不会超过 UDP 报文的最大长度，即 </div>
       </a>
 
       <div class="index-btm post-metas">
@@ -212,18 +298,15 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E7%9A%84%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0%E7%9B%AE/">TCP的最大连接数目</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SQL%E6%B3%A8%E5%85%A5/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E7%9A%84%E6%9C%80%E5%A4%A7%E8%BF%9E%E6%8E%A5%E6%95%B0%E7%9B%AE/" class="index-excerpt">
         
         
           
         
-        <div>SQL注入就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。 1). SQL注入攻击的总体思路  　
- 　(1). 寻找到SQL注入的位置 　
- 　(2). 判断服务器类型和后台数据库类型 　
- 　(3). 针对不同的服务器和数据库特点进行SQL注入攻击 
-  2). SQL注入攻击实例  比如，在一个登录界面，要求输入用户名和密码，</div>
+        <div>如何标识一个TCP连接在确定最大连接数之前，先来看看系统如何标识一个tcp连接。系统用一个4四元组来唯一标识一个TCP连接：{local ip, local port,remote ip,remote port}。
+client最大tcp连接数client每次发起tcp连接请求时，除非绑定端口，通常会让系统选取一个空闲的本地端口（local port），该端口是独占的，不能和其他tcp连接共享。t</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -258,16 +341,16 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%88%86%E7%B1%BB%EF%BC%88A%E7%B1%BB%20B%E7%B1%BB%20C%E7%B1%BB%20D%E7%B1%BB%20E%E7%B1%BB%EF%BC%89/">IP地址分类（A类 B类 C类 D类 E类）</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%92%8CMAC%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88/">IP地址和MAC地址作用的区别</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%88%86%E7%B1%BB%EF%BC%88A%E7%B1%BB%20B%E7%B1%BB%20C%E7%B1%BB%20D%E7%B1%BB%20E%E7%B1%BB%EF%BC%89/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%E5%9C%B0%E5%9D%80%E5%92%8CMAC%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88/" class="index-excerpt">
         
         
           
         
-        <div>IP地址根据网络号和主机号来分，分为A、B、C三类及特殊地址D、E。    全0和全1的都保留不用。
-A类：(1.0.0.0-126.0.0.0)（默认子网掩码：255.0.0.0或 0xFF000000）第一个字节为网络号，后三个字节为主机号。该类IP地址的最前面为“0”，所以地址的网络号取值于1~126之间。一般用于大型网络。
-B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
+        <div>简单着说，IP 地址主要用来网络寻址用的，就是大致定位你在哪里，而 MAC 地址，则是身份的唯一象征，通过 MAC 来唯一确认这人是不是就是你，MAC 地址不具备寻址的功能。
+IP 地址是基于逻辑的，比较灵活，不受硬件的限制，也容易记忆。而 MAC地址在一定程度上与硬件一致，是基于物理的，能够标识具体的网络节点。这两种地址各有优点，使用时也因条件不同而采取不同的地址 [6]  。
+大多数接入Int</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -302,16 +385,16 @@ B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/">TCP滑动窗口和拥塞控制详解</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IPV4%E4%B8%8D%E5%A4%9F%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/">IPV4不够如何解决</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IPV4%E4%B8%8D%E5%A4%9F%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3/" class="index-excerpt">
         
         
           
         
-        <div>滑动窗口（流量控制）滑动窗口的定义：    1.“窗口”对应的是一段可以被发送的字节序列，其连续的范围称为窗口；2.“滑动”则是指这段“允许发送的范围”是可以随着发送的过程而变化的，方式就是按顺序“滑动”。
-滑动窗口的作用：    是一种流量控制方法，该协议允许发送方在停止等待确认前可以连续发送发个分组。由于发送方不必每发送一个分组就停下来等待确认，因此该协议可以加速数据的传输。
-1 TCP协议的</div>
+        <div>目前主要有以下两种方式：  
+1、其实我们平时上网，电脑的 IP 地址都是属于私有地址，我无法出网关，我们的数据都是通过网关来中转的，这个其实 NAT 协议，可以用来暂缓 IPV4 地址不够，关于 NAT，具体可以看我写的这篇文章：什么是 NAT 网络地址转换协议？  
+2、IPv6 ：作为接替 IPv4 的下一代互联网协议，其可以实现 2 的 128 次方个地址，而这个数量级，即使是给地球上每一</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -346,15 +429,17 @@ B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%9C%A8%E4%BA%A4%E4%BA%92%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%A6%82%E6%9E%9C%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E5%AE%8C%E4%BA%86_%E8%BF%98%E4%B8%8D%E6%83%B3%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5%E6%80%8E%E4%B9%88%E5%8A%9E_%E6%80%8E%E4%B9%88%E7%BB%B4%E6%8C%81/">在交互过程中如果数据传送完了，还不想断开连接怎么办，怎么维持？</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ICMP%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8/">ICMP以及相关应用</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%9C%A8%E4%BA%A4%E4%BA%92%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%A6%82%E6%9E%9C%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E5%AE%8C%E4%BA%86_%E8%BF%98%E4%B8%8D%E6%83%B3%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5%E6%80%8E%E4%B9%88%E5%8A%9E_%E6%80%8E%E4%B9%88%E7%BB%B4%E6%8C%81/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ICMP%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%9A%84%E5%BA%94%E7%94%A8/" class="index-excerpt">
         
         
           
         
-        <div>在 HTTP 中响应体的 Connection 字段指定为 keep-aliveconnetion:keep-alive;
-</div>
+        <div>ICMP 主要有两个应用，一个是 Ping，一个是 Traceroute。
+1. PingPing 是 ICMP 的一个重要应用，主要用来测试两台主机之间的连通性。
+Ping 的原理是通过向目的主机发送 ICMP Echo 请求报文，目的主机收到之后会发送 Echo 回答报文。Ping 会根据时间和成功响应的次数估算出数据包往返时间以及丢包率。
+2. TracerouteTraceroute 是 </div>
       </a>
 
       <div class="index-btm post-metas">
@@ -389,15 +474,17 @@ B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E7%8A%B6%E6%80%81%E7%A0%81301%E5%92%8C302%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%94%A8%E9%80%94%EF%BC%9F/">HTTP状态码301和302的区别，都有哪些用途？</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SYN%E6%B4%AA%E6%B0%B4%E6%94%BB%E5%87%BB/">SYN洪水攻击</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E7%8A%B6%E6%80%81%E7%A0%81301%E5%92%8C302%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%94%A8%E9%80%94%EF%BC%9F/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/SYN%E6%B4%AA%E6%B0%B4%E6%94%BB%E5%87%BB/" class="index-excerpt">
         
         
           
         
-        <div>一. 301重定向的概念301重定向（301 Move Permanently），指页面永久性转移，表示为资源或页面永久性地转移到了另一个位置。301是HTTP协议中的一种状态码，当用户或搜索引擎向服务器发出浏览请求时，服务器返回的HTTP数据流中头信息（header）中包含状态码 301 ，表示该资源已经永久改变了位置。
-301重定向是一种非常重要的”自动转向“技术，网址重定向最为可行的一种方法</div>
+        <div>SYN Flood 又称 SYN 洪水攻击，也是拒绝服务攻击的一种，是一种曾经很经典的攻击方式。攻击者利用TCP协议的安全缺陷，不断发送一系列的SYN请求到目标系统，消耗服务器系统的资源，从而导致目标服务器不响应合法流量请求。
+在谈SYN flood 之前，我们先了解一下一次正常的网络请求都有哪些步骤，从而更清晰的了解SYN Flood的攻击方式。
+一般一次正常的网络请求分以下几个步骤：
+    </div>
       </a>
 
       <div class="index-btm post-metas">
@@ -432,26 +519,15 @@ B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E5%B8%B8%E7%94%A8%E7%8A%B6%E6%80%81%E7%A0%81/">HTTP常用状态码</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%BF%87%E5%A4%9A%E7%9A%84TIME_WAIT%20%E7%8A%B6%E6%80%81%E4%BC%9A%E5%AF%BC%E8%87%B4%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/">TIME_WAIT 状态会导致什么问题，怎么解决</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E5%B8%B8%E7%94%A8%E7%8A%B6%E6%80%81%E7%A0%81/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%BF%87%E5%A4%9A%E7%9A%84TIME_WAIT%20%E7%8A%B6%E6%80%81%E4%BC%9A%E5%AF%BC%E8%87%B4%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/" class="index-excerpt">
         
         
           
         
-        <div>状态码分类1xx：表示目前是协议的中间状态，还需要后续请求
-2xx：表示请求成功
-3xx：表示重定向状态，需要重新请求
-4xx：表示请求报文错误
-5xx：服务器端错误
-常用状态码101 切换请求协议，从 HTTP 切换到 WebSocket
-200 请求成功，有响应体
-301 永久重定向：会缓存
-302 临时重定向：不会缓存
-304 协商缓存命中
-403 服务器禁止访问
-404 资源未找到
-400</div>
+        <div>我们考虑高并发短连接的业务场景，在高并发短连接的 TCP 服务器上，当服务器处理完请求后主动请求关闭连接，这样服务器上会有大量的连接处于 TIME_WAIT 状态，服务器维护每一个连接需要一个 socket，也就是每个连接会占用一个文件描述符，而文件描述符的使用是有上限的，如果持续高并发，会导致一些正常的 连接失败。
+解决方案：修改配置或设置 SO_REUSEADDR 套接字，使得服务器处于 TI</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -486,114 +562,21 @@ B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/POST%E4%B8%8EGET%E5%8C%BA%E5%88%AB/">GET 和 POST的区别</a>
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8C%BA%E5%88%AB/">HTTP 长连接短连接使用场景是什么</a>
 
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/POST%E4%B8%8EGET%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8C%BA%E5%88%AB/" class="index-excerpt">
         
         
           
         
-        <div>参考资料
-使用场景GET 用于获取资源，而 POST 用于传输实体主体。  
-GET在浏览器回退时是无害的，而POST会再次提交请求。
-GET产生的URL地址可以被Bookmark，而POST不可以。
-GET请求会被浏览器主动cache，而POST不会，除非手动设置。
-GET请求只能进行url编码，而POST支持多种编码方式。
-GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被</div>
+        <div>长连接多用于操作频繁，点对点的通讯，而且连接数不能太多情况。每个 TCP 连接都需要三步握手，这需要时间，如果每个操作都是先连接，再操作的话那么处理速度会降低很多， 所以每个操作完后都不断开，下次处理时直接发送数据包就 OK 了，不用建立 TCP 连接。例如： 数据库的连接用长连接， 如果用短连接频繁的通信会造成 socket 错误，而且频繁的 socket创建也是对资源的浪费。
+而像 WEB 网</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>&nbsp;2022-03-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP1_1.1_2%E7%9A%84%E5%8C%BA%E5%88%AB/">HTTP 1和1.1和2的区别</a>
-
-      <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP1_1.1_2%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>HTTP1HTTP/1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，
-HTTP/1.0中浏览器与服务器只保持短暂的连接，连接无法复用。也就是说每个TCP连接只能发送一个请求。发送数据完毕，连接就关闭，如果还要请求其他资源，就必须再新建一个连接。
-我们知道TCP连接的建立需要三次握手，是很耗费时间的一个过程。所以，H</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-03
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB/">TCP和UDP的区别</a>
-
-      <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>TCP协议的主要特点（1）TCP是面向连接的运输层协议；所谓面向连接就是双方传输数据之前，必须先建立一条通道，例如三次握手就是建议通道的一个过程，而四次挥手则是结束销毁通道的一个其中过程。  
-（2）每一条TCP连接只能有两个端点（即两个套接字），只能是点对点的；  
-（3）TCP提供可靠的传输服务。传送的数据无差错、不丢失、不重复、按序到达；（4）TCP提供全双工通信。允许通信双方的应用进程在任</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-03
           </div>
         
         
@@ -622,7 +605,7 @@ HTTP/1.0中浏览器与服务器只保持短暂的连接，连接无法复用。
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/8/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/10/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/8/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/10/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

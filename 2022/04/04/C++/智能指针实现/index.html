@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      152 字
+      368 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2
+      6
        分钟
     </span>
   
@@ -205,70 +205,136 @@
             
             <article class="markdown-body">
               <p>智能指针的C++实现</p>
+<p><a target="_blank" rel="noopener" href="https://www.ccppcoding.com/archives/202#toc-20">四种智能指针参考</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/64543967">实现参考1</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wxquare/p/4759020.html">实现参考2</a></p>
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1688444">实现参考3</a></p>
-<pre><code class="hljs arduino">智能指针实现：
+<pre><code class="hljs haskell">智能指针实现：
 
-<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Shard_Ptr</span></span>
+<span class="hljs-title">template</span>&lt;typename <span class="hljs-type">T</span>&gt;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Shard_Ptr</span></span>
 <span class="hljs-class">&#123;</span>
-    <span class="hljs-keyword">private</span>:
-        <span class="hljs-keyword">size_t</span> * pCount;
-        T * pPtr;
-    <span class="hljs-keyword">private</span>:
-        <span class="hljs-built_in">release</span>()
+<span class="hljs-class">    private:</span>
+<span class="hljs-class">        size_t * pCount;</span>
+<span class="hljs-class">        <span class="hljs-type">T</span> * pPtr;</span>
+<span class="hljs-class">    private:</span>
+<span class="hljs-class">        release()//这个是私有的，要注意</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            if(<span class="hljs-comment">--(*pCount)==0)</span></span>
+<span class="hljs-class">            &#123;</span>
+<span class="hljs-class">                <span class="hljs-title">delete</span> <span class="hljs-title">pCount</span>;</span>
+<span class="hljs-class">                <span class="hljs-title">delete</span> <span class="hljs-title">pPtr</span>;</span>
+<span class="hljs-class">            &#125;</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">    <span class="hljs-title">public</span>:</span>
+<span class="hljs-class">        <span class="hljs-title">explicit</span> <span class="hljs-type">Shard_Ptr</span>(<span class="hljs-type">T</span>* <span class="hljs-title">ptr</span>=<span class="hljs-title">nullptr</span>): pCount(<span class="hljs-title">new</span> <span class="hljs-title">size_t</span>(1)),pPtr(<span class="hljs-title">ptr</span>)&#123;&#125;</span>
+<span class="hljs-class">        ~<span class="hljs-type">Shard_Ptr</span>()</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            release();</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">        <span class="hljs-type">Shard_Ptr</span>(<span class="hljs-title">const</span> <span class="hljs-type">Shard_Ptr</span>&lt;<span class="hljs-type">T</span>&gt;&amp; <span class="hljs-title">ptr</span>): pCount(<span class="hljs-title">ptr</span>.<span class="hljs-title">pCount</span>),pPtr(<span class="hljs-title">ptr</span>.<span class="hljs-title">pPtr</span>)</span>
+<span class="hljs-class">        &#123;  </span>
+<span class="hljs-class">            addRefCount();</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">        void addRefCount()</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            (*<span class="hljs-title">pCount</span>)++;</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">        size_t useCount()</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            return (*<span class="hljs-title">pCount</span>);</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">        <span class="hljs-type">T</span>* get()</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            return pPtr;</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">        <span class="hljs-type">T</span>&amp; operator *()</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            return *pPtr;</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">        <span class="hljs-type">T</span>* operator -&gt;()</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            return pPtr;</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">        <span class="hljs-type">Shard_Ptr</span>&lt;<span class="hljs-type">T</span>&gt;&amp; operator=(<span class="hljs-title">const</span> <span class="hljs-type">Shard_Ptr</span>&lt;<span class="hljs-type">T</span>&gt;&amp; <span class="hljs-title">ptr</span>)</span>
+<span class="hljs-class">        &#123;</span>
+<span class="hljs-class">            if(<span class="hljs-title">pPtr</span>!=<span class="hljs-title">ptr</span>.<span class="hljs-title">pPtr</span>)</span>
+<span class="hljs-class">            &#123;</span>
+<span class="hljs-class">                release();</span>
+<span class="hljs-class">                pPtr=ptr.pPtr;</span>
+<span class="hljs-class">                pCount=ptr.pCount;</span>
+<span class="hljs-class">                addRefCount();</span>
+<span class="hljs-class">            &#125;</span>
+<span class="hljs-class">            return *this;</span>
+<span class="hljs-class">        &#125;</span>
+<span class="hljs-class">&#125;;</span>
+<span class="hljs-class"></span>
+<span class="hljs-class"></span></code></pre>
+<pre><code class="hljs cpp">
+<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyUniquePtr</span></span>
+<span class="hljs-class">&#123;</span>
+<span class="hljs-keyword">public</span>:
+   <span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">MyUniquePtr</span><span class="hljs-params">(T* ptr = <span class="hljs-literal">nullptr</span>)</span></span>
+<span class="hljs-function">        :<span class="hljs-title">mPtr</span><span class="hljs-params">(ptr)</span></span>
+<span class="hljs-function">    </span>&#123;&#125;
+
+    ~MyUniquePtr()
+    &#123;
+        <span class="hljs-keyword">if</span>(mPtr)
         &#123;
-            <span class="hljs-keyword">if</span>(--(*pCount)==<span class="hljs-number">0</span>)
-            &#123;
-                <span class="hljs-keyword">delete</span> pCount;
-                <span class="hljs-keyword">delete</span> pPtr;
-            &#125;
+            <span class="hljs-keyword">delete</span> mPtr;
+            mptr=<span class="hljs-literal">nullptr</span>;
         &#125;
-    <span class="hljs-keyword">public</span>:
-        Shard_Ptr(T* ptr=<span class="hljs-literal">nullptr</span>): pCount(<span class="hljs-keyword">new</span> <span class="hljs-keyword">size_t</span>(<span class="hljs-number">1</span>)),pPtr(ptr)&#123;&#125;
-        ~Shard_Ptr()
-        &#123;
-            <span class="hljs-built_in">release</span>();
+    &#125;
+
+    MyUniquePtr(MyUniquePtr &amp;&amp;p) <span class="hljs-keyword">noexcept</span>;
+    MyUniquePtr&amp; <span class="hljs-keyword">operator</span>=(MyUniquePtr &amp;&amp;p) <span class="hljs-keyword">noexcept</span>;
+
+    MyUniquePtr(<span class="hljs-keyword">const</span> MyUniquePtr &amp;p) = <span class="hljs-keyword">delete</span>;
+    MyUniquePtr&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-keyword">const</span> MyUniquePtr &amp;p) = <span class="hljs-keyword">delete</span>;
+
+    T* <span class="hljs-keyword">operator</span>*() <span class="hljs-keyword">const</span> <span class="hljs-keyword">noexcept</span> &#123;<span class="hljs-keyword">return</span> mPtr;&#125;
+    T&amp; <span class="hljs-keyword">operator</span>-&gt;()<span class="hljs-keyword">const</span> <span class="hljs-keyword">noexcept</span> &#123;<span class="hljs-keyword">return</span> *mPtr;&#125;
+    <span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">bool</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">noexcept</span></span>&#123;<span class="hljs-keyword">return</span> mPtr;&#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">reset</span><span class="hljs-params">(T* q = <span class="hljs-literal">nullptr</span>)</span> <span class="hljs-keyword">noexcept</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">if</span>(q != mPtr)&#123;
+            <span class="hljs-keyword">if</span>(mPtr)
+                <span class="hljs-keyword">delete</span> mPtr;
+            mPtr = q;
         &#125;
-        Shard_Ptr(<span class="hljs-keyword">const</span> Shard_Ptr&lt;T&gt;&amp; ptr): pCount(ptr.pCount),pPtr(ptr.pPtr)
-        &#123;  
-            addRefCount();
-        &#125;
-        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addRefCount</span><span class="hljs-params">()</span></span>
-<span class="hljs-function">        </span>&#123;
-            (*pCount)++;
-        &#125;
-        <span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">useCount</span><span class="hljs-params">()</span></span>
-<span class="hljs-function">        </span>&#123;
-            <span class="hljs-keyword">return</span> (*pCount);
-        &#125;
-        <span class="hljs-function">T* <span class="hljs-title">get</span><span class="hljs-params">()</span></span>
-<span class="hljs-function">        </span>&#123;
-            <span class="hljs-keyword">return</span> pPtr;
-        &#125;
-        T&amp; <span class="hljs-keyword">operator</span> *()
-        &#123;
-            <span class="hljs-keyword">return</span> *pPtr;
-        &#125;
-        T* <span class="hljs-keyword">operator</span> -&gt;()
-        &#123;
-            <span class="hljs-keyword">return</span> pPtr;
-        &#125;
-        Shard_Ptr&lt;T&gt;&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-keyword">const</span> Shard_Ptr&lt;T&gt;&amp; ptr)
-        &#123;
-            <span class="hljs-keyword">if</span>(pPtr!=ptr.pPtr)
-            &#123;
-                <span class="hljs-built_in">release</span>();
-                pPtr=ptr.pPtr;
-                pCount=ptr.pCount;
-                addRefCount();
-            &#125;
-            <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;
-        &#125;
+    &#125;
+
+    <span class="hljs-function">T* <span class="hljs-title">release</span><span class="hljs-params">()</span> <span class="hljs-keyword">noexcept</span><span class="hljs-comment">//这个是公有的</span></span>
+<span class="hljs-function">    </span>&#123;
+        T* res = mPtr;
+        mPtr = <span class="hljs-literal">nullptr</span>;
+        <span class="hljs-keyword">return</span> res;
+    &#125;
+    <span class="hljs-function">T* <span class="hljs-title">get</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">noexcept</span> </span>&#123;<span class="hljs-keyword">return</span> mPtr;&#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(MyUniquePtr &amp;p)</span> <span class="hljs-keyword">noexcept</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::swap;
+        swap(mPtr, p.mPtr);
+    &#125;
+<span class="hljs-keyword">private</span>:
+    T* mPtr;
 &#125;;
 
-</code></pre>
+<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+MyUniquePtr&lt;T&gt;&amp; MyUniquePtr&lt;T&gt;::<span class="hljs-keyword">operator</span>=(MyUniquePtr &amp;&amp;p) <span class="hljs-keyword">noexcept</span>
+&#123;
+    swap(*<span class="hljs-keyword">this</span>, p);
+    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;
+&#125;
+
+<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;
+MyUniquePtr&lt;T&gt; :: MyUniquePtr(MyUniquePtr &amp;&amp;p) <span class="hljs-keyword">noexcept</span> : mPtr(p.mPtr)
+&#123;
+    p.mPtr == <span class="hljs-literal">NULL</span>;
+&#125;</code></pre>
 
             </article>
             <hr>

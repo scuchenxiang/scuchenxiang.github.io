@@ -168,26 +168,23 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/C++/C++%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%BB%8B%E7%BB%8D/">c++智能指针介绍shard_ptr,weakptr,unique_ptr</a>
+      <a class="index-header" href="/2022/04/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/yield%E5%92%8Csleep%E5%92%8Cwait%E5%8C%BA%E5%88%AB/">yield sleep  wait区别</a>
 
-      <a href="/2022/04/04/C++/C++%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%BB%8B%E7%BB%8D/" class="index-excerpt">
+      <a href="/2022/04/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/yield%E5%92%8Csleep%E5%92%8Cwait%E5%8C%BA%E5%88%AB/" class="index-excerpt">
         
         
           
         
-        <div>智能指针主要有三种，shard_ptr,weakptr,unique_ptr
-
-
-需要的情形主要是，防止new之后忘记delete，多次delete，使用以及释放的对象
-
-需要include&lt;memory&gt;
-Shard_ptr 表面是指针，实际上是对象，拥有对对象的指针，计数值，当计数值为0时候，会自动释放内存，但是会出现循环引用的问题，避免用一个原始指针初始化多个智能指针出现多次释放</div>
+        <div>yield（）暂时交出 cpu 控制权，从 running 状态转为 runnalbe 状态，但是仍有 可能被调度，
+sleep（）线程指定休眠一段时间，
+wait（）在其他线程调用此对 象的 notify（）或 notifyAll（）方法时才能继续执行 线程中 sleep()方法和 yeild()方法的主要区别: 
+1.sleep()方法会给其他线程运行的机会,而不管其他线程的优先级,因此会给较</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-22
           </div>
         
         
@@ -196,7 +193,7 @@ Shard_ptr 表面是指针，实际上是对象，拥有对对象的指针，计�
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">多线程编程</a>
             
           </div>
         
@@ -204,9 +201,7 @@ Shard_ptr 表面是指针，实际上是对象，拥有对对象的指针，计�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a>
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             
           </div>
         
@@ -218,81 +213,21 @@ Shard_ptr 表面是指针，实际上是对象，拥有对对象的指针，计�
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/C++/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0/">c++智能指针实现</a>
+      <a class="index-header" href="/2022/04/20/%E7%AE%97%E6%B3%95/%E6%A0%91/%E8%B7%B3%E8%A1%A8/">跳表</a>
 
-      <a href="/2022/04/04/C++/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0/" class="index-excerpt">
+      <a href="/2022/04/20/%E7%AE%97%E6%B3%95/%E6%A0%91/%E8%B7%B3%E8%A1%A8/" class="index-excerpt">
         
         
           
         
-        <div>智能指针的C++实现
-实现参考1
-实现参考2
-实现参考3
-智能指针实现：
-
-template&lt;typename T&gt;
-class Shard_Ptr
-&#123;
-    private:
-        size_t * pCount;
-        T * pPtr;
-    private:
-        release()
-        &#123;
-          </div>
+        <div>跳表跳表参考文章
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E5%92%8C%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0/">1705. 吃苹果的最大数目（可以用红黑树即map或者优先队列priority_queue实现）</a>
-
-      <a href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E5%92%8C%E7%BA%A2%E9%BB%91%E6%A0%91%E5%AE%9E%E7%8E%B0/" class="index-excerpt">
-        
-        
-          
-        
-        <div>一般可以用优先队列的也可以用红黑树实现，可以比较一下。
-优先队列实现&lt;!—hexoPostRenderEscape:int eatenApples(vector&lt;int&gt;&amp; apples, vector&lt;int&gt;&amp; days)&lt;/span&gt; &lt;/span&gt;&#123;
-&lt;span class=&quot;hljs-buil</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-02
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-20
           </div>
         
         
@@ -309,13 +244,9 @@ class Shard_Ptr
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/C/">C++</a>
-            
               <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
             
-              <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/">红黑树</a>
-            
-              <a href="/tags/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/">优先队列</a>
+              <a href="/tags/%E8%B7%B3%E8%A1%A8/">跳表</a>
             
           </div>
         
@@ -327,35 +258,22 @@ class Shard_Ptr
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/">红黑树知识点</a>
+      <a class="index-header" href="/2022/04/06/%E5%88%86%E5%B8%83%E5%BC%8F/6.824%E5%AE%9E%E9%AA%8C/">mit6.824 lab实现</a>
 
-      <a href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9F%A5%E8%AF%86%E7%82%B9/" class="index-excerpt">
+      <a href="/2022/04/06/%E5%88%86%E5%B8%83%E5%BC%8F/6.824%E5%AE%9E%E9%AA%8C/" class="index-excerpt">
         
         
           
         
-        <div>一般来说红黑树有以下的知识点
-
-根是黑色
-
-叶节点是黑色的（即为空的黑色的哨兵节点）
-
-从跟到叶子经过相同数目的黑色节点
-
-红色节点的子节点一定是两个黑色的
-
-节点为红色或者黑色
-
-
-可以参考这个链接来使用30张图带你彻底理解红黑树
-红黑树主要是通过左旋右旋和节点变色来实现的。这个左旋右旋和b树b+树的都是一样的。
-红黑树查找与二叉搜索树差不多的，但是由于红黑树总是黑色平衡的，所以最坏是O(2lg</div>
+        <div>lab2首先是选举，raft必须保证大部分机器可用。
+以下是一些raft的基础的内容，三种角色，leader，candidate，follower。
+follower对于每个机器，一开始是follower，然后每隔一段时间如果没有收到Leader的心跳，那么任期+1，变为candidate，投票给自己，然后启动新的协程发起选举（如果在这过程中任期被改变或者role被改变（？？需不需要变为leade</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-02
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-06
           </div>
         
         
@@ -364,9 +282,7 @@ class Shard_Ptr
             
               <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
             
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
             
           </div>
         
@@ -374,311 +290,341 @@ class Shard_Ptr
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/">红黑树</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">哈夫曼树压缩和解压缩</a>
-
-      <a href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/" class="index-excerpt">
-        
-        
-          
-        
-        <div>主要是把字符串读到vector中，然后记录每个字符出现的次数，然后构建哈夫曼树，然后再生成哈夫曼编码，再写入。
-#include &lt;iostream&gt;
-#include &lt;Windows.h&gt;
-#include &lt;fstream&gt;
-#include &lt;vector&gt;
-#include&lt;stdio.h&gt;
-#include &lt;algor</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-02
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95/">压缩算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A0%91/">树</a>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-            
-              <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">哈夫曼树</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">二叉树的后序遍历，先序遍历和层次遍历，中序遍历</a>
-
-      <a href="/2022/04/02/%E7%AE%97%E6%B3%95/%E6%A0%91/145.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" class="index-excerpt">
-        
-        
-          
-        
-        <div>方法后序遍历的麻烦之处在于不知道现在自己是父节点的左节点还是右节点，只有知道才能决定下一步是访问右节点还是根节点，不知道的情况下就不清楚下一步应该访问弹出的栈元素的本身还是它的右节点。而前序遍历和中序遍历是总是只需要弹出栈中的元素，然后访问其右节点即可或者先访问自己再访问其右节点。
-所以方法有三种：
-开始的话，也是不停的往左子树走，然后直到为 null ，然后如果集合中没有栈顶元素，并且右子树不为</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-02
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%A0%91/%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/">后序遍历</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/%E6%A0%88/">栈</a>
-            
-              <a href="/tags/%E6%A0%91/">树</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/01/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E8%87%AA%E6%97%8B%E9%94%81%E5%92%8C%E4%BA%92%E6%96%A5%E9%94%81%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E7%AD%89%E7%9A%84%E5%8C%BA%E5%88%AB/">Linux下 c/c++线程锁种类有哪些？如何理解互斥锁、条件变量、读写锁以及自旋锁,原子操作，无锁编程 以及异步编程？</a>
-
-      <a href="/2022/04/01/C++/C++%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/%E8%87%AA%E6%97%8B%E9%94%81%E5%92%8C%E4%BA%92%E6%96%A5%E9%94%81%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E7%AD%89%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>   互斥锁是阻塞锁，当某线程无法获取互斥量时，该线程会被直接挂起，该线程不再消耗CPU时间，当其他线程释放互斥量后，操作系统会激活那个被挂起的线程，让其投入运行。
-临界区：每个进程中访问临界资源的那段程序称为临界区，每次只允许一个进程进入临界区，进入后不允许其他进程进入。
-信号量：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/C-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">C++并发编程</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/c/">c++</a>
-            
-              <a href="/tags/%E4%BA%92%E6%96%A5%E9%94%81/">互斥锁</a>
-            
-              <a href="/tags/%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/">条件变量</a>
-            
-              <a href="/tags/%E8%AF%BB%E5%86%99%E9%94%81/">读写锁</a>
-            
-              <a href="/tags/%E8%87%AA%E6%97%8B%E9%94%81/">自旋锁</a>
-            
-              <a href="/tags/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/">原子操作</a>
-            
-              <a href="/tags/%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/">无锁编程</a>
-            
-              <a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/01/C++/C++%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97/">C++类的内存大小计算</a>
-
-      <a href="/2022/04/01/C++/C++%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97/" class="index-excerpt">
-        
-        
-          
-        
-        <div>C++类的内存大小计算
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/01/Git/Git%20rebase%20%E5%92%8CGit%20merge%E7%9A%84%E5%8C%BA%E5%88%AB/">Git rebase 和git merge的区别</a>
-
-      <a href="/2022/04/01/Git/Git%20rebase%20%E5%92%8CGit%20merge%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>【Git】：git rebase和git merge有什么区别？
-一个学习git的游戏网站
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-01
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/git/">git</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/git/">git</a>
-            
-              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/">项目管理</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/31/Zookeeper/zookeeper%E8%84%91%E8%A3%82/">zookeeper脑裂</a>
-
-      <a href="/2022/03/31/Zookeeper/zookeeper%E8%84%91%E8%A3%82/" class="index-excerpt">
-        
-        
-          
-        
-        <div>Zookeeper集群”脑裂”问题 - 运维总结
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-31
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/zookeeper/">zookeeper</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
+              <a href="/tags/raft/">raft</a>
             
               <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
             
-              <a href="/tags/zookeeper/">zookeeper</a>
+              <a href="/tags/lab/">lab</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/05/%E5%88%86%E5%B8%83%E5%BC%8F/mit6.824%20lab%E5%AE%9E%E7%8E%B0/">mit6.824 lab实现</a>
+
+      <a href="/2022/04/05/%E5%88%86%E5%B8%83%E5%BC%8F/mit6.824%20lab%E5%AE%9E%E7%8E%B0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>lab2首先是选举，raft必须保证大部分机器可用。
+以下是一些raft的基础的内容，三种角色，leader，candidate，follower。
+follower对于每个机器，一开始是follower，然后每隔一段时间如果没有收到Leader的心跳，那么任期+1，变为candidate，投票给自己，然后启动新的协程发起选举（如果在这过程中任期被改变或者role被改变（？？需不需要变为leade</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-05
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/raft/">raft</a>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/lab/">lab</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/C++/effective%20C++%E7%AC%94%E8%AE%B0/">effective C++笔记</a>
+
+      <a href="/2022/04/04/C++/effective%20C++%E7%AC%94%E8%AE%B0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>3.尽可能使用const当non-const和const实现相同逻辑时，non-const对象可以调用const成员函数，这样可以缩减代码量。另外注意const对象不能调用non-const成员函数，编译报错：discards qualifiers。
+4.确定对象使用前被初始化&lt;!—hexoPostRenderEscape:　在构造函数的初始化列表中的才算是初始化，而构造函数的内容是在初始化</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/C++/explicit/">explicit</a>
+
+      <a href="/2022/04/04/C++/explicit/" class="index-excerpt">
+        
+        
+          
+        
+        <div>explicit使用注意事项: 
+1、 explicit 关键字只能用于类内部的构造函数声明上。 
+
+
+2. 在C++中，explicit关键字用来修饰类的构造函数，被修饰的构造函数的类，不能发生相应的隐式类型转换
+可以参考这篇文章
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/explicit/">explicit</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/socket%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">socket编程入门</a>
+
+      <a href="/2022/04/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/socket%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" class="index-excerpt">
+        
+        
+          
+        
+        <div>socket编程入门
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+              <a href="/tags/socket/">socket</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/C++/GDB%E5%85%A5%E9%97%A8/">GDB入门</a>
+
+      <a href="/2022/04/04/C++/GDB%E5%85%A5%E9%97%A8/" class="index-excerpt">
+        
+        
+          
+        
+        <div>GDB打断点的方式
+GDB入门
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/GDB/">GDB</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/C++/C++11%E6%96%B0%E7%89%B9%E6%80%A7/">C++11新特性</a>
+
+      <a href="/2022/04/04/C++/C++11%E6%96%B0%E7%89%B9%E6%80%A7/" class="index-excerpt">
+        
+        
+          
+        
+        <div>C++11新特性
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a>
+            
+              <a href="/tags/%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91/">完美转发</a>
+            
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/">移动语义</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/04/04/C++/C++%20STL%E7%9F%A5%E8%AF%86%E7%82%B9/">C++STL知识点整理</a>
+
+      <a href="/2022/04/04/C++/C++%20STL%E7%9F%A5%E8%AF%86%E7%82%B9/" class="index-excerpt">
+        
+        
+          
+        
+        <div>C++STL知识点整理
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/C/">C++</a>
+            
+              <a href="/tags/STL/">STL</a>
             
           </div>
         
@@ -690,7 +636,7 @@ class Shard_Ptr
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

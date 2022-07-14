@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      563 字
+      561 字
     </span>
   
 
@@ -220,7 +220,7 @@
 <h1 id="关键字volatile有什么含意？并给出三个不同的例子。"><a href="#关键字volatile有什么含意？并给出三个不同的例子。" class="headerlink" title="关键字volatile有什么含意？并给出三个不同的例子。"></a>关键字volatile有什么含意？并给出三个不同的例子。</h1><p>一个定义为volatile的变量是说这变量可能会被意想不到地改变，这样，编译器就不会去假设这个变量的值了。精确地说就是，优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。下面是volatile变量的几个例子：</p>
 <p>1：并行设备的硬件寄存器（如：状态寄存器）</p>
 <p>2：一个中断服务子程序中会访问到的非自动变量(Non-automatic variables)</p>
-<p>3：多线程应用中被几个任务共享的变量</p>
+<p>3: 和非本地跳转（setjmp 和 longjmp）相关的场合</p>
 
             </article>
             <hr>

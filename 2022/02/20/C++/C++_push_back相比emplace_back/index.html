@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="chenxiang">
   <meta name="keywords" content="Blog">
-  <title>push_back and emplace difference - TheSakura&#39;s Blog</title>
+  <title>push_back and emplace_back difference - TheSakura&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      394 字
+      434 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      7
        分钟
     </span>
   
@@ -206,7 +206,9 @@
             <article class="markdown-body">
               <p>push_back 和 emplace_back 的区别在哪里？</p>
 <h2 id="回答"><a href="#回答" class="headerlink" title="回答"></a>回答</h2><p>emplace_back 能就地通过参数构造对象，不需要拷贝或者移动内存，相比 push_back 能更好地避免内存的拷贝与移动，使容器插入元素的性能得到进一步提升。在大多数情况下应该优先使用 emplace_back 来代替 push_back。</p>
-<p>下面的代码节选自 <a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/container/vector/emplace_back，可以很好的解释它们的区别，">https://en.cppreference.com/w/cpp/container/vector/emplace_back，可以很好的解释它们的区别，</a></p>
+<p>就是说本来要先构造，然后再内部调用拷贝构造放到容器里面。</p>
+<p>empalce就是直接在容器对应的地方构造了。</p>
+<p>下面的代码节选自 <a target="_blank" rel="noopener" href="http://c.biancheng.net/view/6826.html，可以很好的解释它们的区别，">http://c.biancheng.net/view/6826.html，可以很好的解释它们的区别，</a></p>
 <pre><code class="hljs arduino">
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span>
@@ -444,7 +446,7 @@ Franklin Delano Roosevelt was re-elected president of the USA in <span class="hl
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "push_back and emplace difference&nbsp;",
+        "push_back and emplace_back difference&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

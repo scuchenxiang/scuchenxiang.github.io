@@ -207,7 +207,7 @@
               <p>慢查询就是那些查询时间过长的语句</p>
 <pre><code class="hljs sql"><span class="hljs-keyword">show</span> <span class="hljs-keyword">variables</span> <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%slow_qurey%&#x27;</span>
 
-<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> slow_query_log = <span class="hljs-keyword">ON</span>; 开启慢查询SQL功能,最好在配置环境直接配置保证重启时也生效
+<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> slow_query_log = <span class="hljs-keyword">ON</span>; 开启慢查询日志功能,最好在配置环境直接配置保证重启时也生效
 <span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> long_query_time = <span class="hljs-number">1</span>; 慢查询阈值</code></pre>
 <p>执行计划是指一条SQL 语句在经过MySQL 查询优化器的优化会后，具体的执行方式。</p>
 <p>思路<br>1.开启慢查询日志，设置超过几秒为慢sql语句，抓取慢sq语句。l<br>2.通过explain查看执行计划，对慢sql语句分析。<br>3.创建索引并调整语句，再查看执行计划，对比优化结果。</p>

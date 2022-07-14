@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      225 字
+      230 字
     </span>
   
 
@@ -204,10 +204,18 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="auto与decltype区别："><a href="#auto与decltype区别：" class="headerlink" title="auto与decltype区别："></a>auto与decltype区别：</h1><h3 id="1-auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。"><a href="#1-auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。" class="headerlink" title="1 auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。"></a>1 auto类型说明符用编译器计算变量的初始值来推算其类型，decltype虽然也让编译器分析表达式得到它的类型，但是并不计算表达式的值。</h3><h3 id="2-编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。"><a href="#2-编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。" class="headerlink" title="2 编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。"></a>2 编译器推算出来的auto类型有时候和初始值的类型并不完全一样，编译器会适当改变结果类型使其更符合初始化规则。比如，auto一般会忽略顶层const，而把底层const保留下来。decltype会把顶层const保留下来。</h3><h3 id="3-decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。"><a href="#3-decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。" class="headerlink" title="3 decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。"></a>3 decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将腿短得到引用类型。</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_14982047/article/details/50615422">关于详细的顶层const和底层const可以参考</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_14982047/article/details/50628075">详细的例子参考</a></p>
-<p><a target="_blank" rel="noopener" href="https://my.oschina.net/u/3863980/blog/1843956">关于decltype和函数指针迷惑,函数指针参考</a></p>
-
+              <h1 id="decltype"><a href="#decltype" class="headerlink" title="decltype"></a>decltype</h1><p>推断表达式类型</p>
+<pre><code>1 如果是类成员方法，那么就算对应的类型信息
+2 如果是函数，那么就是函数返回的类型
+3 如果是右值，那么就是对应类型，如果是左值，那么是类型引用。
+4 decltype使用一个不加括号的变量，得到的结果就是该变量的类型，如果加上一层或多层括号，则编译器将推断得到引用类型。
+</code></pre><h1 id="Auto"><a href="#Auto" class="headerlink" title="Auto"></a>Auto</h1><pre><code>1 自动推断类型
+2 要求必须进行初始化
+3 当声明为auto的时候，会忽略对象的CV还有引用属性
+4 当声明为auto，const int *类型，会保留const，对 int *const会忽略const
+5 对于auto&amp;,会保留表达式的CV属性，比如（const int p=1;auto&amp; x=p),p为const int &amp;;
+6 对于 auto类型，如果希望保留int *const 需要声明为const auto
+</code></pre>
             </article>
             <hr>
             <div>

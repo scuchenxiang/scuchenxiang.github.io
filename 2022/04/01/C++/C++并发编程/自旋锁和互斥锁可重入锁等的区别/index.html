@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      52
+      51
        分钟
     </span>
   
@@ -267,12 +267,19 @@ https:<span class="hljs-regexp">//</span>en.cppreference.com<span class="hljs-re
 <span class="hljs-keyword">这是优点也是缺点。不休眠就不会引起上下文切换，但是会比较浪费CPU。</span>
 <span class="hljs-keyword"></span>
 <span class="hljs-keyword">在多处理器环境中对持有锁时间较短的程序来说使用自旋锁代替一般的互斥锁往往能提高程序的性能</span></code></pre>
-<p>pthread 自旋锁的使用<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs reasonml"><span class="hljs-comment">// 声明一个自旋锁变量</span><br>pthread_spinlock_t spinlock;</code></pre></p>
-<p><span class="hljs-comment">// 初始化</span><br>pthread<span class="hljs-constructor">_spin_init(&amp;<span class="hljs-params">spinlock</span>, 0)&lt;/span&gt;;</span></p>
-<p><span class="hljs-comment">// 加锁</span><br>pthread<span class="hljs-constructor">_spin_lock(&amp;<span class="hljs-params">spinlock</span>)&lt;/span&gt;;</span></p>
-<p><span class="hljs-comment">// 解锁</span><br>pthread<span class="hljs-constructor">_spin_unlock(&amp;<span class="hljs-params">spinlock</span>)&lt;/span&gt;;</span></p>
-<p><span class="hljs-comment">// 销毁</span><br>pthread<span class="hljs-constructor">_spin_destroy(&amp;<span class="hljs-params">spinlock</span>)&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</span></p>
-<h1 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h1><p><a target="_blank" rel="noopener" href="https://www.hiyu.space/2021/02/20/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E4%BA%94%EF%BC%89-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/">原子操作与无锁编程</a></p>
+<p>pthread 自旋锁的使用<br>    // 声明一个自旋锁变量<br>    pthread_spinlock_t spinlock;</p>
+<pre><code>// 初始化
+pthread_spin_init(&amp;spinlock, 0);
+
+// 加锁
+pthread_spin_lock(&amp;spinlock);
+
+// 解锁
+pthread_spin_unlock(&amp;spinlock);
+
+// 销毁
+pthread_spin_destroy(&amp;spinlock);
+</code></pre><h1 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h1><p><a target="_blank" rel="noopener" href="https://www.hiyu.space/2021/02/20/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E4%BA%94%EF%BC%89-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/">原子操作与无锁编程</a></p>
 <pre><code class="hljs dns">果数据结构本身就带有排他性访问的特性，也就相当于该数据结构自带一个细粒度的锁，对该数据结构的并发访问就能更加简单高效，这就是C++<span class="hljs-number">11</span>提供的原子数据类型&lt; atomic &gt;。下面解释两个概念：
 
 原子操作：顾名思义就是不可分割的操作，该操作只存在未开始和已完成两种状态，不存在中间状态；
@@ -297,11 +304,16 @@ memory_order_seq_cst: 顺序一致性模型，这是C++<span class="hljs-number"
 <p>CAS原子操作实现无锁编程<br>CAS原子操作主要是通过函数a.compare_exchange(expected,desired)实现的，其语义为“我认为V的值应该为<span class="hljs-keyword">A</span>，如果是，那么将V的值更新为B，否则不修改并告诉V的值实际为多少”</p>
 <p>CAS 看起来很厉害，但也有缺点，最著名的就是 ABA 问题，假设一个变量 <span class="hljs-keyword">A</span> ，修改为 B之后又修改为 <span class="hljs-keyword">A</span>，CAS 的机制是无法察觉的，但实际上已经被修改过了。如果在基本类型上是没有问题的，但是如果是引用类型呢？这个对象中有多个变量，我怎么知道有没有被改过？聪明的你一定想到了，加个版本号啊。每次修改就检查版本号，如果版本号变了，说明改过，就算你还是 <span class="hljs-keyword">A</span>，也不行。</p>
 <p>上面的例子节点指针也属于引用类型，自然也存在ABA问题，比如在线程<span class="hljs-number">2</span>执行pop操作，将<span class="hljs-keyword">A</span>,B都删掉，然后创建一个新元素push进去，因为操作系统的内存分配机制会重复使用之前释放的内存，恰好push进去的内存地址和<span class="hljs-keyword">A</span>一样，我们记为<span class="hljs-keyword">A</span>’，这时候切换到线程<span class="hljs-number">1</span>，CAS操作检查到<span class="hljs-keyword">A</span>没变化成功将B设为栈顶，但B是一个已经被释放的内存块。该问题的解决方案就是上面说的通过打标签标识<span class="hljs-keyword">A</span>和<span class="hljs-keyword">A</span>’为不同的指针。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
-<h1 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h1><p><a target="_blank" rel="noopener" href="https://www.hiyu.space/2021/02/19/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">多线程（四）-异步编程</a><br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs angelscript">同步：就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到返回值了。换句话说，就是由调用者主动等待这个调用的结果。</code></pre></p>
-<p>异步：调用在发出之后，这个调用就直接返回了，所以没有返回结果。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在调用发出后，被调用者通过状态、通知来通知调用者，或通过回调函数处理这个调用。</p>
-<p>方法<span class="hljs-number">1</span>：<br>使用全局变量与条件变量传递结果，即mutex 和条件变量</p>
-<p>条件变量具有“通知–唤醒”功能，可以把执行结果或执行状态放入一个全局变量中，当被调用者执行完任务后，通过条件变量通知调用者结果或状态已更新，可以使用了。&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
-<pre><code class="hljs arduino">方法<span class="hljs-number">2</span>：
+<h1 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h1><p><a target="_blank" rel="noopener" href="https://www.hiyu.space/2021/02/19/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">多线程（四）-异步编程</a></p>
+<pre><code>同步：就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到返回值了。换句话说，就是由调用者主动等待这个调用的结果。
+
+异步：调用在发出之后，这个调用就直接返回了，所以没有返回结果。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在调用发出后，被调用者通过状态、通知来通知调用者，或通过回调函数处理这个调用。
+
+方法1：
+使用全局变量与条件变量传递结果，即mutex 和条件变量
+
+条件变量具有“通知–唤醒”功能，可以把执行结果或执行状态放入一个全局变量中，当被调用者执行完任务后，通过条件变量通知调用者结果或状态已更新，可以使用了。
+</code></pre><pre><code class="hljs arduino">方法<span class="hljs-number">2</span>：
 
 使用promise与<span class="hljs-built_in">future</span>传递结果
 线程间传递的返回值或抛出的异常都是在共享状态中交流的。我们知道多线程间并发访问共享数据是需要保持同步的，这里的共享状态是保证返回值或异常在线程间正确传递的关键，被调用线程可以通过改变共享状态通知调用线程返回值或异常已写入完毕，可以访问或操作了。<span class="hljs-built_in">future</span>的状态（future_status）有以下三种：
