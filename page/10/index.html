@@ -168,6 +168,49 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8C%BA%E5%88%AB/">HTTP 长连接短连接使用场景是什么</a>
+
+      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>长连接多用于操作频繁，点对点的通讯，而且连接数不能太多情况。每个 TCP 连接都需要三步握手，这需要时间，如果每个操作都是先连接，再操作的话那么处理速度会降低很多， 所以每个操作完后都不断开，下次处理时直接发送数据包就 OK 了，不用建立 TCP 连接。例如： 数据库的连接用长连接， 如果用短连接频繁的通信会造成 socket 错误，而且频繁的 socket创建也是对资源的浪费。
+而像 WEB 网</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E7%9A%84%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B/">DNS的解析过程</a>
 
       <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/DNS%E7%9A%84%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B/" class="index-excerpt">
@@ -535,50 +578,6 @@ Https是身披SSL(Secure Socket Layer)外壳的Http，运行于SSL上，SSL运�
         <div>IP地址根据网络号和主机号来分，分为A、B、C三类及特殊地址D、E。    全0和全1的都保留不用。
 A类：(1.0.0.0-126.0.0.0)（默认子网掩码：255.0.0.0或 0xFF000000）第一个字节为网络号，后三个字节为主机号。该类IP地址的最前面为“0”，所以地址的网络号取值于1~126之间。一般用于大型网络。
 B类：(128.0.0.0-191.255.0.0)（默认子网掩码</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/">TCP滑动窗口和拥塞控制详解</a>
-
-      <a href="/2022/03/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/" class="index-excerpt">
-        
-        
-          
-        
-        <div>滑动窗口（流量控制）滑动窗口的定义：    1.“窗口”对应的是一段可以被发送的字节序列，其连续的范围称为窗口；2.“滑动”则是指这段“允许发送的范围”是可以随着发送的过程而变化的，方式就是按顺序“滑动”。
-滑动窗口的作用：    是一种流量控制方法，该协议允许发送方在停止等待确认前可以连续发送发个分组。由于发送方不必每发送一个分组就停下来等待确认，因此该协议可以加速数据的传输。
-1 TCP协议的</div>
       </a>
 
       <div class="index-btm post-metas">

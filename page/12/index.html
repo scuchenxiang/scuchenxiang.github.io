@@ -168,6 +168,51 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/02/20/C++/C++_push_back%E7%9B%B8%E6%AF%94emplace_back/">push_back and emplace_back difference</a>
+
+      <a href="/2022/02/20/C++/C++_push_back%E7%9B%B8%E6%AF%94emplace_back/" class="index-excerpt">
+        
+        
+          
+        
+        <div>push_back 和 emplace_back 的区别在哪里？
+回答emplace_back 能就地通过参数构造对象，不需要拷贝或者移动内存，相比 push_back 能更好地避免内存的拷贝与移动，使容器插入元素的性能得到进一步提升。在大多数情况下应该优先使用 emplace_back 来代替 push_back。
+就是说本来要先构造，然后再内部调用拷贝构造放到容器里面。
+empalce就是直接</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-02-20
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/c/">c++</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2022/02/14/C++/C++_placement_new/">placement new and delete 用法</a>
 
       <a href="/2022/02/14/C++/C++_placement_new/" class="index-excerpt">
@@ -618,52 +663,6 @@ RTTI（运行时类型信息）
               <a href="/tags/%E5%AE%8F%E5%AE%9A%E4%B9%89/">宏定义</a>
             
               <a href="/tags/%E6%8C%87%E9%92%88/">指针</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/12/21/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/WSL%E7%9A%84%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/">WSL的图形界面设置</a>
-
-      <a href="/2021/12/21/%E6%96%87%E6%A1%A3%E7%9B%B8%E5%85%B3/WSL%E7%9A%84%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/" class="index-excerpt">
-        
-        
-          
-        
-        <div>安装xserver首先是Windows上Xserver的安装，作者这里选择的是VcXsrv X Server，下载之后按照所有默认设置进行安装即可。安装完毕之后打开防火墙配置，允许所有的Xserver连接。
-然后安装apt-get install xfce4和xfce4-terminal
-打开XLaunch，在Display settings里面将Display number改为0，在Extra </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-12-21
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2/">博客</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/WSL/">WSL</a>
-            
-              <a href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
             
           </div>
         

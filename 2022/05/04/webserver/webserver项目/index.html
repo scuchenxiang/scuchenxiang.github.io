@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.4k 字
+      5.9k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      36
+      62
        分钟
     </span>
   
@@ -204,7 +204,187 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>总体过程是，一开始先监听到listenfd的信息，然后将其加到epollfd中，然后当收到读请求，然后加入线程池任务，然后线程获取任务，调用回调函数，函数从fd读内容到readbuffer中，然后如果读到末尾那么就进行处理，解析请求，返回response，到iov中，同时设置事件状态为epollout，然后后面通过同样的过程调用回调函数，进行写事件，将iov的内容写入到fd中，直到写完。如果是keepalive的状态，那么写完之后同样会又进行检查readbuf的内容，设置事件为epollin。如果写完，同时也需要调用关闭连接的函数。</p>
+              <p>（这里的epollout事件需要注意的一点是，因为我们一开始关注epollin，所以收到数据的时候会读，然后后面改成关注epollout，当内核可写/能写的时候，epollwait就会返回写事件）</p>
+<h2 id="一开始初始化webserver对象里的"><a href="#一开始初始化webserver对象里的" class="headerlink" title="一开始初始化webserver对象里的"></a>一开始初始化webserver对象里的</h2><ol>
+<li>线程池对象，以detach的方式创建8个线程。</li>
+<li>计时器堆对象，即初始化堆的大小（vector构建的）</li>
+<li>epoller对象，创建epollFd_，初始化epoll_event（epoll事件）的vector的大小。</li>
+<li>初始化http连接类的静态变量值（包括静态资源目录，用户连接数目）</li>
+<li>数据库连接池</li>
+<li>设置ET或者LT模式，（默认listenEvent和connEvent均为边缘触发）同时设置HttpConn连接类的模式（静态变量初始化）</li>
+<li>创建监听描述符，设置监听地址，设置优雅关闭，设置监听套接字，设置套接字状态，设置端口复用，绑定套接字监听地址，设置监听可以排队的连接数，将监听描述符加入到epoll的监听事件中，监听EPOLLIN读事件，设置监听事件为非阻塞的</li>
+<li>初始化LOG类设置，如果消息队列大于0，说明启用了异步写入log，那就要初始化异步写入所需的变量，还有一个就是需要开启异步线程，不断取出队列中数据，写入文件中。如果小于0，那么设置变量状态为不开启异步写入。获取当前时间，保存到变量t中，初始化文件路径以及后缀名，根据 路径+时间+后缀名创建log文件，使用互斥量保证线程安全，在创建文件之前需要清空之前文件的缓冲区，将当前的数据都写入到之前的文件中去。</li>
+</ol>
+<h2 id="启动服务器之后-不断循环下面过程"><a href="#启动服务器之后-不断循环下面过程" class="headerlink" title="启动服务器之后,不断循环下面过程"></a>启动服务器之后,不断循环下面过程</h2><ol>
+<li>一开始设置的超时时间为-1，没有事件就阻塞，然后后面每次设置wait的时间为删除超时节点之后的最近一个连接的超时时间</li>
+<li>epoll等待到事件之后，根据不同的事件进行不同的处理</li>
+<li><ol>
+<li>如果是事件的套接字为监听描述符，那么处理客户端的连接事件，这个时候可能有多个连接事件，因为这里设置的是ET模式，所以会不断地accept，然后初始化一个http连接对象，初始化这个对象的读写缓冲区，地址和fd。同时在定时器堆中添加一个定时器，添加epoll监听EPOLLIN事件，连接设置为非阻塞，直到没有连接返回-1，如果这里的连接数超过了定义的最大数量，向客户端发送错误信息，发送完之后关闭连接。</li>
+</ol>
+</li>
+<li><ol>
+<li>如果epoll事件为EPOLLRDHUP，EPOLLHUP，EPOLLERR，表示连接出现问题，关闭HTTP连接.</li>
+</ol>
+</li>
+<li><ol>
+<li>若epoll事件为EPOLLIN，表示有对应套接字收到数据，需要读取出来，这个时候首先调整定时器的过期时间，然后线程池中添加读数据的任务，调用了模板函数，使用bind方法绑定任务，向任务队列添加任务，然后唤醒一个线程。</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li>线程池中线程被唤醒之后，取任务（使用右值的方法），然后执行任务。这里调用Httpconn的read方法读取socket中的数据，保存到读缓冲区中。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>在读数据的时候，用一个vector剩下的容量和65k的栈空间读入数据，如果读取的数据长度小于0，那么肯定是发生错误了，将错误码返回，如果读取的数据比缓冲区（vector）小，移动缓冲区指针即可。如果读取的数据比缓冲区大，首先将写指针指到缓冲区尾部表明这一块内存都写满了。然后进行空间扩容，如果前面已经读取的内容加后面剩下的空间够，那么就把需要读的数据复制到开头，然后更新读写指针，后面的用来读新的。如果不够的话，那么就在后面扩充len+1的大小。扩充之后，将栈空间的数据写到缓冲区中，更新写指针。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li>如果读数据完成之后，错误信息小于0并且错误码不为EAGAIN，说明出现错误了，此时关闭http连接，同时删除这个监听的套接字。如果没错误，则Http连接对象处理数据，成功处理则将epoll在该文件描述符上的监听事件改为EPOLLOUT写事件。如果没有处理成功，说明还需要读，继续改为epollin。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>当上一条数据请求完之后（即状态码为Finish），重新初始化http请求对象的内容。检查读缓冲区的数据，没有就返回false。首先对读缓冲区进行解析。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>如果读缓冲区没有数据返回NO_REQUEST，然后用状态机的方法解析http请求头，先一行一行得解析，先解析<br>请求行，将解析的数据保存下来，然后改为HEADER状态，如果解析失败，返回false，直接返回BAD_REQUEST。然后解析请求头，每次将解析的数据保存下来，如果没匹配到，说明这是空行，那么状态改为BODY。注意我们如果状态改为body，同时method为Get，这时候状态码应该改为Finish，清空读缓冲区，返回GET_REQUEST。当解析body的时候，说明是POST，同时注意这里的提交数据只支持一种方式，然后将post的数据解析完，存起来，这里的形式是a=1&amp;b=2这种，空格被编码为+,非字母字母字符，encode成百分号+其ASCII码的十六进制。同时根据路径判断这里的数据是请求还是登录，如果验证成功，则返回欢迎页面，否则返回错误页面。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>验证的这个地方，首先获取一个sql连接，然后查询对应用户，如果是登录并且用户存在密码正确，那么返回成功，如果是注册，并且用户名没被使用，那么在数据库里面插入数据，返回成功，其他返回错误。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>解析完body之后，状态置为FINISH，清空读缓冲区，返回GET_REQUEST。如果没能解析完，那么返回NO_REQUEST。如果中间出现未知的状态码，返回INTERNAL_ERROR</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>如果为GET_REQUEST说明解析完，那么初始化httpResponse对象的路径,是否为长连接，状态码200，以及资源目录。如果为NO_REQUEST说明请求不完整，返回false。其他情况初始化httpResponse对象的路径,为短连接，状态码400，以及资源目录。然后拼装返回的头部以及文件信息。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>如果文件路径不存在，状态码为404，如果没有权限，状态码为403。若状态码码为400，403，404其中之一，则将文件路径与信息读取到path<em>与mmFileStat</em>变量中。根据状态码将返回信息中的状态行添加到写缓冲区中。然后将返回信息的响应文件映射到内存中，这里采用的是mmap方式，将映射的地址赋值给mmFile_变量。同时继续向写缓冲添加信息（内容长度）。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>写缓冲区读指针到写指针中间的内容是需要输出的，以及映射的问题的文件内容需要输出。保存到一个iov_中用于后续输出，返回true。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li>若epoll事件为EPOLLOUT，表示返回给客户端的数据已准备好，需要向对应套接字连接发送数据。这个时候首先调整定时器的过期时间，然后线程池中添加写数据的任务，调用了模板函数，使用bind方法绑定任务，向任务队列添加任务，然后唤醒一个线程。</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li>线程池中线程被唤醒之后，取任务（使用右值的方法），然后执行任务。这里调用httpconn类的write方法向socket发送数据</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li><ol>
+<li>这里是通过将iov<em>写到对应的fd中，若是缓冲区满了，errno会返回EAGAIN，记录错误值，返回写的长度。<br>如果发送的数据长度大于iov</em>[0].iov<em>len，说明第一块区域的数据是发送完毕，再根据多发送了多少调整iov</em>[1]的取值，同时区域一的数据发送完毕，回收缓冲空间，并将长度归0。如果没有传输完区域一的内容那么就继续传区域一的，同时回收对应长度的空间。两个传输位置长度都为0，表示传输结束。在ET状态下，如果没有发送完，继续发送。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li><ol>
+<li>如果还需要写的数据为0，那么完成传输，检查客户端是否设置了长连接字段，如果客户端设置了长连接，那么调用OnProcess函数，因为此时的client-&gt;process()会返回false，所以该连接会重新注册epoll的EPOLLIN事件。若是缓冲区满了，errno会返回EAGAIN，这时需要重新注册EPOLL上的EPOLLOUT事件。其余情况，关闭连接。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><ol>
+<li>其余事件皆为错误，向log文件写入该事件</li>
+</ol>
+</li>
+</ol>
+<h2 id="Log类"><a href="#Log类" class="headerlink" title="Log类"></a>Log类</h2><ol>
+<li>根据宏定义以及##<strong>VA_ARGS</strong>可以调用可变参数以及字符串常量数据，这个类也是单例的模式，在第一次使用的时候初始化对象，然后每次根据是LOG_DEBUG，LOG_INFO，LOG_WARN，LOG_ERROR调用不同等级的信息调用write，向log文件中写入log信息</li>
+<li><ol>
+<li>具体的是获取当前时间，如果当前日期相比初始化的时候的日期变了，也就是到第二天了，或者当前log文件行数达到规定的最大值时都需要创建一个新的log文件，创建文件时上锁，保证线程安全，同时需要将缓冲区的数据写入到之前的文件中，关闭之前的文件，然后创建新文件，更新文件指针指向新文件。</li>
+</ol>
+</li>
+<li><ol>
+<li>首先加锁保证线程安全，然后组装信息至缓冲区buff中，移动缓冲区指针，向缓冲区中写入日志级别信息，根据用户传入的参数，向缓冲区添加数据，移动缓冲区指针，写入换行符。根据变量选择是否异步写入，如果是异步写入，那么向阻塞队列中写入缓冲区信息，如果不是异步写入，直接将缓冲区内容写入到文件，然后回收缓冲区空间。</li>
+</ol>
+</li>
+<li><p>在析构时将所有log信息写入文件，再关闭异步的写入线程。</p>
+</li>
+</ol>
 <h2 id="webserver"><a href="#webserver" class="headerlink" title="webserver"></a>webserver</h2><p>C++实现的高性能web服务器，经过webbench压力测试可以实现上万的qps</p>
 <p>构造函数一开始初始化当前的绝对目录，初始化sqlpool，设置ET模式，并且注册监听对端关闭的事件，创建listenfd,</p>
 <p>然后调用start函数，每次先获取下一次定时器过期的时间，wait这么久，收到事件就去给epoll模块处理，</p>
@@ -252,7 +432,7 @@
 <p>参考链接</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36459662/article/details/106901292">https://blog.csdn.net/qq_36459662/article/details/106901292</a></p>
 <h2 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h2><h3 id="threadPool"><a href="#threadPool" class="headerlink" title="threadPool"></a>threadPool</h3><p>在构造函数中，基本原理是维护一个任务队列queue<task>和一个线程池vector<thread> .<br>每个线程都是一个无限循环,当任务队列为空时wait,不为空时取一个任务执行.每添加一个新任务都会调用notify_one尝试唤醒一个线程.设计细节可以参考项目源码.</thread></task></p>
-<h3 id="sqlconnPool"><a href="#sqlconnPool" class="headerlink" title="sqlconnPool"></a>sqlconnPool</h3><p>静态局部变量实现单例模式<br>同时init中向队列中加入n个已经连接的sql连接，然后初始化信号量。</p>
+<h3 id="sqlconnPool"><a href="#sqlconnPool" class="headerlink" title="sqlconnPool"></a>sqlconnPool</h3><p>局部静态变量实现单例模式<br>同时init中向队列中加入n个已经连接的sql连接，然后初始化信号量。</p>
 <p>每次连接的时候，信号量-1，然后队列pop，然后返回pop的sql。</p>
 <p>每次释放的时候，信号量+1，队列push这个sql。注意需要加锁</p>
 <p>析构函数中需要关闭pool，关闭pool的时候，需要pop每个sql并关闭。</p>
