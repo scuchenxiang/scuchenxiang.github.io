@@ -168,6 +168,57 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/03/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/">ART算法实现与理解</a>
+
+      <a href="/2020/06/03/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/ART%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%90%86%E8%A7%A3/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Code这两个图显示了算法的原理，整体的几何意义也较为容易理解
+import numpy as np
+def ART_My( A, b, X0, e0):
+    e=e0+1
+    i=0
+    while(e&gt;e0):
+        tmp=((A[i]@X0-b[i])/(np.linalg.norm(A[i]))*(A[i].T/np.linalg.norm(A[i])))
+ </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-03
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/ART/">ART</a>
+            
+              <a href="/tags/%E5%8C%BB%E5%AD%A6%E5%9B%BE%E5%83%8F/">医学图像</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/05/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/">函数间隔和几何间隔</a>
 
       <a href="/2020/05/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%87%BD%E6%95%B0%E9%97%B4%E9%9A%94%E5%92%8C%E5%87%A0%E4%BD%95%E9%97%B4%E9%9A%94/" class="index-excerpt">
@@ -600,60 +651,6 @@ class Solution &#123;
               <a href="/tags/java/">java</a>
             
               <a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/">表达式计算</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/">统计学习方法-第九章EM算法及其推广</a>
-
-      <a href="/2020/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A/" class="index-excerpt">
-        
-        
-          
-        
-        <div>第九章EM算法及其推广9.1
-import numpy as np
-
-y=[1,1,0,1,0,0,1,0,1,1]
-pai=0.46
-p=0.55
-q=0.67
-theta=2
-while(theta&gt;0.0001):
-    u_next=[]
-    for i in  range(len(y)):
-        a=pai*(p**y[i])*((1-p)**(1-y[i]))
- </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%9C%E4%B8%9A/">统计学习方法，作业</a>
             
           </div>
         
