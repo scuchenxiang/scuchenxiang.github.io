@@ -446,9 +446,9 @@ A 成员变量
 B成员变量
 
 vptr指向的B虚表的构建规则（放在常量区，只读数据段）:
-最上面是offset_to_top （到顶部的偏移量）
+最上面是offset_to_top （到虚表地址！到对象顶部的偏移量）
 RTTI（运行时类型信息）
-虚函数指针（指向代码段的虚函数代码）（如果是虚析</div>
+虚函数指针（指向代码段的虚函数代</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -879,5 +879,20 @@ RTTI（运行时类型信息）
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

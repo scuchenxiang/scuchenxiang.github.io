@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3k 字
+      2.8k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      44
+      40
        分钟
     </span>
   
@@ -205,54 +205,7 @@
             
             <article class="markdown-body">
               <p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/print-in-order/solution/c-hu-chi-suo-tiao-jian-bian-liang-xin-hao-liang-yi/">信号量、原子变量、条件变量、异步可以参考写法</a></p>
-<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><pre><code class="hljs axapta">C++的信号量在c++<span class="hljs-number">20</span>才有，但是我们可以使用c++的条件变量和锁实现信号量。
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">semaphore</span> </span>&#123;
-<span class="hljs-keyword">private</span>:
-    <span class="hljs-keyword">int</span> <span class="hljs-keyword">count</span>;
-    mutex mu;
-    condition_variable cv;
-<span class="hljs-keyword">public</span>:
-    semaphore(<span class="hljs-keyword">int</span> val) :<span class="hljs-keyword">count</span>(val) &#123;&#125;
-    <span class="hljs-comment">//想去获取一把锁，计数值减一之后如果还小于0，说明之前为0，数量不够，等待。</span>
-    <span class="hljs-keyword">void</span> P() &#123;
-        unique_lock&lt;mutex&gt; lck(mu);
-        <span class="hljs-keyword">count</span>--;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">count</span> &lt; <span class="hljs-number">0</span>)
-        &#123;
-            cv.wait(lck);
-        &#125;
-    &#125;
-    <span class="hljs-comment">//添加一把锁，如果添加之后总数小于等于0，说明有人等待锁，唤醒一个</span>
-    <span class="hljs-keyword">void</span> V()
-    &#123;
-        unique_lock&lt;mutex&gt; lck(mu);
-        <span class="hljs-keyword">count</span>++;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">count</span> &lt;= <span class="hljs-number">0</span>)
-        &#123;
-            cv.notify_one();
-        &#125;
-    &#125;
-<span class="hljs-comment">//注意这两种主要在于P操作是while或者if，这是取决于一次通知一个还是一次全部唤醒</span>
-    <span class="hljs-keyword">void</span> P() &#123;
-        unique_lock&lt;mutex&gt; lck(mu);
-        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">count</span>&lt;=<span class="hljs-number">0</span>)
-        &#123;
-            cv.wait(lck);
-        &#125;
-        <span class="hljs-keyword">count</span>--;
-    &#125;
-    <span class="hljs-comment">//添加一把锁，如果添加之后总数小于等于0，说明有人等待锁，唤醒一个</span>
-    <span class="hljs-keyword">void</span> V()
-    &#123;
-        unique_lock&lt;mutex&gt; lck(mu);
-        <span class="hljs-keyword">count</span>++;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">count</span>&lt;=<span class="hljs-number">0</span>)
-        &#123;
-            cv.notify_all();
-        &#125;
-    &#125;
-&#125;;
-</code></pre>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>C++的信号量在c++20才有，但是我们可以使用c++的条件变量和锁实现信号量。<br>    class semaphore {<br>    private:<br>        int count;<br>        mutex mu;<br>        condition_variable cv;<br>    public:<br>        semaphore(int val) :count(val) {}<br>        //想去获取一把锁，计数值减一之后如果还小于0，说明之前为0，数量不够，等待。<br>        void P() {<br>            unique_lock<mutex> lck(mu);<br>            count—;<br>            if (count &lt; 0)<br>            {<br>                cv.wait(lck);<br>            }<br>        }<br>        //添加一把锁，如果添加之后总数小于等于0，说明有人等待锁，唤醒一个<br>        void V()<br>        {<br>            unique_lock<mutex> lck(mu);<br>            count++;<br>            if (count &lt;= 0)<br>            {<br>                cv.notify_one();<br>            }<br>        }<br>    //注意这两种主要在于P操作是while或者if，这是取决于一次通知一个还是一次全部唤醒<br>        void P() {<br>            unique_lock<mutex> lck(mu);<br>            while (count&lt;=0)<br>            {<br>                cv.wait(lck);<br>            }<br>            count—;<br>        }<br>        //添加一把锁，如果添加之后总数小于等于0，说明有人等待锁，唤醒一个<br>        void V()<br>        {<br>            unique_lock<mutex> lck(mu);<br>            count++;<br>            if (count&lt;=0)<br>            {<br>                cv.notify_all();<br>            }<br>        }<br>    };</mutex></mutex></mutex></mutex></p>
 <h2 id="基于并发进程的并发编程"><a href="#基于并发进程的并发编程" class="headerlink" title="基于并发进程的并发编程"></a>基于并发进程的并发编程</h2><p>当父进程接受客户端的连接请求的时候,创建新的子进程为客户服务,这个需要注意的是,子进程会继承父进程文件描述符的副本,因此都指向同一个文件表的表项,因此需要父进程关闭他的连接描述符的副本,然后子进程需要关闭listen socket的副本,然后开始服务,服务完了关闭连接描述符的副本.</p>
 <p>在linux中文件表是引用计数的,因此父进程关闭文件描述符,不会影响子进程</p>
 <h2 id="IO多路复用技术"><a href="#IO多路复用技术" class="headerlink" title="IO多路复用技术"></a>IO多路复用技术</h2><p>可以参考select,poll,epoll那一篇.</p>
@@ -263,128 +216,117 @@
 <p>多线程的共享变量需要同步互斥,使用信号量.</p>
 <h2 id="经典的比如说是生产者消费者问题"><a href="#经典的比如说是生产者消费者问题" class="headerlink" title="经典的比如说是生产者消费者问题"></a>经典的比如说是生产者消费者问题</h2><p>它由三个信号量,一个mutex用来设置互斥访问的,一个是itemm,empty,分别是有多少东西,有多少空位</p>
 <p>该类问题要注意对缓冲区大小为n的处理，当缓冲区中有空时便可对empty变量执行P 操作，一旦取走一个产品便要执行V操作以释放空闲区。对empty和full变量的P操作必须放在对mutex的P操作之前。如果生产者进程先执行P(mutex)，然后执行P(empty)，消费者执行P(mutex),然后执行P(fall),这样可不可以？答案是否定的。设想生产者进程已经将缓冲区放满，消费者进程并没有取产品，即empty = 0，当下次仍然是生产者进程运行时，它先执行P(mutex)封锁信号量，再执行P(empty)时将被阻塞，希望消费者取出产品后将其唤醒。轮到消费者进程运行时，它先执行P(mutex)，然而由于生产者进程已经封锁mutex信号量，消费者进程也会被阻塞，这样一来生产者、消费者进程都将阻塞，都指望对方唤醒自己，陷入了无休止的等待。同理，如果消费者进程已经将缓冲区取空，即 full = 0,下次如果还是消费者先运行，也会出现类似的死锁。不过生产者释放信号量时，mutex、full先释放哪一个无所谓，消费者先释放mutex还是empty都可以。</p>
-<pre><code class="hljs reasonml">生产者:
-<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)
-&#123;
-    <span class="hljs-constructor">P(<span class="hljs-params">empty</span>)</span>;
-    <span class="hljs-constructor">P(<span class="hljs-params">mutex</span>)</span>;
-    插入
-    <span class="hljs-constructor">V(<span class="hljs-params">mutex</span>)</span>;
-    <span class="hljs-constructor">V(<span class="hljs-params">itemm</span>)</span>;
-&#125;
-
---
-消费者:
-<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)
-&#123;
-    <span class="hljs-constructor">P(<span class="hljs-params">itemm</span>)</span>
-    <span class="hljs-constructor">P(<span class="hljs-params">mutex</span>)</span>;
-    删除
-    <span class="hljs-constructor">V(<span class="hljs-params">mutex</span>)</span>;
-    <span class="hljs-constructor">V(<span class="hljs-params">empty</span>)</span>;
-&#125;
-</code></pre>
-<h2 id="读者写者问题-读者优先"><a href="#读者写者问题-读者优先" class="headerlink" title="读者写者问题-读者优先:"></a>读者写者问题-读者优先:</h2><p>算法中，读进程是优先的，也就是说，当存在读进程时，写操作将被延迟，并且只要有一个读进程活跃，随后而来的读进程都将被允许访问文件。<br><pre><code class="hljs awk">int count=<span class="hljs-number">0</span>;  <span class="hljs-regexp">//</span>用于记录当前的读者数量
-semaphore mutex=<span class="hljs-number">1</span>;  <span class="hljs-regexp">//</span>用于保护更新count变量时的互斥
-semaphore rw=<span class="hljs-number">1</span>;  <span class="hljs-regexp">//</span>用于保证读者和写者互斥地访问文件
-writer () &#123;  <span class="hljs-regexp">//</span>写者进程
-    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)&#123;
-        P(rw); <span class="hljs-regexp">//</span> 互斥访问共享文件
-        Writing;  <span class="hljs-regexp">//</span>写入
-        V(rw) ;  <span class="hljs-regexp">//</span>释放共享文件
+<p>生产者:<br>    while(1)<br>    {<br>        P(empty);<br>        P(mutex);<br>        插入<br>        V(mutex);<br>        V(itemm);<br>    }</p>
+<p>—<br>消费者:<br>    while(1)<br>    {<br>        P(itemm)<br>        P(mutex);<br>        删除<br>        V(mutex);<br>        V(empty);<br>    }</p>
+<h2 id="读者写者问题-读者优先"><a href="#读者写者问题-读者优先" class="headerlink" title="读者写者问题-读者优先:"></a>读者写者问题-读者优先:</h2><p>算法中，读进程是优先的，也就是说，当存在读进程时，写操作将被延迟，并且只要有一个读进程活跃，随后而来的读进程都将被允许访问文件。</p>
+<pre><code>int count=0;  //用于记录当前的读者数量
+semaphore mutex=1;  //用于保护更新count变量时的互斥
+semaphore rw=1;  //用于保证读者和写者互斥地访问文件
+writer () &#123;  //写者进程
+    while (1)&#123;
+        P(rw); // 互斥访问共享文件
+        Writing;  //写入
+        V(rw) ;  //释放共享文件
     &#125;
 &#125;
-reader () &#123;  <span class="hljs-regexp">//</span> 读者进程
-    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)&#123;
-        P (mutex) ;  <span class="hljs-regexp">//</span>互斥访问count变量
-        <span class="hljs-keyword">if</span> (count==<span class="hljs-number">0</span>)  <span class="hljs-regexp">//</span>当第一个读进程读共享文件时
-            P(rw);  <span class="hljs-regexp">//</span>阻止写进程写
-        count++;  <span class="hljs-regexp">//</span>读者计数器加<span class="hljs-number">1</span>
-        V (mutex) ;  <span class="hljs-regexp">//</span>释放互斥变量count
-        reading;  <span class="hljs-regexp">//</span>读取
-        P (mutex) ;  <span class="hljs-regexp">//</span>互斥访问count变量
-        count--; <span class="hljs-regexp">//</span>读者计数器减<span class="hljs-number">1</span>
-        <span class="hljs-keyword">if</span> (count==<span class="hljs-number">0</span>)  <span class="hljs-regexp">//</span>当最后一个读进程读完共享文件
-            V(rw) ;  <span class="hljs-regexp">//</span>允许写进程写
-        V (mutex) ;  <span class="hljs-regexp">//</span>释放互斥变量 count
+reader () &#123;  // 读者进程
+    while(1)&#123;
+        P (mutex) ;  //互斥访问count变量
+        if (count==0)  //当第一个读进程读共享文件时
+            P(rw);  //阻止写进程写
+        count++;  //读者计数器加1
+        V (mutex) ;  //释放互斥变量count
+        reading;  //读取
+        P (mutex) ;  //互斥访问count变量
+        count--; //读者计数器减1
+        if (count==0)  //当最后一个读进程读完共享文件
+            V(rw) ;  //允许写进程写
+        V (mutex) ;  //释放互斥变量 count
     &#125;
 &#125;
-</code></pre></p>
-<h2 id="读者写者问题-写者优先"><a href="#读者写者问题-写者优先" class="headerlink" title="读者写者问题-写者优先"></a>读者写者问题-写者优先</h2><p>如果希望写进程优先，即当有读进程正在读共享文件时，有写进程请求访问，这时应禁止后续读进程的请求，等待到已在共享文件的读进程执行完毕则立即让写进程执行，只有在无写进程执行的情况下才允许读进程再次运行。<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs reasonml"><span class="hljs-built_in">int</span> count = <span class="hljs-number">0</span>;  <span class="hljs-comment">//用于记录当前的读者数量</span><br>semaphore mutex = <span class="hljs-number">1</span>;  <span class="hljs-comment">//用于保护更新count变量时的互斥</span><br>semaphore rw=<span class="hljs-number">1</span>;  <span class="hljs-comment">//用于保证读者和写者互斥地访问文件</span><br>semaphore w=<span class="hljs-number">1</span>;  <span class="hljs-comment">//用于实现“写优先”</span><br>writer<span class="hljs-literal">()</span>&#123;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)&#123;<br>       <span class="hljs-constructor">P(<span class="hljs-params">w_wait</span>)&lt;/span&gt;;<br>       <span class="hljs-keyword">if</span>(w_wait_num==<span class="hljs-number">0</span>)<br>       &#123;<br>           <span class="hljs-constructor">P(<span class="hljs-params">read_mu</span>)&lt;/span&gt;;<br>       &#125;<br>       w_wait_num++;<br>       <span class="hljs-constructor">V(<span class="hljs-params">w_wait</span>)&lt;/span&gt;;</span></span></span></code></pre></p>
-<pre><code>   &lt;span class=&quot;hljs-constructor&quot;&gt;P(&lt;span class=&quot;hljs-params&quot;&gt;write_mmu&lt;/span&gt;)&lt;/span&gt;;
-    写。。。
-    &lt;span class=&quot;hljs-constructor&quot;&gt;V(&lt;span class=&quot;hljs-params&quot;&gt;write_mu&lt;/span&gt;)&lt;/span&gt;;
-   &lt;span class=&quot;hljs-constructor&quot;&gt;P(&lt;span class=&quot;hljs-params&quot;&gt;w_wait&lt;/span&gt;)&lt;/span&gt;;
-   w_wait_num--;
-   &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;(w_wait_num==&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;)
-   &amp;#123;
-       &lt;span class=&quot;hljs-constructor&quot;&gt;V(&lt;span class=&quot;hljs-params&quot;&gt;read_mu&lt;/span&gt;)&lt;/span&gt;;
-   &amp;#125;
+</code></pre><h2 id="读者写者问题-写者优先"><a href="#读者写者问题-写者优先" class="headerlink" title="读者写者问题-写者优先"></a>读者写者问题-写者优先</h2><p>如果希望写进程优先，即当有读进程正在读共享文件时，有写进程请求访问，这时应禁止后续读进程的请求，等待到已在共享文件的读进程执行完毕则立即让写进程执行，只有在无写进程执行的情况下才允许读进程再次运行。<br>    int count = 0;  //用于记录当前的读者数量<br>    semaphore mutex = 1;  //用于保护更新count变量时的互斥<br>    semaphore rw=1;  //用于保证读者和写者互斥地访问文件<br>    semaphore w=1;  //用于实现“写优先”<br>    writer(){<br>        while(1){<br>        P(w_wait);<br>        if(w_wait_num==0)<br>        {<br>            P(read_mu);<br>        }<br>        w_wait_num++;<br>        V(w_wait);</p>
+<pre><code>    P(write_mmu);
+        写。。。
+        V(write_mu);
+    P(w_wait);
+    w_wait_num--;
+    if(w_wait_num==0)
+    &#123;
+        V(read_mu);
+    &#125;
 
-   &lt;span class=&quot;hljs-constructor&quot;&gt;V(&lt;span class=&quot;hljs-params&quot;&gt;w_wait&lt;/span&gt;)&lt;/span&gt;;
+    V(w_wait);
 
-&amp;#125;
-</code></pre><p>&#125;<br>reader <span class="hljs-literal">()</span> &#123;  <span class="hljs-comment">//读者进程</span><br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)&#123;<br>        <span class="hljs-constructor">P(<span class="hljs-params">read_mu</span>)&lt;/span&gt;;<br>        读。。。。<br>        <span class="hljs-constructor">V(<span class="hljs-params">read_mu</span>)&lt;/span&gt;;<br>    &#125;<br>&#125;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</span></span></p>
-<h2 id="哲学家进餐问题"><a href="#哲学家进餐问题" class="headerlink" title="哲学家进餐问题"></a>哲学家进餐问题</h2><p>为了防止死锁的发生，可以对哲学家进程施加一些限制条件，比如至多允许四个哲学家同时进餐;仅当一个哲学家左右两边的筷子都可用时才允许他抓起筷子;对哲学家顺序编号，要求奇数号哲学家先抓左边的筷子，然后再转他右边的筷子，而偶数号哲学家刚好相反。正解制定规则如下：假设釆用第二种方法，当一个哲学家左右两边的筷子都可用时，才允许他抓起筷子。<br><pre><code class="hljs awk">semaphore chopstick[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>&#125;; <span class="hljs-regexp">//</span>初始化信号量
-semaphore mutex=l;  <span class="hljs-regexp">//</span>设置取筷子的信号量
-Pi()&#123; <span class="hljs-regexp">//i</span>号哲学家的进程
-    <span class="hljs-keyword">do</span>&#123;
-        P (mutex) ; <span class="hljs-regexp">//</span>在取筷子前获得互斥量
-        P (chopstick [i]) ; <span class="hljs-regexp">//</span>取左边筷子
-        P (chopstick[ (i+<span class="hljs-number">1</span>) %<span class="hljs-number">5</span>]) ;  <span class="hljs-regexp">//</span>取右边筷子
-        V (mutex) ; <span class="hljs-regexp">//</span>释放取筷子的信号量
-        eat;  <span class="hljs-regexp">//</span>进餐
-        V(chopstick[i] ) ;  <span class="hljs-regexp">//</span>放回左边筷子
-        V(chopstick[ (i+l)%<span class="hljs-number">5</span>]) ;  <span class="hljs-regexp">//</span>放回右边筷子
-        think;  <span class="hljs-regexp">//</span> 思考
-    &#125;<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>);
+    &#125;
 &#125;
-</code></pre><br>注意rand函数是线程不安全的,因为它依赖于之前一次的调用结果.</p>
+reader () &#123;  //读者进程
+    while (1)&#123;
+        P(read_mu);
+        读。。。。
+        V(read_mu);
+    &#125;
+&#125;
+</code></pre><h2 id="哲学家进餐问题"><a href="#哲学家进餐问题" class="headerlink" title="哲学家进餐问题"></a>哲学家进餐问题</h2><p>为了防止死锁的发生，可以对哲学家进程施加一些限制条件，比如至多允许四个哲学家同时进餐;仅当一个哲学家左右两边的筷子都可用时才允许他抓起筷子;对哲学家顺序编号，要求奇数号哲学家先抓左边的筷子，然后再转他右边的筷子，而偶数号哲学家刚好相反。正解制定规则如下：假设釆用第二种方法，当一个哲学家左右两边的筷子都可用时，才允许他抓起筷子。</p>
+<pre><code>semaphore chopstick[5] = &#123;1,1,1,1,1&#125;; //初始化信号量
+semaphore mutex=l;  //设置取筷子的信号量
+Pi()&#123; //i号哲学家的进程
+    do&#123;
+        P (mutex) ; //在取筷子前获得互斥量
+        P (chopstick [i]) ; //取左边筷子
+        P (chopstick[ (i+1) %5]) ;  //取右边筷子
+        V (mutex) ; //释放取筷子的信号量
+        eat;  //进餐
+        V(chopstick[i] ) ;  //放回左边筷子
+        V(chopstick[ (i+l)%5]) ;  //放回右边筷子
+        think;  // 思考
+    &#125;while(1);
+&#125;
+</code></pre><p>注意rand函数是线程不安全的,因为它依赖于之前一次的调用结果.</p>
 <h3 id="可重入性"><a href="#可重入性" class="headerlink" title="可重入性:"></a>可重入性:</h3><p>当其被多个线程调用的时候,不会引用共享数据.可重入函数是线程安全函数的真子集.</p>
-<h2 id="死锁也需要注意"><a href="#死锁也需要注意" class="headerlink" title="死锁也需要注意"></a>死锁也需要注意</h2><h2 id="生产者消费者问题的写法"><a href="#生产者消费者问题的写法" class="headerlink" title="生产者消费者问题的写法"></a>生产者消费者问题的写法</h2><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;thread&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;mutex&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;condition_variable&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;semaphore&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;queue&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<h2 id="死锁也需要注意"><a href="#死锁也需要注意" class="headerlink" title="死锁也需要注意"></a>死锁也需要注意</h2><h2 id="生产者消费者问题的写法"><a href="#生产者消费者问题的写法" class="headerlink" title="生产者消费者问题的写法"></a>生产者消费者问题的写法</h2><pre><code>#include&lt;iostream&gt;
+#include&lt;thread&gt;
+#include&lt;mutex&gt;
+#include&lt;condition_variable&gt;
+#include&lt;semaphore&gt;
+#include&lt;queue&gt;
+using namespace std;
 mutex mu;
 condition_variable cv_empty, cv_full;
-<span class="hljs-keyword">int</span> PV_empty = <span class="hljs-number">5</span>,PV_full=<span class="hljs-number">0</span>;
+int PV_empty = 5,PV_full=0;
 mutex mu_empty, mu_full;
-<span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; qu;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">cosume</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+queue&lt;int&gt; qu;
+void cosume()
+&#123;
+    while (true)
     &#123;
-        this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu_full)</span></span>;
-        <span class="hljs-keyword">while</span> (PV_full &lt;= <span class="hljs-number">0</span>)
+        this_thread::sleep_for(chrono::milliseconds(900));
+        unique_lock&lt;mutex&gt; lck(mu_full);
+        while (PV_full &lt;= 0)
         &#123;
             cv_full.wait(lck);
         &#125;
         PV_full--;
 
 
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck_mu</span><span class="hljs-params">(mu)</span></span>;
+        unique_lock&lt;mutex&gt; lck_mu(mu);
         qu.pop();
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;consume    &quot;</span> &lt;&lt; qu.<span class="hljs-built_in">size</span>() &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-built_in">endl</span>;
+        cout &lt;&lt; &quot;consume    &quot; &lt;&lt; qu.size() &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; endl;
         lck_mu.unlock();
 
         PV_empty++;
-        <span class="hljs-keyword">if</span> (PV_empty &lt;= <span class="hljs-number">0</span>)
+        if (PV_empty &lt;= 0)
         &#123;
             cv_empty.notify_all();
         &#125;
     &#125;
 &#125;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">produce</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+void produce()
+&#123;
+    while (true)
     &#123;
-        this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu_empty)</span></span>;
-        <span class="hljs-keyword">while</span> (PV_empty &lt;= <span class="hljs-number">0</span>)
+        this_thread::sleep_for(chrono::milliseconds(900));
+        unique_lock&lt;mutex&gt; lck(mu_empty);
+        while (PV_empty &lt;= 0)
         &#123;
             cv_empty.wait(lck);
         &#125;
@@ -392,98 +334,98 @@ mutex mu_empty, mu_full;
 
 
 
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck_mu</span><span class="hljs-params">(mu)</span></span>;
-        qu.push(<span class="hljs-number">1</span>);
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;produce    &quot;</span> &lt;&lt; qu.<span class="hljs-built_in">size</span>() &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-built_in">endl</span>;
+        unique_lock&lt;mutex&gt; lck_mu(mu);
+        qu.push(1);
+        cout &lt;&lt; &quot;produce    &quot; &lt;&lt; qu.size() &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; endl;
         lck_mu.unlock();
 
         PV_full++;
-        <span class="hljs-keyword">if</span> (PV_full &lt;= <span class="hljs-number">0</span>)
+        if (PV_full &lt;= 0)
         &#123;
             cv_full.notify_all();
         &#125;
     &#125;
 
 &#125;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxConsumNum = <span class="hljs-number">2</span>;
+int main()
+&#123;
+    const int maxConsumNum = 2;
     thread consumer[maxConsumNum], producer[maxConsumNum];
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; maxConsumNum; ++i)
+    for (int i = 0; i &lt; maxConsumNum; ++i)
     &#123;
         consumer[i] = thread(cosume);
         producer[i] = thread(produce);
     &#125;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; maxConsumNum; ++i)
+    for (int i = 0; i &lt; maxConsumNum; ++i)
     &#123;
         consumer[i].join();
         producer[i].join();
     &#125;
-    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;end\n&quot;</span>;
+    cout &lt;&lt; &quot;end\n&quot;;
     getchar();
     getchar();
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
-<h2 id="读者写者问题-读者优先-1"><a href="#读者写者问题-读者优先-1" class="headerlink" title="读者写者问题-读者优先"></a>读者写者问题-读者优先</h2><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;thread&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;mutex&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;condition_variable&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;semaphore&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;queue&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+    return 0;
+&#125;
+</code></pre><h2 id="读者写者问题-读者优先-1"><a href="#读者写者问题-读者优先-1" class="headerlink" title="读者写者问题-读者优先"></a>读者写者问题-读者优先</h2><pre><code>#include&lt;iostream&gt;
+#include&lt;thread&gt;
+#include&lt;mutex&gt;
+#include&lt;condition_variable&gt;
+#include&lt;semaphore&gt;
+#include&lt;queue&gt;
+using namespace std;
 mutex mu;
 mutex w_mu;
 condition_variable  cv_write;
-<span class="hljs-keyword">int</span> readcount = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">int</span> writecount = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">int</span> PVcount = <span class="hljs-number">1</span>;
-<span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; qu;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+int readcount = 0;
+int writecount = 0;
+int PVcount = 1;
+queue&lt;int&gt; qu;
+void write()
+&#123;
+    while (true)
     &#123;
-        this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(w_mu)</span></span>;
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;start write  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+        this_thread::sleep_for(chrono::milliseconds(900));
+        unique_lock&lt;mutex&gt; lck(w_mu);
+        cout &lt;&lt; &quot;start write  &quot; &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
         PVcount--;
-        <span class="hljs-keyword">if</span> (PVcount &lt; <span class="hljs-number">0</span>)
+        if (PVcount &lt; 0)
         &#123;
             cv_write.wait(lck);
         &#125;
         PVcount++;
-        <span class="hljs-keyword">if</span> (PVcount &lt;= <span class="hljs-number">0</span>)
+        if (PVcount &lt;= 0)
         &#123;
             cv_write.notify_one();
         &#125;
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;write  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+        cout &lt;&lt; &quot;write  &quot; &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
         lck.unlock();
     &#125;
 &#125;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+void read()
+&#123;
+    while (true)
     &#123;
-        this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu)</span></span>;
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;start read      &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
-        <span class="hljs-keyword">if</span> (readcount == <span class="hljs-number">0</span>)
+        this_thread::sleep_for(chrono::milliseconds(900));
+        unique_lock&lt;mutex&gt; lck(mu);
+        cout &lt;&lt; &quot;start read      &quot; &lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
+        if (readcount == 0)
         &#123;
             PVcount--;
-            <span class="hljs-keyword">if</span> (PVcount &lt; <span class="hljs-number">0</span>)
+            if (PVcount &lt; 0)
             &#123;
                 cv_write.wait(lck);
             &#125;
         &#125;
         readcount++;
         lck.unlock();
-        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;read      &quot;</span>&lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+        cout&lt;&lt;&quot;read      &quot;&lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
 
         lck.lock();
         readcount--;
-        <span class="hljs-keyword">if</span> (readcount == <span class="hljs-number">0</span>)
+        if (readcount == 0)
         &#123;
             PVcount++;
-            <span class="hljs-keyword">if</span> (PVcount &lt;=<span class="hljs-number">0</span>)
+            if (PVcount &lt;=0)
             &#123;
                 cv_write.notify_one();
             &#125;
@@ -493,165 +435,165 @@ condition_variable  cv_write;
     &#125;
 
 &#125;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxNum = <span class="hljs-number">2</span>;
+int main()
+&#123;
+    const int maxNum = 2;
     thread writer[maxNum], reader[maxNum];
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; maxNum; ++i)
+    for (int i = 0; i &lt; maxNum; ++i)
     &#123;
-        writer[i] = thread(<span class="hljs-built_in">write</span>);
-        reader[i] = thread(<span class="hljs-built_in">read</span>);
+        writer[i] = thread(write);
+        reader[i] = thread(read);
     &#125;    
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; maxNum; ++i)
+    for (int i = 0; i &lt; maxNum; ++i)
     &#123;
         writer[i].join();
         reader[i].join();
     &#125;
-    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;end\n&quot;</span>;
+    cout &lt;&lt; &quot;end\n&quot;;
     getchar();
     getchar();
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
-<h2 id="读者写者问题-写者优先-1"><a href="#读者写者问题-写者优先-1" class="headerlink" title="读者写者问题-写者优先"></a>读者写者问题-写者优先</h2><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;thread&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;mutex&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;condition_variable&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;semaphore&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;queue&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+    return 0;
+&#125;
+</code></pre><h2 id="读者写者问题-写者优先-1"><a href="#读者写者问题-写者优先-1" class="headerlink" title="读者写者问题-写者优先"></a>读者写者问题-写者优先</h2><pre><code>#include&lt;iostream&gt;
+#include&lt;thread&gt;
+#include&lt;mutex&gt;
+#include&lt;condition_variable&gt;
+#include&lt;semaphore&gt;
+#include&lt;queue&gt;
+using namespace std;
 
 mutex mu;
 mutex w_mu;
 condition_variable cv_read, cv_write;
-<span class="hljs-keyword">int</span> readcount = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">int</span> writecount = <span class="hljs-number">0</span>;
+int readcount = 0;
+int writecount = 0;
 mutex mu_wait_write;
-<span class="hljs-keyword">int</span> waitWrite = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">int</span> PVcount = <span class="hljs-number">1</span>;<span class="hljs-comment">//用于和条件变量互斥量当信号量使用</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">write</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+int waitWrite = 0;
+int PVcount = 1;//用于和条件变量互斥量当信号量使用
+void write()
+&#123;
+    while (true)
     &#123;
-        this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu_wait_write)</span></span>;
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot; start write  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
-        <span class="hljs-keyword">if</span> (waitWrite == <span class="hljs-number">0</span>)
+        this_thread::sleep_for(chrono::milliseconds(900));
+        unique_lock&lt;mutex&gt; lck(mu_wait_write);
+        cout &lt;&lt; &quot; start write  &quot; &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
+        if (waitWrite == 0)
         &#123;
 
             PVcount--;
-            <span class="hljs-keyword">if</span> (PVcount &lt; <span class="hljs-number">0</span>) &#123;
+            if (PVcount &lt; 0) &#123;
                 cv_read.wait(lck);
             &#125;
         &#125;
         waitWrite++;
         lck.unlock();
 
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck_w</span><span class="hljs-params">(w_mu)</span></span>;
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;  write  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+        unique_lock&lt;mutex&gt; lck_w(w_mu);
+        cout &lt;&lt; &quot;  write  &quot; &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
         lck_w.unlock();
 
         lck.lock();
         waitWrite--;
-        <span class="hljs-keyword">if</span> (waitWrite == <span class="hljs-number">0</span>) &#123;
+        if (waitWrite == 0) &#123;
             PVcount++;
-            <span class="hljs-keyword">if</span> (PVcount &lt;= <span class="hljs-number">0</span>) &#123;
+            if (PVcount &lt;= 0) &#123;
                 cv_read.notify_one();
             &#125;
         &#125;
         lck.unlock();
     &#125;
 &#125;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">read</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+void read()
+&#123;
+    while (true)
     &#123;
-        this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu)</span></span>;
+        this_thread::sleep_for(chrono::milliseconds(900));
+        unique_lock&lt;mutex&gt; lck(mu);
 
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot; start read  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+        cout &lt;&lt; &quot; start read  &quot; &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
         PVcount--;
-        <span class="hljs-keyword">if</span> (PVcount &lt; <span class="hljs-number">0</span>)
+        if (PVcount &lt; 0)
         &#123;
             cv_read.wait(lck);
         &#125;
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;read  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
+        cout &lt;&lt; &quot;read  &quot; &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; &quot;\n&quot;;
 
         PVcount++;
 
-        <span class="hljs-keyword">if</span> (PVcount &lt;= <span class="hljs-number">0</span>)
+        if (PVcount &lt;= 0)
         &#123;
             cv_read.notify_one();
         &#125;
     &#125;
 
-&#125;</code></pre>
-<h2 id="哲学家进餐问题-1"><a href="#哲学家进餐问题-1" class="headerlink" title="哲学家进餐问题"></a>哲学家进餐问题</h2><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;thread&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;mutex&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;condition_variable&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;semaphore&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;queue&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+&#125;
+</code></pre><h2 id="哲学家进餐问题-1"><a href="#哲学家进餐问题-1" class="headerlink" title="哲学家进餐问题"></a>哲学家进餐问题</h2><pre><code>#include&lt;iostream&gt;
+#include&lt;thread&gt;
+#include&lt;mutex&gt;
+#include&lt;condition_variable&gt;
+#include&lt;semaphore&gt;
+#include&lt;queue&gt;
+using namespace std;
 
-mutex  chopstick[<span class="hljs-number">5</span>];
-<span class="hljs-keyword">int</span> PVcount[<span class="hljs-number">5</span>]  &#123; <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span> &#125;;
-condition_variable cv_pho[<span class="hljs-number">5</span>];
+mutex  chopstick[5];
+int PVcount[5]  &#123; 1,1,1,1,1 &#125;;
+condition_variable cv_pho[5];
 mutex  mu;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">eat</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
+void eat(int i)
+&#123;
+    while (true)
     &#123;
-        this_thread::sleep_for(chrono::milliseconds(<span class="hljs-number">900</span>));
-        <span class="hljs-function">unique_lock&lt;mutex&gt; <span class="hljs-title">lck</span><span class="hljs-params">(mu)</span></span>;
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot; start  eat  &quot;</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-built_in">endl</span>;
-        <span class="hljs-keyword">while</span> (PVcount[i] &lt;= <span class="hljs-number">0</span>)
+        this_thread::sleep_for(chrono::milliseconds(900));
+        unique_lock&lt;mutex&gt; lck(mu);
+        cout &lt;&lt; &quot; start  eat  &quot; &lt;&lt; i &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; endl;
+        while (PVcount[i] &lt;= 0)
         &#123;
             cv_pho[i].wait(lck);
         &#125;
         PVcount[i]--;
-        <span class="hljs-keyword">while</span> (PVcount[(i + <span class="hljs-number">1</span>)%<span class="hljs-number">5</span>] &lt;= <span class="hljs-number">0</span>)
+        while (PVcount[(i + 1)%5] &lt;= 0)
         &#123;
-            cv_pho[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>].wait(lck);
+            cv_pho[(i + 1) % 5].wait(lck);
         &#125;
-        PVcount[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>]--;
+        PVcount[(i + 1) % 5]--;
         lck.unlock();
 
-        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;  eat  &quot;</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; this_thread::get_id() &lt;&lt; <span class="hljs-built_in">endl</span>;
+        cout &lt;&lt; &quot;  eat  &quot; &lt;&lt; i &lt;&lt; &quot;  &quot; &lt;&lt; this_thread::get_id() &lt;&lt; endl;
 
         lck.lock();
         PVcount[i]++;
-        <span class="hljs-keyword">if</span> (PVcount[i] &lt;= <span class="hljs-number">0</span>)
+        if (PVcount[i] &lt;= 0)
         &#123;
             cv_pho[i].notify_all();
         &#125;
-        PVcount[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>]++;
-        <span class="hljs-keyword">while</span> (PVcount[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>] &lt;= <span class="hljs-number">0</span>)
+        PVcount[(i + 1) % 5]++;
+        while (PVcount[(i + 1) % 5] &lt;= 0)
         &#123;
-            cv_pho[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span>].notify_all();
+            cv_pho[(i + 1) % 5].notify_all();
         &#125;
 
         lck.unlock();
     &#125;
 
 &#125;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
-<span class="hljs-function"></span>&#123;
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxNum =<span class="hljs-number">5</span>;
+int main()
+&#123;
+    const int maxNum =5;
     thread phisopher[maxNum];
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; maxNum; ++i)
+    for (int i = 0; i &lt; maxNum; ++i)
     &#123;
         phisopher[i] = thread(eat,i);
     &#125;    
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; maxNum; ++i)
+    for (int i = 0; i &lt; maxNum; ++i)
     &#123;
         phisopher[i].join();
     &#125;
-    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;end\n&quot;</span>;
+    cout &lt;&lt; &quot;end\n&quot;;
     getchar();
     getchar();
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
-
+    return 0;
+&#125;
+</code></pre>
             </article>
             <hr>
             <div>
@@ -962,5 +904,20 @@ mutex  mu;
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

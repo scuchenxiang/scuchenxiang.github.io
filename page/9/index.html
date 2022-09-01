@@ -373,14 +373,7 @@ private:
           
         
         <div>信号量、原子变量、条件变量、异步可以参考写法
-信号量C++的信号量在c++20才有，但是我们可以使用c++的条件变量和锁实现信号量。
-class semaphore &#123;
-private:
-    int count;
-    mutex mu;
-    condition_variable cv;
-public:
-    semaphore(int val) :count(val) &#</div>
+信号量C++的信号量在c++20才有，但是我们可以使用c++的条件变量和锁实现信号量。    class semaphore {    private:        int count;        mutex mu;        condition_variable cv;    public:        semaphore(int val</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -877,5 +870,20 @@ linux的普通文件，内存中映射文件的连续的一块，如果这一块
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
