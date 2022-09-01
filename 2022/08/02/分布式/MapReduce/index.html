@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>MapReduce - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-08-02 15:48">
+      2022年8月2日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="mapreduce过程"><a href="#mapreduce过程" class="headerlink" title="mapreduce过程"></a>mapreduce过程</h1><p>MapReduce 主要是分为map过程和reduce过程，主要是这几个步骤：</p>
+<ol>
+<li><p>数据一开始被分为M个分片，然后在机群中创建很多程序副本，一般每个分片是16到64M。</p>
+</li>
+<li><p>这些副本有些事master，有些是worker，由master分配任务，有M个map任务和R个master任务。master分配一个map或者recude任务给worker。</p>
+</li>
+<li><p>分配了map任务的worker读取对应的输入数据片段，然后解析出Key、value对（这是对于计算单词数目来说的，机械的对于每个单词记录count为1），然后将这些key、value对传给map函数，它生成并输出中间的key、value对存在内存中。（这个就是相当于将开始混乱的文档，输出成了每个单词，单词数目的对）</p>
+</li>
+<li><p>内存中的这些pair通过partition函数（先hash（key）mod R，相同key总是在相同位置）分成R个区域，然后周期性的写到本地磁盘上（即map函数会在R个文件写），这些本地磁盘的存储位置会被传送给master，然后master告知reduce worker。</p>
+</li>
+<li><p>reduce得到位置信息后，通过RPC从map worker所在主机的磁盘上读取对应它需要的parittion数据（注意R和M是远大于worker数目的，那么worker很可能负责多个R，因此需要排序，然后合并聚合），然后通过排序使得所有相同key的聚合在一起，由于不同的key会被映射到相同的reduce 任务上，因此必须排序，然后如果内存不够，会使用外部排序。</p>
+</li>
+<li><p>reduce worker将这些排完序的数据相同key的对应的value传送给reduce函数，然后reduce函数进行处理，输出追加到对应分区的输出文件中。</p>
+</li>
+<li><p>map和reduce任务完成之后，master唤醒用户程序，mapreduce返回。</p>
+</li>
+</ol>
+<p>最后所有的输出都在R个输出文件中。</p>
+<p>master数据结构，存储每一个map任务和reduce任务空闲或者不空闲，存储worker节点是否空闲。还储存了map任务的中间文件存储的位置。</p>
+<h1 id="容错性"><a href="#容错性" class="headerlink" title="容错性"></a>容错性</h1><h2 id="worker故障"><a href="#worker故障" class="headerlink" title="worker故障"></a>worker故障</h2><p>在 MapReduce 集群中，Master 会周期地向每一个 Worker 发送 Ping 信号。如果某个 Worker 在一段时间内没有响应，Master 就会认为这个 Worker 已经不可用。</p>
+<p>出现故障的时候，worker正在运行的以及已经运行的作废，需要重新分配给其他worker处理。但是reduce已经完成的是不需要的，因为map中间的结果是局部机器上的，但是reduce是全局机器上的。</p>
+<p>同时将需要从故障机器上读取数据的reduce会从新机器上读取。</p>
+<h2 id="master失败"><a href="#master失败" class="headerlink" title="master失败"></a>master失败</h2><p>周期性地将内容写进磁盘，然后如果master失效了，可以从磁盘中读取然后启动另外的master进程。</p>
+<h2 id="失效的一些处理机制"><a href="#失效的一些处理机制" class="headerlink" title="失效的一些处理机制"></a>失效的一些处理机制</h2><p>每个任务都将它的输出输出到临时文件中，map会输出R个这样的文件，master会记录这R个文件的位置，reduce只会输出一个文件。</p>
+<p>当reduce任务完成得时候，reduce work会以原子得方式将临时文件修改成最终得输出文件。</p>
+<h2 id="存储位置"><a href="#存储位置" class="headerlink" title="存储位置"></a>存储位置</h2><p>尽量将map任务分配给保存有对应数据得机器上进行执行。这可以减少网络带宽耗费。</p>
+<h2 id="任务粒度"><a href="#任务粒度" class="headerlink" title="任务粒度"></a>任务粒度</h2><p>M和R一般比集群中得worker数量多很多。</p>
+<h2 id="备用任务"><a href="#备用任务" class="headerlink" title="备用任务"></a>备用任务</h2><p>当一台机器很慢，但是其他机器执行快，这会拖慢整体的机器的执行速度。</p>
+<p>因此当mapreduce快要完成的时候，会使用备用任务进程来执行剩下的，只要原任务和备用任务有一个完成，就标记为已经完成，可以减少运行时间。</p>
+<h1 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h1><h2 id="分区函数"><a href="#分区函数" class="headerlink" title="分区函数"></a>分区函数</h2><p>使用hash进行分区能够产生非常平衡的分区。</p>
+<h2 id="combiner函数"><a href="#combiner函数" class="headerlink" title="combiner函数"></a>combiner函数</h2><p>map函数产生的中间结果会有很多重复的，我们可以现在map本地进行一次合并，然后再通过网络发送给reduce任务。</p>
+<h1 id="6-824-lab1"><a href="#6-824-lab1" class="headerlink" title="6.824 lab1"></a>6.824 lab1</h1><h2 id="整体信息"><a href="#整体信息" class="headerlink" title="整体信息"></a>整体信息</h2><p>整个任务分为Coordinator（master）和worker进程构成</p>
+<p>Coordinator通过RPC与worker通过本地的socket进行rpc通信</p>
+<p>Coordinator协调整个MR计算任务，分配Task到worker中。</p>
+<p>在启动 Coordinator 进程时指定 输入文件名 及 Reduce Task 数量</p>
+<p>在启动 Worker 进程时指定所用的 MR APP 动态链接库文件</p>
+<p>Coordinator 需要留意 Worker 可能无法在合理时间内完成收到的任务（Worker 卡死或宕机），在遇到此类问题时需要重新派发任务</p>
+<p>Coordinator 进程的入口文件为 main/mrcoordinator.go</p>
+<p>Worker 进程的入口文件为 main/mrworker.go</p>
+<p>我们需要补充实现 mr/coordinator.go、mr/worker.go、mr/rpc.go 这三个文件</p>
+<h2 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator"></a>Coordinator</h2><p>一开始启动时会给出分片的数目，reduce的R的个数。</p>
+<p>Coordinator 中会包含分片文件，以及reduce Task以及Map task，在一开始进行初始化。以及完成的map以及完成的reduce 的个数。以及一把锁，以及是否完成。</p>
+<p>Task结构体主要包括，Task是否完成，task类型，索引号，以及任务是否分发。</p>
+<p>这里面主要就是在map和reduce里面找到一个对应类型的他上课，然后分发这个任务，分发之后会设置一个定时器，然后在定时一段时间之后，检测任务是否完成，如果没完成，标记为后面可以分发这个任务。</p>
+<h2 id="Worker"><a href="#Worker" class="headerlink" title="Worker"></a>Worker</h2><p>主要包含锁，以及id，以及是否在运行</p>
+<p>worker节点主要是不断地向master获取Task，然后进行处理。</p>
+<p>如果是Map Task，那么就读取对应的分片文件，然后交给map函数处理得到KV，然后按中间结果 Key 的 Hash 值进行分桶</p>
+<p>完成之后通过RPC，告知master</p>
+<p>如果是reduce task，读取所有属于该 REDUCE Task 的中间结果文件数据，对所有中间结果进行排序，并按 Key 值进行归并，传递归并后的数据至 MR APP 指定的 REDUCE 函数，得到最终结果，写出到结果文件</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                      <a class="hover-with-bg" href="/tags/lab/">lab</a>
+                    
+                      <a class="hover-with-bg" href="/tags/mapreduce/">mapreduce</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/02/%E6%96%B0%E5%BB%BA%20MD_AUTO_FILE%20%E6%96%87%E4%BB%B6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/31/C++/C++%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E5%92%8C%E7%BB%93%E6%9E%84%E5%8C%96%E7%BB%91%E5%AE%9A/">
+                        <span class="hidden-mobile">initializer_list 和结构化绑定</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "MapReduce&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.2k 字
+      5.6k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      34
+      59
        分钟
     </span>
   
@@ -252,8 +252,60 @@
 <p>设单台机器的平均故障间隔时间为MTBF</p>
 <p>设选举时间为electtime</p>
 <p>需要满足broadtime《electtime《MTBF</p>
-<h1 id="集群成员变更"><a href="#集群成员变更" class="headerlink" title="集群成员变更"></a>集群成员变更</h1><p>待更新</p>
+<h1 id="集群成员变更"><a href="#集群成员变更" class="headerlink" title="集群成员变更"></a>集群成员变更</h1><p>raft成员变更在6.824中没有实现，这里我参考了一些网上的博客。<br><a target="_blank" rel="noopener" href="https://www.inlighting.org/archives/raft-membership-change">raft成员变更</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375059508">raft成员变更</a></p>
+<p>变更一个粗暴的方法就是停机然后更新配置文件，但是这个在生产环境中不可使用。没有一定的策略，在选举过程中有可能选举出两个leader，就比如说3个机器到5个机器，如果一次添加两个，可能会导致出现2  3两个分区，一个用的旧配置，一个用的新配置，导致两个Leader。</p>
+<p>解决这个的主要是两种办法 联合共识和单步变更的方式，<br>这两种办法总是保证新旧之间存在交集，从而使得只能选出一个Leader。</p>
+<h2 id="联合共识-Joint-Consensus"><a href="#联合共识-Joint-Consensus" class="headerlink" title="联合共识 Joint Consensus"></a>联合共识 Joint Consensus</h2><p>主要过程：</p>
+<ol>
+<li><p>Leader收到来自新的成员变更生成一个C_{new,old}的ConfChang 日志，然后马上应用这个日志，然后将这个日志复制到follower中，收到该日志的节点马上应用新日志（不需要提交）。</p>
+</li>
+<li><p>当这个C<em>{new,old}日志被复制到大多数节点上的时候，即old配置的大多数和new配置的大多数。那么这条日志就可以被提交，在这条日志被提交之后，马上新建一个C</em>{new}日志，然后将这个日志复制到follower，收到这个日志的节点马上应用这个配置作为这个节点的配置。</p>
+</li>
+<li><p>一旦这个C<em>{new}被复制到大部分节点上，即C</em>{new}的大多数，那么C<em>{new}就可以被提交了，C</em>{new}提交完成后，就可以进行下一轮的成员变更了。</p>
+</li>
+</ol>
+<p>在联合共识的情况下，出现多个阶段，这几个阶段之间总是配置存在交集的，从而保证不会出现两个Leader。</p>
+<p>在1的情况下，C_{new,old}的节点成为Leader的话，需要old的大多数，然后推进成员变更，old配置下也需要old的大多数，只能有一个leader，然后回滚。</p>
+<p>在2的情况下，C<em>{new,old}被提交之后，C</em>{old}首先不可能成为Leader，然后C<em>{new,old}需要new的大多数，C</em>{new}需要new的大多数因此总是只有一个Leader</p>
+<p> C_{new}被提交之后，总是需要new的大多数。</p>
+<h2 id="单步成员变更"><a href="#单步成员变更" class="headerlink" title="单步成员变更"></a>单步成员变更</h2><p>这个意思就是每次我只增加或者删除一个节点。这可以保证新旧配置之间总有交集。那个交点总是只会投给一个leader，因此避免了出现两个leader。<br>用式子的话就是（n/2+1)+((n+1)/2 +1 ) &gt;n+1,对于 raft 集群来说，旧配置的大多数与新配置的大多数之和一定大于新配置的节点个数。</p>
+<p>流程如下：</p>
+<ol>
+<li><p>客户端提出一个成员变更的请求，为添加或者删除一个节点。</p>
+</li>
+<li><p>Leader收到请求之后，追加一个C_{new}的日志，然后这个日志会被追加到follower中。</p>
+</li>
+<li><p>当日志被追加到follower节点之后会立即生效。</p>
+</li>
+<li><p>当日志被复制到C_{new}的大部分节点之后，就可以进行提交。（如果用旧的数目来计算提交数目，可能会导致已经被提交的日志被覆盖。）</p>
+</li>
+<li><p>提交完成之后，变更完成。如果移除了服务器，那么服务器可以关机了。 可以进行下一轮成员变更了，<br>注意在上一次成员变更没有完成之前，不允许进行下一次成员变更。</p>
+</li>
+</ol>
+<h2 id="单步成员变更的问题"><a href="#单步成员变更的问题" class="headerlink" title="单步成员变更的问题"></a>单步成员变更的问题</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342319702">参考链接</a><br>以下是一个单步变更出 bug 的例子, 原成员是 4 节点a，b，c，d。2 个进程分别要加入 u 和加入 v，如果中间出现换主，就会丢失一个已提交的变更。解决办法：新 leader 必须提交一条自己的 term 的 no-op 日志, 才允许接着变更日志。</p>
+<h2 id="变更可用性问题（联合共识和单步都可能出现）"><a href="#变更可用性问题（联合共识和单步都可能出现）" class="headerlink" title="变更可用性问题（联合共识和单步都可能出现）"></a>变更可用性问题（联合共识和单步都可能出现）</h2><p>添加服务器可能导致新机器缺少了很多的日志，需要花费很长的时间来追赶，这可能导致可用性很差。<br>例如a,b,c，c宕机，新加入d，总是需要3台机器才能算日志复制完成，导致可用性变差。 或者在联合共识下3台变6台也有可能。解决办法：在集群中加入新角色作为学习者，学习者只对集群的日志进行复制，没有投票权，日志复制同步成功时，才能进行成员变更。</p>
+<p>还有成员变更可能会导致可用性变差，三个机房a,b,c，然后加入d到a中，如果a,d与其他机房失联，此时是不可用的，因为四台机器最少需要3台。这就是单点故障问题，这个可以使用一些加权重的办法来解决这个问题。</p>
+<h2 id="Leader移除了自己"><a href="#Leader移除了自己" class="headerlink" title="Leader移除了自己"></a>Leader移除了自己</h2><p>当新日志中没有Leader的时候，如果直接应用对应的日志，会导致如下的问题，</p>
+<ol>
+<li>C_{new}还没有被复制到其他节点，Leader没了，相当于这个移除操作根本不存在。</li>
+<li>Leader 退位成为 Follower 后可能因为超时重新成为 Leader，因为该节点上的日志是最新的，因为日志的安全性，该节点并不会为其他节点投票。</li>
+</ol>
+<p>解决办法：</p>
+<ol>
+<li><p>如果C_{new}中没有Leader，先通过Leader transfer转移Leader，然后再应用这个日志。</p>
+</li>
+<li><p>等这个C<em>{new}提交之后，再移除自己，这个时候follower会超时选出leader，因为C</em>{new}已经commit，C_{new}已经被复制到大部分节点上（注意这个大部分节点不包括这个即将被移除的Leader，虽然它现在还没被移除，但是算大多数的时候要用新配置，同时不能算它），即使原来的Leader超时，也无法成为Leader。</p>
+</li>
+</ol>
+<h2 id="中断服务器的干扰"><a href="#中断服务器的干扰" class="headerlink" title="中断服务器的干扰"></a>中断服务器的干扰</h2><p>当一个服务器从新配置中被移除，但还没有关机，因为没有 leader 会给它发送心跳，它自己会尝试增加 term 开始选举。在 C_{new}中的 leader 收到更大 term 的投票，会自动退化成了 follower，然后重新选举。虽然那个被移除的机器永远无法成为 leader，但是它会不断的干扰正常集群的工作。</p>
+<p>可以采用 PreVote 方法解决，一个服务器开始选举时，先发起 PreVote，如果得到半数以上的同意，再发起投票。</p>
+<p>在 PreVote 算法中，Candidate 首先要确认自己能赢得集群中大多数节点的投票，这样才会把自己的 term 增加，发起真正的投票。其他投票节点同意给它投票的条件是（同时满足下面两个条件）：</p>
+<ol>
+<li>没有收到有效领导的心跳，至少有一次选举超时。（这里如果能在正常时间内收到Leader的心跳，那么就拒绝投票）</li>
+<li>Candidate 的日志足够新（Term 更大，或者 Term 相同 Raft log index 更大）。</li>
+</ol>
 <p>暂时可以参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022796386">raft成员变更</a></p>
+<h2 id="多节点成员变更"><a href="#多节点成员变更" class="headerlink" title="多节点成员变更"></a>多节点成员变更</h2><p>对于多节点成员变更场景，Raft首先切换到过渡配置，称为joint consensus。当过渡配置提交后，整个系统再转入到C-new配置，并将C-new配置提交，之后成员变更操作就完成了。所以过渡配置到底是啥东西呢：<br>    如果集群处于过渡配置状态，那么log entry会被复制到C-old和C-new包含的所有节点<br>    如果集群处于过渡配置状态，属于C-old或者C-new的节点都可以成为leader<br>    如果集群属于过渡配置状态，判断一条日志是否提交或者请求选举在计算quorum的时候既要满足C-old的majority，又要满足C-new的majority<br>下图很好的说明了raft多节点成员变更的过程。该图中中间的三条线表示随时间流逝，集群所处状态的变化，即集群最开始处于C-old状态，然后用户发起了配置变更，此时leader产生C-old-new配置log，并向集群中所有节点复制该log，当C-old和C-new的多数节点都复制成功C-old-new配置log后，表示C-old-new被提交，此时集群处于过渡配置状态(joint consensus)，之后leader可以安全的产生C-new配置，然后将其复制到整个集群(在复制C-new时，集群处于过渡配置状态，所以此时计算quorum时，应该需要满足C-old和C-new的majority)。当C-new也被提交后，集群完成配置变更。</p>
 <h1 id="日志压缩"><a href="#日志压缩" class="headerlink" title="日志压缩"></a>日志压缩</h1><p>集群的日志会不断增长，维克可用性，需要压缩日志。</p>
 <p>快照是最简单的压缩办法。</p>
 <p>每个机器独立的进行快照压缩，快照只会覆盖已经提交的日志。</p>
@@ -270,6 +322,11 @@
 <p>使用两个方法避免，</p>
 <p>1.leader必须知道已经提交的所有日志记录的最新信息。选举制度保证leader一定有所有已经提交的日志，但是任期刚刚开始它可能不知道哪些日志已经提交了，所以需要在当选的时候追加一条空日志到自己的日志中。</p>
 <p>leader在处理只读任务（即Get)的时候需要知道自己这个leader是不是有效的（防止出现脑裂），在响应get的时候需要与半数以上的机器交换心跳信息。或者通过心跳值来提供租约（这样会使得安全依赖于时间）。</p>
+<ol>
+<li>raft协议，leader在commit了一条日志后，立刻挂了，那其他节点如何处理这条日志？</li>
+</ol>
+<p>只有包含有这条日志的机器才能成为Leader，然后会复制到其他机器上。</p>
+<p>选举是比较任期和日志，先比较任期，任期越大的越新，再比较日志，日志号越大的越新。这个任期是最后一条日志的任期，不是当前任期。</p>
 
             </article>
             <hr>
@@ -581,20 +638,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

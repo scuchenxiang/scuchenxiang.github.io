@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chenxiang">
+  <meta name="keywords" content="Blog">
+  <title>面经 - TheSakura&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>thesakura</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2022-08-02 21:10">
+      2022年8月2日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><ol>
+<li><p>shard_ptr如何保证线程安全,shard_ptr中make_shard和new初始化有什么区别？<br> shardptr在赋值的时候要赋值ptr，同时复制引用计数指针，因此在多线程中使用shardptr要加锁。<br> make_shard 只分配一次内存，对象和shardptr对象的引用计数放在一起，但是new的方式会分配两次内存，对象的区域和shard_ptr对象的引用计数的区域不是一个位置。</p>
+<p> 同时如果使用prosswidget(std::shard_ptr<widget>(new widget));而不是prosswidget(std::make_shard<widget>()));可能会导致潜在的内存泄漏问题。因为编译器可能会先new，然后执行函数，然后才初始化shard_ptr,如果函数出现异常，那么new的对象就泄漏了，因为它不会被放到shard_ptr中。</widget></widget></p>
+<p> weak_ptr最初的引入，是为了解决shared_ptr互相引用导致的内存无法释放的问题。其lock接口是原子性的。</p>
+</li>
+<li><p>emplace_back和push_back区别，移动语义底层实现<br>移动语义减少了拷贝，避免反复构造、析构持有资源的对象</p>
+</li>
+</ol>
+<p>在STL中，move只是进行了转换，如果是左值推导为左值引用，然后使用static_cast转为右值引用，如果传的是右值，推导为右值引用，然后使用static_cast转为右值引用</p>
+<ol>
+<li>alloc的两级空间配置器，和malloc的方式？<br>alloc的第二级配置器是用的很多个8的倍数的空闲链表的来实现的小于128k的时候使用这个，超过128k使用malloc的方式进行空间分配。这样可以使得小对象快速分配。</li>
+</ol>
+<p>malloc对于小的对象会在堆区分配，移动brk指针来分配，然后超过128k的会在共享映射区通过mmap来实现，mmap的原理就算通过将一段虚拟内存空间和物理空间映射起来。当写这块内存区域的时候就相当于写这块物理区域，系统会自动把脏页刷到磁盘上。同时在内核空间对这段空间的修改也反应在用户空间上，从而可以实现不同进程之前的文件共享。</p>
+<ol>
+<li><p>设计模式知道哪些<br>单例设计模式，工厂模式，迭代器设计模式</p>
+</li>
+<li><p>RPC原理，和Restful区别，为什么有了RPC还需要HTTP</p>
+</li>
+</ol>
+<ol>
+<li>raft怎么保持一致性</li>
+</ol>
+<p>主要是通过三个方法，一个是选举机制，日志复制，以及保证安全的三个机制。</p>
+<p>选举会超时一段随机的时间没有leader的心跳的时候会发起选举，然后先投票给自己，然后如果收到来自超过半数的投票，那么就变为leader，定时向其他节点发送心跳和复制日志。</p>
+<p>复制日志的时候，会将日志发送给其他机器上，如果有超过半数的机器都得到了这个日志，那么说明这个内容是可以提交的，每次有一个提交的索引号，然后follower会提交这个日志。</p>
+<p>保证安全是只有含有已提交的日志的机器才能成为leader，leader不能够提交上一个任期的日志只能在复制自己的任期的日志到大部分的时候，顺带提交上一个任期的日志。</p>
+<ol>
+<li>shardKV中，一个节点上的KV太多，怎么使得数据变得均匀。</li>
+</ol>
+<p>增加group或者移动分片</p>
+<ol>
+<li>超过半数的决策如何保证leader日志的完整性，为什么使用log，不直接写，如何解决split vote，了解paxos吗</li>
+</ol>
+<p>split vote是平票的情况，这个在raft中是通过随机时间来解决的，每个机器等待发起选举的时间是随机的，可以有效防止这个情况。</p>
+<ol>
+<li><p>STL内存池</p>
+</li>
+<li><p>如何实现无锁队列，输入url中，哪些优化可以提升响应速度。cookie和session，浏览器如何访问本地缓存。</p>
+</li>
+</ol>
+<ol>
+<li>Raft如何保证节点之间的log一致性，主要讨论了旧的Leader挂掉之后产生新的leader，如何保证它们对于log commmit认知一样。</li>
+</ol>
+<p>只有具有最新的提交的日志的机器才能成为leader，同时提交这个任期日志的时候顺带提交上一个任期的日志</p>
+<ol>
+<li>move转让所有权之后，再调用会发生什么。</li>
+</ol>
+<ol>
+<li><p>stack底层实现，vector为什么是倍数增加不是定量。</p>
+</li>
+<li><p>raft数据分片如何在raft组间转移。<br>三个协程不断运行：<br>拉取日志协程：通过config group进行管理，更新配置均匀，然后其他的数据group会有一个协程定期的拉取shard的配置，如果配置更新那么看自己有没有之前还没拉到的shard，或者有需要传输的，那么就不做，否则就先向底层的raft写一个更新config的操作。</p>
+</li>
+</ol>
+<p>拉取shard协程：每隔一段时间，就对pullmap中的需要拉取的shard进行拉取（为true），给出args参数，对于返回的reply，如果成功，到底层的raft日志中写入添加shard命令，如果pullmap的valid为false，说明需要删除，向对方发起删除RPC的请求，对于返回的reply，如果成功，向raft添加删除pullmap的命令</p>
+<p>处理raft状态机的协程：如果不是快照命令，如果是更新配置op，那么会更新配置，同时需要拉取的会写入pullmap，<br>然后更新配置。</p>
+<p>具体拉取shard，更新了对应shard的kvdb，以及clientseqNum,并且将kv.pullMap的valid设置为false，同时更新shardsVerNum</p>
+<p>如果是删除pullmap的op命令的话，直接删除即可。</p>
+<p>如果是删除shard分片的命令，那么就将对应的kvdbs，clientseqnum置空</p>
+<p>如果是一些用户的请求，那么就直接看是不是这个group管理的，在shard版本号和config号对不上时，说明在传输中，刷新resch，如果配置号一致，在数据库中执行操作，如果不是这个group管理的，向结果管道写入错误的group</p>
+<ol>
+<li><p>多继承的时候，虚函数表如何存。</p>
+</li>
+<li><p>std::cin和using namespace std 之后使用cin有什么区别。<br>后者可能导致命名冲突，最好不要在头文件中使用后面的情况，这样别人的cpp文件也默认就using namespace std了。</p>
+</li>
+<li><p>元编程</p>
+</li>
+<li><p>每个进程的虚拟内存有多大，如果物理内存大于4G，可以不使用虚拟内存吗？<br>如果只有单任务，以及不支持分页的操作系统，可以放弃虚拟内存。<br>但是虚拟内存是指多个任务可以使用超过4G的内存</p>
+</li>
+</ol>
+<ol>
+<li>日志被复制到大多数，但是leader没提交就崩溃了，这个日志会被提交吗？<br>会，只有含有这个日志的机器才会成为leader，然后在下一任leader提交日志的时候顺带提交日志。</li>
+</ol>
+<ol>
+<li><p>redo log的作用，为什么不用提交时刷盘来保持持久性，2PC中，prepare阶段做什么。</p>
+</li>
+<li><p>lambda表达式特点，可以获得lambda函数的函数指针吗</p>
+</li>
+</ol>
+<p>没有捕获变量的lambda表达式可以直接转换为函数指针，而捕获变量的lambda表达式则不能转换为函数指针。</p>
+<ol>
+<li><p>lease在raft中有什么使用，lease机器间的时间不对齐怎么处理</p>
+</li>
+<li><p>join有哪些，如果有两张表，数据很多，分布在不同的机器上，哪个join效率更高？</p>
+</li>
+<li><p>raft成员变更，如果就配置为abc，更新为def，如果共同一致的情况下bc挂掉，那么成员变更还可以继续执行吗？</p>
+</li>
+<li><p>口述设计一个线程池<br>初始化构建n个线程池，然后当任务队列不为空的时候不断取出数据，然后运行，为空的时候wait</p>
+</li>
+<li><p>关闭文件的时候会清楚page cache吗</p>
+</li>
+<li><p>2PC中，如果一个参与者挂了，那么怎么处理？</p>
+</li>
+<li><p>CAP理论，举例AP和CP的例子。</p>
+</li>
+<li><p>工业中对于读操作会怎么处理</p>
+</li>
+<li><p>malloc可以给复杂类分配空间吗，如何让new失败的时候不抛出异常<br>可以，设置new (std::nothrow) int[10],或者设置一个new_handle函数</p>
+</li>
+<li><p>出现网络分区会有什么情况，恢复之后呢</p>
+</li>
+</ol>
+<p>少数派可能会不断发起选举，但是总是不会成功，然后任期会很大，造成恢复之后，导致leader转为follower，但是实际上它们不可能成为leader，因为没有已经提交的日志，只是这样会打乱日志。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E9%9B%B6%E6%8B%B7%E8%B4%9D/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">零拷贝</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/02/%E9%9D%A2%E8%AF%95%E9%A2%98/%E5%9C%BA%E6%99%AF%E9%A2%98/">
+                        <span class="hidden-mobile">场景题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "面经&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
