@@ -168,6 +168,104 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/io%20read%20write%20on%20closed%20pipe/">io read/write on closed pipe</a>
+
+      <a href="/2022/03/23/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/io%20read%20write%20on%20closed%20pipe/" class="index-excerpt">
+        
+        
+          
+        
+        <div>这个的主要原因在于客户端和主机的时间不同步，因此需要安装chronyd，然后进行时间校正
+date可以查看服务器的时间，如果不对就安装chronyd。
+yum install chronyd可能会出现问题
+CentOS-8中“Failed to download metadata for repo ‘AppStream“
+问题原因：原因是：CentOS-8于2021年12月31日停止了源的服务
+可</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-23
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE/">服务器配置</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BB%A3%E7%90%86/">代理</a>
+            
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/03/22/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%85%A2%E6%9F%A5%E8%AF%A2/">慢查询</a>
+
+      <a href="/2022/03/22/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%85%A2%E6%9F%A5%E8%AF%A2/" class="index-excerpt">
+        
+        
+          
+        
+        <div>慢查询就是那些查询时间过长的语句
+show variables like &#x27;%slow_qurey%&#x27;
+
+set global slow_query_log = ON; 开启慢查询日志功能,最好在配置环境直接配置保证重启时也生效
+set global long_query_time = 1; 慢查询阈值
+执行计划是指一条SQL 语句在经过MySQL 查询优化器的优化会后，具体的</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-03-22
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/%E6%85%A2%E6%9F%A5%E8%AF%A2/">慢查询</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2022/03/22/%E5%88%86%E5%B8%83%E5%BC%8F/2pc3pc%E5%8D%8F%E8%AE%AE/">2pc 和3pc 协议</a>
 
       <a href="/2022/03/22/%E5%88%86%E5%B8%83%E5%BC%8F/2pc3pc%E5%8D%8F%E8%AE%AE/" class="index-excerpt">
@@ -559,107 +657,6 @@ linux的普通文件，内存中映射文件的连续的一块，如果这一块
               <a href="/tags/%E5%BA%93%E6%89%93%E6%A1%A9/">库打桩</a>
             
               <a href="/tags/%E4%BD%8D%E7%BD%AE%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81/">位置无关代码</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/05/C++/C++%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F/">C++运行时的内存映像</a>
-
-      <a href="/2022/03/05/C++/C++%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F/" class="index-excerpt">
-        
-        
-          
-        
-        <div>主要分为这几个部分，
-地址从高到低
-
-系统内核的内存
-
-栈的内存，由高地址向低地址延申（这里有一个rsp，栈指针）
-
-共享库的内存映射区域
-
-堆内存，由低地址向高地址延申（这里有一个brk指针）
-
-已经初始化全局数据段和静态变量区data，以及未初始化的全局变量区和静态变量bss
-
-只读数据段和代码段  
-- 常量区(只读数据段，rodata) ，虚函数表就放在这个位置
-- 代码段(.text),</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-05
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/">cookie和session的区别</a>
-
-      <a href="/2022/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/cookie%E5%92%8Csession%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
-        
-        
-          
-        
-        <div>1、由于HTTP协议是无状态的协议，所以服务端需要记录用户的状态时，就需要用某种机制来识具体的用户，这个机制就是Session.典型的场景比如购物车。
-当你点击下单按钮时，由于HTTP协议无状态，所以并不知道是哪个用户操作的，所以服务端要为特定的用户创建了特定的Session，用用于标识这个用户，并且跟踪用户，这样才知道购物车里面有几本书。
-这个Session是保存在服务端的，有一个唯一标识。在服</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-03-05
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
             
           </div>
         
