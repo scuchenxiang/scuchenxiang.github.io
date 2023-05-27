@@ -168,6 +168,313 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/05/25/%E5%88%86%E5%B8%83%E5%BC%8F/raft%20%E7%AE%97%E6%B3%95/">raft算法</a>
+
+      <a href="/2021/05/25/%E5%88%86%E5%B8%83%E5%BC%8F/raft%20%E7%AE%97%E6%B3%95/" class="index-excerpt">
+        
+        
+          
+        
+        <div>lab2实现raft算法（一种共识算法），raft相比 paxos更容易理解，是一种强leader，日志只能从leader复制日志到其他服务器，复制是用来解决分布式系统的容错的问题的。
+复制状态机就是这种用来解决分布式系统的容错的问题的，在怎么做的呢？复制状态机是通过复制日志来实现的，每个服务器都有相同的日志
+raft算法不依赖于时间
+raft这种一致性算法就是为了实现分布式的容错性，通过保证复制</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-05-25
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/raft/">raft</a>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/04/27/%E7%AE%97%E6%B3%95/kmp%E7%AE%97%E6%B3%95/">kmp算法，模板</a>
+
+      <a href="/2021/04/27/%E7%AE%97%E6%B3%95/kmp%E7%AE%97%E6%B3%95/" class="index-excerpt">
+        
+        
+          
+        
+        <div>在求next数组和求相似数组很相似，只是i的起始点要为1，一个为0
+可以参考leetcode链接
+void getNext(List&lt;Integer&gt; next,String s1)
+&#123;
+    int j=0;
+    for(int i=1;i&lt;s1.length();i++)
+    &#123;
+        while(j&gt;0&amp;&amp;(s1</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-04-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/java/">java</a>
+            
+              <a href="/tags/kmp/">kmp</a>
+            
+              <a href="/tags/%E6%A8%A1%E6%9D%BF/">模板</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/04/12/%E7%AE%97%E6%B3%95/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+
+      <a href="/2021/04/12/%E7%AE%97%E6%B3%95/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/" class="index-excerpt">
+        
+        
+          
+        
+        <div>关键之处在于要利用镜像的信息，对于镜像已经知道的及时跳过。
+然后还有一点就是扩充字符串#，然后两端加@！，这个时候我们如果得到最长回文串，那么怎么获得原始的最长回文串呢，是最右边的-中心得到最左边的位置，然后最左边的位置除2就是原始的起始值，这个很容易理解，因为是刚好扩充了两倍的，用#隔开的。
+还有一点关键是更新的是每个点已经以他为中心扩充的字符串，dp数组记录的是长度
+
+class Soluti</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-04-12
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/03/29/%E7%AE%97%E6%B3%95/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">146. LRU 缓存机制</a>
+
+      <a href="/2021/03/29/%E7%AE%97%E6%B3%95/146.%20LRU%20%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>HashMap 大家都清楚，底层是 数组 + 红黑树 + 链表 （不清楚也没有关系），同时其是无序的，而 LinkedHashMap 刚好就比 HashMap 多这一个功能，就是其提供 有序，并且，LinkedHashMap的有序可以按两种顺序排列，一种是按照插入的顺序，一种是按照读取的顺序（这个题目的示例就是告诉我们要按照读取的顺序进行排序），而其内部是靠 建立一个双向链表 来维护这个顺序的，在</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-03-29
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/java/">java</a>
+            
+              <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">源码解析</a>
+            
+              <a href="/tags/LRU/">LRU</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/02/19/%E7%AE%97%E6%B3%95/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/">5. 最长回文子串 和马拉车算法</a>
+
+      <a href="/2021/02/19/%E7%AE%97%E6%B3%95/5.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="index-excerpt">
+        
+        
+          
+        
+        <div>主要是利用了回文串中的对称性质。将回文串分成两部分来看待，左边的已知结果，右边的未知，然后利用左边的信息，需要特殊讨论的情况就是左边回文串超出最左边的时候，超出中心并不需要讨论，因为超出中间的时候不会影响右边的结果，因为右边也只是超出中心，并没有超出最右边。算法效率很好。public String longestPalindrome(String s) 
+&#123;
+    int C=0,R=</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-02-19
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95/">字符串算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java/">java</a>
+            
+              <a href="/tags/%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/">马拉车算法</a>
+            
+              <a href="/tags/leettcode/">leettcode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2021/01/23/%E7%AE%97%E6%B3%95/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/">327. 区间和的个数（树状数组+前缀和+离散化）</a>
+
+      <a href="/2021/01/23/%E7%AE%97%E6%B3%95/327.%20%E5%8C%BA%E9%97%B4%E5%92%8C%E7%9A%84%E4%B8%AA%E6%95%B0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>依然考虑前缀和数组 \textit{preSum}preSum。
+对于每个下标 jj，以 jj 为右端点的下标对的数量，就等于数组 \textit{preSum}[0..j-1]preSum[0..j−1] 中的所有整数，出现在区间 [\textit{preSum}[j]-\textit{upper}, \textit{preSum}[j]-\textit{lower}][preSum[j]−up</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-23
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/leetcode/">leetcode</a>
+            
+              <a href="/tags/c/">c++</a>
+            
+              <a href="/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
+            
+              <a href="/tags/%E7%A6%BB%E6%95%A3%E5%8C%96/">离散化</a>
+            
+              <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/">前缀和</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2021/01/22/%E7%AE%97%E6%B3%95/1584.%20%E8%BF%9E%E6%8E%A5%E6%89%80%E6%9C%89%E7%82%B9%E7%9A%84%E6%9C%80%E5%B0%8F%E8%B4%B9%E7%94%A8/">1584. 连接所有点的最小费用（最小生成树Prime）</a>
 
       <a href="/2021/01/22/%E7%AE%97%E6%B3%95/1584.%20%E8%BF%9E%E6%8E%A5%E6%89%80%E6%9C%89%E7%82%B9%E7%9A%84%E6%9C%80%E5%B0%8F%E8%B4%B9%E7%94%A8/" class="index-excerpt">
@@ -370,306 +677,6 @@ bool isBipartite(vector&lt;vector&lt;int&gt;&gt;&amp; graph)
               <a href="/tags/%E4%BA%8C%E5%88%86%E5%9B%BE/">二分图</a>
             
               <a href="/tags/%E6%9F%93%E8%89%B2%E6%B3%95/">染色法</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/13/%E7%AE%97%E6%B3%95/787.%20K%20%E7%AB%99%E4%B8%AD%E8%BD%AC%E5%86%85%E6%9C%80%E4%BE%BF%E5%AE%9C%E7%9A%84%E8%88%AA%E7%8F%AD/">787. K 站中转内最便宜的航班（bellman-ford）</a>
-
-      <a href="/2021/01/13/%E7%AE%97%E6%B3%95/787.%20K%20%E7%AB%99%E4%B8%AD%E8%BD%AC%E5%86%85%E6%9C%80%E4%BE%BF%E5%AE%9C%E7%9A%84%E8%88%AA%E7%8F%AD/" class="index-excerpt">
-        
-        
-          
-        
-        <div>循环n次遍历所有边u-&gt;v,权w (松弛操作)dist[v]=min(dist[v], dist[u]+w)
-应用处理有负权边的图循环次数的含义：循环K次后，表示不超过K条边的最短距离有边数限制的最短路，只能用Bellman-Ford算法，不能用spfa算法如果有负权回路，最短路不一定存在 -
-Bellman-Ford算法可以求出是否有负环第n循环后，还有更新，说明路径上有n+1个点，也就是</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-13
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/c/">c++</a>
-            
-              <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">最短路径</a>
-            
-              <a href="/tags/ford%E7%AE%97%E6%B3%95/">ford算法</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/13/%E7%AE%97%E6%B3%95/743.%20%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4/">743. 网络延迟时间（迪杰斯特拉+SPFA+floyd)</a>
-
-      <a href="/2021/01/13/%E7%AE%97%E6%B3%95/743.%20%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4/" class="index-excerpt">
-        
-        
-          
-        
-        <div>有 N 个网络节点，标记为 1 到 N。
-给定一个列表 times，表示信号经过有向边的传递时间。 times[i] = (u, v, w)，其中 u 是源节点，v 是目标节点， w 是一个信号从源节点传递到目标节点的时间。
-现在，我们从某个节点 K 发出一个信号。需要多久才能使所有节点都收到信号？如果不能使所有节点收到信号，返回 -1。
-输入：times = [[2,1,1],[2,3,1],[</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-13
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/c/">c++</a>
-            
-              <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">最短路径</a>
-            
-              <a href="/tags/%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89/">迪杰斯特拉</a>
-            
-              <a href="/tags/SPFA/">SPFA</a>
-            
-              <a href="/tags/floyd/">floyd</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/04/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">177. 第N高的薪水</a>
-
-      <a href="/2021/01/04/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" class="index-excerpt">
-        
-        
-          
-        
-        <div>编写一个 SQL 查询，获取 Employee 表中第 n 高的薪水（Salary）。
-+——+————+| Id | Salary |+——+————+| 1  | 100    || 2  | 200    || 3  | 300    |+——+————+例如上述 Employee 表，n = 2 时，应返回第二高的薪水 200。如果不存在第 n 高的薪水，那么查询应返回 null。
-+——</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/mysql/">mysql</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/04/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql601.%20%E4%BD%93%E8%82%B2%E9%A6%86%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F/">601. 体育馆的人流量</a>
-
-      <a href="/2021/01/04/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql601.%20%E4%BD%93%E8%82%B2%E9%A6%86%E7%9A%84%E4%BA%BA%E6%B5%81%E9%87%8F/" class="index-excerpt">
-        
-        
-          
-        
-        <div>表：Stadium+———————-+————-+| Column Name   | Type    |+———————-+————-+| id            | int     || visit_date    | date    || people        | int     |+———————-+————-+visit_date 是表的主键每日人流量信息被记录在这三列信息中：序</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/mysql/">mysql</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2021/01/04/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql626.%20%E6%8D%A2%E5%BA%A7%E4%BD%8D/">626. 换座位</a>
-
-      <a href="/2021/01/04/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql626.%20%E6%8D%A2%E5%BA%A7%E4%BD%8D/" class="index-excerpt">
-        
-        
-          
-        
-        <div>小美是一所中学的信息科技老师，她有一张 seat 座位表，平时用来储存学生名字和与他们相对应的座位 id。
-其中纵列的 id 是连续递增的
-小美想改变相邻俩学生的座位。
-你能不能帮她写一个 SQL query 来输出小美想要的结果呢？
-示例：
-+————-+————-+|    id   | student |+————-+————-+|    1    | Abbot   ||    2    </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2021-01-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/mysql/">mysql</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/12/24/%E7%AE%97%E6%B3%95/886.%20%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BA%8C%E5%88%86%E6%B3%95/">886. 可能的二分法（二分图+染色法）</a>
-
-      <a href="/2020/12/24/%E7%AE%97%E6%B3%95/886.%20%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BA%8C%E5%88%86%E6%B3%95/" class="index-excerpt">
-        
-        
-          
-        
-        <div>染色，一个染色成-1，一个染色成1.，出现冲突就false,否则为true。
-我之前只记录单向边，然后dfs中间也没判断，然后就有样例一直过不了，很奇怪。class Solution &#123;
-    bool ans = true;
-public:
-    bool possibleBipartition(int N, vector&lt;vector&lt;int&gt;&gt;&amp;</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-12-24
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%97%E6%B3%95/%E5%9B%BE%E8%AE%BA/">图论</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/leetcode/">leetcode</a>
-            
-              <a href="/tags/%E5%9B%BE/">图</a>
-            
-              <a href="/tags/dfs/">dfs</a>
             
           </div>
         
@@ -880,20 +887,5 @@ public:
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

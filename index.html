@@ -168,6 +168,305 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2023/05/27/Redis/Redis%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%92%8C%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF/">Redis缓存雪崩与缓存击穿</a>
+
+      <a href="/2023/05/27/Redis/Redis%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%92%8C%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF/" class="index-excerpt">
+        
+        
+          
+        
+        <div>缓存雪崩大量缓存数据在同一时间过期（失效）或者 Redis 故障宕机时，如果此时有大量的用户请求，造成系统崩溃。
+1、随机过期时间，使得过期均匀一点。
+2、互斥锁
+当业务线程在处理用户请求时，如果发现访问的数据不在 Redis 里，就加个互斥锁，保证同一时间内只有一个请求来构建缓存（从数据库读取数据，再将数据更新到 Redis 里），当缓存构建完成后，再释放锁。未能获取互斥锁的请求，要么等待锁释放</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2023-05-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/redis/">redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/redis/">redis</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2023/05/27/Redis/Redis%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5/">Redis删除策略</a>
+
+      <a href="/2023/05/27/Redis/Redis%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5/" class="index-excerpt">
+        
+        
+          
+        
+        <div>有两个1、过期删除策略，有定时删除，惰性删除，定期删除一部分。
+2、内存淘汰策略，优先淘汰设置，1）在设置了过期时间的数据里面淘汰，LRU，LFU，random都可以，2）在所有数据中进行淘汰，LRU，LFU。
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2023-05-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/redis/">redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/redis/">redis</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2023/05/27/Redis/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E5%AF%B9%E8%B1%A1/">Redis数据结构和对象</a>
+
+      <a href="/2023/05/27/Redis/Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E5%AF%B9%E8%B1%A1/" class="index-excerpt">
+        
+        
+          
+        
+        <div>数据结构SDS（简单动态字符串），双向链表，跳表，字典，整数集合，压缩列表
+SDS，包含len，cap，buf[]，自动扩容。
+压缩列表，类似数组，包含占用字节数，尾部偏移量，节点数目，这三个是表头元素，每个元素包含，prelen，前一个节点长度，encode，编码方式，data，可能有连锁更新问题。
+哈希表，使用开链法，渐进式hash。
+整数集合，len，type，array[]，升级从int1</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2023-05-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/redis/">redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/redis/">redis</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2023/05/27/Redis/Redis%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7/">Redis数据缓存一致性</a>
+
+      <a href="/2023/05/27/Redis/Redis%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7/" class="index-excerpt">
+        
+        
+          
+        
+        <div>缓存一致性目的是为了保持缓存和数据库数据是一致的。
+1、先更新数据库后更新缓存
+可能造成数据不一致
+2、先更新缓存再更新数据库
+可能造成数据不一致
+3、先更新数据库再删除缓存假设有这样一个情况：
+假如某个用户数据在缓存中不存在，请求 A 读取数据时从数据库中查询到年龄为 20，在未写入缓存中时另一个请求 B 更新数据。它更新数据库中的年龄为 21，并且清空缓存。这时请求 A 把从数据库中读到的年龄</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2023-05-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/redis/">redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/redis/">redis</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2023/05/27/Redis/Redis%E4%B9%8B%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">Redis之主从同步</a>
+
+      <a href="/2023/05/27/Redis/Redis%E4%B9%8B%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Redis 加速读写redis为了加速读写，分为主从机器，从机器用来读，但是可能读到旧数据，写直接在leader写，然后返回客户端消息，然后把写的内容发给从机器。
+发送数据给从机器主要有两种主从同步方式，AOF和RDB，
+AOF，存的是命令，
+保存所有修改数据库的写命令来记录服务器的数据库状态
+AOF文件的所有命令都会以Redis命令请求协议的格式保存
+命令请求会先保存到AOF缓冲区中，然后定期写</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2023-05-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/redis/">redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/redis/">redis</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/12/30/%E8%80%83%E5%85%AC/%E8%A1%8C%E6%B5%8B-%E5%88%A4%E6%96%AD%E6%8E%A8%E7%90%86/">行测=判断推理</a>
+
+      <a href="/2022/12/30/%E8%80%83%E5%85%AC/%E8%A1%8C%E6%B5%8B-%E5%88%A4%E6%96%AD%E6%8E%A8%E7%90%86/" class="index-excerpt">
+        
+        
+          
+        
+        <div>图形推理位置规律 一般先按照行看规律，然后再按照列看
+关注曲直性数量规律点主要是交点和切点
+曲线直线交点
+内部外部交点
+线1笔画数 ，奇点数为0或者2
+2笔画数，奇点数除2
+判断直线数目
+判断轮廓线条数
+角直角数，锐角数
+元素判断元素个数
+白色部分个数或者黑色部分个数
+相邻的有相同元素
+判断部分个数
+图形关系相交部分是几边形
+相交边的个数
+有没有相交边
+相交在最短边上或者最长边上
+某元素在图形相交</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-12-30
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%80%83%E5%85%AC/">考公</a>
+            
+              <a href="/categories/%E8%80%83%E5%85%AC/%E8%A1%8C%E6%B5%8B/">行测</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%A4%E6%96%AD%E6%8E%A8%E7%90%86/">判断推理</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2022/09/09/%E7%A7%8B%E6%8B%9B/zoom%E9%9D%A2%E7%BB%8F/">面经</a>
 
       <a href="/2022/09/09/%E7%A7%8B%E6%8B%9B/zoom%E9%9D%A2%E7%BB%8F/" class="index-excerpt">
@@ -355,265 +654,6 @@ Paxos 是一个两阶段算法。我们把第一个阶段叫做准备（Prepare�
               <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             
               <a href="/tags/%E9%9B%B6%E6%8B%B7%E8%B4%9D/">零拷贝</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/08/02/%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E7%BB%8F/">面经</a>
-
-      <a href="/2022/08/02/%E9%9D%A2%E8%AF%95%E9%A2%98/%E9%9D%A2%E7%BB%8F/" class="index-excerpt">
-        
-        
-          
-        
-        <div>C++
-shard_ptr如何保证线程安全,shard_ptr中make_shard和new初始化有什么区别？ shardptr在赋值的时候要赋值ptr，同时复制引用计数指针，因此在多线程中使用shardptr要加锁。 make_shard 只分配一次内存，对象和shardptr对象的引用计数放在一起，但是new的方式会分配两次内存，对象的区域和shard_ptr对象的引用计数的区域不是一个位置。</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-08-02
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/08/02/%E9%9D%A2%E8%AF%95%E9%A2%98/%E5%9C%BA%E6%99%AF%E9%A2%98/">场景题</a>
-
-      <a href="/2022/08/02/%E9%9D%A2%E8%AF%95%E9%A2%98/%E5%9C%BA%E6%99%AF%E9%A2%98/" class="index-excerpt">
-        
-        
-          
-        
-        <div>
-设计一个域名转换服务器，提供两个接口，从短域名转长域名，或者从长域名转短域名
-
-参考连接
-主要是通过K，V查，假设对应的网址是 url/id，查id，然后看id是否有，有的化就将id对应的长连接给过来，然后通过301永久重定向到对应网址。转短域名相反。
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-08-02
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%9C%BA%E6%99%AF%E9%A2%98/">场景题</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%9C%BA%E6%99%AF%E9%A2%98/">场景题</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/08/02/%E6%96%B0%E5%BB%BA%20MD_AUTO_FILE%20%E6%96%87%E4%BB%B6/"></a>
-
-      <a href="/2022/08/02/%E6%96%B0%E5%BB%BA%20MD_AUTO_FILE%20%E6%96%87%E4%BB%B6/" class="index-excerpt">
-        
-        
-          
-        
-        <div></div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-08-02
-          </div>
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/08/02/%E5%88%86%E5%B8%83%E5%BC%8F/MapReduce/">MapReduce</a>
-
-      <a href="/2022/08/02/%E5%88%86%E5%B8%83%E5%BC%8F/MapReduce/" class="index-excerpt">
-        
-        
-          
-        
-        <div>mapreduce过程MapReduce 主要是分为map过程和reduce过程，主要是这几个步骤：
-
-数据一开始被分为M个分片，然后在机群中创建很多程序副本，一般每个分片是16到64M。
-
-这些副本有些事master，有些是worker，由master分配任务，有M个map任务和R个master任务。master分配一个map或者recude任务给worker。
-
-分配了map任务的worker</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-08-02
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-            
-              <a href="/tags/lab/">lab</a>
-            
-              <a href="/tags/mapreduce/">mapreduce</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/07/31/C++/C++%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E5%92%8C%E7%BB%93%E6%9E%84%E5%8C%96%E7%BB%91%E5%AE%9A/">initializer_list 和结构化绑定</a>
-
-      <a href="/2022/07/31/C++/C++%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E5%92%8C%E7%BB%93%E6%9E%84%E5%8C%96%E7%BB%91%E5%AE%9A/" class="index-excerpt">
-        
-        
-          
-        
-        <div>参考链接
-即使用列表来进行初始化的方法
-vector&lt;int&gt; value = &#123;1,3,6,9,10&#125;;
-vector&lt;int&gt; velue&#123;1,3,6,9,10&#125;;
-int array[]&#123;1,3,6,9,10&#125;;
-
-struct A
-&#123;
-    A(initializer_list&lt;int&g</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-07-31
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/07/31/C++/thread_local%E5%92%8C%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95/">thread_local、 注解attribute</a>
-
-      <a href="/2022/07/31/C++/thread_local%E5%92%8C%E6%B3%A8%E8%A7%A3%E7%94%A8%E6%B3%95/" class="index-excerpt">
-        
-        
-          
-        
-        <div>thread_local主要是用于声明对象是属于线程存储区的，线程存储期的变量，在线程开始的时候初始化，线程结束的时候释放掉，可以和static一起使用
-static thread_local int a;
-这个话说明a是属于线程存储期的，不同线程的a是不一样的，在线程内部表现起来和static一样，但是不同线程不一样
-注解attribute[[noreturn]]// 正确，函数将永远不会返回。</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-07-31
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
             
           </div>
         
@@ -824,20 +864,5 @@ static thread_local int a;
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

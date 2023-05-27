@@ -168,6 +168,266 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/06/25/GO/GO%E7%9A%84slice%E5%92%8C%E6%95%B0%E7%BB%84%E7%9A%84%E5%8C%BA%E5%88%AB/">GO的slice和数组的区别</a>
+
+      <a href="/2022/06/25/GO/GO%E7%9A%84slice%E5%92%8C%E6%95%B0%E7%BB%84%E7%9A%84%E5%8C%BA%E5%88%AB/" class="index-excerpt">
+        
+        
+          
+        
+        <div>数组是在由长度和类型决定的一种list，长度和类型都一样的才是一种类型，长度不可变，在传参的时候是值拷贝的（默认是深复制的）。
+slice是可变的，是一个结构体里面包括指向实际数组的指针，长度和容量，超过容量会以两倍大小扩容。当长度没超过容量的时候会在对应的数组里面增加内容，如果增加的大小超过了容量，那么会有一块新内存放内容，指针地址会变化。参考地址
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-06-25
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/GO/">GO</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/go/">go</a>
+            
+              <a href="/tags/slice/">slice</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/06/25/C++/STL%E7%9A%84%E9%BB%98%E8%AE%A4%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%99%A8/">STL:默认的内存分配器</a>
+
+      <a href="/2022/06/25/C++/STL%E7%9A%84%E9%BB%98%E8%AE%A4%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%99%A8/" class="index-excerpt">
+        
+        
+          
+        
+        <div>STL:默认的内存分配器
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-06-25
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/STL%EF%BC%8Cc/">STL，c++</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/06/22/C++/main%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E4%B9%8B%E5%89%8D%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/">main函数执行之前发生了什么</a>
+
+      <a href="/2022/06/22/C++/main%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E4%B9%8B%E5%89%8D%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" class="index-excerpt">
+        
+        
+          
+        
+        <div>在 main函数之前发生了什么对于编程人员来讲，main 函数是程序的入口，但事实上 main 函数之前也发生了很多操作。在 main 函数开始前，分成两部分 “系统调用部分” 和 “C++ 程序自身的部分”。我们首先假设程序的 main 函数原型是int main(int argc, char *argv[]);，其中，argc 指命令行参数的数目， argv 是指向参数的各个指针所构成的数组。</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-06-22
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/c/">c++</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/06/18/%E7%A7%8B%E6%8B%9B/%E7%A7%8B%E6%8B%9B%E6%8A%95%E9%80%92/">秋招</a>
+
+      <a href="/2022/06/18/%E7%A7%8B%E6%8B%9B/%E7%A7%8B%E6%8B%9B%E6%8A%95%E9%80%92/" class="index-excerpt">
+        
+        
+          
+        
+        <div>广州网易（可分为网易互联网，网易雷火，网易互娱）唯品会欢聚时代酷狗音乐UCzakerSHEIN太平洋三七互娱科大讯飞百度成都摩尔线程intelAMD华为中国农业银行中国建设银行中国工商银行中国邮政储蓄银行长沙tigergrapher三一重工中联重科芒果TV方正证券国开行农发行进出口银行中国农业银行中国建设银行中国工商银行中国邮政储蓄银行交通银行深圳大疆北京上海等</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-06-18
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%A7%8B%E6%8B%9B/">秋招</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/05/10/makefile%E5%92%8CCmake/Cmake%E5%AD%A6%E4%B9%A0/">Cmake学习</a>
+
+      <a href="/2022/05/10/makefile%E5%92%8CCmake/Cmake%E5%AD%A6%E4%B9%A0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)
+收集指定目录中所有源文件的名称，并将列表存储在提供的变量中。
+# 指定生成目标
+add_executable(Demo main.cc MathFunctions.cc)
+参考链接
+https://www.cnblogs.com/sddai/p/10328977.html 
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-05-10
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/makefile%E5%92%8CCmake/">makefile和Cmake</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Cmake/">Cmake</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2022/05/10/makefile%E5%92%8CCmake/makefile%E5%AD%A6%E4%B9%A0/">makefile学习</a>
+
+      <a href="/2022/05/10/makefile%E5%92%8CCmake/makefile%E5%AD%A6%E4%B9%A0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>-w：关闭编译时警告
+-Wall：编译后显示所有警告。
+-W：类似-Wall，会显示警告，但是只显示编译器认为会出现错误的警告
+-O2:O2会尝试更多的寄存器级的优化以及指令级的优化，它会在编译期间占用更多的内存和编译时间。
+foo = abc            // 定义变量并赋值
+bar = $(foo)        // 使用变量, $(变量名)
+CC = gcc #arm-linux</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2022-05-10
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/makefile%E5%92%8CCmake/">makefile和Cmake</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/makefile/">makefile</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2022/05/10/%E7%AE%97%E6%B3%95/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/395.%20%E8%87%B3%E5%B0%91%E6%9C%89%20K%20%E4%B8%AA%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/">395. 至少有 K 个重复字符的最长子串</a>
 
       <a href="/2022/05/10/%E7%AE%97%E6%B3%95/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/395.%20%E8%87%B3%E5%B0%91%E6%9C%89%20K%20%E4%B8%AA%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" class="index-excerpt">
@@ -347,290 +607,6 @@ wait（）在其他线程调用此对 象的 notify（）或 notifyAll（）方�
               <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
             
               <a href="/tags/%E8%B7%B3%E8%A1%A8/">跳表</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/06/%E5%88%86%E5%B8%83%E5%BC%8F/6.824%E5%AE%9E%E9%AA%8C/">6.824 实验</a>
-
-      <a href="/2022/04/06/%E5%88%86%E5%B8%83%E5%BC%8F/6.824%E5%AE%9E%E9%AA%8C/" class="index-excerpt">
-        
-        
-          
-        
-        <div>lab2首先是选举，raft必须保证大部分机器可用。
-以下是一些raft的基础的内容，三种角色，leader，candidate，follower。
-follower对于每个机器，一开始是follower，然后每隔一段时间如果没有收到Leader的心跳，那么任期+1，变为candidate，投票给自己，然后启动新的协程发起选举（如果在这过程中任期被改变或者role被改变（？？需不需要变为leade</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-06
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/raft/">raft</a>
-            
-              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-            
-              <a href="/tags/lab/">lab</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/05/%E5%88%86%E5%B8%83%E5%BC%8F/mit6.824%20lab%E5%AE%9E%E7%8E%B0/">mit6.824 lab实现</a>
-
-      <a href="/2022/04/05/%E5%88%86%E5%B8%83%E5%BC%8F/mit6.824%20lab%E5%AE%9E%E7%8E%B0/" class="index-excerpt">
-        
-        
-          
-        
-        <div>lab2首先是选举，raft必须保证大部分机器可用。
-以下是一些raft的基础的内容，三种角色，leader，candidate，follower。
-follower对于每个机器，一开始是follower，然后每隔一段时间如果没有收到Leader的心跳，那么任期+1，变为candidate，投票给自己，然后启动新的协程发起选举（如果在这过程中任期被改变或者role被改变（？？需不需要变为leade</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-05
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/raft/">raft</a>
-            
-              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
-            
-              <a href="/tags/lab/">lab</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/C++/effective%20C++%E7%AC%94%E8%AE%B0/">effective C++笔记</a>
-
-      <a href="/2022/04/04/C++/effective%20C++%E7%AC%94%E8%AE%B0/" class="index-excerpt">
-        
-        
-          
-        
-        <div>3.尽可能使用const当non-const和const实现相同逻辑时，non-const对象可以调用const成员函数，这样可以缩减代码量。另外注意const对象不能调用non-const成员函数，编译报错：discards qualifiers。
-4.确定对象使用前被初始化&lt;!—hexoPostRenderEscape:　在构造函数的初始化列表中的才算是初始化，而构造函数的内容是在初始化</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/C++/explicit/">explicit</a>
-
-      <a href="/2022/04/04/C++/explicit/" class="index-excerpt">
-        
-        
-          
-        
-        <div>explicit使用注意事项: 
-1、 explicit 关键字只能用于类内部的构造函数声明上。 
-
-
-2. 在C++中，explicit关键字用来修饰类的构造函数，被修饰的构造函数的类，不能发生相应的隐式类型转换
-可以参考这篇文章
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/explicit/">explicit</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/socket%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">socket编程入门</a>
-
-      <a href="/2022/04/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/socket%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" class="index-excerpt">
-        
-        
-          
-        
-        <div>socket编程入门
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-              <a href="/tags/socket/">socket</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2022/04/04/C++/GDB%E5%85%A5%E9%97%A8/">GDB入门</a>
-
-      <a href="/2022/04/04/C++/GDB%E5%85%A5%E9%97%A8/" class="index-excerpt">
-        
-        
-          
-        
-        <div>GDB打断点的方式
-GDB入门
-</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2022-04-04
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/categories/%E6%8A%80%E6%9C%AF/C/">C++</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C++</a>
-            
-              <a href="/tags/GDB/">GDB</a>
             
           </div>
         
@@ -841,20 +817,5 @@ GDB入门
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
